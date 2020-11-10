@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android">
+
+    <item
+        android:id="@+id/nav_transaction"
+        android:icon="@drawable/transaction_icon"
+        android:title="Transaction" />
+
+    <item
+        android:id="@+id/nav_report"
+        android:icon="@drawable/report_icon"
+        android:title="Report" />
+
+    <item android:id="@+id/placeholder"
+        android:title="" />
+
+    <item
+        android:id="@+id/nav_article"
+        android:icon="@drawable/article_icon"
+        android:title="Article" />
+
+    <item
+        android:id="@+id/nav_account"
+        android:icon="@drawable/account_icon"
+        android:title="Account" />
+
+</menu>
