@@ -43,7 +43,7 @@ public class DailyTransactionFragment extends Fragment {
         return rootView;
     }
 
-    void setContent(){
+    private void setContent(){
 
         dailyTransactionList = new ArrayList<>();
         dailyTransactionListHashMap = new HashMap<>();

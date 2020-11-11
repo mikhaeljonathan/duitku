@@ -45,7 +45,7 @@ public class WeeklyTransactionFragment extends Fragment {
         return rootView;
     }
 
-    void setContent(){
+    private void setContent(){
 
         weeklyTransactionList = new ArrayList<>();
         categoryTransactionListHashMap = new HashMap<>();
