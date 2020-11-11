@@ -1,7 +1,6 @@
 package com.example.duitku.view;
 
 import android.os.Bundle;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -32,7 +31,7 @@ public class DailyTransactionFragment extends Fragment {
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         View rootView = inflater.inflate(R.layout.fragment_transaction_daily, container, false);
-        View header = inflater.inflate(R.layout.daily_header_list_view, null);
+        View header = inflater.inflate(R.layout.month_header_list_view, null);
 
         dailyExpandableListView = rootView.findViewById(R.id.daily_expandable_list_view);
         dailyExpandableListView.addHeaderView(header);
@@ -114,7 +113,7 @@ public class DailyTransactionFragment extends Fragment {
             DailyTransaction dailyTransaction = (DailyTransaction) getGroup(i);
 
             if (view == null){
-                view = LayoutInflater.from(getContext()).inflate(R.layout.item_list_daily, viewGroup, false);
+                view = LayoutInflater.from(getContext()).inflate(R.layout.item_list_daily_transaction, viewGroup, false);
             }
 
             TextView date = view.findViewById(R.id.daily_date);
