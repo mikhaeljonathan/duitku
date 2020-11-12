@@ -3,12 +3,12 @@
 
     <item
         android:id="@+id/nav_transaction"
-        android:icon="@drawable/transaction_icon"
+        android:icon="@drawable/icon_transaction"
         android:title="Transaction" />
 
     <item
         android:id="@+id/nav_report"
-        android:icon="@drawable/report_icon"
+        android:icon="@drawable/icon_report"
         android:title="Report" />
 
     <item android:id="@+id/placeholder"
@@ -16,12 +16,12 @@
 
     <item
         android:id="@+id/nav_article"
-        android:icon="@drawable/article_icon"
+        android:icon="@drawable/icon_article"
         android:title="Article" />
 
     <item
         android:id="@+id/nav_account"
-        android:icon="@drawable/account_icon"
+        android:icon="@drawable/icon_account"
         android:title="Account" />
 
 </menu>

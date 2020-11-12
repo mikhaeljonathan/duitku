@@ -31,7 +31,7 @@ public class DailyTransactionFragment extends Fragment {
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         View rootView = inflater.inflate(R.layout.fragment_transaction_daily, container, false);
-        View header = inflater.inflate(R.layout.month_header_list_view, null);
+        View header = inflater.inflate(R.layout.header_list_view_month, null);
 
         dailyExpandableListView = rootView.findViewById(R.id.daily_expandable_list_view);
         dailyExpandableListView.addHeaderView(header);
@@ -145,7 +145,7 @@ public class DailyTransactionFragment extends Fragment {
             TextView desc = view.findViewById(R.id.transaction_description);
             desc.setText(transaction.getDesc());
 
-            TextView wallet = view.findViewById(R.id.wallet_name);
+            TextView wallet = view.findViewById(R.id.transaction_wallet_name);
             wallet.setText(transaction.getWallet());
 
             TextView amount = view.findViewById(R.id.amount);

@@ -16,7 +16,6 @@ import com.example.duitku.R;
 import com.example.duitku.model.CategoryTransaction;
 import com.example.duitku.model.MonthlyTransaction;
 
-import java.time.Month;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -32,7 +31,7 @@ public class MonthlyTransactionFragment extends Fragment {
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         View rootView = inflater.inflate(R.layout.fragment_transaction_monthly, container, false);
-        View header = inflater.inflate(R.layout.year_header_list_view, null);
+        View header = inflater.inflate(R.layout.header_list_view_year, null);
 
         monthlyExpandableListView = rootView.findViewById(R.id.monthly_expandable_list_view);
         monthlyExpandableListView.addHeaderView(header);

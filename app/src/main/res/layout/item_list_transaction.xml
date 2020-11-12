@@ -27,14 +27,14 @@
         android:layout_marginTop="8dp"
         android:textColor="@android:color/white"
         android:textStyle="bold"
-        app:layout_constraintBottom_toTopOf="@+id/wallet_name"
+        app:layout_constraintBottom_toTopOf="@+id/transaction_wallet_name"
         app:layout_constraintStart_toEndOf="@+id/transaction_category"
         app:layout_constraintTop_toTopOf="parent"
         app:layout_constraintVertical_chainStyle="spread"
         tools:text="AYCE" />
 
     <TextView
-        android:id="@+id/wallet_name"
+        android:id="@+id/transaction_wallet_name"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginStart="48dp"
@@ -50,7 +50,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         app:barrierDirection="end"
-        app:constraint_referenced_ids="wallet_name,transaction_description"
+        app:constraint_referenced_ids="transaction_wallet_name,transaction_description"
         tools:layout_editor_absoluteX="411dp" />
 
     <TextView

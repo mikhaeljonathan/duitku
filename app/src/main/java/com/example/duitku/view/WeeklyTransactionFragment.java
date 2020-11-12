@@ -14,8 +14,6 @@ import androidx.fragment.app.Fragment;
 
 import com.example.duitku.R;
 import com.example.duitku.model.CategoryTransaction;
-import com.example.duitku.model.DailyTransaction;
-import com.example.duitku.model.Transaction;
 import com.example.duitku.model.WeeklyTransaction;
 
 import java.util.ArrayList;
@@ -33,7 +31,7 @@ public class WeeklyTransactionFragment extends Fragment {
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         View rootView = inflater.inflate(R.layout.fragment_transaction_weekly, container, false);
-        View header = inflater.inflate(R.layout.month_header_list_view, null);
+        View header = inflater.inflate(R.layout.header_list_view_month, null);
 
         weeklyExpandableListView = rootView.findViewById(R.id.weekly_expandable_list_view);
         weeklyExpandableListView.addHeaderView(header);
