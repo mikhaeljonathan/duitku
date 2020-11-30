@@ -73,7 +73,7 @@ public class TransactionFragment extends Fragment {
 
         // constructornya, ga perlu tau fragmentManager ini gpp
         public TransactionAdapter(FragmentManager fm){
-            super(fm, BEHAVIOR_RESUME_ONLY_CURRENT_FRAGMENT);
+            super(fm, (BEHAVIOR_RESUME_ONLY_CURRENT_FRAGMENT));
         }
 
         // di sini return fragment yang akan ditampilin
