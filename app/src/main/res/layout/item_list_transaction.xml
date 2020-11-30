@@ -1,10 +1,18 @@
 <?xml version="1.0" encoding="utf-8"?>
+
+<!--Ini view untuk 1 childView dari ExpandableListView doang-->
+
+<!--LayoutDirection ltr itu untuk
+balikin ExpandableListView yang sebelumnya rtl biar panahnya
+bisa di kanan-->
+
 <androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layoutDirection="ltr"
     android:layout_height="88dp">
+
 
     <TextView
         android:id="@+id/transaction_category"

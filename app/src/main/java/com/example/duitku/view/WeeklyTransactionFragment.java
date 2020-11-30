@@ -22,6 +22,8 @@ import java.util.List;
 
 public class WeeklyTransactionFragment extends Fragment {
 
+    // Kurang lebih sama kayak DailyTransactionFragment penjelasannya
+
     ExpandableListView weeklyExpandableListView;
     WeeklyExpandableAdapter weeklyExpandableAdapter;
     List<WeeklyTransaction> weeklyTransactionList;

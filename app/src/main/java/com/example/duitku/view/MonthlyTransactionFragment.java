@@ -22,6 +22,8 @@ import java.util.List;
 
 public class MonthlyTransactionFragment extends Fragment {
 
+    // Kurang lebih sama kayak DailyTransactionFragment penjelasannya
+
     ExpandableListView monthlyExpandableListView;
     MonthlyExpandableAdapter monthlyExpandableAdapter;
     List<MonthlyTransaction> monthlyTransactionList;

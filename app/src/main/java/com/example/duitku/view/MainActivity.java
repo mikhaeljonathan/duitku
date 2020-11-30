@@ -14,6 +14,8 @@ import com.google.android.material.bottomnavigation.BottomNavigationView;
 
 public class MainActivity extends AppCompatActivity {
 
+    // onCreate itu fungsi bawaan dari AppCompatActivity,
+    // dijalankan kalo MainActivity ini ditampilkan
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -21,11 +23,12 @@ public class MainActivity extends AppCompatActivity {
 
         // Custom toolbar sendiri
         setSupportActionBar((Toolbar) findViewById(R.id.myToolbar));
-        getSupportActionBar().setDisplayShowTitleEnabled(false); // Ga usah judul
+        getSupportActionBar().setDisplayShowTitleEnabled(false); // Ga usah judul, diganti sama custom toolbar
 
         // Setting BottomNavBar
         BottomNavigationView bottomNav = findViewById(R.id.bottom_nav_bar);
         bottomNav.getMenu().getItem(2).setEnabled(false); // supaya yang di tengah2 (placeholder) gabisa diklik
+        // Disini object Fragment dibuat, Fragment itu kayak mini Activity
         bottomNav.setOnNavigationItemSelectedListener(new BottomNavigationView.OnNavigationItemSelectedListener() {
             @Override
             public boolean onNavigationItemSelected(@NonNull MenuItem menuItem) {
@@ -46,13 +49,15 @@ public class MainActivity extends AppCompatActivity {
                         break;
                 }
 
+                // Tampilin fragment dari setiap menu nya
                 getSupportFragmentManager().beginTransaction().replace(R.id.main_container, selectedFragment).commit();
                 return true;
             }
 
         });
-        getSupportFragmentManager().beginTransaction().replace(R.id.main_container, new TransactionFragment()).commit(); // Default fragment
 
+        // Default fragment, kalau kita blm teken menu apa2 di bottomnavbar
+        getSupportFragmentManager().beginTransaction().replace(R.id.main_container, new TransactionFragment()).commit();
 
     }
 

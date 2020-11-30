@@ -1,9 +1,20 @@
 <?xml version="1.0" encoding="utf-8"?>
+
+<!--Nah kalo ini sedikit beda sama fragment_transaction_daily-->
+
 <androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
-    android:layout_height="match_parent" >
+    android:layout_height="match_parent">
+
+    <!--Header nya aku taruh manual
+    karena masing2 listView udh punya headernya yaitu yang
+    ada tanda "+" itu-->
+
+    <!--header_bckground_other.xml ini juga beda,
+    dia lebih pendek dari header2 yang lain soalny menampung
+    informasi yg lebih sedikit-->
 
     <ImageView
         android:id="@+id/imageView"
@@ -42,6 +53,7 @@
         app:layout_constraintStart_toStartOf="@+id/imageView"
         app:layout_constraintTop_toBottomOf="@+id/textView2" />
 
+    <!--ConstraintLayout di sini buat sebagai header dari listView-->
     <androidx.constraintlayout.widget.ConstraintLayout
         android:id="@+id/wallet_list_view_header"
         android:layout_width="0dp"
@@ -68,6 +80,7 @@
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent" />
 
+        <!--Buat nambah Wallet-->
         <ImageButton
             android:id="@+id/header_list_view_wallet_add"
             android:layout_width="wrap_content"
@@ -81,6 +94,7 @@
 
     </androidx.constraintlayout.widget.ConstraintLayout>
 
+    <!--Ini baru listView dari walletnya-->
     <ListView
         android:id="@+id/wallet_list_view"
         android:layout_width="0dp"
@@ -94,6 +108,8 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/wallet_list_view_header" />
 
+
+    <!--Penjelasan nya hampir sama kek di atas-->
     <androidx.constraintlayout.widget.ConstraintLayout
         android:id="@+id/budget_list_view_header"
         android:layout_width="0dp"

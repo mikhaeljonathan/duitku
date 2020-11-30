@@ -22,6 +22,11 @@ import java.util.List;
 
 public class OthersTransactionFragment extends Fragment {
 
+    // ini agak beda sama ke 3 fragment yang lain
+
+    // di sini ga pake expandable list view, tapi pake 2 listview
+    // yaitu listview buat wallet sama budget
+    // masing2 listview perlu adapter
     ListView walletListView;
     ListView budgetListView;
     WalletAdapter walletAdapter;
@@ -69,21 +74,27 @@ public class OthersTransactionFragment extends Fragment {
 
     }
 
+    // adapter nya beda sama ExpandableListView
+    // adapternya ini subclass dari ArrayAdapter<Object dari array nya>
     class WalletAdapter extends ArrayAdapter<Wallet>{
 
+        // construct nya pake List of object
         public WalletAdapter(@NonNull Context context, @NonNull List<Wallet> wallets) {
             super(context, 0, wallets);
         }
 
+        // ini buat custom view nya
         @NonNull
         @Override
         public View getView(int position, @Nullable View convertView, @NonNull ViewGroup parent) {
 
+            // convertView itu view secara keseluruhan
             View walletListItem = convertView;
             if (walletListItem == null){
                 walletListItem = LayoutInflater.from(getContext()).inflate(R.layout.item_list_wallet, parent, false);
             }
 
+            // ambil object Walletnya
             Wallet wallet = getItem(position);
 
             TextView walletName = walletListItem.findViewById(R.id.wallet_name);
@@ -93,10 +104,12 @@ public class OthersTransactionFragment extends Fragment {
             walletAmount.setText(wallet.getAmount());
 
             return walletListItem;
+
         }
 
     }
 
+    // penjelasan nya kurang lebih sama kayak di atas
     class BudgetAdapter extends ArrayAdapter<Budget> {
 
         public BudgetAdapter(@NonNull Context context, @NonNull List<Budget> budgets) {
@@ -128,5 +141,7 @@ public class OthersTransactionFragment extends Fragment {
 
             return budgetListItem;
         }
+
     }
+
 }

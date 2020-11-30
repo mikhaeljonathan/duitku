@@ -22,22 +22,40 @@ import java.util.List;
 
 public class DailyTransactionFragment extends Fragment {
 
+    // MainActivity --> TransactionFragment --> DailyTransactionFragment
+    // Aga ribet tapi ya mau gmn lagi
+
+    // Ini kita pake ExpandableListView buat listView yang bisa di-expand
     ExpandableListView dailyExpandableListView;
-    DailyExpandableAdapter dailyExpandableAdapter;
+    DailyExpandableAdapter dailyExpandableAdapter; // ExpandableListView juga perlu adapter
+
+    // DailyTransaction ini buat gabungan dari beberapa Transaction dalam sehari
+    // Istilahnya group kalo di ExpandableListView
     List<DailyTransaction> dailyTransactionList;
+
+    // Setiap DailyTransaction, ada beberapa Transaction
+    // Istilahnya child kalo di ExpandableListView
     HashMap<DailyTransaction, List<Transaction>> dailyTransactionListHashMap;
 
     @Nullable
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
+
+        // rootView ini buat nampilin view fragment nya
         View rootView = inflater.inflate(R.layout.fragment_transaction_daily, container, false);
+        // header ini buat elemen pertama dari ExpandableListView yang berupa summary nya
         View header = inflater.inflate(R.layout.header_list_view_month, null);
 
+        // initiate ExpandableListViewnya
         dailyExpandableListView = rootView.findViewById(R.id.daily_expandable_list_view);
-        dailyExpandableListView.addHeaderView(header);
+        dailyExpandableListView.addHeaderView(header); // ini buat masukin header nya
+
+        // Ini buat dummy data, data sebenarnya nanti diretrieve dari database
         setContent();
 
+        // Bikin adapternya
         dailyExpandableAdapter = new DailyExpandableAdapter();
+        // masukin adapter ke ExpandableListView
         dailyExpandableListView.setAdapter(dailyExpandableAdapter);
 
         return rootView;
@@ -67,27 +85,33 @@ public class DailyTransactionFragment extends Fragment {
 
     }
 
+    // adapter ini harus subclass dari BaseExpandableListAdapter
     class DailyExpandableAdapter extends BaseExpandableListAdapter{
 
+        // constructor kosongan
         public DailyExpandableAdapter(){
 
         }
 
+        // ada berapa group
         @Override
         public int getGroupCount() {
             return dailyTransactionList.size();
         }
 
+        // ada berapa children di group yang ke i
         @Override
         public int getChildrenCount(int i) {
             return dailyTransactionListHashMap.get(dailyTransactionList.get(i)).size();
         }
 
+        // minta grup ke i dong
         @Override
         public Object getGroup(int i) {
             return dailyTransactionList.get(i);
         }
 
+        // minta child ke i1 dari grup ke i dong
         @Override
         public Object getChild(int i, int i1) {
             return dailyTransactionListHashMap.get(dailyTransactionList.get(i)).get(i1);
@@ -103,19 +127,26 @@ public class DailyTransactionFragment extends Fragment {
             return i1;
         }
 
+        // gatau buat apa
         @Override
         public boolean hasStableIds() {
             return false;
         }
 
+        // buat ngatur view dari DailyTransaction nya
         @Override
         public View getGroupView(int i, boolean b, View view, ViewGroup viewGroup) {
+            // ambil DailyTransaction object nya
             DailyTransaction dailyTransaction = (DailyTransaction) getGroup(i);
 
+            // kalo view nya masih blm dibuat, dibuat dari awal
+            // caranya pake LayoutInflater trs inflate gitu
+            // itu ada R.layout.item_list_daily_transaction XML yang dicustom sendiri
             if (view == null){
                 view = LayoutInflater.from(getContext()).inflate(R.layout.item_list_daily_transaction, viewGroup, false);
             }
 
+            // Tinggal ngeset2 view nya aja
             TextView date = view.findViewById(R.id.daily_date);
             date.setText(Integer.toString(dailyTransaction.getDate()));
 
@@ -131,10 +162,13 @@ public class DailyTransactionFragment extends Fragment {
             return view;
         }
 
+        // buat ngatur view dari Transaction nya
         @Override
         public View getChildView(int i, int i1, boolean b, View view, ViewGroup viewGroup) {
+            // ambil Transaction object nya
             Transaction transaction = (Transaction) getChild(i, i1);
 
+            // penjelasan nya sama kyk di atas
             if (view == null){
                 view = LayoutInflater.from(getContext()).inflate(R.layout.item_list_transaction, viewGroup, false);
             }
@@ -154,10 +188,12 @@ public class DailyTransactionFragment extends Fragment {
             return view;
         }
 
+        // Transaction nya bisa dipencet
         @Override
         public boolean isChildSelectable(int i, int i1) {
             return true;
         }
+
     }
 
 }

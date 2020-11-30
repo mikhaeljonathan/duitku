@@ -5,6 +5,8 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent">
 
+    <!--ExpandableListView seperti ListView yang bisa di-expand
+    layoutDirection rtl supaya panah nya ada di kanan-->
     <ExpandableListView
         android:id="@+id/daily_expandable_list_view"
         android:layout_width="0dp"
@@ -14,6 +16,5 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
-
 
 </androidx.constraintlayout.widget.ConstraintLayout>

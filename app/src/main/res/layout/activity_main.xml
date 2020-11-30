@@ -1,16 +1,17 @@
-<?xml version="1.0" encoding="utf-8"?>
-<androidx.coordinatorlayout.widget.CoordinatorLayout
-    xmlns:android="http://schemas.android.com/apk/res/android"
+<?xml version="1.0" encoding="utf-8"?><!--coordinator layout supaya floating action buttonnya bisa
+melayang gitu-->
+<androidx.coordinatorlayout.widget.CoordinatorLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
-    tools:context=".view.MainActivity"
+    android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:layout_width="match_parent" >
+    tools:context=".view.MainActivity">
 
     <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
-        android:layout_height="match_parent" >
+        android:layout_height="match_parent">
 
+        <!--di dalem app bar ada toolbar, gatau deh knp-->
         <com.google.android.material.appbar.AppBarLayout
             android:id="@+id/appBarLayout"
             android:layout_width="match_parent"
@@ -19,10 +20,14 @@
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent">
 
+            <!--ConstraintLayout di sini sebagai container
+            buat 2 view doang (toolbar + datepicker)-->
             <androidx.constraintlayout.widget.ConstraintLayout
                 android:layout_width="match_parent"
                 android:layout_height="match_parent">
 
+                <!--Toolbar ini yang nanti bakal di-inflate
+                di MainActivity.java-->
                 <androidx.appcompat.widget.Toolbar
                     android:id="@+id/myToolbar"
                     android:layout_width="match_parent"
@@ -35,6 +40,8 @@
                     app:layout_constraintTop_toTopOf="parent"
                     app:titleTextColor="#FFFFFF" />
 
+                <!--Ini sebenernya datepicker, bukan button
+                button cuma sementara-->
                 <Button
                     android:id="@+id/button"
                     android:layout_width="wrap_content"
@@ -49,6 +56,7 @@
 
         </com.google.android.material.appbar.AppBarLayout>
 
+        <!--FrameLayout ini sebagai placeholder buat fragment-->
         <FrameLayout
             android:id="@+id/main_container"
             android:layout_width="0dp"
@@ -57,12 +65,14 @@
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/appBarLayout" >
+            app:layout_constraintTop_toBottomOf="@+id/appBarLayout">
 
         </FrameLayout>
 
     </androidx.constraintlayout.widget.ConstraintLayout>
 
+    <!--BottomAppBar biar floating action button bisa melayang
+    BottomAppBar ini parentnya harus CoordinatorLayout-->
     <com.google.android.material.bottomappbar.BottomAppBar
         android:id="@+id/bottom_app_bar"
         android:layout_width="match_parent"
@@ -70,17 +80,25 @@
         android:layout_gravity="bottom"
         android:backgroundTint="@color/colorPrimary">
 
+        <!--BottomAppBar cuma kulitnya,
+        BottomNavBar ini isi menu2 nya-->
+        <!--Di situ ada itemIconTint sama itemTextColor
+        biar kalau diselect salah1menunya bs warna pink-->
         <com.google.android.material.bottomnavigation.BottomNavigationView
             android:id="@+id/bottom_nav_bar"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            app:labelVisibilityMode="labeled"
-            app:itemTextColor="@drawable/bottomnav_foreground"
             app:itemIconTint="@drawable/bottomnav_foreground"
+            app:itemTextColor="@drawable/bottomnav_foreground"
+            app:labelVisibilityMode="labeled"
             app:menu="@menu/bottom_nav_bar" />
 
     </com.google.android.material.bottomappbar.BottomAppBar>
 
+    <!--Ikon buat tambah transaction yang bisa melayang
+    di bottomNavBar-->
+    <!--Cara biar bisa melayang gitu
+    pake app:layout_anchor-->
     <com.google.android.material.floatingactionbutton.FloatingActionButton
         android:id="@+id/fab"
         android:layout_width="wrap_content"
