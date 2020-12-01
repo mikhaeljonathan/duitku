@@ -70,6 +70,7 @@ public class AddTransactionActivity extends AppCompatActivity {
             mFragmentList.add(fragment);
             mFragmentTitleList.add(title);
         }
+
     }
 
 }

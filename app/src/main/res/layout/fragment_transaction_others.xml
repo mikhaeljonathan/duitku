@@ -5,6 +5,7 @@
 <androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/transaction_others_constraintlayout"
     android:layout_width="match_parent"
     android:layout_height="match_parent">
 
@@ -17,7 +18,7 @@
     informasi yg lebih sedikit-->
 
     <ImageView
-        android:id="@+id/imageView"
+        android:id="@+id/transaction_others_header_container"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginStart="32dp"
@@ -29,7 +30,7 @@
         app:layout_constraintTop_toTopOf="parent" />
 
     <TextView
-        android:id="@+id/textView2"
+        android:id="@+id/transaction_others_header_totalwallet_textview"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginTop="32dp"
@@ -37,38 +38,38 @@
         android:textColor="@android:color/white"
         android:textSize="25sp"
         android:textStyle="bold"
-        app:layout_constraintEnd_toEndOf="@+id/imageView"
-        app:layout_constraintStart_toStartOf="@+id/imageView"
-        app:layout_constraintTop_toTopOf="@+id/imageView" />
+        app:layout_constraintEnd_toEndOf="@+id/transaction_others_header_container"
+        app:layout_constraintStart_toStartOf="@+id/transaction_others_header_container"
+        app:layout_constraintTop_toTopOf="@+id/transaction_others_header_container" />
 
     <TextView
-        android:id="@+id/textView6"
+        android:id="@+id/transaction_others_header_amount_textview"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginTop="16dp"
         android:text="Rp 80.000.000"
         android:textColor="@android:color/white"
         android:textSize="30sp"
-        app:layout_constraintEnd_toEndOf="@+id/imageView"
-        app:layout_constraintStart_toStartOf="@+id/imageView"
-        app:layout_constraintTop_toBottomOf="@+id/textView2" />
+        app:layout_constraintEnd_toEndOf="@+id/transaction_others_header_container"
+        app:layout_constraintStart_toStartOf="@+id/transaction_others_header_container"
+        app:layout_constraintTop_toBottomOf="@+id/transaction_others_header_totalwallet_textview" />
 
     <!--ConstraintLayout di sini buat sebagai header dari listView-->
     <androidx.constraintlayout.widget.ConstraintLayout
-        android:id="@+id/wallet_list_view_header"
+        android:id="@+id/transaction_others_wallet_header"
         android:layout_width="0dp"
         android:layout_height="48dp"
         android:layout_marginStart="16dp"
         android:layout_marginTop="16dp"
         android:layout_marginEnd="16dp"
         android:background="@color/colorPrimary"
-        app:layout_constraintBottom_toTopOf="@+id/wallet_list_view"
+        app:layout_constraintBottom_toTopOf="@+id/transaction_others_wallet_listview"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/imageView">
+        app:layout_constraintTop_toBottomOf="@+id/transaction_others_header_container">
 
         <TextView
-            android:id="@+id/header_list_view_wallet"
+            android:id="@+id/transaction_others_wallet_textview"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginStart="16dp"
@@ -82,7 +83,7 @@
 
         <!--Buat nambah Wallet-->
         <ImageButton
-            android:id="@+id/header_list_view_wallet_add"
+            android:id="@+id/transaction_others_wallet_add_btn"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginEnd="16dp"
@@ -96,35 +97,35 @@
 
     <!--Ini baru listView dari walletnya-->
     <ListView
-        android:id="@+id/wallet_list_view"
+        android:id="@+id/transaction_others_wallet_listview"
         android:layout_width="0dp"
         android:layout_height="0dp"
         android:layout_marginStart="16dp"
         android:layout_marginEnd="16dp"
         android:layout_marginBottom="16dp"
         android:background="@color/colorPrimary"
-        app:layout_constraintBottom_toTopOf="@id/budget_list_view_header"
+        app:layout_constraintBottom_toTopOf="@id/transaction_others_budget_header"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/wallet_list_view_header" />
+        app:layout_constraintTop_toBottomOf="@+id/transaction_others_wallet_header" />
 
 
     <!--Penjelasan nya hampir sama kek di atas-->
     <androidx.constraintlayout.widget.ConstraintLayout
-        android:id="@+id/budget_list_view_header"
+        android:id="@+id/transaction_others_budget_header"
         android:layout_width="0dp"
         android:layout_height="48dp"
         android:layout_marginStart="16dp"
         android:layout_marginTop="16dp"
         android:layout_marginEnd="16dp"
         android:background="@color/colorPrimary"
-        app:layout_constraintBottom_toTopOf="@+id/budget_list_view"
+        app:layout_constraintBottom_toTopOf="@+id/transaction_others_budget_listview"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/wallet_list_view">
+        app:layout_constraintTop_toBottomOf="@+id/transaction_others_wallet_listview">
 
         <TextView
-            android:id="@+id/header_list_view_budget"
+            android:id="@+id/transaction_others_budget_textview"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginStart="16dp"
@@ -137,7 +138,7 @@
             app:layout_constraintTop_toTopOf="parent" />
 
         <ImageButton
-            android:id="@+id/header_list_view_budget_add"
+            android:id="@+id/transaction_others_budget_add_btn"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginEnd="16dp"
@@ -149,7 +150,7 @@
     </androidx.constraintlayout.widget.ConstraintLayout>
 
     <ListView
-        android:id="@+id/budget_list_view"
+        android:id="@+id/transaction_others_budget_listview"
         android:layout_width="0dp"
         android:layout_height="0dp"
         android:layout_marginStart="16dp"
@@ -159,7 +160,7 @@
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/budget_list_view_header" />
+        app:layout_constraintTop_toBottomOf="@+id/transaction_others_budget_header" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>
 

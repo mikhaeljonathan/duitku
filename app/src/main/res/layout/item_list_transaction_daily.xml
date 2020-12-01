@@ -9,12 +9,13 @@ bisa di kanan-->
 <androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/item_list_transaction_daily_constraintlayout"
     android:layout_width="match_parent"
     android:layout_height="88dp"
     android:layoutDirection="ltr">
 
     <TextView
-        android:id="@+id/daily_date"
+        android:id="@+id/item_list_transaction_daily_date_textview"
         android:layout_width="wrap_content"
         android:layout_height="0dp"
         android:layout_marginStart="16dp"
@@ -29,7 +30,7 @@ bisa di kanan-->
         tools:text="16" />
 
     <TextView
-        android:id="@+id/day"
+        android:id="@+id/item_list_transaction_daily_day_textview"
         android:layout_width="wrap_content"
         android:layout_height="0dp"
         android:layout_marginStart="16dp"
@@ -40,31 +41,31 @@ bisa di kanan-->
         android:textColor="#717171"
         android:textSize="24sp"
         app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintStart_toEndOf="@+id/daily_date"
+        app:layout_constraintStart_toEndOf="@+id/item_list_transaction_daily_date_textview"
         app:layout_constraintTop_toTopOf="parent"
         tools:text="Fri" />
 
     <TextView
-        android:id="@+id/income"
+        android:id="@+id/item_list_transaction_daily_income_textview"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginStart="48dp"
         android:textColor="@android:color/holo_green_dark"
         android:textSize="14sp"
         app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintStart_toEndOf="@+id/day"
+        app:layout_constraintStart_toEndOf="@+id/item_list_transaction_daily_day_textview"
         app:layout_constraintTop_toTopOf="parent"
         tools:text="Rp 5.000.000" />
 
     <TextView
-        android:id="@+id/expense"
+        android:id="@+id/item_list_transaction_daily_expense_textview"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginStart="32dp"
         android:textColor="@android:color/holo_red_dark"
         android:textSize="14sp"
         app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintStart_toEndOf="@+id/income"
+        app:layout_constraintStart_toEndOf="@+id/item_list_transaction_daily_income_textview"
         app:layout_constraintTop_toTopOf="parent"
         tools:text="Rp 500.000" />
 

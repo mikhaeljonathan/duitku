@@ -40,8 +40,8 @@ public class OthersTransactionFragment extends Fragment {
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         View rootView = inflater.inflate(R.layout.fragment_transaction_others, container, false);
 
-        walletListView = rootView.findViewById(R.id.wallet_list_view);
-        budgetListView = rootView.findViewById(R.id.budget_list_view);
+        walletListView = rootView.findViewById(R.id.transaction_others_wallet_listview);
+        budgetListView = rootView.findViewById(R.id.transaction_others_budget_listview);
         setContent();
 
         walletAdapter = new WalletAdapter(getContext(), wallets);
@@ -97,10 +97,10 @@ public class OthersTransactionFragment extends Fragment {
             // ambil object Walletnya
             Wallet wallet = getItem(position);
 
-            TextView walletName = walletListItem.findViewById(R.id.wallet_name);
+            TextView walletName = walletListItem.findViewById(R.id.item_list_wallet_name_textview);
             walletName.setText(wallet.getWalletName());
 
-            TextView walletAmount = walletListItem.findViewById(R.id.wallet_amount);
+            TextView walletAmount = walletListItem.findViewById(R.id.item_list_wallet_amount_textview);
             walletAmount.setText(wallet.getAmount());
 
             return walletListItem;
@@ -127,16 +127,16 @@ public class OthersTransactionFragment extends Fragment {
 
             Budget budget = getItem(position);
 
-            TextView budgetCategory = budgetListItem.findViewById(R.id.budget_category);
+            TextView budgetCategory = budgetListItem.findViewById(R.id.item_list_budget_category_textview);
             budgetCategory.setText(budget.getCategory());
 
-            TextView budgetAmount = budgetListItem.findViewById(R.id.budget_amount);
+            TextView budgetAmount = budgetListItem.findViewById(R.id.item_list_budget_amount_textview);
             budgetAmount.setText(budget.getAmount());
 
-            TextView budgetUsed = budgetListItem.findViewById(R.id.budget_used);
+            TextView budgetUsed = budgetListItem.findViewById(R.id.item_list_budget_used_textview);
             budgetUsed.setText(budget.getUsed());
 
-            TextView budgetLeft = budgetListItem.findViewById(R.id.budget_left);
+            TextView budgetLeft = budgetListItem.findViewById(R.id.item_list_budget_left_textview);
             budgetLeft.setText(budget.getLeft());
 
             return budgetListItem;

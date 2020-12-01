@@ -3,17 +3,19 @@ melayang gitu-->
 <androidx.coordinatorlayout.widget.CoordinatorLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/main_coordlayout"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     tools:context=".view.MainActivity">
 
     <androidx.constraintlayout.widget.ConstraintLayout
+        android:id="@+id/main_constraintlayout1"
         android:layout_width="match_parent"
         android:layout_height="match_parent">
 
         <!--di dalem app bar ada toolbar, gatau deh knp-->
         <com.google.android.material.appbar.AppBarLayout
-            android:id="@+id/appBarLayout"
+            android:id="@+id/main_appbar"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             app:layout_constraintEnd_toEndOf="parent"
@@ -23,13 +25,14 @@ melayang gitu-->
             <!--ConstraintLayout di sini sebagai container
             buat 2 view doang (toolbar + datepicker)-->
             <androidx.constraintlayout.widget.ConstraintLayout
+                android:id="@+id/main_constraintlayout2"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent">
 
                 <!--Toolbar ini yang nanti bakal di-inflate
                 di MainActivity.java-->
                 <androidx.appcompat.widget.Toolbar
-                    android:id="@+id/myToolbar"
+                    android:id="@+id/main_toolbar"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:background="?attr/colorPrimary"
@@ -43,7 +46,7 @@ melayang gitu-->
                 <!--Ini sebenernya datepicker, bukan button
                 button cuma sementara-->
                 <Button
-                    android:id="@+id/button"
+                    android:id="@+id/main_datepicker_btn"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_marginStart="16dp"
@@ -65,7 +68,7 @@ melayang gitu-->
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/appBarLayout">
+            app:layout_constraintTop_toBottomOf="@+id/main_appbar">
 
         </FrameLayout>
 
@@ -73,8 +76,13 @@ melayang gitu-->
 
     <!--BottomAppBar biar floating action button bisa melayang
     BottomAppBar ini parentnya harus CoordinatorLayout-->
+
+    <!--Ikon buat tambah transaction yang bisa melayang
+    di bottomNavBar-->
+    <!--Cara biar bisa melayang gitu
+    pake app:layout_anchor-->
     <com.google.android.material.bottomappbar.BottomAppBar
-        android:id="@+id/bottom_app_bar"
+        android:id="@+id/main_bottomappbar"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_gravity="bottom"
@@ -85,7 +93,7 @@ melayang gitu-->
         <!--Di situ ada itemIconTint sama itemTextColor
         biar kalau diselect salah1menunya bs warna pink-->
         <com.google.android.material.bottomnavigation.BottomNavigationView
-            android:id="@+id/bottom_nav_bar"
+            android:id="@+id/main_bottomnavbar"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             app:itemIconTint="@drawable/bottomnav_foreground"
@@ -95,15 +103,11 @@ melayang gitu-->
 
     </com.google.android.material.bottomappbar.BottomAppBar>
 
-    <!--Ikon buat tambah transaction yang bisa melayang
-    di bottomNavBar-->
-    <!--Cara biar bisa melayang gitu
-    pake app:layout_anchor-->
     <com.google.android.material.floatingactionbutton.FloatingActionButton
-        android:id="@+id/add_transaction_fab"
+        android:id="@+id/main_add_fab"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        app:layout_anchor="@id/bottom_app_bar"
+        app:layout_anchor="@id/main_bottomappbar"
         app:layout_constraintBottom_toBottomOf="@+id/main_container"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"

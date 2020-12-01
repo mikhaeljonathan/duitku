@@ -1,0 +1,45 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<!--Penjelasannya kurang lebih sama kayak item_list_transaction_daily-->
+
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/item_list_transaction_weekly_constraintlayout"
+    android:layout_width="match_parent"
+    android:layout_height="88dp"
+    android:layoutDirection="ltr">
+
+    <TextView
+        android:id="@+id/item_list_transaction_weekly_intervals_textview"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="16dp"
+        android:textColor="@android:color/white"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        tools:text="12.10.2020 -\n18.10.2020" />
+
+    <TextView
+        android:id="@+id/item_list_transaction_weekly_income_textview"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="64dp"
+        android:textColor="@android:color/holo_green_dark"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintStart_toEndOf="@+id/item_list_transaction_weekly_intervals_textview"
+        app:layout_constraintTop_toTopOf="parent"
+        tools:text="Rp 7.000.000" />
+
+    <TextView
+        android:id="@+id/item_list_transaction_weekly_expense_textview"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="32dp"
+        android:textColor="@android:color/holo_red_dark"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintStart_toEndOf="@+id/item_list_transaction_weekly_income_textview"
+        app:layout_constraintTop_toTopOf="parent"
+        tools:text=" 1.500.000" />
+</androidx.constraintlayout.widget.ConstraintLayout>

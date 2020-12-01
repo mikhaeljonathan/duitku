@@ -5,6 +5,8 @@ import android.provider.BaseColumns;
 
 public class DuitkuContract {
 
+    // Class ini untuk nyimpen2 URI, nama tabel, nama column dll
+    // URI ini buat ngasih tau ContentResolver table mana yang mau diakses
     public static final String CONTENT_AUTHORITY = "com.example.duitku";
     public static final Uri BASE_CONTENT_URI = Uri.parse("content://" + CONTENT_AUTHORITY);
 
@@ -13,7 +15,7 @@ public class DuitkuContract {
     public static final String PATH_CATEGORY = "category";
     public static final String PATH_BUDGET = "budget";
 
-
+    // Setiap inner class di sini mewakili 1 table
     public static final class WalletEntry implements BaseColumns {
         public static final Uri CONTENT_URI =
                 BASE_CONTENT_URI.buildUpon().appendPath(PATH_WALLET).build();

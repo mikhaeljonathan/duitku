@@ -33,9 +33,9 @@ public class WeeklyTransactionFragment extends Fragment {
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         View rootView = inflater.inflate(R.layout.fragment_transaction_weekly, container, false);
-        View header = inflater.inflate(R.layout.header_list_view_month, null);
+        View header = inflater.inflate(R.layout.fragment_transaction_header_month, null);
 
-        weeklyExpandableListView = rootView.findViewById(R.id.weekly_expandable_list_view);
+        weeklyExpandableListView = rootView.findViewById(R.id.transaction_weekly_expandablelistview);
         weeklyExpandableListView.addHeaderView(header);
         setContent();
 
@@ -121,16 +121,16 @@ public class WeeklyTransactionFragment extends Fragment {
             WeeklyTransaction weeklyTransaction = (WeeklyTransaction) getGroup(i);
 
             if (view == null){
-                view = LayoutInflater.from(getContext()).inflate(R.layout.item_list_weekly_transaction, viewGroup, false);
+                view = LayoutInflater.from(getContext()).inflate(R.layout.item_list_transaction_weekly, viewGroup, false);
             }
 
-            TextView intervals = view.findViewById(R.id.weekly_intervals);
+            TextView intervals = view.findViewById(R.id.item_list_transaction_weekly_intervals_textview);
             intervals.setText(weeklyTransaction.getIntervals());
 
-            TextView income = view.findViewById(R.id.weekly_income);
+            TextView income = view.findViewById(R.id.item_list_transaction_weekly_income_textview);
             income.setText(weeklyTransaction.getIncome());
 
-            TextView expense = view.findViewById(R.id.weekly_expense);
+            TextView expense = view.findViewById(R.id.item_list_transaction_weekly_expense_textview);
             expense.setText(weeklyTransaction.getExpense());
 
             return view;
@@ -141,13 +141,13 @@ public class WeeklyTransactionFragment extends Fragment {
             CategoryTransaction categoryTransaction = (CategoryTransaction) getChild(i, i1);
 
             if (view == null){
-                view = LayoutInflater.from(getContext()).inflate(R.layout.item_list_category_transaction, viewGroup, false);
+                view = LayoutInflater.from(getContext()).inflate(R.layout.item_list_transaction_category, viewGroup, false);
             }
 
-            TextView categoryName = view.findViewById(R.id.category_name);
+            TextView categoryName = view.findViewById(R.id.item_list_transaction_category_name_textview);
             categoryName.setText(categoryTransaction.getCategory());
 
-            TextView amount = view.findViewById(R.id.category_amount);
+            TextView amount = view.findViewById(R.id.item_list_transaction_category_amount_textview);
             amount.setText(categoryTransaction.getAmount());
 
             return view;

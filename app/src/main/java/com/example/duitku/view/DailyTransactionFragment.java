@@ -44,10 +44,10 @@ public class DailyTransactionFragment extends Fragment {
         // rootView ini buat nampilin view fragment nya
         View rootView = inflater.inflate(R.layout.fragment_transaction_daily, container, false);
         // header ini buat elemen pertama dari ExpandableListView yang berupa summary nya
-        View header = inflater.inflate(R.layout.header_list_view_month, null);
+        View header = inflater.inflate(R.layout.fragment_transaction_header_month, null);
 
         // initiate ExpandableListViewnya
-        dailyExpandableListView = rootView.findViewById(R.id.daily_expandable_list_view);
+        dailyExpandableListView = rootView.findViewById(R.id.transaction_daily_expandablelistview);
         dailyExpandableListView.addHeaderView(header); // ini buat masukin header nya
 
         // Ini buat dummy data, data sebenarnya nanti diretrieve dari database
@@ -141,22 +141,22 @@ public class DailyTransactionFragment extends Fragment {
 
             // kalo view nya masih blm dibuat, dibuat dari awal
             // caranya pake LayoutInflater trs inflate gitu
-            // itu ada R.layout.item_list_daily_transaction XML yang dicustom sendiri
+            // itu ada R.layout.item_list_transaction_daily XML yang dicustom sendiri
             if (view == null){
-                view = LayoutInflater.from(getContext()).inflate(R.layout.item_list_daily_transaction, viewGroup, false);
+                view = LayoutInflater.from(getContext()).inflate(R.layout.item_list_transaction_daily, viewGroup, false);
             }
 
             // Tinggal ngeset2 view nya aja
-            TextView date = view.findViewById(R.id.daily_date);
+            TextView date = view.findViewById(R.id.item_list_transaction_daily_date_textview);
             date.setText(Integer.toString(dailyTransaction.getDate()));
 
-            TextView day = view.findViewById(R.id.day);
+            TextView day = view.findViewById(R.id.item_list_transaction_daily_day_textview);
             day.setText(dailyTransaction.getDay());
 
-            TextView income = view.findViewById(R.id.income);
+            TextView income = view.findViewById(R.id.item_list_transaction_daily_income_textview);
             income.setText(dailyTransaction.getIncome());
 
-            TextView expense = view.findViewById(R.id.expense);
+            TextView expense = view.findViewById(R.id.item_list_transaction_daily_expense_textview);
             expense.setText(dailyTransaction.getExpense());
 
             return view;
@@ -173,16 +173,16 @@ public class DailyTransactionFragment extends Fragment {
                 view = LayoutInflater.from(getContext()).inflate(R.layout.item_list_transaction, viewGroup, false);
             }
 
-            TextView category = view.findViewById(R.id.transaction_category);
+            TextView category = view.findViewById(R.id.item_list_transaction_category_textview);
             category.setText(transaction.getCategory());
 
-            TextView desc = view.findViewById(R.id.transaction_description);
+            TextView desc = view.findViewById(R.id.item_list_transaction_desc_textview);
             desc.setText(transaction.getDesc());
 
-            TextView wallet = view.findViewById(R.id.transaction_wallet_name);
+            TextView wallet = view.findViewById(R.id.item_list_transaction_wallet_textview);
             wallet.setText(transaction.getWallet());
 
-            TextView amount = view.findViewById(R.id.amount);
+            TextView amount = view.findViewById(R.id.item_list_transaction_amount_textview);
             amount.setText(transaction.getAmount());
 
             return view;

@@ -1,15 +1,16 @@
 <?xml version="1.0" encoding="utf-8"?>
 
-<!--Penjelasannya kurang lebih sama kayak item_list_daily_transaction-->
+<!--Penjelasannya kurang lebih sama kayak item_list_transaction_daily-->
 
 <androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/item_list_wallet_constraintlayout"
     android:layout_width="match_parent"
     android:layout_height="44dp">
 
     <TextView
-        android:id="@+id/wallet_name"
+        android:id="@+id/item_list_wallet_name_textview"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginStart="16dp"
@@ -20,7 +21,7 @@
         tools:text="Ovo" />
 
     <TextView
-        android:id="@+id/wallet_amount"
+        android:id="@+id/item_list_wallet_amount_textview"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginEnd="16dp"

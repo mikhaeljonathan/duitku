@@ -29,11 +29,11 @@ public class MainActivity extends AppCompatActivity {
         setContentView(R.layout.activity_main);
 
         // Custom toolbar sendiri
-        setSupportActionBar((Toolbar) findViewById(R.id.myToolbar));
+        setSupportActionBar((Toolbar) findViewById(R.id.main_toolbar));
         getSupportActionBar().setDisplayShowTitleEnabled(false); // Ga usah judul, diganti sama custom toolbar
 
         // Setting BottomNavBar
-        bottomNav = findViewById(R.id.bottom_nav_bar);
+        bottomNav = findViewById(R.id.main_bottomnavbar);
         bottomNav.getMenu().getItem(2).setEnabled(false); // supaya yang di tengah2 (placeholder) gabisa diklik
         // Disini object Fragment dibuat, Fragment itu kayak mini Activity
         bottomNav.setOnNavigationItemSelectedListener(new BottomNavigationView.OnNavigationItemSelectedListener() {
@@ -68,7 +68,7 @@ public class MainActivity extends AppCompatActivity {
 
 
         // Setting floating action button
-        addTransactionFab = findViewById(R.id.add_transaction_fab);
+        addTransactionFab = findViewById(R.id.main_add_fab);
         addTransactionFab.setOnClickListener(new View.OnClickListener() {
 
             @Override
