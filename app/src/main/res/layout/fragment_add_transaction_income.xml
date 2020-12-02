@@ -2,129 +2,17 @@
 <androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
-    android:id="@+id/add_transaction_expense_constraintlayout"
+    android:id="@+id/add_transaction_income_constraintlayout"
     android:layout_width="match_parent"
     android:layout_height="match_parent">
-
-    <TextView
-        android:id="@+id/add_transaction_income_date_textview"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginStart="16dp"
-        android:text="Date"
-        android:textColor="@android:color/white"
-        android:textSize="18sp"
-        app:layout_constraintBaseline_toBaselineOf="@+id/add_transaction_income_date_edittext"
-        app:layout_constraintStart_toStartOf="parent" />
-
-    <TextView
-        android:id="@+id/add_transaction_income_wallet_textview"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginStart="16dp"
-        android:text="Wallet"
-        android:textColor="@android:color/white"
-        android:textSize="18sp"
-        app:layout_constraintBaseline_toBaselineOf="@+id/add_transaction_income_wallet_edittext"
-        app:layout_constraintStart_toStartOf="parent" />
-
-    <TextView
-        android:id="@+id/add_transaction_income_category_textview"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginStart="16dp"
-        android:text="Category"
-        android:textColor="@android:color/white"
-        android:textSize="18sp"
-        app:layout_constraintBaseline_toBaselineOf="@+id/add_transaction_income_category_edittext"
-        app:layout_constraintStart_toStartOf="parent" />
-
-    <TextView
-        android:id="@+id/add_transaction_income_amount_textview"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginStart="16dp"
-        android:text="Amount"
-        android:textColor="@android:color/white"
-        android:textSize="18sp"
-        app:layout_constraintBaseline_toBaselineOf="@+id/add_transaction_income_amount_edittext"
-        app:layout_constraintStart_toStartOf="parent" />
-
-    <TextView
-        android:id="@+id/add_transaction_income_desc_textview"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginStart="16dp"
-        android:text="Desc"
-        android:textColor="@android:color/white"
-        android:textSize="18sp"
-        app:layout_constraintBaseline_toBaselineOf="@+id/add_transaction_income_desc_edittext"
-        app:layout_constraintStart_toStartOf="parent" />
-
-    <androidx.constraintlayout.widget.Barrier
-        android:id="@+id/add_transaction_income_barrier"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        app:barrierDirection="end"
-        app:constraint_referenced_ids="add_transaction_income_date_textview,add_transaction_income_wallet_textview,add_transaction_income_category_textview,add_transaction_income_amount_textview,add_transaction_income_desc_textview"
-        tools:layout_editor_absoluteX="411dp" />
-
-    <EditText
-        android:id="@+id/add_transaction_income_date_edittext"
-        android:layout_width="0dp"
-        android:layout_height="wrap_content"
-        android:layout_marginStart="16dp"
-        android:layout_marginTop="16dp"
-        android:layout_marginEnd="16dp"
-        android:hint="Date"
-        android:inputType="textPersonName"
-        android:textColor="@android:color/white"
-        android:textColorHint="@android:color/darker_gray"
-        android:textSize="18sp"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toEndOf="@id/add_transaction_income_barrier"
-        app:layout_constraintTop_toTopOf="parent" />
-
-    <EditText
-        android:id="@+id/add_transaction_income_wallet_edittext"
-        android:layout_width="0dp"
-        android:layout_height="wrap_content"
-        android:layout_marginStart="16dp"
-        android:layout_marginTop="16dp"
-        android:layout_marginEnd="16dp"
-        android:hint="Wallet"
-        android:inputType="textPersonName"
-        android:textColor="@android:color/white"
-        android:textColorHint="@android:color/darker_gray"
-        android:textSize="18sp"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toEndOf="@id/add_transaction_income_barrier"
-        app:layout_constraintTop_toBottomOf="@+id/add_transaction_income_date_edittext" />
-
-    <EditText
-        android:id="@+id/add_transaction_income_category_edittext"
-        android:layout_width="0dp"
-        android:layout_height="wrap_content"
-        android:layout_marginStart="16dp"
-        android:layout_marginTop="16dp"
-        android:layout_marginEnd="16dp"
-        android:ems="10"
-        android:hint="Category"
-        android:inputType="textPersonName"
-        android:textColor="@android:color/white"
-        android:textColorHint="@android:color/darker_gray"
-        android:textSize="18sp"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toEndOf="@id/add_transaction_income_barrier"
-        app:layout_constraintTop_toBottomOf="@+id/add_transaction_income_wallet_edittext" />
 
     <EditText
         android:id="@+id/add_transaction_income_amount_edittext"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
-        android:layout_marginStart="16dp"
+        android:layout_marginStart="72dp"
         android:layout_marginTop="16dp"
-        android:layout_marginEnd="16dp"
+        android:layout_marginEnd="32dp"
         android:ems="10"
         android:hint="Amount"
         android:inputType="textPersonName"
@@ -132,16 +20,17 @@
         android:textColorHint="@android:color/darker_gray"
         android:textSize="18sp"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toEndOf="@id/add_transaction_income_barrier"
-        app:layout_constraintTop_toBottomOf="@+id/add_transaction_income_category_edittext" />
+        app:layout_constraintHorizontal_bias="1.0"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
 
     <EditText
         android:id="@+id/add_transaction_income_desc_edittext"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
-        android:layout_marginStart="16dp"
+        android:layout_marginStart="72dp"
         android:layout_marginTop="16dp"
-        android:layout_marginEnd="16dp"
+        android:layout_marginEnd="32dp"
         android:ems="10"
         android:hint="Desc"
         android:inputType="textPersonName"
@@ -149,18 +38,123 @@
         android:textColorHint="@android:color/darker_gray"
         android:textSize="18sp"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toEndOf="@id/add_transaction_income_barrier"
+        app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/add_transaction_income_amount_edittext" />
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:id="@+id/add_transaction_income_date_constraintlayout"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="16dp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/add_transaction_income_desc_edittext">
+
+        <ImageView
+            android:id="@+id/add_transaction_income_date_image"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="16dp"
+            android:layout_marginTop="16dp"
+            android:layout_marginBottom="16dp"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            app:srcCompat="@drawable/icon_edit" />
+
+        <TextView
+            android:id="@+id/add_transaction_income_date_textview"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="32dp"
+            android:text="Today"
+            android:textColor="@android:color/white"
+            android:textSize="18sp"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintStart_toEndOf="@+id/add_transaction_income_date_image"
+            app:layout_constraintTop_toTopOf="parent" />
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:id="@+id/add_transaction_income_category_constraintlayout"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.0"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/add_transaction_income_date_constraintlayout">
+
+        <ImageView
+            android:id="@+id/add_transaction_income_category_image"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="16dp"
+            android:layout_marginTop="16dp"
+            android:layout_marginBottom="16dp"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            app:srcCompat="@drawable/icon_report" />
+
+        <TextView
+            android:id="@+id/add_transaction_income_category_textview"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="32dp"
+            android:text="Select Category"
+            android:textColor="@android:color/white"
+            android:textSize="18sp"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintStart_toEndOf="@+id/add_transaction_income_category_image"
+            app:layout_constraintTop_toTopOf="parent" />
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:id="@+id/add_transaction_income_wallet_constraintlayout"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.0"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/add_transaction_income_category_constraintlayout">
+
+        <ImageView
+            android:id="@+id/add_transaction_income_wallet_image"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="16dp"
+            android:layout_marginTop="16dp"
+            android:layout_marginBottom="16dp"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            app:srcCompat="@drawable/icon_article" />
+
+        <TextView
+            android:id="@+id/add_transaction_income_wallet_textview"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="32dp"
+            android:text="Select Wallet"
+            android:textColor="@android:color/white"
+            android:textSize="18sp"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintStart_toEndOf="@+id/add_transaction_income_wallet_image"
+            app:layout_constraintTop_toTopOf="parent" />
+    </androidx.constraintlayout.widget.ConstraintLayout>
 
     <Button
         android:id="@+id/add_transaction_income_save_btn"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginTop="16dp"
+        android:layout_marginTop="88dp"
         android:text="Save"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toEndOf="@id/add_transaction_income_barrier"
-        app:layout_constraintTop_toBottomOf="@+id/add_transaction_income_desc_edittext" />
+        app:layout_constraintHorizontal_bias="0.498"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/add_transaction_income_wallet_constraintlayout" />
 
 
 </androidx.constraintlayout.widget.ConstraintLayout>

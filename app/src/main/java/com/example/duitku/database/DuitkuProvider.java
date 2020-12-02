@@ -104,10 +104,14 @@ public class DuitkuProvider extends ContentProvider {
     @Override
     public Uri insert(@NonNull Uri uri, @Nullable ContentValues contentValues) {
 
+        SQLiteDatabase db = duitkuDbHelper.getWritableDatabase();
+        long id = -1;
+
         int match = mUriMatcher.match(uri);
         switch (match){
             case WALLET:
-                return insertWallet(uri, contentValues);
+                id = db.insert(WalletEntry.TABLE_NAME, null, contentValues);
+                break;
             case CATEGORY:
             case BUDGET:
             case TRANSACTION:
@@ -116,18 +120,8 @@ public class DuitkuProvider extends ContentProvider {
                 throw new IllegalArgumentException("Insertion is not supported for " + uri);
         }
 
-        return null;
-    }
-
-    private Uri insertWallet(Uri uri, ContentValues values){
-
-        SQLiteDatabase db = duitkuDbHelper.getWritableDatabase();
-
-        // insert ini return id data yang baru diinsert
-        long id = db.insert(WalletEntry.TABLE_NAME, null, values);
-
         // kalau gagal id nya bakal -1
-        if (id == -1) {
+        if (id == -1){
             return null;
         }
 
@@ -139,32 +133,46 @@ public class DuitkuProvider extends ContentProvider {
     }
 
     @Override
-    public int delete(@NonNull Uri uri, @Nullable String s, @Nullable String[] strings) {
-        return 0;
-    }
+    public int delete(@NonNull Uri uri, @Nullable String selection, @Nullable String[] selectionArgs) {
 
-    @Override
-    public int update(@NonNull Uri uri, @Nullable ContentValues contentValues, @Nullable String selection, @Nullable String[] selectionArgs) {
+        SQLiteDatabase db = duitkuDbHelper.getWritableDatabase();
+        int rowsDeleted = 0;
 
         int match = mUriMatcher.match(uri);
         switch (match){
             case WALLET_ID:
                 selection = WalletEntry._ID + "=?";
                 selectionArgs = new String[] {String.valueOf(ContentUris.parseId(uri))};
-                return updateWallet(uri, contentValues, selection, selectionArgs);
+                rowsDeleted = db.delete(WalletEntry.TABLE_NAME, selection, selectionArgs);
+                break;
             default:
-                throw new IllegalArgumentException("Update is not supported for " + uri);
+                throw new IllegalArgumentException("Deletion is not supported for " + uri);
         }
+
+        if (rowsDeleted != 0){
+            getContext().getContentResolver().notifyChange(uri, null);
+        }
+
+        return rowsDeleted;
 
     }
 
-    private int updateWallet(Uri uri, ContentValues values, String selection, String[] selectionArgs){
+    @Override
+    public int update(@NonNull Uri uri, @Nullable ContentValues contentValues, @Nullable String selection, @Nullable String[] selectionArgs) {
 
-        if (values.size() == 0) return 0;
-
-        // panggil databaseny dan lakukan update
         SQLiteDatabase db = duitkuDbHelper.getWritableDatabase();
-        int rowsUpdated = db.update(WalletEntry.TABLE_NAME, values,selection,selectionArgs);
+        int rowsUpdated = 0;
+
+        int match = mUriMatcher.match(uri);
+        switch (match){
+            case WALLET_ID:
+                selection = WalletEntry._ID + "=?";
+                selectionArgs = new String[] {String.valueOf(ContentUris.parseId(uri))};
+                rowsUpdated = db.update(WalletEntry.TABLE_NAME, contentValues, selection, selectionArgs);
+                break;
+            default:
+                throw new IllegalArgumentException("Update is not supported for " + uri);
+        }
 
         // kalau misal gaaada yg diupdate gausa dinotify
         if (rowsUpdated != 0){

@@ -33,13 +33,12 @@
 
     <ImageButton
         android:id="@+id/edit_wallet_back_btn"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginStart="16dp"
+        android:layout_width="48dp"
+        android:layout_height="48dp"
         android:background="@null"
         app:layout_constraintBottom_toBottomOf="@+id/edit_wallet_toolbar"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintTop_toTopOf="@+id/edit_wallet_toolbar"
         app:srcCompat="@drawable/icon_arrow_back" />
 
     <EditText

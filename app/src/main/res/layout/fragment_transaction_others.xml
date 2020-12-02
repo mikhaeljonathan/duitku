@@ -57,8 +57,8 @@
     <!--ConstraintLayout di sini buat sebagai header dari listView-->
     <androidx.constraintlayout.widget.ConstraintLayout
         android:id="@+id/transaction_others_wallet_header"
-        android:layout_width="0dp"
-        android:layout_height="48dp"
+        android:layout_width="382dp"
+        android:layout_height="49dp"
         android:layout_marginStart="16dp"
         android:layout_marginTop="16dp"
         android:layout_marginEnd="16dp"
@@ -84,9 +84,8 @@
         <!--Buat nambah Wallet-->
         <ImageButton
             android:id="@+id/transaction_others_wallet_add_btn"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginEnd="16dp"
+            android:layout_width="48dp"
+            android:layout_height="48dp"
             android:background="@null"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
@@ -139,9 +138,8 @@
 
         <ImageButton
             android:id="@+id/transaction_others_budget_add_btn"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginEnd="16dp"
+            android:layout_width="48dp"
+            android:layout_height="48dp"
             android:background="@null"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"

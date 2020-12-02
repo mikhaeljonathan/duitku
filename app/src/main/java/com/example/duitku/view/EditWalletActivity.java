@@ -105,7 +105,14 @@ public class EditWalletActivity extends AppCompatActivity implements LoaderManag
         switch(item.getItemId()){
             case R.id.action_delete_wallet:
                 // delete dari database
-                new WalletController(EditWalletActivity.this).deleteWallet(currentWalletUri);
+                int rowsDeleted = new WalletController(EditWalletActivity.this).deleteWallet(currentWalletUri);
+                // kasih pesan sukses atau gagal
+                if (rowsDeleted == 0){
+                    Toast.makeText(this, "Error deleting wallet", Toast.LENGTH_SHORT).show();
+                } else {
+                    Toast.makeText(this, "Wallet is deleted", Toast.LENGTH_SHORT).show();
+                }
+                // activity ny dah selesai
                 finish();
                 return true;
         }
