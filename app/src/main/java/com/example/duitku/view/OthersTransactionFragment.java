@@ -8,6 +8,7 @@ import com.example.duitku.database.DuitkuContract.CategoryEntry;
 
 import android.app.AlertDialog;
 import android.app.Dialog;
+import android.content.ContentUris;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
@@ -309,13 +310,20 @@ public class OthersTransactionFragment extends Fragment implements LoaderManager
             editBtn.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View view) {
+                    dismiss();
+                    // bikin intent object
                     Intent intent = new Intent(getActivity(), EditWalletActivity.class);
+                    // bikin uri buat 1 item doang di table wallet
+                    Uri currentWalletUri = ContentUris.withAppendedId(WalletEntry.CONTENT_URI, mId);
+                    intent.setData(currentWalletUri);
+                    // munculin activity baru
+                    startActivity(intent);
                 }
             });
             closeBtn.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View view) {
-                    dismiss();
+                    dismiss(); // tutup dialognya
                 }
             });
 

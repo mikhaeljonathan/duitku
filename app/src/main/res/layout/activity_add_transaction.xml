@@ -27,7 +27,7 @@
         android:background="@null"
         app:layout_constraintBottom_toBottomOf="@+id/add_transaction_toolbar"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintTop_toTopOf="@+id/add_transaction_toolbar"
         app:srcCompat="@drawable/icon_arrow_back" />
 
     <TextView
@@ -40,7 +40,7 @@
         android:textSize="18sp"
         app:layout_constraintBottom_toBottomOf="@+id/add_transaction_toolbar"
         app:layout_constraintStart_toEndOf="@+id/add_transaction_back_btn"
-        app:layout_constraintTop_toTopOf="parent" />
+        app:layout_constraintTop_toTopOf="@+id/add_transaction_toolbar" />
 
     <com.google.android.material.tabs.TabLayout
         android:id="@+id/add_transaction_tablayout"

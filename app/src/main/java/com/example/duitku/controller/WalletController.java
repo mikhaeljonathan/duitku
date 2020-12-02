@@ -31,4 +31,24 @@ public class WalletController {
 
     }
 
+    public int updateWallet(Wallet wallet, Uri currentWalletUri){
+
+        // taruh di contentvalues
+        ContentValues values = new ContentValues();
+        values.put(WalletEntry.COLUMN_NAME, wallet.getWalletName());
+        values.put(WalletEntry.COLUMN_AMOUNT, wallet.getAmount());
+        values.put(WalletEntry.COLUMN_DESC, wallet.getDescription());
+
+        int rowsUpdated = mContext.getContentResolver().update(currentWalletUri, values, null, null);
+        return rowsUpdated;
+
+    }
+
+    public int deleteWallet(Uri currentWalletUri){
+
+        int rowsDeleted = mContext.getContentResolver().delete(currentWalletUri, null, null);
+        return rowsDeleted;
+
+    }
+
 }
