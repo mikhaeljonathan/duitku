@@ -10,14 +10,18 @@ import android.app.AlertDialog;
 import android.app.Dialog;
 import android.content.Context;
 import android.content.DialogInterface;
+import android.content.Intent;
 import android.database.Cursor;
 import android.graphics.Color;
 import android.net.Uri;
 import android.os.Bundle;
+import android.text.Layout;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
+import android.widget.Button;
 import android.widget.CursorAdapter;
 import android.widget.EditText;
 import android.widget.ImageButton;
@@ -80,6 +84,14 @@ public class OthersTransactionFragment extends Fragment implements LoaderManager
         walletListView.setAdapter(walletAdapter);
         budgetListView.setAdapter(budgetAdapter);
 
+        // per item kalau diclick
+        walletListView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+            @Override
+            public void onItemClick(AdapterView<?> adapterView, View view, int position, long id) {
+                viewWallet(position, id);
+            }
+        });
+
         // Set buat add button nya
         addWalletBtn.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -87,7 +99,6 @@ public class OthersTransactionFragment extends Fragment implements LoaderManager
                 addWallet();
             }
         });
-
         addBudgetBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -100,6 +111,14 @@ public class OthersTransactionFragment extends Fragment implements LoaderManager
         LoaderManager.getInstance(this).initLoader(BUDGET_LOADER, null, this);
 
         return rootView;
+    }
+
+    private void viewWallet(int position, long id){
+        // ambil cursor nya dlu baru pass ke dialog
+        Cursor cursor = (Cursor) walletAdapter.getItem(position);
+
+        ViewWalletDialog viewWalletDialog = new ViewWalletDialog(cursor, id);
+        viewWalletDialog.show(getFragmentManager(), "View Wallet Dialog");
     }
 
     private void addWallet(){
@@ -237,6 +256,77 @@ public class OthersTransactionFragment extends Fragment implements LoaderManager
 
         }
 
+    }
+
+    public static class ViewWalletDialog extends AppCompatDialogFragment {
+
+        private Cursor mCursor;
+        private long mId;
+
+        private TextView walletNameTextView;
+        private TextView walletAmountTextView;
+        private TextView walletDescTextView;
+        private ImageButton editBtn;
+        private ImageButton closeBtn;
+
+        public ViewWalletDialog(Cursor cursor, long id){
+            super();
+            mCursor = cursor;
+            mId = id;
+        }
+
+        @NonNull
+        @Override
+        public Dialog onCreateDialog(@Nullable Bundle savedInstanceState) {
+
+            AlertDialog.Builder builder = new AlertDialog.Builder(getActivity());
+            LayoutInflater inflater = getActivity().getLayoutInflater();
+            final View view = inflater.inflate(R.layout.dialog_view_wallet, null);
+
+            // initialize the views
+            walletNameTextView = view.findViewById(R.id.view_wallet_name_textview);
+            walletAmountTextView = view.findViewById(R.id.view_wallet_amount_textview);
+            walletDescTextView = view.findViewById(R.id.view_wallet_desc_textview);
+            editBtn = view.findViewById(R.id.view_wallet_edit_btn);
+            closeBtn = view.findViewById(R.id.view_wallet_close_btn);
+
+            // ambil index col nya
+            int walletNameColumnIndex = mCursor.getColumnIndex(WalletEntry.COLUMN_NAME);
+            int walletAmountColumnIndex = mCursor.getColumnIndex(WalletEntry.COLUMN_AMOUNT);
+            int walletDescColumnIndex = mCursor.getColumnIndex(WalletEntry.COLUMN_DESC);
+
+            // retrieve data nya
+            String walletName = mCursor.getString(walletNameColumnIndex);
+            double walletAmount = mCursor.getDouble(walletAmountColumnIndex);
+            String walletDesc = mCursor.getString(walletDescColumnIndex);
+
+            // set the views
+            walletNameTextView.setText(walletName);
+            walletAmountTextView.setText(Double.toString(walletAmount));
+            walletDescTextView.setText(walletDesc);
+
+            // set 2 button di atas
+            editBtn.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View view) {
+                    Intent intent = new Intent(getActivity(), EditWalletActivity.class);
+                }
+            });
+            closeBtn.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View view) {
+                    dismiss();
+                }
+            });
+
+            // set dialognya
+            builder.setView(view);
+
+            Dialog dialog = builder.create();
+            dialog.getWindow().setBackgroundDrawableResource(R.color.colorPrimary); //biar background dialogny hitam ngab
+            return dialog;
+
+        }
     }
 
     // ini class buat bikin dialog pas mau add wallet
