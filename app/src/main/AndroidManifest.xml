@@ -21,6 +21,11 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
+
+        <provider
+            android:authorities="com.example.duitku"
+            android:name=".database.DuitkuProvider" />
+
     </application>
 
 </manifest>

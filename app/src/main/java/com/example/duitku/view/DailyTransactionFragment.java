@@ -70,18 +70,18 @@ public class DailyTransactionFragment extends Fragment {
         dailyTransactionList.add(new DailyTransaction(17, "Sat", "Rp 5.000.000", "Rp 500.000"));
         dailyTransactionList.add(new DailyTransaction(18, "Sun", "Rp 5.000.000", "Rp 500.000"));
 
-        List<Transaction> transactions1 = new ArrayList<>();
-        List<Transaction> transactions2 = new ArrayList<>();
-        List<Transaction> transactions3 = new ArrayList<>();
+        List<Transaction> transaction1 = new ArrayList<>();
+        List<Transaction> transaction2 = new ArrayList<>();
+        List<Transaction> transaction3 = new ArrayList<>();
         for (int i = 0; i < 1;i++){
-            transactions1.add(new Transaction("Bank account", "income", "gajian", "Rp 5.000.000"));
-            transactions2.add(new Transaction("Cash", "income", "nemu di jalan", "Rp 50.000"));
-            transactions3.add(new Transaction("Bank account", "expense", "dipalak", "Rp 100.000"));
+            transaction1.add(new Transaction("13/10/2020", "Bank account", "income", 5000000, "gajian"));
+            transaction2.add(new Transaction("14/10/2020", "Cash", "income", 50000, "nemu di jalan"));
+            transaction3.add(new Transaction("15/10/2020", "Bank account", "expense", 100000, "dipalak"));
         }
 
-        dailyTransactionListHashMap.put(dailyTransactionList.get(0), transactions1);
-        dailyTransactionListHashMap.put(dailyTransactionList.get(1), transactions2);
-        dailyTransactionListHashMap.put(dailyTransactionList.get(2), transactions3);
+        dailyTransactionListHashMap.put(dailyTransactionList.get(0), transaction1);
+        dailyTransactionListHashMap.put(dailyTransactionList.get(1), transaction2);
+        dailyTransactionListHashMap.put(dailyTransactionList.get(2), transaction3);
 
     }
 
@@ -183,7 +183,7 @@ public class DailyTransactionFragment extends Fragment {
             wallet.setText(transaction.getWallet());
 
             TextView amount = view.findViewById(R.id.item_list_transaction_amount_textview);
-            amount.setText(transaction.getAmount());
+            amount.setText(Double.toString(transaction.getAmount()));
 
             return view;
         }

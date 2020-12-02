@@ -11,7 +11,9 @@
         android:icon="@drawable/icon_report"
         android:title="Report" />
 
-    <item android:id="@+id/placeholder"
+    <!--ini biar ngasih jarak elemen di tengah nya-->
+    <item
+        android:id="@+id/placeholder"
         android:title="" />
 
     <item

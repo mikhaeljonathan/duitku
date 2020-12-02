@@ -17,6 +17,7 @@ import androidx.fragment.app.Fragment;
 import com.example.duitku.R;
 import com.example.duitku.controller.TransactionController;
 import com.example.duitku.database.DuitkuContract;
+import com.example.duitku.model.Transaction;
 
 public class AddTransactionIncomeFragment extends Fragment {
 
@@ -62,22 +63,16 @@ public class AddTransactionIncomeFragment extends Fragment {
         double amount = Double.parseDouble(amountField.getText().toString().trim());
         String desc = descField.getText().toString().trim();
 
-        // taruh di contentvalues
-        ContentValues values = new ContentValues();
-        values.put(DuitkuContract.TransactionEntry.COLUMN_DATE, date);
-        values.put(DuitkuContract.TransactionEntry.COLUMN_WALLET_ID, wallet);
-        values.put(DuitkuContract.TransactionEntry.COLUMN_CATEGORY_ID, category);
-        values.put(DuitkuContract.TransactionEntry.COLUMN_AMOUNT, amount);
-        values.put(DuitkuContract.TransactionEntry.COLUMN_DESC, desc);
+        Transaction transactionAdded = new Transaction(date, wallet, category, amount, desc);
 
         // panggil controller nya
-        Uri result = new TransactionController().addTransaction(values);
+        Uri uri = new TransactionController().addTransaction(transactionAdded);
 
         // hasil insert nya gimana
-        if (result == null){
-            Toast.makeText(getContext(), "Error inserting new transaction", Toast.LENGTH_SHORT);
+        if (uri == null){
+            Toast.makeText(getContext(), "Error inserting new transaction", Toast.LENGTH_SHORT).show();
         } else {
-            Toast.makeText(getContext(), "Transaction Added", Toast.LENGTH_SHORT);
+            Toast.makeText(getContext(), "Transaction Added", Toast.LENGTH_SHORT).show();
         }
 
     }

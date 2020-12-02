@@ -99,7 +99,7 @@ melayang gitu-->
             app:itemIconTint="@drawable/bottomnav_foreground"
             app:itemTextColor="@drawable/bottomnav_foreground"
             app:labelVisibilityMode="labeled"
-            app:menu="@menu/bottom_nav_bar" />
+            app:menu="@menu/main_bottom_nav_bar_menu" />
 
     </com.google.android.material.bottomappbar.BottomAppBar>
 

@@ -1,147 +1,308 @@
 package com.example.duitku.view;
 
+import com.example.duitku.controller.WalletController;
+import com.example.duitku.database.DuitkuContract.WalletEntry;
+import com.example.duitku.database.DuitkuContract.BudgetEntry;
+import com.example.duitku.database.DuitkuContract.TransactionEntry;
+import com.example.duitku.database.DuitkuContract.CategoryEntry;
+
+import android.app.AlertDialog;
+import android.app.Dialog;
 import android.content.Context;
+import android.content.DialogInterface;
+import android.database.Cursor;
+import android.graphics.Color;
+import android.net.Uri;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
+import android.widget.CursorAdapter;
+import android.widget.EditText;
+import android.widget.ImageButton;
 import android.widget.ListView;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
+import androidx.appcompat.app.AppCompatDialogFragment;
 import androidx.fragment.app.Fragment;
+import androidx.loader.app.LoaderManager;
+import androidx.loader.content.CursorLoader;
+import androidx.loader.content.Loader;
 
 import com.example.duitku.R;
+import com.example.duitku.database.DuitkuContract;
 import com.example.duitku.model.Budget;
 import com.example.duitku.model.Wallet;
 
+import org.w3c.dom.Text;
+
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Objects;
 
-public class OthersTransactionFragment extends Fragment {
+public class OthersTransactionFragment extends Fragment implements LoaderManager.LoaderCallbacks<Cursor> {
 
-    // ini agak beda sama ke 3 fragment yang lain
+    // ini constant buat loadernya, jadi 1 activity itu bisa pake bbrp loader
+    // cara bedain nya ya pake variabel2 ini
+    // dan di fragment ini kita bakal query wallet sm budget doang
+    private static final int WALLET_LOADER = 0;
+    private static final int BUDGET_LOADER = 1;
 
     // di sini ga pake expandable list view, tapi pake 2 listview
     // yaitu listview buat wallet sama budget
     // masing2 listview perlu adapter
     ListView walletListView;
     ListView budgetListView;
+    ImageButton addWalletBtn;
+    ImageButton addBudgetBtn;
+
     WalletAdapter walletAdapter;
     BudgetAdapter budgetAdapter;
-
-    List<Wallet> wallets;
-    List<Budget> budgets;
 
     @Nullable
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         View rootView = inflater.inflate(R.layout.fragment_transaction_others, container, false);
 
+        // Initialize view nya
         walletListView = rootView.findViewById(R.id.transaction_others_wallet_listview);
         budgetListView = rootView.findViewById(R.id.transaction_others_budget_listview);
-        setContent();
+        addWalletBtn = rootView.findViewById(R.id.transaction_others_wallet_add_btn);
+        addBudgetBtn = rootView.findViewById(R.id.transaction_others_budget_add_btn);
 
-        walletAdapter = new WalletAdapter(getContext(), wallets);
-        budgetAdapter = new BudgetAdapter(getContext(), budgets);
+        walletAdapter = new WalletAdapter(getContext(), null);
+        budgetAdapter = new BudgetAdapter(getContext(), null);
 
         walletListView.setAdapter(walletAdapter);
         budgetListView.setAdapter(budgetAdapter);
 
+        // Set buat add button nya
+        addWalletBtn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                addWallet();
+            }
+        });
+
+        addBudgetBtn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                addBudget();
+            }
+        });
+
+        // ini buat LoaderCallbacks nya ngab, biar ngeretrieve hasil querynya efisien gitu
+        LoaderManager.getInstance(this).initLoader(WALLET_LOADER, null, this);
+        LoaderManager.getInstance(this).initLoader(BUDGET_LOADER, null, this);
+
         return rootView;
     }
 
-    private void setContent(){
-        wallets = new ArrayList<>();
-        budgets = new ArrayList<>();
+    private void addWallet(){
+        // bikin dialog dlu buat input data2 dari walletnya
+        AddWalletDialog addWalletDialog = new AddWalletDialog();
+        addWalletDialog.show(getFragmentManager(), "Add Wallet Dialog");
+    }
 
-        wallets.add(new Wallet("Bank Account", "Rp 10.000.000"));
-        wallets.add(new Wallet("OVO", "Rp 1.000.000"));
-        wallets.add(new Wallet("OVO", "Rp 1.000.000"));
-        wallets.add(new Wallet("OVO", "Rp 1.000.000"));
-        wallets.add(new Wallet("OVO", "Rp 1.000.000"));
-        wallets.add(new Wallet("Cash", "Rp 1.000.000"));
-
-        budgets.add(new Budget("Food", "Rp 1.000.000", "Rp 700.000", "Rp 300.000"));
-        budgets.add(new Budget("Shop", "Rp 2.000.000", "Rp 1.800.000", "Rp 200.000"));
-        budgets.add(new Budget("Shop", "Rp 2.000.000", "Rp 1.800.000", "Rp 200.000"));
-        budgets.add(new Budget("Shop", "Rp 2.000.000", "Rp 1.800.000", "Rp 200.000"));
-        budgets.add(new Budget("Shop", "Rp 2.000.000", "Rp 1.800.000", "Rp 200.000"));
-        budgets.add(new Budget("Shop", "Rp 2.000.000", "Rp 1.800.000", "Rp 200.000"));
-        budgets.add(new Budget("Transport", "Rp 1.000.000", "Rp 300.000", "Rp 700.000"));
+    private void addBudget(){
 
     }
 
-    // adapter nya beda sama ExpandableListView
-    // adapternya ini subclass dari ArrayAdapter<Object dari array nya>
-    class WalletAdapter extends ArrayAdapter<Wallet>{
+    // Ini buat nampilin hasil query nya (dibelakang UI thread) biar efisien
+    @NonNull
+    @Override
+    public Loader<Cursor> onCreateLoader(int id, @Nullable Bundle args) {
+
+        // kalo beda id loader, dia akan buat CursorLoader yg berbeda jg
+        String[] projection;
+        switch(id){
+            case WALLET_LOADER:
+                projection = new String[]{ WalletEntry.COLUMN_ID, WalletEntry.COLUMN_NAME, WalletEntry.COLUMN_AMOUNT, WalletEntry.COLUMN_DESC};
+                return new CursorLoader(getContext(), WalletEntry.CONTENT_URI, projection,null,null,null);
+            case BUDGET_LOADER:
+                projection = new String[]{ BudgetEntry.COLUMN_ID, BudgetEntry.COLUMN_CATEGORY_ID, BudgetEntry.COLUMN_AMOUNT, BudgetEntry.COLUMN_USED};
+                return new CursorLoader(getContext(), BudgetEntry.CONTENT_URI, projection,null,null,null);
+            default:
+                throw new IllegalStateException("Unknown Loader");
+        }
+    }
+
+    // Kalau loader udh selesai ngeload execute ini
+    @Override
+    public void onLoadFinished(@NonNull Loader<Cursor> loader, Cursor data) {
+        // ini buat naruh data2 nya di adapter yg nanti ditampilin di listview
+        int id = loader.getId();
+        switch (id){
+            case WALLET_LOADER:
+                walletAdapter.swapCursor(data);
+                break;
+            case BUDGET_LOADER:
+                budgetAdapter.swapCursor(data);
+                break;
+        }
+    }
+
+    @Override
+    public void onLoaderReset(@NonNull Loader<Cursor> loader) {
+        // ini kalo loadernya di reset
+        int id = loader.getId();
+        switch (id){
+            case WALLET_LOADER:
+                walletAdapter.swapCursor(null);
+                break;
+            case BUDGET_LOADER:
+                budgetAdapter.swapCursor(null);
+                break;
+        }
+    }
+
+    // adapter nya beda sama ExpandableListView soalnya ini berupa ListView biasa
+    // adapternya ini subclass dari CursorAdapter
+    class WalletAdapter extends CursorAdapter {
 
         // construct nya pake List of object
-        public WalletAdapter(@NonNull Context context, @NonNull List<Wallet> wallets) {
-            super(context, 0, wallets);
+        public WalletAdapter(Context context, Cursor c) {
+            super(context, c, 0);
         }
 
         // ini buat custom view nya
-        @NonNull
+
+        // layout secara keseluruhan, kalo dibuat dari scratch
         @Override
-        public View getView(int position, @Nullable View convertView, @NonNull ViewGroup parent) {
+        public View newView(Context context, Cursor cursor, ViewGroup viewGroup) {
+            return LayoutInflater.from(context).inflate(R.layout.item_list_wallet, viewGroup, false);
+        }
 
-            // convertView itu view secara keseluruhan
-            View walletListItem = convertView;
-            if (walletListItem == null){
-                walletListItem = LayoutInflater.from(getContext()).inflate(R.layout.item_list_wallet, parent, false);
-            }
+        // dalemnya layout diisi, selalu direcycle
+        @Override
+        public void bindView(View view, Context context, Cursor cursor) {
 
-            // ambil object Walletnya
-            Wallet wallet = getItem(position);
+            // view itu view secara keseluruhan
+            TextView walletNameTextView = view.findViewById(R.id.item_list_wallet_name_textview);
+            TextView walletAmountTextView = view.findViewById(R.id.item_list_wallet_amount_textview);
 
-            TextView walletName = walletListItem.findViewById(R.id.item_list_wallet_name_textview);
-            walletName.setText(wallet.getWalletName());
+            // columnnya jadiin integer dlu
+            int walletNameColumnIndex = cursor.getColumnIndex(WalletEntry.COLUMN_NAME);
+            int walletAmountColumnIndex = cursor.getColumnIndex(WalletEntry.COLUMN_AMOUNT);
 
-            TextView walletAmount = walletListItem.findViewById(R.id.item_list_wallet_amount_textview);
-            walletAmount.setText(wallet.getAmount());
+            // dapetin value nya
+            String walletName = cursor.getString(walletNameColumnIndex);
+            double walletAmount = cursor.getDouble(walletAmountColumnIndex);
 
-            return walletListItem;
+            // tampilin di view
+            walletNameTextView.setText(walletName);
+            walletAmountTextView.setText(Double.toString(walletAmount));
 
         }
 
     }
 
     // penjelasan nya kurang lebih sama kayak di atas
-    class BudgetAdapter extends ArrayAdapter<Budget> {
+    class BudgetAdapter extends CursorAdapter {
 
-        public BudgetAdapter(@NonNull Context context, @NonNull List<Budget> budgets) {
-            super(context, 0, budgets);
+        public BudgetAdapter(Context context, Cursor c) {
+            super(context, c, 0);
         }
 
-        @NonNull
         @Override
-        public View getView(int position, @Nullable View convertView, @NonNull ViewGroup parent) {
+        public View newView(Context context, Cursor cursor, ViewGroup viewGroup) {
+            return LayoutInflater.from(context).inflate(R.layout.item_list_budget, viewGroup, false);
+        }
 
-            View budgetListItem = convertView;
-            if (budgetListItem == null){
-                budgetListItem = LayoutInflater.from(getContext()).inflate(R.layout.item_list_budget, parent, false);
-            }
+        @Override
+        public void bindView(View view, Context context, Cursor cursor) {
 
-            Budget budget = getItem(position);
+            TextView budgetCategoryTextView = view.findViewById(R.id.item_list_budget_category_textview);
+            TextView budgetAmountTextView = view.findViewById(R.id.item_list_budget_amount_textview);
+            TextView budgetUsedTextView = view.findViewById(R.id.item_list_budget_used_textview);
+            TextView budgetLeftTextView = view.findViewById(R.id.item_list_budget_left_textview);
 
-            TextView budgetCategory = budgetListItem.findViewById(R.id.item_list_budget_category_textview);
-            budgetCategory.setText(budget.getCategory());
+            int budgetCategoryColumnIndex = cursor.getColumnIndex(BudgetEntry.COLUMN_CATEGORY_ID);
+            int budgetAmountColumnIndex = cursor.getColumnIndex(BudgetEntry.COLUMN_AMOUNT);
+            int budgetUsedColumnIndex = cursor.getColumnIndex(BudgetEntry.COLUMN_USED);
 
-            TextView budgetAmount = budgetListItem.findViewById(R.id.item_list_budget_amount_textview);
-            budgetAmount.setText(budget.getAmount());
+            int budgetCategory = cursor.getInt(budgetCategoryColumnIndex);
+            double budgetAmount = cursor.getDouble(budgetAmountColumnIndex);
+            double budgetUsed = cursor.getDouble(budgetUsedColumnIndex);
+            double budgetLeft = budgetAmount - budgetUsed;
 
-            TextView budgetUsed = budgetListItem.findViewById(R.id.item_list_budget_used_textview);
-            budgetUsed.setText(budget.getUsed());
+            budgetCategoryTextView.setText(budgetCategory);
+            budgetAmountTextView.setText(Double.toString(budgetAmount));
+            budgetUsedTextView.setText(Double.toString(budgetUsed));
+            budgetLeftTextView.setText(Double.toString(budgetLeft));
 
-            TextView budgetLeft = budgetListItem.findViewById(R.id.item_list_budget_left_textview);
-            budgetLeft.setText(budget.getLeft());
-
-            return budgetListItem;
         }
 
     }
 
+    // ini class buat bikin dialog pas mau add wallet
+    public static class AddWalletDialog extends AppCompatDialogFragment {
+
+        private EditText walletNameEditText;
+        private EditText walletAmountEditText;
+        private EditText walletDescriptionEditText;
+
+        @NonNull
+        @Override
+        public Dialog onCreateDialog(@Nullable Bundle savedInstanceState) {
+
+            AlertDialog.Builder builder = new AlertDialog.Builder(getActivity());
+            LayoutInflater inflater = getActivity().getLayoutInflater();
+            final View view = inflater.inflate(R.layout.dialog_add_wallet, null);
+
+            // initialize view nya
+            walletNameEditText = view.findViewById(R.id.add_wallet_walletname_edittext);
+            walletAmountEditText = view.findViewById(R.id.add_wallet_amount_edittext);
+            walletDescriptionEditText = view.findViewById(R.id.add_wallet_desc_edittext);
+
+            // bikin dialognya
+            builder.setView(view)
+                    .setTitle("Add Wallet")
+                    .setNegativeButton("Cancel", new DialogInterface.OnClickListener() {
+                        @Override
+                        public void onClick(DialogInterface dialogInterface, int i) {
+                            // ga ngapa2in
+                        }
+                    })
+                    .setPositiveButton("Add", new DialogInterface.OnClickListener() {
+                        @Override
+                        public void onClick(DialogInterface dialogInterface, int i) {
+
+                            // ambil value nya
+                            String walletName = walletNameEditText.getText().toString().trim();
+                            double walletAmount = Double.parseDouble(walletAmountEditText.getText().toString().trim());
+                            String walletDesc = walletDescriptionEditText.getText().toString().trim();
+
+                            // panggil controller untuk ditambahin ke database
+                            Wallet walletAdded = new Wallet(walletName, walletAmount, walletDesc);
+                            Uri uri = new WalletController(getContext()).addWallet(walletAdded);
+
+                            // cek apakah insert nya error
+                            if (uri == null){
+                                Toast.makeText(getContext(), "Error adding new wallet", Toast.LENGTH_SHORT).show();
+                            } else {
+                                Toast.makeText(getContext(), "Wallet added", Toast.LENGTH_SHORT).show();
+                            }
+                        }
+                    });
+
+            // atur title nya
+            TextView tv = new TextView(getContext());
+            tv.setTextColor(Color.WHITE);
+            tv.setText("Add Wallet");
+            tv.setPadding(50, 50, 50, 50);
+            tv.setTextSize(20F);
+            builder.setCustomTitle(tv);
+
+            // return dialog nya
+            Dialog dialog = builder.create();
+            dialog.getWindow().setBackgroundDrawableResource(R.color.colorPrimary);
+            return dialog;
+
+        }
+    }
 }

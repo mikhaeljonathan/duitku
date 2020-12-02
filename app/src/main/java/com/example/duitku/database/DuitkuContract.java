@@ -60,7 +60,7 @@ public class DuitkuContract {
         public static final Uri CONTENT_URI =
                 BASE_CONTENT_URI.buildUpon().appendPath(PATH_TRANSACTION).build();
 
-        public static final String TABLE_NAME = "transaction";
+        public static final String TABLE_NAME = "transactions";
 
         public static final String COLUMN_ID = BaseColumns._ID;
         public static final String COLUMN_WALLET_ID = "wallet_id";

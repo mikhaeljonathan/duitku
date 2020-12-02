@@ -9,8 +9,6 @@ import android.content.Context;
 import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteOpenHelper;
 
-import androidx.annotation.Nullable;
-
 public class DuitkuDbHelper extends SQLiteOpenHelper {
 
     // Ini class buat bikin database SQLite nya
@@ -41,7 +39,7 @@ public class DuitkuDbHelper extends SQLiteOpenHelper {
         final String CREATE_CATEGORY_TABLE = "CREATE TABLE " + CategoryEntry.TABLE_NAME + " (" +
                 CategoryEntry.COLUMN_ID + " INTEGER PRIMARY KEY AUTOINCREMENT, " +
                 CategoryEntry.COLUMN_NAME + " TEXT NOT NULL, " +
-                CategoryEntry.COLUMN_TYPE + " TEXT NOT NULL CHECK(" + CategoryEntry.COLUMN_TYPE + " IN ('EXP', 'INC', 'TRANS'))";
+                CategoryEntry.COLUMN_TYPE + " TEXT NOT NULL CHECK(" + CategoryEntry.COLUMN_TYPE + " IN ('EXP', 'INC', 'TRANS')))";
 
         final String CREATE_BUDGET_TABLE = "CREATE TABLE " + BudgetEntry.TABLE_NAME + " (" +
                 BudgetEntry.COLUMN_ID + " INTEGER PRIMARY KEY AUTOINCREMENT, " +
@@ -52,7 +50,7 @@ public class DuitkuDbHelper extends SQLiteOpenHelper {
 
         final String CREATE_TRANSACTION_TABLE = "CREATE TABLE " + TransactionEntry.TABLE_NAME + " (" +
                 TransactionEntry.COLUMN_ID + " INTEGER PRIMARY KEY AUTOINCREMENT, " +
-                TransactionEntry.COLUMN_DESC + " DESC TEXT, " +
+                TransactionEntry.COLUMN_DESC + " TEXT, " +
                 TransactionEntry.COLUMN_DATE + " TEXT NOT NULL CHECK(" + TransactionEntry.COLUMN_DATE + " LIKE '[0-9][0-9]/[0-9][0-9]/[0-9][0-9][0-9][0-9]'), " +
                 TransactionEntry.COLUMN_AMOUNT + " DOUBLE NOT NULL DEFAULT 0, " +
                 TransactionEntry.COLUMN_WALLET_ID + " INTEGER, " +
@@ -70,7 +68,7 @@ public class DuitkuDbHelper extends SQLiteOpenHelper {
 
     // di execute kalo versinya ganti
     @Override
-    public void onUpgrade(SQLiteDatabase sqLiteDatabase, int i, int i1) {
+    public void onUpgrade(SQLiteDatabase sqLiteDatabase, int oldVersion, int newVersion) {
 
         sqLiteDatabase.execSQL("DROP TABLE IF EXISTS " + WalletEntry.TABLE_NAME);
         sqLiteDatabase.execSQL("DROP TABLE IF EXISTS " + BudgetEntry.TABLE_NAME);

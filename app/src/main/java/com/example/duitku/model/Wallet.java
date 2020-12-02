@@ -2,19 +2,25 @@ package com.example.duitku.model;
 
 public class Wallet {
 
-    String mWalletName;
-    String mAmount;
+    private String mWalletName;
+    private double mAmount;
+    private String mDescription;
 
-    public Wallet(String walletName, String amount){
+    public Wallet(String walletName, double amount, String description){
         mWalletName = walletName;
         mAmount = amount;
+        mDescription = description;
     }
 
     public String getWalletName() {
         return mWalletName;
     }
 
-    public String getAmount() {
+    public double getAmount() {
         return mAmount;
+    }
+
+    public String getDescription() {
+        return mDescription;
     }
 }
