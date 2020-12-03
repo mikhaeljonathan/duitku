@@ -4,6 +4,7 @@ import com.example.duitku.database.DuitkuContract.WalletEntry;
 import com.example.duitku.database.DuitkuContract.BudgetEntry;
 import com.example.duitku.database.DuitkuContract.TransactionEntry;
 import com.example.duitku.database.DuitkuContract.CategoryEntry;
+import com.example.duitku.model.Category;
 
 import android.content.ContentProvider;
 import android.content.ContentUris;
@@ -113,6 +114,7 @@ public class DuitkuProvider extends ContentProvider {
                 id = db.insert(WalletEntry.TABLE_NAME, null, contentValues);
                 break;
             case CATEGORY:
+                id = db.insert(CategoryEntry.TABLE_NAME, null, contentValues);
             case BUDGET:
             case TRANSACTION:
                 break;

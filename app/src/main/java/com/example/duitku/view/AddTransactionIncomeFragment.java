@@ -1,9 +1,5 @@
 package com.example.duitku.view;
 
-import android.app.AlertDialog;
-import android.app.Dialog;
-import android.content.ContentValues;
-import android.net.Uri;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -11,20 +7,15 @@ import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
-import androidx.appcompat.app.AppCompatDialogFragment;
 import androidx.constraintlayout.widget.ConstraintLayout;
 import androidx.fragment.app.Fragment;
 
 import com.example.duitku.R;
-import com.example.duitku.controller.TransactionController;
-import com.example.duitku.database.DuitkuContract;
-import com.example.duitku.model.Transaction;
-
-import org.w3c.dom.Text;
+import com.example.duitku.dialog.ViewCategoriesDialog;
+import com.example.duitku.database.DuitkuContract.CategoryEntry;
 
 public class AddTransactionIncomeFragment extends Fragment {
 
@@ -59,8 +50,8 @@ public class AddTransactionIncomeFragment extends Fragment {
         categoryConstraintLayout.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                ViewCategoryDialog viewCategoryDialog = new ViewCategoryDialog();
-                viewCategoryDialog.show(getFragmentManager(), "View Category Dialog");
+                ViewCategoriesDialog viewCategoriesDialog = new ViewCategoriesDialog(CategoryEntry.TYPE_INCOME);
+                viewCategoriesDialog.show(getFragmentManager(), "View Category Dialog");
             }
         });
 
@@ -75,22 +66,6 @@ public class AddTransactionIncomeFragment extends Fragment {
         return rootView;
     }
 
-    public static class ViewCategoryDialog extends AppCompatDialogFragment {
-
-        @NonNull
-        @Override
-        public Dialog onCreateDialog(@Nullable Bundle savedInstanceState) {
-
-            AlertDialog.Builder builder = new AlertDialog.Builder(getActivity());
-            LayoutInflater inflater = getActivity().getLayoutInflater();
-            final View view = inflater.inflate(R.layout.dialog_view_category, null);
-
-            builder.setView(view);
-            Dialog dialog = builder.create();
-            return dialog;
-
-        }
-    }
 
 //    private void addTransaction(){
 //

@@ -40,6 +40,11 @@ public class DuitkuContract {
         public static final String COLUMN_NAME = "category_name";
         public static final String COLUMN_TYPE = "category_type";
 
+        // tipe2 category
+        public static final String TYPE_INCOME = "INC";
+        public static final String TYPE_EXPENSE = "EXP";
+        public static final String TYPE_TRANS = "TRANS";
+
     }
 
     public static final class BudgetEntry implements BaseColumns {
