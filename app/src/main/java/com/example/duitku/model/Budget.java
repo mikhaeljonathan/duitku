@@ -2,23 +2,34 @@ package com.example.duitku.model;
 
 public class Budget {
 
-    String mCategory;
-    String mAmount;
+    String mStartDate;
+    String mEndDate;
+    long mCategoryId;
+    double mAmount;
     String mUsed;
-    String mLeft;
+    boolean mRecurring;
 
-    public Budget(String category, String amount, String used, String left){
-        mCategory = category;
+    public Budget(String startDate, String endDate, long category, double amount, boolean recurring){
+        mStartDate = startDate;
+        mEndDate = endDate;
+        mCategoryId = category;
         mAmount = amount;
-        mUsed = used;
-        mLeft = left;
+        mRecurring = recurring;
     }
 
-    public String getCategory() {
-        return mCategory;
+    public String getStartDate(){
+        return mStartDate;
     }
 
-    public String getAmount() {
+    public String getEndDate(){
+        return mEndDate;
+    }
+
+    public long getCategoryId() {
+        return mCategoryId;
+    }
+
+    public double getAmount() {
         return mAmount;
     }
 
@@ -26,7 +37,8 @@ public class Budget {
         return mUsed;
     }
 
-    public String getLeft() {
-        return mLeft;
+    public boolean isRecurring(){
+        return mRecurring;
     }
+
 }

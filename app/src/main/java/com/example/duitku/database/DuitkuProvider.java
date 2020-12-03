@@ -79,6 +79,10 @@ public class DuitkuProvider extends ContentProvider {
                 cursor = db.query(CategoryEntry.TABLE_NAME, projection, selection, selectionArgs, null, null, sortOrder);
                 break;
             case CATEGORY_ID:
+                selection = CategoryEntry.COLUMN_ID + "=?";
+                selectionArgs = new String[] { String.valueOf(ContentUris.parseId(uri)) };
+                cursor = db.query(CategoryEntry.TABLE_NAME, projection, selection, selectionArgs, null, null, sortOrder);
+                break;
             case BUDGET:
                 cursor = db.query(BudgetEntry.TABLE_NAME, projection, selection, selectionArgs, null, null, sortOrder);
                 break;
@@ -115,7 +119,10 @@ public class DuitkuProvider extends ContentProvider {
                 break;
             case CATEGORY:
                 id = db.insert(CategoryEntry.TABLE_NAME, null, contentValues);
+                break;
             case BUDGET:
+                id = db.insert(BudgetEntry.TABLE_NAME, null, contentValues);
+                break;
             case TRANSACTION:
                 break;
             default:

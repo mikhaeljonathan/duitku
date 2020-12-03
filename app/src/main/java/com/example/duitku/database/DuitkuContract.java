@@ -54,10 +54,15 @@ public class DuitkuContract {
         public static final String TABLE_NAME = "budget";
 
         public static final String COLUMN_ID = BaseColumns._ID;
+        public static final String COLUMN_STARTDATE = "budget_startdate";
+        public static final String COLUMN_ENDDATE = "budget_enddate";
         public static final String COLUMN_CATEGORY_ID = "category_id";
         public static final String COLUMN_AMOUNT = "budget_amount";
-        public static final String COLUMN_USED = "budget_used";
+        public static final String COLUMN_RECURRING = "budget_recurring";
 
+        // tipe2 recurring
+        public static final String RECURRING_YES = "Y";
+        public static final String RECURRING_NO = "N";
     }
 
     public static final class TransactionEntry implements BaseColumns {

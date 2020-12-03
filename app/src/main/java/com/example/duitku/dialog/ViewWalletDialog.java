@@ -17,7 +17,7 @@ import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatDialogFragment;
 
 import com.example.duitku.R;
-import com.example.duitku.database.DuitkuContract;
+import com.example.duitku.database.DuitkuContract.WalletEntry;
 import com.example.duitku.view.EditWalletActivity;
 
 public class ViewWalletDialog extends AppCompatDialogFragment {
@@ -53,9 +53,9 @@ public class ViewWalletDialog extends AppCompatDialogFragment {
         closeBtn = view.findViewById(R.id.view_wallet_close_btn);
 
         // ambil index col nya
-        int walletNameColumnIndex = mCursor.getColumnIndex(DuitkuContract.WalletEntry.COLUMN_NAME);
-        int walletAmountColumnIndex = mCursor.getColumnIndex(DuitkuContract.WalletEntry.COLUMN_AMOUNT);
-        int walletDescColumnIndex = mCursor.getColumnIndex(DuitkuContract.WalletEntry.COLUMN_DESC);
+        int walletNameColumnIndex = mCursor.getColumnIndex(WalletEntry.COLUMN_NAME);
+        int walletAmountColumnIndex = mCursor.getColumnIndex(WalletEntry.COLUMN_AMOUNT);
+        int walletDescColumnIndex = mCursor.getColumnIndex(WalletEntry.COLUMN_DESC);
 
         // retrieve data nya
         String walletName = mCursor.getString(walletNameColumnIndex);
@@ -75,7 +75,7 @@ public class ViewWalletDialog extends AppCompatDialogFragment {
                 // bikin intent object
                 Intent intent = new Intent(getActivity(), EditWalletActivity.class);
                 // bikin uri buat 1 item doang di table wallet
-                Uri currentWalletUri = ContentUris.withAppendedId(DuitkuContract.WalletEntry.CONTENT_URI, mId);
+                Uri currentWalletUri = ContentUris.withAppendedId(WalletEntry.CONTENT_URI, mId);
                 intent.setData(currentWalletUri);
                 // munculin activity baru
                 startActivity(intent);

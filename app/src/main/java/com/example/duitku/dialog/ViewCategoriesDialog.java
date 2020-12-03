@@ -1,7 +1,9 @@
 package com.example.duitku.dialog;
 
 import android.app.AlertDialog;
+import android.app.DatePickerDialog;
 import android.app.Dialog;
+import android.content.ContentValues;
 import android.content.Context;
 import android.database.Cursor;
 import android.os.Bundle;
@@ -9,7 +11,9 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.AdapterView;
 import android.widget.CursorAdapter;
+import android.widget.DatePicker;
 import android.widget.GridView;
 import android.widget.ImageButton;
 import android.widget.TextView;
@@ -17,10 +21,12 @@ import android.widget.TextView;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatDialogFragment;
+import androidx.fragment.app.Fragment;
 import androidx.loader.app.LoaderManager;
 import androidx.loader.content.CursorLoader;
 import androidx.loader.content.Loader;
 
+import com.example.duitku.adapter.ViewCategoriesAdapter;
 import com.example.duitku.database.DuitkuContract.CategoryEntry;
 
 import com.example.duitku.R;
@@ -37,8 +43,9 @@ public class ViewCategoriesDialog extends AppCompatDialogFragment implements Loa
 
     private ViewCategoriesListener listener;
 
-    public ViewCategoriesDialog(String type){
+    public ViewCategoriesDialog(Object caller, String type){
         super();
+        listener = (ViewCategoriesListener) caller;
         mType = type;
     }
 
@@ -67,6 +74,15 @@ public class ViewCategoriesDialog extends AppCompatDialogFragment implements Loa
             }
         });
 
+        // kalau salah 1 elemen dipilih
+        viewCategoriesGridView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+            @Override
+            public void onItemClick(AdapterView<?> adapterView, View view, int position, long id) {
+                listener.pickCategory(id);
+                dismiss();
+            }
+        });
+
         // set view ke dialognya
         builder.setView(view);
 
@@ -79,26 +95,25 @@ public class ViewCategoriesDialog extends AppCompatDialogFragment implements Loa
 
     }
 
-    @Override
-    public void onAttach(@NonNull Context context) {
-        super.onAttach(context);
-//        try {
-//            listener = (ViewCategoryListener) context;
-//        } catch (ClassCastException e) {
-//            throw new ClassCastException(context.toString() + " must implement ViewCategoryListener");
-//        }
-    }
-
     @NonNull
     @Override
     public Loader<Cursor> onCreateLoader(int id, @Nullable Bundle args) {
 
         switch(id){
             case CATEGORIES_LOADER:
-                // category yang diquery tergantung dialog ini dibuka di income atau expense
+                // category yang diquery tergantung dialog ini dibuka di income atau expense atau dua2nya
                 String[] projection = new String[]{CategoryEntry.COLUMN_ID, CategoryEntry.COLUMN_NAME, CategoryEntry.COLUMN_TYPE};
-                String selection = CategoryEntry.COLUMN_TYPE + "=?";
-                String[] selectionArgs = new String[] {mType};
+                String selection;
+                String[] selectionArgs;
+                // salah 1 doang
+                if (mType != null){
+                    selection = CategoryEntry.COLUMN_TYPE + "=?";
+                    selectionArgs = new String[] {mType};
+                } else {
+                    // dua2nya
+                    selection = CategoryEntry.COLUMN_TYPE + "=?" + " OR " + CategoryEntry.COLUMN_TYPE + "=?";
+                    selectionArgs = new String[] {CategoryEntry.TYPE_INCOME, CategoryEntry.TYPE_EXPENSE};
+                }
                 return new CursorLoader(getContext(), CategoryEntry.CONTENT_URI, projection, selection, selectionArgs, null);
             default:
                 throw new IllegalStateException("Unknown Loader");
@@ -117,33 +132,8 @@ public class ViewCategoriesDialog extends AppCompatDialogFragment implements Loa
         viewCategoriesAdapter.swapCursor(null);
     }
 
-    private class ViewCategoriesAdapter extends CursorAdapter {
-
-        public ViewCategoriesAdapter(Context context, Cursor c) {
-            super(context, c, 0);
-        }
-
-        @Override
-        public View newView(Context context, Cursor cursor, ViewGroup viewGroup) {
-            return LayoutInflater.from(context).inflate(R.layout.item_list_category, viewGroup, false);
-        }
-
-        @Override
-        public void bindView(View view, Context context, Cursor cursor) {
-
-            TextView categoryTextView = view.findViewById(R.id.item_list_category_textview);
-
-            int categoryNameColumnIndex = cursor.getColumnIndex(CategoryEntry.COLUMN_NAME);
-            String categoryName = cursor.getString(categoryNameColumnIndex);
-
-            categoryTextView.setText(categoryName);
-
-        }
-
-    }
-
     public interface ViewCategoriesListener {
-        void pickCategory();
+        void pickCategory(long id);
     }
 
 }

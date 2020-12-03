@@ -51,22 +51,7 @@ public class AddWalletDialog extends AppCompatDialogFragment {
                 .setPositiveButton("Add", new DialogInterface.OnClickListener() {
                     @Override
                     public void onClick(DialogInterface dialogInterface, int i) {
-
-                        // ambil value nya
-                        String walletName = walletNameEditText.getText().toString().trim();
-                        double walletAmount = Double.parseDouble(walletAmountEditText.getText().toString().trim());
-                        String walletDesc = walletDescriptionEditText.getText().toString().trim();
-
-                        // panggil controller untuk ditambahin ke database
-                        Wallet walletAdded = new Wallet(walletName, walletAmount, walletDesc);
-                        Uri uri = new WalletController(getContext()).addWallet(walletAdded);
-
-                        // cek apakah insert nya error
-                        if (uri == null){
-                            Toast.makeText(getContext(), "Error adding new wallet", Toast.LENGTH_SHORT).show();
-                        } else {
-                            Toast.makeText(getContext(), "Wallet added", Toast.LENGTH_SHORT).show();
-                        }
+                        addWallet();
                     }
                 });
 
@@ -82,6 +67,26 @@ public class AddWalletDialog extends AppCompatDialogFragment {
         Dialog dialog = builder.create();
         dialog.getWindow().setBackgroundDrawableResource(R.color.colorPrimary);
         return dialog;
+
+    }
+
+    private void addWallet(){
+
+        // ambil value nya
+        String walletName = walletNameEditText.getText().toString().trim();
+        double walletAmount = Double.parseDouble(walletAmountEditText.getText().toString().trim());
+        String walletDesc = walletDescriptionEditText.getText().toString().trim();
+
+        // panggil controller untuk ditambahin ke database
+        Wallet walletAdded = new Wallet(walletName, walletAmount, walletDesc);
+        Uri uri = new WalletController(getContext()).addWallet(walletAdded);
+
+        // cek apakah insert nya error
+        if (uri == null){
+            Toast.makeText(getContext(), "Error adding new wallet", Toast.LENGTH_SHORT).show();
+        } else {
+            Toast.makeText(getContext(), "Wallet added", Toast.LENGTH_SHORT).show();
+        }
 
     }
 }

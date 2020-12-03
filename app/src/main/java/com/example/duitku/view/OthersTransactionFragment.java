@@ -9,6 +9,7 @@ import com.example.duitku.database.DuitkuContract.TransactionEntry;
 import com.example.duitku.database.DuitkuContract.CategoryEntry;
 
 import android.app.AlertDialog;
+import android.app.DatePickerDialog;
 import android.app.Dialog;
 import android.content.ContentUris;
 import android.content.Context;
@@ -42,7 +43,9 @@ import androidx.loader.content.Loader;
 
 import com.example.duitku.R;
 import com.example.duitku.database.DuitkuContract;
+import com.example.duitku.dialog.AddBudgetDialog;
 import com.example.duitku.dialog.AddWalletDialog;
+import com.example.duitku.dialog.ViewCategoriesDialog;
 import com.example.duitku.dialog.ViewWalletDialog;
 import com.example.duitku.model.Budget;
 import com.example.duitku.model.Wallet;
@@ -133,7 +136,8 @@ public class OthersTransactionFragment extends Fragment implements LoaderManager
     }
 
     private void addBudget(){
-
+        AddBudgetDialog addBudgetDialog = new AddBudgetDialog();
+        addBudgetDialog.show(getFragmentManager(), "Add Budget Dialog");
     }
 
     // Ini buat nampilin hasil query nya (dibelakang UI thread) biar efisien
@@ -148,7 +152,7 @@ public class OthersTransactionFragment extends Fragment implements LoaderManager
                 projection = new String[]{ WalletEntry.COLUMN_ID, WalletEntry.COLUMN_NAME, WalletEntry.COLUMN_AMOUNT, WalletEntry.COLUMN_DESC};
                 return new CursorLoader(getContext(), WalletEntry.CONTENT_URI, projection,null,null,null);
             case BUDGET_LOADER:
-                projection = new String[]{ BudgetEntry.COLUMN_ID, BudgetEntry.COLUMN_CATEGORY_ID, BudgetEntry.COLUMN_AMOUNT, BudgetEntry.COLUMN_USED};
+                projection = new String[]{ BudgetEntry.COLUMN_ID, BudgetEntry.COLUMN_STARTDATE, BudgetEntry.COLUMN_ENDDATE, BudgetEntry.COLUMN_CATEGORY_ID, BudgetEntry.COLUMN_AMOUNT};
                 return new CursorLoader(getContext(), BudgetEntry.CONTENT_URI, projection,null,null,null);
             default:
                 throw new IllegalStateException("Unknown Loader");

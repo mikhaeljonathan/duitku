@@ -43,8 +43,10 @@ public class DuitkuDbHelper extends SQLiteOpenHelper {
 
         final String CREATE_BUDGET_TABLE = "CREATE TABLE " + BudgetEntry.TABLE_NAME + " (" +
                 BudgetEntry.COLUMN_ID + " INTEGER PRIMARY KEY AUTOINCREMENT, " +
+                BudgetEntry.COLUMN_STARTDATE + " TEXT NOT NULL, " +
+                BudgetEntry.COLUMN_ENDDATE + " TEXT, " +
                 BudgetEntry.COLUMN_AMOUNT + " DOUBLE NOT NULL DEFAULT 0, " +
-                BudgetEntry.COLUMN_USED + " DOUBLE NOT NULL DEFAULT 0, " +
+                BudgetEntry.COLUMN_RECURRING + " TEXT NOT NULL CHECK(" + BudgetEntry.COLUMN_RECURRING + " IN ('Y', 'N')), "+
                 BudgetEntry.COLUMN_CATEGORY_ID + " INTEGER, " +
                 "FOREIGN KEY (" + BudgetEntry.COLUMN_CATEGORY_ID + ") REFERENCES " + CategoryEntry.TABLE_NAME + "(" + CategoryEntry.COLUMN_ID + "))";
 

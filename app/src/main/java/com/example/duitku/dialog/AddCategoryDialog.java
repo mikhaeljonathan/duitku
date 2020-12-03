@@ -63,6 +63,7 @@ public class AddCategoryDialog extends AppCompatDialogFragment {
                         } else {
                             Toast.makeText(getContext(), "Category added", Toast.LENGTH_SHORT).show();
                         }
+                        dismiss();
 
                     }
                 });

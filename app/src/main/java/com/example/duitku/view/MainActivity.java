@@ -66,7 +66,6 @@ public class MainActivity extends AppCompatActivity {
         // Default fragment, kalau kita blm teken menu apa2 di bottomnavbar
         getSupportFragmentManager().beginTransaction().replace(R.id.main_container, new TransactionFragment()).commit();
 
-
         // Setting floating action button
         addTransactionFab = findViewById(R.id.main_add_fab);
         addTransactionFab.setOnClickListener(new View.OnClickListener() {
