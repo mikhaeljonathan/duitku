@@ -153,6 +153,22 @@ public class AddBudgetDialog extends AppCompatDialogFragment implements ViewCate
 
     }
 
+    @RequiresApi(api = Build.VERSION_CODES.O)
+    @Override
+    public void pickCategory(long id) {
+
+        // tampilin nama category nya
+        categoryId = id;
+        Uri currentCategoryUri = ContentUris.withAppendedId(DuitkuContract.CategoryEntry.CONTENT_URI, categoryId);
+        String[] projection = new String[]{ DuitkuContract.CategoryEntry.COLUMN_ID, DuitkuContract.CategoryEntry.COLUMN_NAME};
+        Cursor cursor = getContext().getContentResolver().query(currentCategoryUri, projection, null, null);
+        if (cursor.moveToFirst()){
+            String categoryName = cursor.getString(cursor.getColumnIndex(DuitkuContract.CategoryEntry.COLUMN_NAME));
+            categoryTextView.setText(categoryName);
+        }
+
+    }
+
     private void addBudget(){
 
         // ambil data nya
@@ -173,22 +189,6 @@ public class AddBudgetDialog extends AppCompatDialogFragment implements ViewCate
         }
 
         dismiss();
-
-    }
-
-    @RequiresApi(api = Build.VERSION_CODES.O)
-    @Override
-    public void pickCategory(long id) {
-
-        // tampilin nama category nya
-        categoryId = id;
-        Uri currentCategoryUri = ContentUris.withAppendedId(DuitkuContract.CategoryEntry.CONTENT_URI, categoryId);
-        String[] projection = new String[]{ DuitkuContract.CategoryEntry.COLUMN_ID, DuitkuContract.CategoryEntry.COLUMN_NAME};
-        Cursor cursor = getContext().getContentResolver().query(currentCategoryUri, projection, null, null);
-        if (cursor.moveToFirst()){
-            String categoryName = cursor.getString(cursor.getColumnIndex(DuitkuContract.CategoryEntry.COLUMN_NAME));
-            categoryTextView.setText(categoryName);
-        }
 
     }
 

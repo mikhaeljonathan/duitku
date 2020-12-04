@@ -3,15 +3,15 @@ package com.example.duitku.model;
 public class Transaction {
 
     private String mDate;
-    private String mWallet;
-    private String mCategory;
+    private long mWalletId;
+    private long mCategoryId;
     private String mDesc;
     private double mAmount;
 
-    public Transaction(String date, String wallet, String category, double amount, String desc){
+    public Transaction(String date, long walletId, long categoryId, double amount, String desc){
         mDate = date;
-        mWallet = wallet;
-        mCategory = category;
+        mWalletId = walletId;
+        mCategoryId = categoryId;
         mDesc = desc;
         mAmount = amount;
     }
@@ -20,39 +20,20 @@ public class Transaction {
         return mDate;
     }
 
-    public void setDate(String Date) {
-        this.mDate = mDate;
+    public long getWalletId() {
+        return mWalletId;
     }
 
-    public String getWallet() {
-        return mWallet;
-    }
-
-    public void setWallet(String Wallet) {
-        this.mWallet = mWallet;
-    }
-
-    public String getCategory() {
-        return mCategory;
-    }
-
-    public void setCategory(String Category) {
-        this.mCategory = mCategory;
+    public long getCategoryId() {
+        return mCategoryId;
     }
 
     public String getDesc() {
         return mDesc;
     }
 
-    public void setDesc(String mDesc) {
-        this.mDesc = mDesc;
-    }
-
     public double getAmount() {
         return mAmount;
     }
 
-    public void setAmount(double mAmount) {
-        this.mAmount = mAmount;
-    }
 }

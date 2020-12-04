@@ -73,11 +73,11 @@ public class DailyTransactionFragment extends Fragment {
         List<Transaction> transaction1 = new ArrayList<>();
         List<Transaction> transaction2 = new ArrayList<>();
         List<Transaction> transaction3 = new ArrayList<>();
-        for (int i = 0; i < 1;i++){
-            transaction1.add(new Transaction("13/10/2020", "Bank account", "income", 5000000, "gajian"));
-            transaction2.add(new Transaction("14/10/2020", "Cash", "income", 50000, "nemu di jalan"));
-            transaction3.add(new Transaction("15/10/2020", "Bank account", "expense", 100000, "dipalak"));
-        }
+//        for (int i = 0; i < 1;i++){
+//            transaction1.add(new Transaction("13/10/2020", "Bank account", "income", 5000000, "gajian"));
+//            transaction2.add(new Transaction("14/10/2020", "Cash", "income", 50000, "nemu di jalan"));
+//            transaction3.add(new Transaction("15/10/2020", "Bank account", "expense", 100000, "dipalak"));
+//        }
 
         dailyTransactionListHashMap.put(dailyTransactionList.get(0), transaction1);
         dailyTransactionListHashMap.put(dailyTransactionList.get(1), transaction2);
@@ -174,13 +174,13 @@ public class DailyTransactionFragment extends Fragment {
             }
 
             TextView category = view.findViewById(R.id.item_list_transaction_category_textview);
-            category.setText(transaction.getCategory());
+            category.setText(Long.toString(transaction.getCategoryId()));
 
             TextView desc = view.findViewById(R.id.item_list_transaction_desc_textview);
             desc.setText(transaction.getDesc());
 
             TextView wallet = view.findViewById(R.id.item_list_transaction_wallet_textview);
-            wallet.setText(transaction.getWallet());
+            wallet.setText(Long.toString(transaction.getWalletId()));
 
             TextView amount = view.findViewById(R.id.item_list_transaction_amount_textview);
             amount.setText(Double.toString(transaction.getAmount()));

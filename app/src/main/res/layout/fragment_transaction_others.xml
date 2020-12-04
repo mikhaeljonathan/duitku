@@ -22,7 +22,7 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginStart="32dp"
-        android:layout_marginTop="32dp"
+        android:layout_marginTop="8dp"
         android:layout_marginEnd="32dp"
         android:src="@drawable/header_background_other"
         app:layout_constraintEnd_toEndOf="parent"
@@ -33,10 +33,10 @@
         android:id="@+id/transaction_others_header_totalwallet_textview"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginTop="32dp"
+        android:layout_marginTop="16dp"
         android:text="Total Wallet"
         android:textColor="@android:color/white"
-        android:textSize="25sp"
+        android:textSize="20sp"
         android:textStyle="bold"
         app:layout_constraintEnd_toEndOf="@+id/transaction_others_header_container"
         app:layout_constraintStart_toStartOf="@+id/transaction_others_header_container"
@@ -46,7 +46,7 @@
         android:id="@+id/transaction_others_header_amount_textview"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginTop="16dp"
+        android:layout_marginTop="10dp"
         android:text="Rp 80.000.000"
         android:textColor="@android:color/white"
         android:textSize="30sp"
@@ -57,10 +57,10 @@
     <!--ConstraintLayout di sini buat sebagai header dari listView-->
     <androidx.constraintlayout.widget.ConstraintLayout
         android:id="@+id/transaction_others_wallet_header"
-        android:layout_width="382dp"
-        android:layout_height="49dp"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
         android:layout_marginStart="16dp"
-        android:layout_marginTop="16dp"
+        android:layout_marginTop="8dp"
         android:layout_marginEnd="16dp"
         android:background="@color/colorPrimary"
         app:layout_constraintBottom_toTopOf="@+id/transaction_others_wallet_listview"
@@ -101,7 +101,7 @@
         android:layout_height="0dp"
         android:layout_marginStart="16dp"
         android:layout_marginEnd="16dp"
-        android:layout_marginBottom="16dp"
+        android:layout_marginBottom="8dp"
         android:background="@color/colorPrimary"
         app:layout_constraintBottom_toTopOf="@id/transaction_others_budget_header"
         app:layout_constraintEnd_toEndOf="parent"
@@ -115,7 +115,7 @@
         android:layout_width="0dp"
         android:layout_height="48dp"
         android:layout_marginStart="16dp"
-        android:layout_marginTop="16dp"
+        android:layout_marginTop="8dp"
         android:layout_marginEnd="16dp"
         android:background="@color/colorPrimary"
         app:layout_constraintBottom_toTopOf="@+id/transaction_others_budget_listview"
@@ -161,5 +161,3 @@
         app:layout_constraintTop_toBottomOf="@+id/transaction_others_budget_header" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>
-
-

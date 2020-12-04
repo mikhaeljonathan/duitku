@@ -124,7 +124,6 @@ public class ViewCategoriesDialog extends AppCompatDialogFragment implements Loa
     @Override
     public void onLoadFinished(@NonNull Loader<Cursor> loader, Cursor data) {
         viewCategoriesAdapter.swapCursor(data);
-
     }
 
     @Override

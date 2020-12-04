@@ -54,7 +54,7 @@ public class AddCategoryDialog extends AppCompatDialogFragment {
                         String categoryName = categoryNameEditText.getText().toString().trim();
                         String categoryType = categoryTypeEditText.getText().toString().trim();
 
-                        // insrt ke database
+                        // insert ke database
                         Category category = new Category(categoryName, categoryType);
                         Uri uri = new CategoryController(getContext()).addCategory(category);
 

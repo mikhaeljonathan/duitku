@@ -124,6 +124,7 @@ public class DuitkuProvider extends ContentProvider {
                 id = db.insert(BudgetEntry.TABLE_NAME, null, contentValues);
                 break;
             case TRANSACTION:
+                id = db.insert(TransactionEntry.TABLE_NAME, null, contentValues);
                 break;
             default:
                 throw new IllegalArgumentException("Insertion is not supported for " + uri);

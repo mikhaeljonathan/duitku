@@ -53,7 +53,7 @@ public class DuitkuDbHelper extends SQLiteOpenHelper {
         final String CREATE_TRANSACTION_TABLE = "CREATE TABLE " + TransactionEntry.TABLE_NAME + " (" +
                 TransactionEntry.COLUMN_ID + " INTEGER PRIMARY KEY AUTOINCREMENT, " +
                 TransactionEntry.COLUMN_DESC + " TEXT, " +
-                TransactionEntry.COLUMN_DATE + " TEXT NOT NULL CHECK(" + TransactionEntry.COLUMN_DATE + " LIKE '[0-9][0-9]/[0-9][0-9]/[0-9][0-9][0-9][0-9]'), " +
+                TransactionEntry.COLUMN_DATE + " TEXT NOT NULL CHECK(" + TransactionEntry.COLUMN_DATE + " LIKE '%/%/%'), " +
                 TransactionEntry.COLUMN_AMOUNT + " DOUBLE NOT NULL DEFAULT 0, " +
                 TransactionEntry.COLUMN_WALLET_ID + " INTEGER, " +
                 TransactionEntry.COLUMN_CATEGORY_ID + " INTEGER, " +
