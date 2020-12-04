@@ -4,14 +4,16 @@ public class Transaction {
 
     private String mDate;
     private long mWalletId;
+    private long mWalletDestId;
     private long mCategoryId;
     private String mDesc;
     private double mAmount;
 
-    public Transaction(String date, long walletId, long categoryId, double amount, String desc){
+    public Transaction(String date, long walletId, long walletDestId, long categoryId, double amount, String desc){
         mDate = date;
         mWalletId = walletId;
         mCategoryId = categoryId;
+        mWalletDestId = walletDestId;
         mDesc = desc;
         mAmount = amount;
     }
@@ -22,6 +24,10 @@ public class Transaction {
 
     public long getWalletId() {
         return mWalletId;
+    }
+
+    public long getWalletDestId() {
+        return mWalletDestId;
     }
 
     public long getCategoryId() {

@@ -22,7 +22,14 @@ public class TransactionController {
         ContentValues values = new ContentValues();
         values.put(TransactionEntry.COLUMN_DATE, transaction.getDate());
         values.put(TransactionEntry.COLUMN_WALLET_ID, transaction.getWalletId());
-        values.put(TransactionEntry.COLUMN_CATEGORY_ID, transaction.getCategoryId());
+        long walletDestId = transaction.getWalletDestId();
+        if (walletDestId != -1){ // ini kalau transaction tidak berupa transfer
+            values.put(TransactionEntry.COLUMN_WALLETDEST_ID, walletDestId);
+        }
+        long categoryId = transaction.getCategoryId();
+        if (categoryId != -1){ // ini kalau transaction berupa transfer
+            values.put(TransactionEntry.COLUMN_CATEGORY_ID, transaction.getCategoryId());
+        }
         values.put(TransactionEntry.COLUMN_AMOUNT, transaction.getAmount());
         values.put(TransactionEntry.COLUMN_DESC, transaction.getDesc());
 

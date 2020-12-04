@@ -30,12 +30,17 @@ public class PickWalletDialog extends AppCompatDialogFragment implements LoaderM
     private PickWalletAdapter pickWalletAdapter;
     private ListView pickWalletListView;
 
-    private Context mContext;
+    private boolean mDestination;
     private PickWalletListener listener;
+    private PickWalletDestListener destListener;
 
-    public PickWalletDialog(Object caller){
+    public PickWalletDialog(Object caller, boolean destination){
         super();
         listener = (PickWalletListener) caller;
+        if (destination){
+            destListener = (PickWalletDestListener) caller;
+        }
+        mDestination = destination;
     }
 
     @NonNull
@@ -54,7 +59,11 @@ public class PickWalletDialog extends AppCompatDialogFragment implements LoaderM
         pickWalletListView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> adapterView, View view, int position, long id) {
-                listener.pickWallet(id);
+                if (mDestination){
+                    destListener.pickWalletDest(id);
+                } else {
+                    listener.pickWallet(id);
+                }
                 dismiss();
             }
         });
@@ -92,6 +101,10 @@ public class PickWalletDialog extends AppCompatDialogFragment implements LoaderM
 
     public interface PickWalletListener{
         void pickWallet(long id);
+    }
+
+    public interface PickWalletDestListener{
+        void pickWalletDest(long id);
     }
 
 }

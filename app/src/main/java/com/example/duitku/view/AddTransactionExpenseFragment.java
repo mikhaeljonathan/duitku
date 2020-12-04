@@ -110,7 +110,7 @@ public class AddTransactionExpenseFragment extends Fragment implements ViewCateg
         walletConstraintLayout.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                PickWalletDialog pickWalletDialog = new PickWalletDialog(AddTransactionExpenseFragment.this);
+                PickWalletDialog pickWalletDialog = new PickWalletDialog(AddTransactionExpenseFragment.this, false);
                 pickWalletDialog.show(getFragmentManager(), "Pick Wallet Dialog");
             }
         });
@@ -120,6 +120,7 @@ public class AddTransactionExpenseFragment extends Fragment implements ViewCateg
             @Override
             public void onClick(View view) {
                 addTransaction();
+                getActivity().finish(); // activity add transaction ny udh selesai
             }
         });
 
@@ -163,7 +164,7 @@ public class AddTransactionExpenseFragment extends Fragment implements ViewCateg
         String desc = descField.getText().toString().trim();
 
         // panggil controller nya
-        Transaction transactionAdded = new Transaction(date, walletId, categoryId, amount, desc);
+        Transaction transactionAdded = new Transaction(date, walletId, -1, categoryId, amount, desc);
         Uri uri = new TransactionController(getContext()).addTransaction(transactionAdded);
 
         // hasil insert nya gimana
