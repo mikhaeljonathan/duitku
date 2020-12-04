@@ -43,7 +43,6 @@ public class DuitkuContract {
         // tipe2 category
         public static final String TYPE_INCOME = "INC";
         public static final String TYPE_EXPENSE = "EXP";
-        public static final String TYPE_TRANS = "TRANS";
 
     }
 

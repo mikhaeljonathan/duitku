@@ -71,6 +71,7 @@ public class AddTransactionIncomeFragment extends Fragment implements ViewCatego
         saveBtn = rootView.findViewById(R.id.add_transaction_income_save_btn);
 
         categoryId = -1;
+        walletId = -1;
         mDate = null;
 
         listener = new DatePickerDialog.OnDateSetListener() {

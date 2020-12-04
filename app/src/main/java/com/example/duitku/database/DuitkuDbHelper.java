@@ -39,14 +39,14 @@ public class DuitkuDbHelper extends SQLiteOpenHelper {
         final String CREATE_CATEGORY_TABLE = "CREATE TABLE " + CategoryEntry.TABLE_NAME + " (" +
                 CategoryEntry.COLUMN_ID + " INTEGER PRIMARY KEY AUTOINCREMENT, " +
                 CategoryEntry.COLUMN_NAME + " TEXT NOT NULL, " +
-                CategoryEntry.COLUMN_TYPE + " TEXT NOT NULL CHECK(" + CategoryEntry.COLUMN_TYPE + " IN ('EXP', 'INC', 'TRANS')))";
+                CategoryEntry.COLUMN_TYPE + " TEXT NOT NULL CHECK(" + CategoryEntry.COLUMN_TYPE + " IN ('" + CategoryEntry.TYPE_EXPENSE + "', '" + CategoryEntry.TYPE_INCOME + "')))";
 
         final String CREATE_BUDGET_TABLE = "CREATE TABLE " + BudgetEntry.TABLE_NAME + " (" +
                 BudgetEntry.COLUMN_ID + " INTEGER PRIMARY KEY AUTOINCREMENT, " +
                 BudgetEntry.COLUMN_STARTDATE + " TEXT NOT NULL, " +
                 BudgetEntry.COLUMN_ENDDATE + " TEXT, " +
                 BudgetEntry.COLUMN_AMOUNT + " DOUBLE NOT NULL DEFAULT 0, " +
-                BudgetEntry.COLUMN_RECURRING + " TEXT NOT NULL CHECK(" + BudgetEntry.COLUMN_RECURRING + " IN ('Y', 'N')), "+
+                BudgetEntry.COLUMN_RECURRING + " TEXT NOT NULL CHECK(" + BudgetEntry.COLUMN_RECURRING + " IN ('" + BudgetEntry.RECURRING_YES + "', '" + BudgetEntry.RECURRING_NO + "')), "+
                 BudgetEntry.COLUMN_CATEGORY_ID + " INTEGER, " +
                 "FOREIGN KEY (" + BudgetEntry.COLUMN_CATEGORY_ID + ") REFERENCES " + CategoryEntry.TABLE_NAME + "(" + CategoryEntry.COLUMN_ID + "))";
 
