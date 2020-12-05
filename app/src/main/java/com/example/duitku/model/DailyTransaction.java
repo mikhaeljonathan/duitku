@@ -4,10 +4,10 @@ public class DailyTransaction {
 
     private int mDate;
     private String mDay;
-    private String mIncome;
-    private String mExpense;
+    private double mIncome;
+    private double mExpense;
 
-    public DailyTransaction(int date, String day, String income, String expense){
+    public DailyTransaction(int date, String day, double income, double expense){
         mDate = date;
         mDay = day;
         mIncome = income;
@@ -22,11 +22,11 @@ public class DailyTransaction {
         return mDay;
     }
 
-    public String getIncome() {
+    public double getIncome() {
         return mIncome;
     }
 
-    public String getExpense() {
+    public double getExpense() {
         return mExpense;
     }
 

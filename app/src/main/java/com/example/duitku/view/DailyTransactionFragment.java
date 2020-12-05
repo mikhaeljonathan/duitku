@@ -1,9 +1,13 @@
 package com.example.duitku.view;
 
+import android.content.ContentUris;
+import android.database.Cursor;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.animation.TranslateAnimation;
 import android.widget.BaseExpandableListAdapter;
 import android.widget.ExpandableListView;
 import android.widget.TextView;
@@ -11,8 +15,14 @@ import android.widget.TextView;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
+import androidx.loader.app.LoaderManager;
+import androidx.loader.content.CursorLoader;
+import androidx.loader.content.Loader;
 
 import com.example.duitku.R;
+import com.example.duitku.adapter.DailyExpandableAdapter;
+import com.example.duitku.database.DuitkuContract.CategoryEntry;
+import com.example.duitku.database.DuitkuContract.TransactionEntry;
 import com.example.duitku.model.DailyTransaction;
 import com.example.duitku.model.Transaction;
 
@@ -20,22 +30,27 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 
-public class DailyTransactionFragment extends Fragment {
+public class DailyTransactionFragment extends Fragment implements LoaderManager.LoaderCallbacks<Cursor> {
 
     // MainActivity --> TransactionFragment --> DailyTransactionFragment
     // Aga ribet tapi ya mau gmn lagi
 
     // Ini kita pake ExpandableListView buat listView yang bisa di-expand
-    ExpandableListView dailyExpandableListView;
-    DailyExpandableAdapter dailyExpandableAdapter; // ExpandableListView juga perlu adapter
+    private ExpandableListView dailyExpandableListView;
+    private DailyExpandableAdapter dailyExpandableAdapter; // ExpandableListView juga perlu adapter
 
     // DailyTransaction ini buat gabungan dari beberapa Transaction dalam sehari
     // Istilahnya group kalo di ExpandableListView
-    List<DailyTransaction> dailyTransactionList;
+    private List<DailyTransaction> dailyTransactionList;
 
     // Setiap DailyTransaction, ada beberapa Transaction
     // Istilahnya child kalo di ExpandableListView
-    HashMap<DailyTransaction, List<Transaction>> dailyTransactionListHashMap;
+    private HashMap<DailyTransaction, List<Transaction>> dailyTransactionListHashMap;
+
+    // buat loader nya
+    private static final int TRANSACTION_LOADER = 0;
+
+    private boolean calledOnResume;
 
     @Nullable
     @Override
@@ -50,150 +65,127 @@ public class DailyTransactionFragment extends Fragment {
         dailyExpandableListView = rootView.findViewById(R.id.transaction_daily_expandablelistview);
         dailyExpandableListView.addHeaderView(header); // ini buat masukin header nya
 
-        // Ini buat dummy data, data sebenarnya nanti diretrieve dari database
-        setContent();
+        dailyTransactionList = new ArrayList<>();
+        dailyTransactionListHashMap = new HashMap<>();
 
-        // Bikin adapternya
-        dailyExpandableAdapter = new DailyExpandableAdapter();
-        // masukin adapter ke ExpandableListView
-        dailyExpandableListView.setAdapter(dailyExpandableAdapter);
+        // Ini buat dummy data, data sebenarnya nanti diretrieve dari database
+//        setContent();
+        calledOnResume = false;
+
+        LoaderManager.getInstance(this).initLoader(TRANSACTION_LOADER, null, this);
 
         return rootView;
     }
 
-    private void setContent(){
+    @NonNull
+    @Override
+    public Loader onCreateLoader(int id, @Nullable Bundle args) {
+        switch (id){
+            case TRANSACTION_LOADER:
+                String[] projection = new String[]{TransactionEntry.COLUMN_ID,
+                        TransactionEntry.COLUMN_DESC,
+                        TransactionEntry.COLUMN_DATE,
+                        TransactionEntry.COLUMN_AMOUNT,
+                        TransactionEntry.COLUMN_WALLET_ID,
+                        TransactionEntry.COLUMN_WALLETDEST_ID,
+                        TransactionEntry.COLUMN_CATEGORY_ID};
+                return new CursorLoader(getContext(), TransactionEntry.CONTENT_URI, projection, null, null, null);
+            default:
+                throw new IllegalStateException("Unknown Loader");
+        }
+    }
 
-        dailyTransactionList = new ArrayList<>();
-        dailyTransactionListHashMap = new HashMap<>();
+//    @Override
+//    public void onResume() {
+//        super.onResume();
+//        dailyTransactionList.clear();
+//        dailyTransactionListHashMap.clear();
+//        LoaderManager.getInstance(this).restartLoader(TRANSACTION_LOADER, null, this);
+//    }
 
-        dailyTransactionList.add(new DailyTransaction(16, "Fri", "Rp 5.000.000", "Rp 500.000"));
-        dailyTransactionList.add(new DailyTransaction(17, "Sat", "Rp 5.000.000", "Rp 500.000"));
-        dailyTransactionList.add(new DailyTransaction(18, "Sun", "Rp 5.000.000", "Rp 500.000"));
+    @Override
+    public void onLoadFinished(@NonNull Loader<Cursor> loader, Cursor data) {
 
-        List<Transaction> transaction1 = new ArrayList<>();
-        List<Transaction> transaction2 = new ArrayList<>();
-        List<Transaction> transaction3 = new ArrayList<>();
-//        for (int i = 0; i < 1;i++){
-//            transaction1.add(new Transaction("13/10/2020", "Bank account", "income", 5000000, "gajian"));
-//            transaction2.add(new Transaction("14/10/2020", "Cash", "income", 50000, "nemu di jalan"));
-//            transaction3.add(new Transaction("15/10/2020", "Bank account", "expense", 100000, "dipalak"));
-//        }
+        if (calledOnResume) return;
 
-        dailyTransactionListHashMap.put(dailyTransactionList.get(0), transaction1);
-        dailyTransactionListHashMap.put(dailyTransactionList.get(1), transaction2);
-        dailyTransactionListHashMap.put(dailyTransactionList.get(2), transaction3);
+        int lastDayOfMonth = -1;
+        List<Transaction> transactions = new ArrayList<>();
+        double totalIncome = 0;
+        double totalExpense = 0;
+
+        // dari akhir ke awal biar enak bikin headernya
+        if (!data.moveToFirst()) return;
+        do {
+
+            // posisi kolom
+            int dateColumnIndex = data.getColumnIndex(TransactionEntry.COLUMN_DATE);
+            int walletIdColumnIndex = data.getColumnIndex(TransactionEntry.COLUMN_WALLET_ID);
+            int walletDestIdColumnIndex = data.getColumnIndex(TransactionEntry.COLUMN_WALLETDEST_ID);
+            int categoryIdColumnIndex = data.getColumnIndex(TransactionEntry.COLUMN_CATEGORY_ID);
+            int descColumnIndex = data.getColumnIndex(TransactionEntry.COLUMN_DESC);
+            int amountColumnIndex = data.getColumnIndex(TransactionEntry.COLUMN_AMOUNT);
+
+            // ambil datanya
+            String curDate = data.getString(dateColumnIndex);
+            long walletId = data.getLong(walletIdColumnIndex);
+            long walletDestId = data.getLong(walletDestIdColumnIndex);
+            long categoryId = data.getLong(categoryIdColumnIndex);
+            String desc = data.getString(descColumnIndex);
+            double amount= data.getDouble(amountColumnIndex);
+
+            // ambil tanggalnya doang buat ngecek apakah sdh ganti hari
+            String[] components = curDate.split("/");
+            int curDateOfMonth = Integer.parseInt(components[1]);
+
+            Log.v("TESTT", desc + " " + curDateOfMonth);
+
+            // kalo dah ganti hari
+            if (curDateOfMonth != lastDayOfMonth && lastDayOfMonth != -1) {
+                Log.v("TEST", desc + " " + curDateOfMonth + " " + lastDayOfMonth);
+                DailyTransaction dailyTransaction = new DailyTransaction(lastDayOfMonth, "HAHA", totalIncome, totalExpense);
+                dailyTransactionList.add(dailyTransaction);
+                dailyTransactionListHashMap.put(dailyTransaction, transactions);
+                Log.v("TEST-","" +transactions.size());
+                totalIncome = 0;
+                totalExpense = 0;
+                transactions = new ArrayList<>();
+            }
+
+            // tipe nya expense atau income
+            Cursor temp = getContext().getContentResolver().query(ContentUris.withAppendedId(CategoryEntry.CONTENT_URI, categoryId), new String[]{CategoryEntry.COLUMN_ID, CategoryEntry.COLUMN_TYPE}, null,null, null);
+            String type = "TRANS";
+            if (temp.moveToFirst()){
+                type = temp.getString(temp.getColumnIndex(CategoryEntry.COLUMN_TYPE));
+            }
+
+            if (type.equals(CategoryEntry.TYPE_EXPENSE)){
+                totalExpense += amount;
+            } else {
+                totalIncome += amount;
+            }
+
+            transactions.add(new Transaction(curDate, walletId, walletDestId, categoryId, amount, desc));
+            lastDayOfMonth = curDateOfMonth;
+
+        } while (data.moveToNext());
+
+        // sisanya
+        DailyTransaction dailyTransaction = new DailyTransaction(lastDayOfMonth, "HAHA", totalIncome, totalExpense);
+        dailyTransactionList.add(dailyTransaction);
+        dailyTransactionListHashMap.put(dailyTransaction, transactions);
+
+        // Bikin adapternya
+        dailyExpandableAdapter = new DailyExpandableAdapter(dailyTransactionList, dailyTransactionListHashMap, getContext());
+        // masukin adapter ke ExpandableListView
+        dailyExpandableListView.setAdapter(dailyExpandableAdapter);
+
+        calledOnResume = true;
 
     }
 
-    // adapter ini harus subclass dari BaseExpandableListAdapter
-    class DailyExpandableAdapter extends BaseExpandableListAdapter{
-
-        // constructor kosongan
-        public DailyExpandableAdapter(){
-
-        }
-
-        // ada berapa group
-        @Override
-        public int getGroupCount() {
-            return dailyTransactionList.size();
-        }
-
-        // ada berapa children di group yang ke i
-        @Override
-        public int getChildrenCount(int i) {
-            return dailyTransactionListHashMap.get(dailyTransactionList.get(i)).size();
-        }
-
-        // minta grup ke i dong
-        @Override
-        public Object getGroup(int i) {
-            return dailyTransactionList.get(i);
-        }
-
-        // minta child ke i1 dari grup ke i dong
-        @Override
-        public Object getChild(int i, int i1) {
-            return dailyTransactionListHashMap.get(dailyTransactionList.get(i)).get(i1);
-        }
-
-        @Override
-        public long getGroupId(int i) {
-            return i;
-        }
-
-        @Override
-        public long getChildId(int i, int i1) {
-            return i1;
-        }
-
-        // gatau buat apa
-        @Override
-        public boolean hasStableIds() {
-            return false;
-        }
-
-        // buat ngatur view dari DailyTransaction nya
-        @Override
-        public View getGroupView(int i, boolean b, View view, ViewGroup viewGroup) {
-            // ambil DailyTransaction object nya
-            DailyTransaction dailyTransaction = (DailyTransaction) getGroup(i);
-
-            // kalo view nya masih blm dibuat, dibuat dari awal
-            // caranya pake LayoutInflater trs inflate gitu
-            // itu ada R.layout.item_list_transaction_daily XML yang dicustom sendiri
-            if (view == null){
-                view = LayoutInflater.from(getContext()).inflate(R.layout.item_list_transaction_daily, viewGroup, false);
-            }
-
-            // Tinggal ngeset2 view nya aja
-            TextView date = view.findViewById(R.id.item_list_transaction_daily_date_textview);
-            date.setText(Integer.toString(dailyTransaction.getDate()));
-
-            TextView day = view.findViewById(R.id.item_list_transaction_daily_day_textview);
-            day.setText(dailyTransaction.getDay());
-
-            TextView income = view.findViewById(R.id.item_list_transaction_daily_income_textview);
-            income.setText(dailyTransaction.getIncome());
-
-            TextView expense = view.findViewById(R.id.item_list_transaction_daily_expense_textview);
-            expense.setText(dailyTransaction.getExpense());
-
-            return view;
-        }
-
-        // buat ngatur view dari Transaction nya
-        @Override
-        public View getChildView(int i, int i1, boolean b, View view, ViewGroup viewGroup) {
-            // ambil Transaction object nya
-            Transaction transaction = (Transaction) getChild(i, i1);
-
-            // penjelasan nya sama kyk di atas
-            if (view == null){
-                view = LayoutInflater.from(getContext()).inflate(R.layout.item_list_transaction, viewGroup, false);
-            }
-
-            TextView category = view.findViewById(R.id.item_list_transaction_category_textview);
-            category.setText(Long.toString(transaction.getCategoryId()));
-
-            TextView desc = view.findViewById(R.id.item_list_transaction_desc_textview);
-            desc.setText(transaction.getDesc());
-
-            TextView wallet = view.findViewById(R.id.item_list_transaction_wallet_textview);
-            wallet.setText(Long.toString(transaction.getWalletId()));
-
-            TextView amount = view.findViewById(R.id.item_list_transaction_amount_textview);
-            amount.setText(Double.toString(transaction.getAmount()));
-
-            return view;
-        }
-
-        // Transaction nya bisa dipencet
-        @Override
-        public boolean isChildSelectable(int i, int i1) {
-            return true;
-        }
-
+    @Override
+    public void onLoaderReset(@NonNull Loader loader) {
+        Log.v("HEIHEI", "HEHE");
     }
 
 }

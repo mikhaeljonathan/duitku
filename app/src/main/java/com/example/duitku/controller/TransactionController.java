@@ -28,7 +28,7 @@ public class TransactionController {
         }
         long categoryId = transaction.getCategoryId();
         if (categoryId != -1){ // ini kalau transaction berupa transfer
-            values.put(TransactionEntry.COLUMN_CATEGORY_ID, transaction.getCategoryId());
+            values.put(TransactionEntry.COLUMN_CATEGORY_ID, categoryId);
         }
         values.put(TransactionEntry.COLUMN_AMOUNT, transaction.getAmount());
         values.put(TransactionEntry.COLUMN_DESC, transaction.getDesc());

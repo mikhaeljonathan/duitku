@@ -2,6 +2,7 @@ package com.example.duitku.view;
 
 import android.app.DatePickerDialog;
 import android.content.ContentUris;
+import android.content.Intent;
 import android.database.Cursor;
 import android.net.Uri;
 import android.os.Build;
@@ -121,6 +122,7 @@ public class AddTransactionIncomeFragment extends Fragment implements ViewCatego
             public void onClick(View view) {
                 addTransaction();
                 getActivity().finish(); // activity add transaction ny udh selesai
+                startActivity(new Intent(getActivity(), MainActivity.class));
             }
         });
 
