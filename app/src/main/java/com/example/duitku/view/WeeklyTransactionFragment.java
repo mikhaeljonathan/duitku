@@ -33,10 +33,11 @@ public class WeeklyTransactionFragment extends Fragment {
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         View rootView = inflater.inflate(R.layout.fragment_transaction_weekly, container, false);
+        // header ini buat elemen pertama dari ExpandableListView yang berupa summary nya
         View header = inflater.inflate(R.layout.fragment_transaction_header_month, null);
 
         weeklyExpandableListView = rootView.findViewById(R.id.transaction_weekly_expandablelistview);
-        weeklyExpandableListView.addHeaderView(header);
+        weeklyExpandableListView.addHeaderView(header); // ini buat masukin header nya
         setContent();
 
         weeklyExpandableAdapter = new WeeklyExpandableAdapter();

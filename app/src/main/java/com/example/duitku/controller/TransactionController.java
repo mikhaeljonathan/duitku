@@ -8,6 +8,9 @@ import com.example.duitku.database.DuitkuContract.TransactionEntry;
 import com.example.duitku.database.DuitkuContract;
 import com.example.duitku.model.Transaction;
 
+import java.text.SimpleDateFormat;
+import java.util.Date;
+
 public class TransactionController {
 
     private Context mContext;
@@ -20,7 +23,8 @@ public class TransactionController {
 
         // taruh di contentvalues
         ContentValues values = new ContentValues();
-        values.put(TransactionEntry.COLUMN_DATE, transaction.getDate());
+        String date = new SimpleDateFormat("dd/MM/yyyy").format(transaction.getDate());
+        values.put(TransactionEntry.COLUMN_DATE, date);
         values.put(TransactionEntry.COLUMN_WALLET_ID, transaction.getWalletId());
         long walletDestId = transaction.getWalletDestId();
         if (walletDestId != -1){ // ini kalau transaction tidak berupa transfer

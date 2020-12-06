@@ -23,10 +23,18 @@ import com.example.duitku.R;
 import com.example.duitku.adapter.DailyExpandableAdapter;
 import com.example.duitku.database.DuitkuContract.CategoryEntry;
 import com.example.duitku.database.DuitkuContract.TransactionEntry;
+import com.example.duitku.model.Category;
 import com.example.duitku.model.DailyTransaction;
 import com.example.duitku.model.Transaction;
 
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Calendar;
+import java.util.Collection;
+import java.util.Collections;
+import java.util.Comparator;
+import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
 
@@ -49,7 +57,9 @@ public class DailyTransactionFragment extends Fragment implements LoaderManager.
 
     // buat loader nya
     private static final int TRANSACTION_LOADER = 0;
+    private static final String[] daysName = {"", "Sun", "Mon", "Tue", "Wed", "Thu", "Fri", "Sat"};
 
+    // kalau resume jangan panggin onLoaderFInished lagi biar listnya ga dobel2
     private boolean calledOnResume;
 
     @Nullable
@@ -58,23 +68,57 @@ public class DailyTransactionFragment extends Fragment implements LoaderManager.
 
         // rootView ini buat nampilin view fragment nya
         View rootView = inflater.inflate(R.layout.fragment_transaction_daily, container, false);
-        // header ini buat elemen pertama dari ExpandableListView yang berupa summary nya
-        View header = inflater.inflate(R.layout.fragment_transaction_header_month, null);
 
         // initiate ExpandableListViewnya
         dailyExpandableListView = rootView.findViewById(R.id.transaction_daily_expandablelistview);
-        dailyExpandableListView.addHeaderView(header); // ini buat masukin header nya
 
         dailyTransactionList = new ArrayList<>();
         dailyTransactionListHashMap = new HashMap<>();
 
         // Ini buat dummy data, data sebenarnya nanti diretrieve dari database
-//        setContent();
         calledOnResume = false;
 
+        // initialize loaderny
         LoaderManager.getInstance(this).initLoader(TRANSACTION_LOADER, null, this);
 
         return rootView;
+    }
+
+    // convert cursor ke list supaya bisa disort brdasarkan tanggal
+    private List<Transaction> convertCursorToList(Cursor data){
+        // litsnya kita init dlu
+        List<Transaction> ret = new ArrayList<>();
+
+        if (!data.moveToFirst()) return ret;
+        do {
+            // posisi kolom
+            int dateColumnIndex = data.getColumnIndex(TransactionEntry.COLUMN_DATE);
+            int walletIdColumnIndex = data.getColumnIndex(TransactionEntry.COLUMN_WALLET_ID);
+            int walletDestIdColumnIndex = data.getColumnIndex(TransactionEntry.COLUMN_WALLETDEST_ID);
+            int categoryIdColumnIndex = data.getColumnIndex(TransactionEntry.COLUMN_CATEGORY_ID);
+            int descColumnIndex = data.getColumnIndex(TransactionEntry.COLUMN_DESC);
+            int amountColumnIndex = data.getColumnIndex(TransactionEntry.COLUMN_AMOUNT);
+
+            // ambil datanya
+            Date curDate = null;
+            try {
+                curDate = new SimpleDateFormat("dd/MM/yyyy").parse(data.getString(dateColumnIndex));
+            } catch (ParseException e) {
+                e.printStackTrace();
+            }
+            long walletId = data.getLong(walletIdColumnIndex);
+            long walletDestId = data.getLong(walletDestIdColumnIndex);
+            long categoryId = data.getLong(categoryIdColumnIndex);
+            String desc = data.getString(descColumnIndex);
+            double amount= data.getDouble(amountColumnIndex);
+
+            // masukin ke list
+            ret.add(new Transaction(curDate, walletId, walletDestId, categoryId, amount, desc));
+
+        } while (data.moveToNext());
+
+        // return listnya
+        return ret;
     }
 
     @NonNull
@@ -95,82 +139,79 @@ public class DailyTransactionFragment extends Fragment implements LoaderManager.
         }
     }
 
-//    @Override
-//    public void onResume() {
-//        super.onResume();
-//        dailyTransactionList.clear();
-//        dailyTransactionListHashMap.clear();
-//        LoaderManager.getInstance(this).restartLoader(TRANSACTION_LOADER, null, this);
-//    }
-
     @Override
     public void onLoadFinished(@NonNull Loader<Cursor> loader, Cursor data) {
 
+        // kalau resume jgn panggil function ini
         if (calledOnResume) return;
 
+        // initialize variabel2 penting
         int lastDayOfMonth = -1;
         List<Transaction> transactions = new ArrayList<>();
         double totalIncome = 0;
         double totalExpense = 0;
+        Date lastDate = null;
+        Calendar c = Calendar.getInstance();
 
-        // dari akhir ke awal biar enak bikin headernya
-        if (!data.moveToFirst()) return;
-        do {
+        List<Transaction> allTransactions = convertCursorToList(data);
+        if (allTransactions.size() == 0) return;
 
-            // posisi kolom
-            int dateColumnIndex = data.getColumnIndex(TransactionEntry.COLUMN_DATE);
-            int walletIdColumnIndex = data.getColumnIndex(TransactionEntry.COLUMN_WALLET_ID);
-            int walletDestIdColumnIndex = data.getColumnIndex(TransactionEntry.COLUMN_WALLETDEST_ID);
-            int categoryIdColumnIndex = data.getColumnIndex(TransactionEntry.COLUMN_CATEGORY_ID);
-            int descColumnIndex = data.getColumnIndex(TransactionEntry.COLUMN_DESC);
-            int amountColumnIndex = data.getColumnIndex(TransactionEntry.COLUMN_AMOUNT);
+        Collections.sort(allTransactions, new Comparator<Transaction>() {
+            @Override
+            public int compare(Transaction t1, Transaction t2) {
+                return t2.getDate().compareTo(t1.getDate()); // dari tanggal yang paling recent
+            }
+        });
 
-            // ambil datanya
-            String curDate = data.getString(dateColumnIndex);
-            long walletId = data.getLong(walletIdColumnIndex);
-            long walletDestId = data.getLong(walletDestIdColumnIndex);
-            long categoryId = data.getLong(categoryIdColumnIndex);
-            String desc = data.getString(descColumnIndex);
-            double amount= data.getDouble(amountColumnIndex);
+        for (Transaction curTransaction: allTransactions){
 
             // ambil tanggalnya doang buat ngecek apakah sdh ganti hari
-            String[] components = curDate.split("/");
-            int curDateOfMonth = Integer.parseInt(components[1]);
-
-            Log.v("TESTT", desc + " " + curDateOfMonth);
+            c.setTime(curTransaction.getDate());
+            int curDateOfMonth = c.get(Calendar.DAY_OF_MONTH);
 
             // kalo dah ganti hari
             if (curDateOfMonth != lastDayOfMonth && lastDayOfMonth != -1) {
-                Log.v("TEST", desc + " " + curDateOfMonth + " " + lastDayOfMonth);
-                DailyTransaction dailyTransaction = new DailyTransaction(lastDayOfMonth, "HAHA", totalIncome, totalExpense);
-                dailyTransactionList.add(dailyTransaction);
-                dailyTransactionListHashMap.put(dailyTransaction, transactions);
-                Log.v("TEST-","" +transactions.size());
+
+                // dapetin transaksi yang barusan (posisi skrg - 1) hari apa
+                c.setTime(lastDate);
+                int dayOfWeek = c.get(Calendar.DAY_OF_WEEK);
+
+                // buat object dailytransaction (judul / parentnya)
+                DailyTransaction dailyTransaction = new DailyTransaction(lastDayOfMonth, daysName[dayOfWeek], totalIncome, totalExpense);
+                dailyTransactionList.add(dailyTransaction); // masukin list
+                dailyTransactionListHashMap.put(dailyTransaction, transactions); // masukin hashmap juga dr parent ke anak2nya
+
+                // reset variabel2 agregasinya
                 totalIncome = 0;
                 totalExpense = 0;
                 transactions = new ArrayList<>();
+
             }
 
             // tipe nya expense atau income
-            Cursor temp = getContext().getContentResolver().query(ContentUris.withAppendedId(CategoryEntry.CONTENT_URI, categoryId), new String[]{CategoryEntry.COLUMN_ID, CategoryEntry.COLUMN_TYPE}, null,null, null);
+            Cursor temp = getContext().getContentResolver().query(ContentUris.withAppendedId(CategoryEntry.CONTENT_URI, curTransaction.getCategoryId()), new String[]{CategoryEntry.COLUMN_ID, CategoryEntry.COLUMN_TYPE}, null,null, null);
             String type = "TRANS";
             if (temp.moveToFirst()){
                 type = temp.getString(temp.getColumnIndex(CategoryEntry.COLUMN_TYPE));
             }
 
+            // agregasi expense atau income
             if (type.equals(CategoryEntry.TYPE_EXPENSE)){
-                totalExpense += amount;
-            } else {
-                totalIncome += amount;
+                totalExpense += curTransaction.getAmount();
+            } else if (type.equals(CategoryEntry.TYPE_INCOME)){
+                totalIncome += curTransaction.getAmount();
             }
 
-            transactions.add(new Transaction(curDate, walletId, walletDestId, categoryId, amount, desc));
+            // setiap iterasi pasti jalanin ini
+            transactions.add(curTransaction);
             lastDayOfMonth = curDateOfMonth;
-
-        } while (data.moveToNext());
+            lastDate = curTransaction.getDate();
+        }
 
         // sisanya
-        DailyTransaction dailyTransaction = new DailyTransaction(lastDayOfMonth, "HAHA", totalIncome, totalExpense);
+        c.setTime(lastDate);
+        int dayOfWeek = c.get(Calendar.DAY_OF_WEEK);
+        DailyTransaction dailyTransaction = new DailyTransaction(lastDayOfMonth, daysName[dayOfWeek], totalIncome, totalExpense);
         dailyTransactionList.add(dailyTransaction);
         dailyTransactionListHashMap.put(dailyTransaction, transactions);
 
@@ -179,13 +220,14 @@ public class DailyTransactionFragment extends Fragment implements LoaderManager.
         // masukin adapter ke ExpandableListView
         dailyExpandableListView.setAdapter(dailyExpandableAdapter);
 
+        // kalau udh pernah jalanin onLoadFinished ini, jgn pernah jalanin onLoadFinished lagi
         calledOnResume = true;
 
     }
 
     @Override
     public void onLoaderReset(@NonNull Loader loader) {
-        Log.v("HEIHEI", "HEHE");
+
     }
 
 }

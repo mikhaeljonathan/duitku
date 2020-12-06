@@ -2,6 +2,7 @@ package com.example.duitku.view;
 
 import android.app.DatePickerDialog;
 import android.content.ContentUris;
+import android.content.Intent;
 import android.database.Cursor;
 import android.net.Uri;
 import android.os.Build;
@@ -31,6 +32,7 @@ import com.example.duitku.dialog.ViewCategoriesDialog;
 import com.example.duitku.model.Transaction;
 
 import java.text.DateFormat;
+import java.text.SimpleDateFormat;
 import java.util.Calendar;
 import java.util.Date;
 
@@ -119,6 +121,7 @@ public class AddTransactionTransferFragment extends Fragment implements PickWall
             public void onClick(View view) {
                 addTransaction();
                 getActivity().finish(); // activity add transaction ny udh selesai
+                startActivity(new Intent(getActivity(), MainActivity.class));
             }
         });
         
@@ -156,12 +159,11 @@ public class AddTransactionTransferFragment extends Fragment implements PickWall
     private void addTransaction(){
 
         // ambil data dari view
-        String date = DateFormat.getDateInstance(DateFormat.SHORT).format(mDate);
         double amount = Double.parseDouble(amountField.getText().toString().trim());
         String desc = descField.getText().toString().trim();
 
         // panggil controller nya
-        Transaction transactionAdded = new Transaction(date, walletId, walletDestId, -1, amount, desc);
+        Transaction transactionAdded = new Transaction(mDate, walletId, walletDestId, -1, amount, desc);
         Uri uri = new TransactionController(getContext()).addTransaction(transactionAdded);
 
         // hasil insert nya gimana

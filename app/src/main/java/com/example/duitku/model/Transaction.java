@@ -1,15 +1,17 @@
 package com.example.duitku.model;
 
+import java.util.Date;
+
 public class Transaction {
 
-    private String mDate;
+    private Date mDate;
     private long mWalletId;
     private long mWalletDestId;
     private long mCategoryId;
     private String mDesc;
     private double mAmount;
 
-    public Transaction(String date, long walletId, long walletDestId, long categoryId, double amount, String desc){
+    public Transaction(Date date, long walletId, long walletDestId, long categoryId, double amount, String desc){
         mDate = date;
         mWalletId = walletId;
         mCategoryId = categoryId;
@@ -18,7 +20,7 @@ public class Transaction {
         mAmount = amount;
     }
 
-    public String getDate() {
+    public Date getDate() {
         return mDate;
     }
 

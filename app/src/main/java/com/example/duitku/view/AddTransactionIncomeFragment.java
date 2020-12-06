@@ -34,6 +34,7 @@ import com.example.duitku.database.DuitkuContract.WalletEntry;
 import com.example.duitku.model.Transaction;
 
 import java.text.DateFormat;
+import java.text.SimpleDateFormat;
 import java.util.Calendar;
 import java.util.Date;
 
@@ -160,12 +161,11 @@ public class AddTransactionIncomeFragment extends Fragment implements ViewCatego
     private void addTransaction(){
 
         // ambil data dari view
-        String date = DateFormat.getDateInstance(DateFormat.SHORT).format(mDate);
         double amount = Double.parseDouble(amountField.getText().toString().trim());
         String desc = descField.getText().toString().trim();
 
         // panggil controller nya
-        Transaction transactionAdded = new Transaction(date, walletId, -1, categoryId, amount, desc);
+        Transaction transactionAdded = new Transaction(mDate, walletId, -1, categoryId, amount, desc);
         Uri uri = new TransactionController(getContext()).addTransaction(transactionAdded);
 
         // hasil insert nya gimana
