@@ -46,8 +46,8 @@ public class TransactionFragment extends Fragment {
 
         // tabLayout sama viewPager itu saling berhubungan gaes
         // tablayout itu picker yang di atas, viewpager itu placeholder buat fragmentnya
-        tabLayout = view.findViewById(R.id.transaction_tabLayout);
-        viewPager = view.findViewById(R.id.transaction_viewPager);
+        tabLayout = view.findViewById(R.id.fragment_transaction_tabLayout);
+        viewPager = view.findViewById(R.id.fragment_transaction_viewpager);
 
         // nah, viewPager itu butuh adapter buat ganti2 fragmentnya
         // di bawah ini buat nambahin fragment ke adapter
@@ -55,7 +55,8 @@ public class TransactionFragment extends Fragment {
         adapter.addFrag(new DailyTransactionFragment(), "Daily");
         adapter.addFrag(new WeeklyTransactionFragment(), "Weekly");
         adapter.addFrag(new MonthlyTransactionFragment(), "Monthly");
-        adapter.addFrag(new OthersTransactionFragment(), "Others");
+        adapter.addFrag(new WalletTransactionFragment(), "Wallet");
+        adapter.addFrag(new BudgetTransactionFragment(), "Budget");
 
         // set adapter ke viewPager, dan hubungin viewPager sama tabLayout
         viewPager.setAdapter(adapter);

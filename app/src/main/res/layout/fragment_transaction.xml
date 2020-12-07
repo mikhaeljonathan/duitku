@@ -7,13 +7,81 @@
 
     <!--TabLayout ini buat daily, weekly, monthly, sama others
     di TransactionFragment-->
-    <com.google.android.material.tabs.TabLayout
-        android:id="@+id/transaction_tabLayout"
-        android:layout_width="0dp"
+
+    <com.google.android.material.appbar.AppBarLayout
+        android:id="@+id/fragment_transaction_appbar"
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintTop_toTopOf="parent">
+
+        <!--ConstraintLayout di sini sebagai container
+        buat 2 view doang (toolbar + datepicker)-->
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:id="@+id/fragment_transaction_constraintlayout2"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent">
+
+            <!--Toolbar ini yang nanti bakal di-inflate
+            di MainActivity.java-->
+            <androidx.appcompat.widget.Toolbar
+                android:id="@+id/fragment_transaction_toolbar"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:background="?attr/colorPrimary"
+                android:minHeight="?attr/actionBarSize"
+                android:theme="?attr/actionBarTheme"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent"
+                app:titleTextColor="#FFFFFF" />
+
+            <!--Ini sebenernya datepicker, bukan button
+            button cuma sementara-->
+            <Button
+                android:id="@+id/fragment_transaction_picker_btn"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="16dp"
+                android:text="Oct 2020"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent" />
+
+            <ImageButton
+                android:id="@+id/fragment_transaction_search_button"
+                android:layout_width="48dp"
+                android:layout_height="48dp"
+                android:background="@null"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toEndOf="@+id/fragment_transaction_toolbar"
+                app:layout_constraintTop_toTopOf="parent"
+                app:srcCompat="@drawable/icon_search" />
+
+        </androidx.constraintlayout.widget.ConstraintLayout>
+
+    </com.google.android.material.appbar.AppBarLayout>
+
+    <androidx.viewpager.widget.ViewPager
+        android:id="@+id/fragment_transaction_viewpager"
+        android:layout_width="410dp"
+        android:layout_height="0dp"
+        android:layout_marginBottom="78dp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.0"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/fragment_transaction_tabLayout" />
+
+    <com.google.android.material.tabs.TabLayout
+        android:id="@+id/fragment_transaction_tabLayout"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="1.0"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/fragment_transaction_appbar"
         app:tabTextColor="@android:color/white">
 
     </com.google.android.material.tabs.TabLayout>
@@ -21,14 +89,5 @@
     <!--ViewPager sebagai placeHolder fragment daily, weekly, dll-->
     <!--Di bawah ada margin bottom 78dp itu aku kira2
     supaya ga ketutupan sama bottomAppBar-->
-    <androidx.viewpager.widget.ViewPager
-        android:id="@+id/transaction_viewPager"
-        android:layout_width="wrap_content"
-        android:layout_height="0dp"
-        android:layout_marginBottom="65dp"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/transaction_tabLayout" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

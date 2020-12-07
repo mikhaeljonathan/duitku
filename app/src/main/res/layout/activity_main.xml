@@ -14,50 +14,6 @@ melayang gitu-->
         android:layout_height="match_parent">
 
         <!--di dalem app bar ada toolbar, gatau deh knp-->
-        <com.google.android.material.appbar.AppBarLayout
-            android:id="@+id/main_appbar"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent">
-
-            <!--ConstraintLayout di sini sebagai container
-            buat 2 view doang (toolbar + datepicker)-->
-            <androidx.constraintlayout.widget.ConstraintLayout
-                android:id="@+id/main_constraintlayout2"
-                android:layout_width="match_parent"
-                android:layout_height="match_parent">
-
-                <!--Toolbar ini yang nanti bakal di-inflate
-                di MainActivity.java-->
-                <androidx.appcompat.widget.Toolbar
-                    android:id="@+id/main_toolbar"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:background="?attr/colorPrimary"
-                    android:minHeight="?attr/actionBarSize"
-                    android:theme="?attr/actionBarTheme"
-                    app:layout_constraintEnd_toEndOf="parent"
-                    app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toTopOf="parent"
-                    app:titleTextColor="#FFFFFF" />
-
-                <!--Ini sebenernya datepicker, bukan button
-                button cuma sementara-->
-                <Button
-                    android:id="@+id/main_datepicker_btn"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_marginStart="16dp"
-                    android:text="Oct 2020"
-                    app:layout_constraintBottom_toBottomOf="parent"
-                    app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toTopOf="parent" />
-
-            </androidx.constraintlayout.widget.ConstraintLayout>
-
-        </com.google.android.material.appbar.AppBarLayout>
 
         <!--FrameLayout ini sebagai placeholder buat fragment-->
         <FrameLayout
@@ -68,7 +24,7 @@ melayang gitu-->
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/main_appbar">
+            app:layout_constraintTop_toTopOf="parent">
 
         </FrameLayout>
 

@@ -1,0 +1,93 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<!--Nah kalo ini sedikit beda sama fragment_transaction_daily-->
+
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/transaction_wallet_constraintlayout"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+    <!--Header nya aku taruh manual
+    karena masing2 listView udh punya headernya yaitu yang
+    ada tanda "+" itu-->
+
+    <!--header_bckground_other.xml ini juga beda,
+    dia lebih pendek dari header2 yang lain soalny menampung
+    informasi yg lebih sedikit-->
+
+    <ImageView
+        android:id="@+id/transaction_wallet_header_container"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="32dp"
+        android:layout_marginTop="16dp"
+        android:layout_marginEnd="32dp"
+        android:src="@drawable/header_background_other"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/transaction_wallet_textview" />
+
+    <TextView
+        android:id="@+id/transaction_wallet_header_amount_textview"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="10dp"
+        android:text="Rp 80.000.000"
+        android:textColor="@android:color/white"
+        android:textSize="30sp"
+        app:layout_constraintEnd_toEndOf="@+id/transaction_wallet_header_container"
+        app:layout_constraintStart_toStartOf="@+id/transaction_wallet_header_container"
+        app:layout_constraintTop_toBottomOf="@+id/transaction_wallet_header_totalwallet_textview" />
+
+    <TextView
+        android:id="@+id/transaction_wallet_header_totalwallet_textview"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="16dp"
+        android:text="Total Wallet"
+        android:textColor="@android:color/white"
+        android:textSize="20sp"
+        android:textStyle="bold"
+        app:layout_constraintEnd_toEndOf="@+id/transaction_wallet_header_container"
+        app:layout_constraintStart_toStartOf="@+id/transaction_wallet_header_container"
+        app:layout_constraintTop_toTopOf="@+id/transaction_wallet_header_container" />
+
+    <!--Ini baru listView dari walletnya-->
+    <ListView
+        android:id="@+id/transaction_wallet_listview"
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        android:layout_marginTop="16dp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/transaction_wallet_header_container">
+
+    </ListView>
+
+    <TextView
+        android:id="@+id/transaction_wallet_textview"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="16dp"
+        android:layout_marginTop="16dp"
+        android:text="Wallet"
+        android:textColor="@android:color/white"
+        android:textSize="30sp"
+        android:textStyle="bold"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <ImageButton
+        android:id="@+id/transaction_wallet_add_btn"
+        android:layout_width="48dp"
+        android:layout_height="48dp"
+        android:background="@null"
+        app:layout_constraintBottom_toTopOf="@+id/transaction_wallet_header_container"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:srcCompat="@drawable/icon_add" />
+
+</androidx.constraintlayout.widget.ConstraintLayout>

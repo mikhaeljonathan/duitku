@@ -29,8 +29,8 @@ public class MainActivity extends AppCompatActivity {
         setContentView(R.layout.activity_main);
 
         // Custom toolbar sendiri
-        setSupportActionBar((Toolbar) findViewById(R.id.main_toolbar));
-        getSupportActionBar().setDisplayShowTitleEnabled(false); // Ga usah judul, diganti sama custom toolbar
+//        setSupportActionBar((Toolbar) findViewById(R.id.main_toolbar));
+//        getSupportActionBar().setDisplayShowTitleEnabled(false); // Ga usah judul, diganti sama custom toolbar
 
         // Setting BottomNavBar
         bottomNav = findViewById(R.id.main_bottomnavbar);
@@ -80,10 +80,4 @@ public class MainActivity extends AppCompatActivity {
 
     }
 
-    // Buat nampilin tombol search di toolbar atas
-    @Override
-    public boolean onCreateOptionsMenu(Menu menu) {
-        getMenuInflater().inflate(R.menu.main_menu, menu);
-        return true;
-    }
 }
