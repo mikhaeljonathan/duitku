@@ -7,10 +7,7 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.view.animation.TranslateAnimation;
-import android.widget.BaseExpandableListAdapter;
 import android.widget.ExpandableListView;
-import android.widget.TextView;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
@@ -23,15 +20,16 @@ import com.example.duitku.R;
 import com.example.duitku.adapter.DailyExpandableAdapter;
 import com.example.duitku.database.DuitkuContract.CategoryEntry;
 import com.example.duitku.database.DuitkuContract.TransactionEntry;
-import com.example.duitku.model.Category;
 import com.example.duitku.model.DailyTransaction;
+import com.example.duitku.model.MonthYearHeader;
 import com.example.duitku.model.Transaction;
+import com.example.duitku.model.TransactionHeader;
 
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
+import java.time.Month;
 import java.util.ArrayList;
 import java.util.Calendar;
-import java.util.Collection;
 import java.util.Collections;
 import java.util.Comparator;
 import java.util.Date;
@@ -49,15 +47,16 @@ public class DailyTransactionFragment extends Fragment implements LoaderManager.
 
     // DailyTransaction ini buat gabungan dari beberapa Transaction dalam sehari
     // Istilahnya group kalo di ExpandableListView
-    private List<DailyTransaction> dailyTransactionList;
+    private List<TransactionHeader> transactionHeaderList;
 
     // Setiap DailyTransaction, ada beberapa Transaction
     // Istilahnya child kalo di ExpandableListView
-    private HashMap<DailyTransaction, List<Transaction>> dailyTransactionListHashMap;
+    private HashMap<TransactionHeader, List<Transaction>> dailyTransactionListHashMap;
 
     // buat loader nya
     private static final int TRANSACTION_LOADER = 0;
     private static final String[] daysName = {"", "Sun", "Mon", "Tue", "Wed", "Thu", "Fri", "Sat"};
+    private static final String[] monthsName = {"January", "February", "March", "April", "May", "June", "July", "August", "September", "October", "November", "December"};
 
     // kalau resume jangan panggin onLoaderFInished lagi biar listnya ga dobel2
     private boolean calledOnResume;
@@ -72,7 +71,7 @@ public class DailyTransactionFragment extends Fragment implements LoaderManager.
         // initiate ExpandableListViewnya
         dailyExpandableListView = rootView.findViewById(R.id.transaction_daily_expandablelistview);
 
-        dailyTransactionList = new ArrayList<>();
+        transactionHeaderList = new ArrayList<>();
         dailyTransactionListHashMap = new HashMap<>();
 
         // Ini buat dummy data, data sebenarnya nanti diretrieve dari database
@@ -146,7 +145,7 @@ public class DailyTransactionFragment extends Fragment implements LoaderManager.
         if (calledOnResume) return;
 
         // initialize variabel2 penting
-        int lastDayOfMonth = -1;
+        int lastMonth = -1;
         List<Transaction> transactions = new ArrayList<>();
         double totalIncome = 0;
         double totalExpense = 0;
@@ -156,6 +155,7 @@ public class DailyTransactionFragment extends Fragment implements LoaderManager.
         List<Transaction> allTransactions = convertCursorToList(data);
         if (allTransactions.size() == 0) return;
 
+        // sort transaction brdsrkan tanggal
         Collections.sort(allTransactions, new Comparator<Transaction>() {
             @Override
             public int compare(Transaction t1, Transaction t2) {
@@ -165,20 +165,17 @@ public class DailyTransactionFragment extends Fragment implements LoaderManager.
 
         for (Transaction curTransaction: allTransactions){
 
-            // ambil tanggalnya doang buat ngecek apakah sdh ganti hari
-            c.setTime(curTransaction.getDate());
-            int curDateOfMonth = c.get(Calendar.DAY_OF_MONTH);
-
             // kalo dah ganti hari
-            if (curDateOfMonth != lastDayOfMonth && lastDayOfMonth != -1) {
+            if (lastDate != null && !curTransaction.getDate().equals(lastDate)) {
 
                 // dapetin transaksi yang barusan (posisi skrg - 1) hari apa
                 c.setTime(lastDate);
+                int dayOfMonth = c.get(Calendar.DAY_OF_MONTH);
                 int dayOfWeek = c.get(Calendar.DAY_OF_WEEK);
 
                 // buat object dailytransaction (judul / parentnya)
-                DailyTransaction dailyTransaction = new DailyTransaction(lastDayOfMonth, daysName[dayOfWeek], totalIncome, totalExpense);
-                dailyTransactionList.add(dailyTransaction); // masukin list
+                DailyTransaction dailyTransaction = new DailyTransaction(dayOfMonth, daysName[dayOfWeek], totalIncome, totalExpense);
+                transactionHeaderList.add(dailyTransaction); // masukin list
                 dailyTransactionListHashMap.put(dailyTransaction, transactions); // masukin hashmap juga dr parent ke anak2nya
 
                 // reset variabel2 agregasinya
@@ -186,6 +183,16 @@ public class DailyTransactionFragment extends Fragment implements LoaderManager.
                 totalExpense = 0;
                 transactions = new ArrayList<>();
 
+            }
+
+            c.setTime(curTransaction.getDate());
+            int curMonth = c.get(Calendar.MONTH);
+            int curYear = c.get(Calendar.YEAR);
+
+            if (curMonth != lastMonth){
+                MonthYearHeader header = new MonthYearHeader(monthsName[curMonth], Integer.toString(curYear));
+                transactionHeaderList.add(header);
+                dailyTransactionListHashMap.put(header, new ArrayList<Transaction>());
             }
 
             // tipe nya expense atau income
@@ -204,19 +211,28 @@ public class DailyTransactionFragment extends Fragment implements LoaderManager.
 
             // setiap iterasi pasti jalanin ini
             transactions.add(curTransaction);
-            lastDayOfMonth = curDateOfMonth;
             lastDate = curTransaction.getDate();
+            lastMonth = curMonth;
+
         }
 
         // sisanya
+//        c.setTime(lastDate);
+//        if (c.get(Calendar.MONTH) != lastMonth){
+//            MonthYearHeader header = new MonthYearHeader(Integer.toString(lastMonth), "2020");
+//            transactionHeaderList.add(header);
+//            dailyTransactionListHashMap.put(header, new ArrayList<Transaction>());
+//        }
+
         c.setTime(lastDate);
+        int dayOfMonth = c.get(Calendar.DAY_OF_MONTH);
         int dayOfWeek = c.get(Calendar.DAY_OF_WEEK);
-        DailyTransaction dailyTransaction = new DailyTransaction(lastDayOfMonth, daysName[dayOfWeek], totalIncome, totalExpense);
-        dailyTransactionList.add(dailyTransaction);
+        DailyTransaction dailyTransaction = new DailyTransaction(dayOfMonth, daysName[dayOfWeek], totalIncome, totalExpense);
+        transactionHeaderList.add(dailyTransaction);
         dailyTransactionListHashMap.put(dailyTransaction, transactions);
 
         // Bikin adapternya
-        dailyExpandableAdapter = new DailyExpandableAdapter(dailyTransactionList, dailyTransactionListHashMap, getContext());
+        dailyExpandableAdapter = new DailyExpandableAdapter(transactionHeaderList, dailyTransactionListHashMap, getContext());
         // masukin adapter ke ExpandableListView
         dailyExpandableListView.setAdapter(dailyExpandableAdapter);
 

@@ -1,6 +1,6 @@
 package com.example.duitku.model;
 
-public class DailyTransaction {
+public class DailyTransaction extends TransactionHeader{
 
     private int mDate;
     private String mDay;
