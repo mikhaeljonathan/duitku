@@ -17,55 +17,7 @@
     dia lebih pendek dari header2 yang lain soalny menampung
     informasi yg lebih sedikit-->
 
-    <ImageView
-        android:id="@+id/transaction_wallet_header_container"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_marginStart="32dp"
-        android:layout_marginTop="16dp"
-        android:layout_marginEnd="32dp"
-        android:src="@drawable/header_background_other"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/transaction_wallet_textview" />
-
-    <TextView
-        android:id="@+id/transaction_wallet_header_amount_textview"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="10dp"
-        android:text="Rp 80.000.000"
-        android:textColor="@android:color/white"
-        android:textSize="30sp"
-        app:layout_constraintEnd_toEndOf="@+id/transaction_wallet_header_container"
-        app:layout_constraintStart_toStartOf="@+id/transaction_wallet_header_container"
-        app:layout_constraintTop_toBottomOf="@+id/transaction_wallet_header_totalwallet_textview" />
-
-    <TextView
-        android:id="@+id/transaction_wallet_header_totalwallet_textview"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="16dp"
-        android:text="Total Wallet"
-        android:textColor="@android:color/white"
-        android:textSize="20sp"
-        android:textStyle="bold"
-        app:layout_constraintEnd_toEndOf="@+id/transaction_wallet_header_container"
-        app:layout_constraintStart_toStartOf="@+id/transaction_wallet_header_container"
-        app:layout_constraintTop_toTopOf="@+id/transaction_wallet_header_container" />
-
     <!--Ini baru listView dari walletnya-->
-    <ListView
-        android:id="@+id/transaction_wallet_listview"
-        android:layout_width="0dp"
-        android:layout_height="0dp"
-        android:layout_marginTop="16dp"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/transaction_wallet_header_container">
-
-    </ListView>
 
     <TextView
         android:id="@+id/transaction_wallet_textview"
@@ -80,14 +32,40 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
 
-    <ImageButton
+    <TextView
+        android:id="@+id/transaction_wallet_header_amount_textview"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="16dp"
+        android:layout_marginTop="16dp"
+        android:text="Total Amount: 1000000"
+        android:textColor="@android:color/darker_gray"
+        android:textSize="18sp"
+        android:textStyle="bold"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/transaction_wallet_textview" />
+
+    <ImageView
         android:id="@+id/transaction_wallet_add_btn"
-        android:layout_width="48dp"
-        android:layout_height="48dp"
+        android:layout_width="36dp"
+        android:layout_height="36dp"
+        android:layout_marginTop="16dp"
+        android:layout_marginEnd="16dp"
         android:background="@null"
-        app:layout_constraintBottom_toTopOf="@+id/transaction_wallet_header_container"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintTop_toTopOf="parent"
         app:srcCompat="@drawable/icon_add" />
+
+    <ListView
+        android:id="@+id/transaction_wallet_listview"
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        android:layout_marginTop="16dp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/transaction_wallet_header_amount_textview">
+
+    </ListView>
 
 </androidx.constraintlayout.widget.ConstraintLayout>

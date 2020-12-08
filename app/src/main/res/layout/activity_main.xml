@@ -20,7 +20,7 @@ melayang gitu-->
             android:id="@+id/main_container"
             android:layout_width="0dp"
             android:layout_height="0dp"
-            android:background="#1F2028"
+            android:background="@color/colorPrimary"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"

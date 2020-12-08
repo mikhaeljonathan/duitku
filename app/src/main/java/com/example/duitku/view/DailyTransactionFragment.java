@@ -81,6 +81,7 @@ public class DailyTransactionFragment extends Fragment implements LoaderManager.
         periodTextView.setText(DateValue.monthsName[mMonth] + " " + mYear);
         
         pickerButton = getActivity().findViewById(R.id.fragment_transaction_picker_btn);
+
         // initiate ExpandableListViewnya
         dailyExpandableListView = rootView.findViewById(R.id.transaction_daily_expandablelistview);
         dailyExpandableListView.addHeaderView(header);
@@ -106,6 +107,7 @@ public class DailyTransactionFragment extends Fragment implements LoaderManager.
     @Override
     public void onResume() {
         super.onResume();
+        pickerButton.setVisibility(View.VISIBLE);
         pickerButton.setText(DateValue.monthsNameShort[mMonth] + " " + mYear);
     }
 

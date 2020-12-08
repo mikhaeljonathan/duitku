@@ -7,6 +7,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.ImageButton;
+import android.widget.ImageView;
 import android.widget.ListView;
 
 import androidx.annotation.NonNull;
@@ -29,7 +30,7 @@ public class BudgetTransactionFragment extends Fragment implements LoaderManager
     private static final int BUDGET_LOADER = 0;
 
     private ListView budgetListView;
-    private ImageButton addBudgetBtn;
+    private ImageView addBudgetBtn;
 
     private BudgetAdapter budgetAdapter;
 

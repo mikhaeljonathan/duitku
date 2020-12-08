@@ -12,6 +12,7 @@ import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.Button;
 import android.widget.ImageButton;
+import android.widget.ImageView;
 import android.widget.ListView;
 
 import androidx.annotation.NonNull;
@@ -37,7 +38,7 @@ public class WalletTransactionFragment extends Fragment implements LoaderManager
     // yaitu listview buat wallet sama budget
     // masing2 listview perlu adapter
     private ListView walletListView;
-    private ImageButton addWalletBtn;
+    private ImageView addWalletBtn;
 
     private WalletAdapter walletAdapter;
 

@@ -29,7 +29,7 @@
                 android:id="@+id/fragment_transaction_toolbar"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:background="?attr/colorPrimary"
+                android:background="?attr/colorPrimaryDark"
                 android:minHeight="?attr/actionBarSize"
                 android:theme="?attr/actionBarTheme"
                 app:layout_constraintEnd_toEndOf="parent"
@@ -65,26 +65,13 @@
 
     <androidx.viewpager.widget.ViewPager
         android:id="@+id/fragment_transaction_viewpager"
-        android:layout_width="410dp"
+        android:layout_width="0dp"
         android:layout_height="0dp"
         android:layout_marginBottom="78dp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.0"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/fragment_transaction_tabLayout" />
-
-    <com.google.android.material.tabs.TabLayout
-        android:id="@+id/fragment_transaction_tabLayout"
-        android:layout_width="0dp"
-        android:layout_height="wrap_content"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="1.0"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/fragment_transaction_appbar"
-        app:tabTextColor="@android:color/white">
-
-    </com.google.android.material.tabs.TabLayout>
+        app:layout_constraintTop_toBottomOf="@+id/fragment_transaction_appbar" />
 
     <!--ViewPager sebagai placeHolder fragment daily, weekly, dll-->
     <!--Di bawah ada margin bottom 78dp itu aku kira2
