@@ -5,6 +5,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.BaseExpandableListAdapter;
+import android.widget.Button;
 import android.widget.ExpandableListView;
 import android.widget.TextView;
 
@@ -32,9 +33,10 @@ public class WeeklyTransactionFragment extends Fragment {
     @Nullable
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
+
         View rootView = inflater.inflate(R.layout.fragment_transaction_weekly, container, false);
         // header ini buat elemen pertama dari ExpandableListView yang berupa summary nya
-        View header = inflater.inflate(R.layout.fragment_transaction_header_month, null);
+        View header = inflater.inflate(R.layout.fragment_transaction_header_weekly, null);
 
         weeklyExpandableListView = rootView.findViewById(R.id.transaction_weekly_expandablelistview);
         weeklyExpandableListView.addHeaderView(header); // ini buat masukin header nya
@@ -44,6 +46,14 @@ public class WeeklyTransactionFragment extends Fragment {
         weeklyExpandableListView.setAdapter(weeklyExpandableAdapter);
 
         return rootView;
+    }
+
+    @Override
+    public void onResume() {
+        super.onResume();
+        Button b = getActivity().findViewById(R.id.fragment_transaction_picker_btn);
+        b.setVisibility(View.VISIBLE);
+        b.setText("MONTH");
     }
 
     private void setContent(){

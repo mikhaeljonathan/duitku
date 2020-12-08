@@ -15,26 +15,21 @@ import com.example.duitku.R;
 import com.example.duitku.database.DuitkuContract.WalletEntry;
 import com.example.duitku.database.DuitkuContract.CategoryEntry;
 import com.example.duitku.model.DailyTransaction;
-import com.example.duitku.model.MonthYearHeader;
 import com.example.duitku.model.Transaction;
-import com.example.duitku.model.TransactionHeader;
-
-import org.w3c.dom.Text;
 
 import java.util.HashMap;
 import java.util.List;
-import java.util.Locale;
 
 // adapter ini harus subclass dari BaseExpandableListAdapter
 public class DailyExpandableAdapter extends BaseExpandableListAdapter {
 
-    private List<TransactionHeader> mDailyTransactionList;
-    private HashMap<TransactionHeader, List<Transaction>> mDailyTransactionListHashMap;
+    private List<DailyTransaction> mDailyTransactionList;
+    private HashMap<DailyTransaction, List<Transaction>> mDailyTransactionListHashMap;
     private Context mContext;
 
     // constructor kosongan
-    public DailyExpandableAdapter(List<TransactionHeader> dailyTransactionList,
-                                  HashMap<TransactionHeader, List<Transaction>> dailyTransactionListHashMap,
+    public DailyExpandableAdapter(List<DailyTransaction> dailyTransactionList,
+                                  HashMap<DailyTransaction, List<Transaction>> dailyTransactionListHashMap,
                                   Context context){
         mDailyTransactionList = dailyTransactionList;
         mDailyTransactionListHashMap = dailyTransactionListHashMap;
@@ -85,50 +80,25 @@ public class DailyExpandableAdapter extends BaseExpandableListAdapter {
     @Override
     public View getGroupView(int i, boolean b, View view, ViewGroup viewGroup) {
         // ambil header object nya
-        TransactionHeader headerTransaction = (TransactionHeader) getGroup(i);
+        DailyTransaction dailyTransaction = (DailyTransaction) getGroup(i);
 
-        // kalo view nya masih blm dibuat, dibuat dari awal
-        // caranya pake LayoutInflater trs inflate gitu
-        // itu ada R.layout.item_list_transaction_daily XML yang dicustom sendiri
-//        if (view == null){
-//            if (headerTransaction instanceof MonthYearHeader){
-//                Log.v("ADAPTER","MONTHYEAR");
-//                view = LayoutInflater.from(mContext).inflate(R.layout.item_list_monthyear_header, viewGroup, false);
-//            } else {
-//                Log.v("ADAPTER","DAILY");
-//                view = LayoutInflater.from(mContext).inflate(R.layout.item_list_transaction_daily, viewGroup, false);
-//            }
-//        }
-
-        if (headerTransaction instanceof MonthYearHeader){
-
-            view = LayoutInflater.from(mContext).inflate(R.layout.item_list_monthyear_header, viewGroup, false);
-
-            MonthYearHeader monthYearHeader = (MonthYearHeader) headerTransaction;
-
-            TextView monthYearTextView = view.findViewById(R.id.item_list_monthyear_header_textview);
-            monthYearTextView.setText(monthYearHeader.getMonth() + " " + monthYearHeader.getYear());
-
-        } else if (headerTransaction instanceof DailyTransaction){
-
+        if (view == null) {
             view = LayoutInflater.from(mContext).inflate(R.layout.item_list_transaction_daily, viewGroup, false);
-
-            DailyTransaction dailyTransaction = (DailyTransaction) headerTransaction;
-
-            // Tinggal ngeset2 view nya aja
-            TextView dateTextView = view.findViewById(R.id.item_list_transaction_daily_date_textview);
-            dateTextView.setText(Integer.toString(dailyTransaction.getDate()));
-
-            TextView dayTextView = view.findViewById(R.id.item_list_transaction_daily_day_textview);
-            dayTextView.setText(dailyTransaction.getDay());
-
-            TextView incomeTextView = view.findViewById(R.id.item_list_transaction_daily_income_textview);
-            incomeTextView.setText(Double.toString(dailyTransaction.getIncome()));
-
-            TextView expenseTextView = view.findViewById(R.id.item_list_transaction_daily_expense_textview);
-            expenseTextView.setText(Double.toString(dailyTransaction.getExpense()));
-
         }
+
+
+        // Tinggal ngeset2 view nya aja
+        TextView dateTextView = view.findViewById(R.id.item_list_transaction_daily_date_textview);
+        dateTextView.setText(Integer.toString(dailyTransaction.getDate()));
+
+        TextView dayTextView = view.findViewById(R.id.item_list_transaction_daily_day_textview);
+        dayTextView.setText(dailyTransaction.getDay());
+
+        TextView incomeTextView = view.findViewById(R.id.item_list_transaction_daily_income_textview);
+        incomeTextView.setText(Double.toString(dailyTransaction.getIncome()));
+
+        TextView expenseTextView = view.findViewById(R.id.item_list_transaction_daily_expense_textview);
+        expenseTextView.setText(Double.toString(dailyTransaction.getExpense()));
 
         return view;
     }
@@ -153,10 +123,14 @@ public class DailyExpandableAdapter extends BaseExpandableListAdapter {
             type = categoryCursor.getString(categoryCursor.getColumnIndex(CategoryEntry.COLUMN_TYPE));
             category = categoryCursor.getString(categoryCursor.getColumnIndex(CategoryEntry.COLUMN_NAME));
         }
+        Log.v("WOW", transaction.getCategoryId() + " " + type + " " + transaction.getDesc());
         if (type.equals(CategoryEntry.TYPE_INCOME)){
+            Log.v("WOW", "OK");
             categoryImageView.setImageResource(R.drawable.icon_income);
         } else if (type.equals(CategoryEntry.TYPE_EXPENSE)){
             categoryImageView.setImageResource(R.drawable.icon_expense);
+        } else {
+            categoryImageView.setImageResource(R.drawable.icon_transfer);
         }
 
         // kalau income/expense, dia cuma nampilin category, kalau transfer dia nampilin wallet sumber sm tujuanny

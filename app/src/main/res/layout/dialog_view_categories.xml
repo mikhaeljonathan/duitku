@@ -19,7 +19,7 @@
         android:id="@+id/view_categories_gridview"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
-        android:numColumns="3"
+        android:numColumns="2"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"

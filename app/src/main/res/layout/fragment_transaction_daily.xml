@@ -8,6 +8,7 @@
 
     <!--ExpandableListView seperti ListView yang bisa di-expand
     layoutDirection rtl supaya panah nya ada di kanan-->
+
     <ExpandableListView
         android:id="@+id/transaction_daily_expandablelistview"
         android:layout_width="0dp"

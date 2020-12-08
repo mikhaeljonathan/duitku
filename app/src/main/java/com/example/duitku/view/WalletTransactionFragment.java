@@ -10,6 +10,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
+import android.widget.Button;
 import android.widget.ImageButton;
 import android.widget.ListView;
 
@@ -43,6 +44,7 @@ public class WalletTransactionFragment extends Fragment implements LoaderManager
     @Nullable
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
+
         View rootView = inflater.inflate(R.layout.fragment_transaction_wallet, container, false);
 
         // Initialize view nya
@@ -72,6 +74,14 @@ public class WalletTransactionFragment extends Fragment implements LoaderManager
         LoaderManager.getInstance(this).initLoader(WALLET_LOADER, null, this);
 
         return rootView;
+    }
+
+    @Override
+    public void onResume() {
+        super.onResume();
+        Button b = getActivity().findViewById(R.id.fragment_transaction_picker_btn);
+        b.setVisibility(View.GONE);
+
     }
 
     private void viewWallet(int position, long id){

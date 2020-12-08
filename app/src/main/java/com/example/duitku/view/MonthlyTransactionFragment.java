@@ -5,6 +5,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.BaseExpandableListAdapter;
+import android.widget.Button;
 import android.widget.ExpandableListView;
 import android.widget.TextView;
 
@@ -32,8 +33,9 @@ public class MonthlyTransactionFragment extends Fragment {
     @Nullable
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
+
         View rootView = inflater.inflate(R.layout.fragment_transaction_monthly, container, false);
-        View header = inflater.inflate(R.layout.fragment_transaction_header_year, null);
+        View header = inflater.inflate(R.layout.fragment_transaction_header_monthly, null);
 
         monthlyExpandableListView = rootView.findViewById(R.id.transaction_monthly_expandablelistview);
         monthlyExpandableListView.addHeaderView(header);
@@ -43,6 +45,14 @@ public class MonthlyTransactionFragment extends Fragment {
         monthlyExpandableListView.setAdapter(monthlyExpandableAdapter);
 
         return rootView;
+    }
+
+    @Override
+    public void onResume() {
+        super.onResume();
+        Button b = getActivity().findViewById(R.id.fragment_transaction_picker_btn);
+        b.setVisibility(View.VISIBLE);
+        b.setText("YEAR");
     }
 
     private void setContent(){

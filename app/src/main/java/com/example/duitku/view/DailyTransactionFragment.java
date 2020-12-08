@@ -7,7 +7,9 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Button;
 import android.widget.ExpandableListView;
+import android.widget.TextView;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
@@ -16,18 +18,17 @@ import androidx.loader.app.LoaderManager;
 import androidx.loader.content.CursorLoader;
 import androidx.loader.content.Loader;
 
+import com.example.duitku.DateValue;
 import com.example.duitku.R;
 import com.example.duitku.adapter.DailyExpandableAdapter;
 import com.example.duitku.database.DuitkuContract.CategoryEntry;
 import com.example.duitku.database.DuitkuContract.TransactionEntry;
+import com.example.duitku.dialog.MonthYearPickerDialog;
 import com.example.duitku.model.DailyTransaction;
-import com.example.duitku.model.MonthYearHeader;
 import com.example.duitku.model.Transaction;
-import com.example.duitku.model.TransactionHeader;
 
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
-import java.time.Month;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Collections;
@@ -36,7 +37,7 @@ import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
 
-public class DailyTransactionFragment extends Fragment implements LoaderManager.LoaderCallbacks<Cursor> {
+public class DailyTransactionFragment extends Fragment implements LoaderManager.LoaderCallbacks<Cursor>, MonthYearPickerDialog.PickMonthYearListener {
 
     // MainActivity --> TransactionFragment --> DailyTransactionFragment
     // Aga ribet tapi ya mau gmn lagi
@@ -44,43 +45,68 @@ public class DailyTransactionFragment extends Fragment implements LoaderManager.
     // Ini kita pake ExpandableListView buat listView yang bisa di-expand
     private ExpandableListView dailyExpandableListView;
     private DailyExpandableAdapter dailyExpandableAdapter; // ExpandableListView juga perlu adapter
+    private TextView periodTextView;
+    private Button pickerButton;
 
     // DailyTransaction ini buat gabungan dari beberapa Transaction dalam sehari
     // Istilahnya group kalo di ExpandableListView
-    private List<TransactionHeader> transactionHeaderList;
+    private List<DailyTransaction> transactionHeaderList;
 
     // Setiap DailyTransaction, ada beberapa Transaction
     // Istilahnya child kalo di ExpandableListView
-    private HashMap<TransactionHeader, List<Transaction>> dailyTransactionListHashMap;
+    private HashMap<DailyTransaction, List<Transaction>> dailyTransactionListHashMap;
+
+    private Calendar calendar;
+    private int mMonth;
+    private int mYear;
 
     // buat loader nya
     private static final int TRANSACTION_LOADER = 0;
-    private static final String[] daysName = {"", "Sun", "Mon", "Tue", "Wed", "Thu", "Fri", "Sat"};
-    private static final String[] monthsName = {"January", "February", "March", "April", "May", "June", "July", "August", "September", "October", "November", "December"};
 
-    // kalau resume jangan panggin onLoaderFInished lagi biar listnya ga dobel2
-    private boolean calledOnResume;
+    private View rootView;
 
     @Nullable
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
 
         // rootView ini buat nampilin view fragment nya
-        View rootView = inflater.inflate(R.layout.fragment_transaction_daily, container, false);
+        rootView = inflater.inflate(R.layout.fragment_transaction_daily, container, false);
+        View header = inflater.inflate(R.layout.fragment_transaction_header_daily, container, false);
 
+        calendar = Calendar.getInstance();
+        mMonth = calendar.get(Calendar.MONTH);
+        mYear = calendar.get(Calendar.YEAR);
+
+        periodTextView = header.findViewById(R.id.transaction_header_daily_period);
+        periodTextView.setText(DateValue.monthsName[mMonth] + " " + mYear);
+        
+        pickerButton = getActivity().findViewById(R.id.fragment_transaction_picker_btn);
         // initiate ExpandableListViewnya
         dailyExpandableListView = rootView.findViewById(R.id.transaction_daily_expandablelistview);
+        dailyExpandableListView.addHeaderView(header);
 
         transactionHeaderList = new ArrayList<>();
         dailyTransactionListHashMap = new HashMap<>();
 
-        // Ini buat dummy data, data sebenarnya nanti diretrieve dari database
-        calledOnResume = false;
+        pickerButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                MonthYearPickerDialog monthYearPickerDialog = new MonthYearPickerDialog(DailyTransactionFragment.this, mMonth, mYear);
+                monthYearPickerDialog.show(getFragmentManager(), "Month Year Picker Dialog");
+            }
+        });
 
         // initialize loaderny
+        LoaderManager.getInstance(this).restartLoader(TRANSACTION_LOADER, null, this);
         LoaderManager.getInstance(this).initLoader(TRANSACTION_LOADER, null, this);
 
         return rootView;
+    }
+
+    @Override
+    public void onResume() {
+        super.onResume();
+        pickerButton.setText(DateValue.monthsNameShort[mMonth] + " " + mYear);
     }
 
     // convert cursor ke list supaya bisa disort brdasarkan tanggal
@@ -132,7 +158,9 @@ public class DailyTransactionFragment extends Fragment implements LoaderManager.
                         TransactionEntry.COLUMN_WALLET_ID,
                         TransactionEntry.COLUMN_WALLETDEST_ID,
                         TransactionEntry.COLUMN_CATEGORY_ID};
-                return new CursorLoader(getContext(), TransactionEntry.CONTENT_URI, projection, null, null, null);
+                String selection = TransactionEntry.COLUMN_DATE + " LIKE ?";
+                String[] selectionArgs = new String[]{"%/" + String.format("%02d", mMonth + 1) + "/" + mYear};
+                return new CursorLoader(getContext(), TransactionEntry.CONTENT_URI, projection, selection, selectionArgs, null);
             default:
                 throw new IllegalStateException("Unknown Loader");
         }
@@ -141,11 +169,10 @@ public class DailyTransactionFragment extends Fragment implements LoaderManager.
     @Override
     public void onLoadFinished(@NonNull Loader<Cursor> loader, Cursor data) {
 
-        // kalau resume jgn panggil function ini
-        if (calledOnResume) return;
+        transactionHeaderList.clear();
+        dailyTransactionListHashMap.clear();
 
         // initialize variabel2 penting
-        int lastMonth = -1;
         List<Transaction> transactions = new ArrayList<>();
         double totalIncome = 0;
         double totalExpense = 0;
@@ -153,7 +180,6 @@ public class DailyTransactionFragment extends Fragment implements LoaderManager.
         Calendar c = Calendar.getInstance();
 
         List<Transaction> allTransactions = convertCursorToList(data);
-        if (allTransactions.size() == 0) return;
 
         // sort transaction brdsrkan tanggal
         Collections.sort(allTransactions, new Comparator<Transaction>() {
@@ -174,7 +200,7 @@ public class DailyTransactionFragment extends Fragment implements LoaderManager.
                 int dayOfWeek = c.get(Calendar.DAY_OF_WEEK);
 
                 // buat object dailytransaction (judul / parentnya)
-                DailyTransaction dailyTransaction = new DailyTransaction(dayOfMonth, daysName[dayOfWeek], totalIncome, totalExpense);
+                DailyTransaction dailyTransaction = new DailyTransaction(dayOfMonth, DateValue.daysName[dayOfWeek], totalIncome, totalExpense);
                 transactionHeaderList.add(dailyTransaction); // masukin list
                 dailyTransactionListHashMap.put(dailyTransaction, transactions); // masukin hashmap juga dr parent ke anak2nya
 
@@ -183,16 +209,6 @@ public class DailyTransactionFragment extends Fragment implements LoaderManager.
                 totalExpense = 0;
                 transactions = new ArrayList<>();
 
-            }
-
-            c.setTime(curTransaction.getDate());
-            int curMonth = c.get(Calendar.MONTH);
-            int curYear = c.get(Calendar.YEAR);
-
-            if (curMonth != lastMonth){
-                MonthYearHeader header = new MonthYearHeader(monthsName[curMonth], Integer.toString(curYear));
-                transactionHeaderList.add(header);
-                dailyTransactionListHashMap.put(header, new ArrayList<Transaction>());
             }
 
             // tipe nya expense atau income
@@ -212,38 +228,37 @@ public class DailyTransactionFragment extends Fragment implements LoaderManager.
             // setiap iterasi pasti jalanin ini
             transactions.add(curTransaction);
             lastDate = curTransaction.getDate();
-            lastMonth = curMonth;
 
         }
 
         // sisanya
-//        c.setTime(lastDate);
-//        if (c.get(Calendar.MONTH) != lastMonth){
-//            MonthYearHeader header = new MonthYearHeader(Integer.toString(lastMonth), "2020");
-//            transactionHeaderList.add(header);
-//            dailyTransactionListHashMap.put(header, new ArrayList<Transaction>());
-//        }
-
-        c.setTime(lastDate);
-        int dayOfMonth = c.get(Calendar.DAY_OF_MONTH);
-        int dayOfWeek = c.get(Calendar.DAY_OF_WEEK);
-        DailyTransaction dailyTransaction = new DailyTransaction(dayOfMonth, daysName[dayOfWeek], totalIncome, totalExpense);
-        transactionHeaderList.add(dailyTransaction);
-        dailyTransactionListHashMap.put(dailyTransaction, transactions);
+        if (allTransactions.size() > 0){
+            c.setTime(lastDate);
+            int dayOfMonth = c.get(Calendar.DAY_OF_MONTH);
+            int dayOfWeek = c.get(Calendar.DAY_OF_WEEK);
+            DailyTransaction dailyTransaction = new DailyTransaction(dayOfMonth, DateValue.daysName[dayOfWeek], totalIncome, totalExpense);
+            transactionHeaderList.add(dailyTransaction);
+            dailyTransactionListHashMap.put(dailyTransaction, transactions);
+        }
 
         // Bikin adapternya
         dailyExpandableAdapter = new DailyExpandableAdapter(transactionHeaderList, dailyTransactionListHashMap, getContext());
         // masukin adapter ke ExpandableListView
         dailyExpandableListView.setAdapter(dailyExpandableAdapter);
 
-        // kalau udh pernah jalanin onLoadFinished ini, jgn pernah jalanin onLoadFinished lagi
-        calledOnResume = true;
-
     }
 
     @Override
     public void onLoaderReset(@NonNull Loader loader) {
 
+    }
+
+    @Override
+    public void pickMonthYear(int month, int year) {
+        mMonth = month;
+        mYear = year;
+        periodTextView.setText(DateValue.monthsName[mMonth] + " " + mYear);
+        LoaderManager.getInstance(this).restartLoader(TRANSACTION_LOADER, null, this);
     }
 
 }
