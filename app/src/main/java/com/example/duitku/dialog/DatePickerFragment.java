@@ -1,5 +1,6 @@
 package com.example.duitku.dialog;
 
+import android.app.AlertDialog;
 import android.app.DatePickerDialog;
 import android.app.Dialog;
 import android.os.Bundle;
@@ -8,6 +9,8 @@ import android.util.Log;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.DialogFragment;
+
+import com.example.duitku.R;
 
 import java.util.Calendar;
 import java.util.Date;
@@ -39,7 +42,7 @@ public class DatePickerFragment extends DialogFragment {
         int month = calendar.get(Calendar.MONTH);
         int day = calendar.get(Calendar.DAY_OF_MONTH);
 
-        DatePickerDialog datePickerDialog = new DatePickerDialog(getActivity(), mListener, year, month, day);
+        DatePickerDialog datePickerDialog = new DatePickerDialog(getActivity(), R.style.datepicker, mListener, year, month, day);
         return datePickerDialog;
 
     }

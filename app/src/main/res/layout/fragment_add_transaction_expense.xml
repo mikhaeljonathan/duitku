@@ -46,6 +46,7 @@
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:layout_marginTop="16dp"
+        android:background="@drawable/selector_constraintlayout"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/add_transaction_expense_desc_edittext">
@@ -80,6 +81,7 @@
         android:id="@+id/add_transaction_expense_category_constraintlayout"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
+        android:background="@drawable/selector_constraintlayout"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.0"
         app:layout_constraintStart_toStartOf="parent"
@@ -115,6 +117,7 @@
         android:id="@+id/add_transaction_expense_wallet_constraintlayout"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
+        android:background="@drawable/selector_constraintlayout"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.0"
         app:layout_constraintStart_toStartOf="parent"
