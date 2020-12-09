@@ -1,20 +1,37 @@
 package com.example.duitku.model;
 
+import java.util.ArrayList;
+import java.util.List;
+
 public class CategoryTransaction {
 
-    private String mCategory;
-    private String mAmount;
+    private List<Long> transactions;
+    private long mCategoryId;
+    private double mAmount;
 
-    public CategoryTransaction(String category, String amount){
-        mCategory = category;
+    public CategoryTransaction(long categoryId, double amount){
+        transactions = new ArrayList<>();
+        mCategoryId = categoryId;
         mAmount = amount;
     }
 
-    public String getCategory() {
-        return mCategory;
+    public void addTransaction(long transactionId){
+        transactions.add(transactionId);
     }
 
-    public String getAmount() {
+    public void addAmount(double amount){
+        mAmount += amount;
+    }
+
+    public long getCategoryId() {
+        return mCategoryId;
+    }
+
+    public double getAmount() {
         return mAmount;
+    }
+
+    public List<Long> getTransactions (){
+        return transactions;
     }
 }

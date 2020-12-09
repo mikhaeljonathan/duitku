@@ -62,7 +62,7 @@ bisa di kanan-->
         android:id="@+id/item_list_transaction_daily_expense_textview"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginEnd="48dp"
+        android:layout_marginEnd="36dp"
         android:textColor="@android:color/holo_red_dark"
         android:textSize="14sp"
         app:layout_constraintBottom_toBottomOf="parent"

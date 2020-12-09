@@ -4,6 +4,7 @@ import java.util.Date;
 
 public class Transaction {
 
+    private long mId;
     private Date mDate;
     private long mWalletId;
     private long mWalletDestId;
@@ -11,13 +12,18 @@ public class Transaction {
     private String mDesc;
     private double mAmount;
 
-    public Transaction(Date date, long walletId, long walletDestId, long categoryId, double amount, String desc){
+    public Transaction(long id, Date date, long walletId, long walletDestId, long categoryId, double amount, String desc){
+        mId = id;
         mDate = date;
         mWalletId = walletId;
         mCategoryId = categoryId;
         mWalletDestId = walletDestId;
         mDesc = desc;
         mAmount = amount;
+    }
+
+    public long getId (){
+        return mId;
     }
 
     public Date getDate() {

@@ -38,7 +38,7 @@
         android:layout_height="wrap_content"
         android:layout_marginStart="16dp"
         android:layout_marginTop="16dp"
-        android:text="Total Amount: 1000000"
+        android:text="Total Amount:   1000000"
         android:textColor="@android:color/darker_gray"
         android:textSize="18sp"
         android:textStyle="bold"

@@ -77,14 +77,6 @@ public class WalletTransactionFragment extends Fragment implements LoaderManager
         return rootView;
     }
 
-    @Override
-    public void onResume() {
-        super.onResume();
-        Button b = getActivity().findViewById(R.id.fragment_transaction_picker_btn);
-        b.setVisibility(View.GONE);
-
-    }
-
     private void viewWallet(int position, long id){
         // ambil cursor nya dlu baru pass ke dialog
         Cursor cursor = (Cursor) walletAdapter.getItem(position);

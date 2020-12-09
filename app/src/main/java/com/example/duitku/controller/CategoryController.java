@@ -1,7 +1,9 @@
 package com.example.duitku.controller;
 
+import android.content.ContentUris;
 import android.content.ContentValues;
 import android.content.Context;
+import android.database.Cursor;
 import android.net.Uri;
 
 import com.example.duitku.database.DuitkuContract;
@@ -27,6 +29,15 @@ public class CategoryController {
         Uri uri = mContext.getContentResolver().insert(CategoryEntry.CONTENT_URI, values);
         return uri;
 
+    }
+
+    public String getCategoryNameById(long id){
+        String ret = "Transfer";
+        Cursor temp = mContext.getContentResolver().query(ContentUris.withAppendedId(CategoryEntry.CONTENT_URI, id), new String[]{CategoryEntry.COLUMN_ID, CategoryEntry.COLUMN_NAME}, null,null, null);
+        if (temp.moveToFirst()){
+            ret = temp.getString(temp.getColumnIndex(CategoryEntry.COLUMN_NAME));
+        }
+        return ret;
     }
 
 }

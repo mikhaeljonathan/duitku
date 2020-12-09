@@ -31,6 +31,7 @@ public class DailyExpandableAdapter extends BaseExpandableListAdapter {
     public DailyExpandableAdapter(List<DailyTransaction> dailyTransactionList,
                                   HashMap<DailyTransaction, List<Transaction>> dailyTransactionListHashMap,
                                   Context context){
+        super();
         mDailyTransactionList = dailyTransactionList;
         mDailyTransactionListHashMap = dailyTransactionListHashMap;
         mContext = context;
@@ -123,9 +124,8 @@ public class DailyExpandableAdapter extends BaseExpandableListAdapter {
             type = categoryCursor.getString(categoryCursor.getColumnIndex(CategoryEntry.COLUMN_TYPE));
             category = categoryCursor.getString(categoryCursor.getColumnIndex(CategoryEntry.COLUMN_NAME));
         }
-        Log.v("WOW", transaction.getCategoryId() + " " + type + " " + transaction.getDesc());
+
         if (type.equals(CategoryEntry.TYPE_INCOME)){
-            Log.v("WOW", "OK");
             categoryImageView.setImageResource(R.drawable.icon_income);
         } else if (type.equals(CategoryEntry.TYPE_EXPENSE)){
             categoryImageView.setImageResource(R.drawable.icon_expense);

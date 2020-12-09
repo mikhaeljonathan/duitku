@@ -5,7 +5,6 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.BaseExpandableListAdapter;
-import android.widget.Button;
 import android.widget.ExpandableListView;
 import android.widget.TextView;
 
@@ -50,9 +49,9 @@ public class MonthlyTransactionFragment extends Fragment {
     @Override
     public void onResume() {
         super.onResume();
-        Button b = getActivity().findViewById(R.id.fragment_transaction_picker_btn);
-        b.setVisibility(View.VISIBLE);
-        b.setText("YEAR");
+//        Button b = getActivity().findViewById(R.id.fragment_transaction_picker_btn);
+//        b.setVisibility(View.VISIBLE);
+//        b.setText("YEAR");
     }
 
     private void setContent(){
@@ -74,9 +73,9 @@ public class MonthlyTransactionFragment extends Fragment {
         List<CategoryTransaction> categoryTransaction3 = new ArrayList<>();
 
         for (int i = 0; i < temp.size();i++){
-            categoryTransaction1.add(new CategoryTransaction(temp.get(i), "Rp 100.000"));
-            categoryTransaction2.add(new CategoryTransaction(temp.get(i), "Rp 200.000"));
-            categoryTransaction3.add(new CategoryTransaction(temp.get(i), "Rp 300.000"));
+            categoryTransaction1.add(new CategoryTransaction(1, 100000));
+            categoryTransaction2.add(new CategoryTransaction(2, 200000));
+            categoryTransaction3.add(new CategoryTransaction(3, 300000));
         }
 
         categoryTransactionListHashMap.put(monthlyTransactionList.get(0), categoryTransaction1);
@@ -151,10 +150,10 @@ public class MonthlyTransactionFragment extends Fragment {
             }
 
             TextView categoryName = view.findViewById(R.id.item_list_transaction_category_name_textview);
-            categoryName.setText(categoryTransaction.getCategory());
+            categoryName.setText(Long.toString(categoryTransaction.getCategoryId()));
 
             TextView amount = view.findViewById(R.id.item_list_transaction_category_amount_textview);
-            amount.setText(categoryTransaction.getAmount());
+            amount.setText(Double.toString(categoryTransaction.getAmount()));
 
             return view;
         }

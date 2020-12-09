@@ -163,7 +163,7 @@ public class AddTransactionTransferFragment extends Fragment implements PickWall
         String desc = descField.getText().toString().trim();
 
         // panggil controller nya
-        Transaction transactionAdded = new Transaction(mDate, walletId, walletDestId, -1, amount, desc);
+        Transaction transactionAdded = new Transaction(-1, mDate, walletId, walletDestId, -1, amount, desc);
         Uri uri = new TransactionController(getContext()).addTransaction(transactionAdded);
 
         // hasil insert nya gimana

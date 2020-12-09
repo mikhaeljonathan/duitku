@@ -16,9 +16,11 @@
         android:layout_height="wrap_content"
         android:layout_marginStart="32dp"
         android:textColor="@android:color/white"
-        app:layout_constraintBottom_toBottomOf="parent"
+        android:textSize="18sp"
+        app:layout_constraintBottom_toTopOf="@+id/item_list_transaction_category_transactioncount_textview"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_chainStyle="packed"
         tools:text="Salary" />
 
     <TextView
@@ -31,5 +33,18 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintTop_toTopOf="parent"
         tools:text="Rp 7.000.000" />
+
+    <TextView
+        android:id="@+id/item_list_transaction_category_transactioncount_textview"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="32dp"
+        android:layout_marginTop="8dp"
+        android:textColor="@android:color/darker_gray"
+        android:textStyle="italic"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/item_list_transaction_category_name_textview"
+        tools:text="There are 3 transaction(s)" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

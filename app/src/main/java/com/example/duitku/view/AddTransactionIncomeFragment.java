@@ -165,7 +165,7 @@ public class AddTransactionIncomeFragment extends Fragment implements ViewCatego
         String desc = descField.getText().toString().trim();
 
         // panggil controller nya
-        Transaction transactionAdded = new Transaction(mDate, walletId, -1, categoryId, amount, desc);
+        Transaction transactionAdded = new Transaction(-1, mDate, walletId, -1, categoryId, amount, desc);
         Uri uri = new TransactionController(getContext()).addTransaction(transactionAdded);
 
         // hasil insert nya gimana

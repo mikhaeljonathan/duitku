@@ -11,24 +11,40 @@
     android:layoutDirection="ltr">
 
     <TextView
-        android:id="@+id/item_list_transaction_weekly_intervals_textview"
+        android:id="@+id/item_list_transaction_weekly_week_textview"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginStart="16dp"
         android:textColor="@android:color/white"
-        app:layout_constraintBottom_toBottomOf="parent"
+        android:textSize="18sp"
+        android:textStyle="bold"
+        app:layout_constraintBottom_toTopOf="@+id/item_list_transaction_weekly_intervals_textview"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        tools:text="12.10.2020 -\n18.10.2020" />
+        app:layout_constraintVertical_chainStyle="packed"
+        tools:text="Week 1" />
+
+    <TextView
+        android:id="@+id/item_list_transaction_weekly_intervals_textview"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="16dp"
+        android:layout_marginTop="8dp"
+        android:textColor="@android:color/darker_gray"
+        android:textSize="14sp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/item_list_transaction_weekly_week_textview"
+        tools:text="12 Oct - 18 Oct" />
 
     <TextView
         android:id="@+id/item_list_transaction_weekly_income_textview"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginStart="64dp"
+        android:layout_marginEnd="16dp"
         android:textColor="@android:color/holo_green_dark"
         app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintStart_toEndOf="@+id/item_list_transaction_weekly_intervals_textview"
+        app:layout_constraintEnd_toStartOf="@+id/item_list_transaction_weekly_expense_textview"
         app:layout_constraintTop_toTopOf="parent"
         tools:text="Rp 7.000.000" />
 
@@ -36,10 +52,11 @@
         android:id="@+id/item_list_transaction_weekly_expense_textview"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginStart="32dp"
+        android:layout_marginEnd="36dp"
         android:textColor="@android:color/holo_red_dark"
         app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintStart_toEndOf="@+id/item_list_transaction_weekly_income_textview"
+        app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintTop_toTopOf="parent"
         tools:text=" 1.500.000" />
+
 </androidx.constraintlayout.widget.ConstraintLayout>
