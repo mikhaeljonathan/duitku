@@ -2,6 +2,7 @@ package com.example.duitku.controller;
 
 import android.content.ContentValues;
 import android.content.Context;
+import android.database.Cursor;
 import android.net.Uri;
 import android.util.Log;
 
@@ -49,6 +50,15 @@ public class WalletController {
         int rowsDeleted = mContext.getContentResolver().delete(currentWalletUri, null, null);
         return rowsDeleted;
 
+    }
+
+    public double calculateTotalAmount(Cursor data){
+        double ret = 0;
+        if (!data.moveToFirst()) return ret;
+        do {
+            ret += data.getDouble(data.getColumnIndex(WalletEntry.COLUMN_AMOUNT));
+        } while (data.moveToNext());
+        return ret;
     }
 
 }

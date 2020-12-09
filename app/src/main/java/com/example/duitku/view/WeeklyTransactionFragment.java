@@ -44,6 +44,9 @@ public class WeeklyTransactionFragment extends Fragment implements LoaderManager
     private ExpandableListView weeklyExpandableListView;
     private WeeklyExpandableAdapter weeklyExpandableAdapter;
     private TextView periodTextView;
+    private TextView totalAmountTextView;
+    private TextView totalGlobalIncomeTextView;
+    private TextView totalGlobalExpenseTextView;
 
     private List<WeeklyTransaction> weeklyTransactionList;
     private HashMap<WeeklyTransaction, List<CategoryTransaction>> categoryTransactionListHashMap;
@@ -68,6 +71,10 @@ public class WeeklyTransactionFragment extends Fragment implements LoaderManager
 
         periodTextView = header.findViewById(R.id.transaction_header_weekly_period);
         periodTextView.setText(Utility.monthsName[mMonth] + " " + mYear);
+
+        totalAmountTextView = header.findViewById(R.id.transaction_header_weekly_amount_textview);
+        totalGlobalIncomeTextView = header.findViewById(R.id.transaction_header_weekly_income_amount_textview);
+        totalGlobalExpenseTextView = header.findViewById(R.id.transaction_header_weekly_expense_amount_textview);
 
         weeklyExpandableListView = rootView.findViewById(R.id.transaction_weekly_expandablelistview);
         weeklyExpandableListView.addHeaderView(header); // ini buat masukin header nya
@@ -120,6 +127,8 @@ public class WeeklyTransactionFragment extends Fragment implements LoaderManager
         double totalExpense = 0;
         int lastWeek = -1;
         Calendar c = Calendar.getInstance();
+        double totalGlobalIncome = 0;
+        double totalGlobalExpense = 0;
 
         List<Transaction> allTransactions = Utility.convertCursorToListOfTransaction(data);
 
@@ -155,8 +164,10 @@ public class WeeklyTransactionFragment extends Fragment implements LoaderManager
             }
             // agregasi expense atau income
             if (type.equals(CategoryEntry.TYPE_EXPENSE)){
+                totalGlobalExpense += curTransaction.getAmount();
                 totalExpense += curTransaction.getAmount();
             } else if (type.equals(CategoryEntry.TYPE_INCOME)){
+                totalGlobalIncome += curTransaction.getAmount();
                 totalIncome += curTransaction.getAmount();
             }
 
@@ -179,6 +190,10 @@ public class WeeklyTransactionFragment extends Fragment implements LoaderManager
             weeklyTransactionList.add(weeklyTransaction); // masukin list
             categoryTransactionListHashMap.put(weeklyTransaction, Utility.convertHashMapToList(categoryTransactionHashMap)); // masukin hashmap juga dr parent ke anak2nya
         }
+
+        totalAmountTextView.setText((totalGlobalIncome - totalGlobalExpense) + "");
+        totalGlobalIncomeTextView.setText(totalGlobalIncome + "");
+        totalGlobalExpenseTextView.setText(totalGlobalExpense + "");
 
         weeklyExpandableAdapter = new WeeklyExpandableAdapter(weeklyTransactionList, categoryTransactionListHashMap, getContext());
         weeklyExpandableListView.setAdapter(weeklyExpandableAdapter);

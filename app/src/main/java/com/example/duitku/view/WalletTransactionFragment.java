@@ -1,6 +1,7 @@
 package com.example.duitku.view;
 
 import com.example.duitku.adapter.WalletAdapter;
+import com.example.duitku.controller.WalletController;
 import com.example.duitku.database.DuitkuContract.WalletEntry;
 import com.example.duitku.database.DuitkuContract.BudgetEntry;
 
@@ -14,6 +15,7 @@ import android.widget.Button;
 import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.ListView;
+import android.widget.TextView;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
@@ -40,6 +42,8 @@ public class WalletTransactionFragment extends Fragment implements LoaderManager
     private ListView walletListView;
     private ImageView addWalletBtn;
 
+    private TextView totalAmountTextView;
+
     private WalletAdapter walletAdapter;
 
     @Nullable
@@ -51,6 +55,8 @@ public class WalletTransactionFragment extends Fragment implements LoaderManager
         // Initialize view nya
         walletListView = rootView.findViewById(R.id.transaction_wallet_listview);
         addWalletBtn = rootView.findViewById(R.id.transaction_wallet_add_btn);
+
+        totalAmountTextView = rootView.findViewById(R.id.transaction_wallet_header_amount_textview);
 
         walletAdapter = new WalletAdapter(getContext(), null);
         walletListView.setAdapter(walletAdapter);
@@ -110,6 +116,7 @@ public class WalletTransactionFragment extends Fragment implements LoaderManager
     @Override
     public void onLoadFinished(@NonNull Loader<Cursor> loader, Cursor data) {
         // ini buat naruh data2 nya di adapter yg nanti ditampilin di listview
+        totalAmountTextView.setText("Total amount:   " + new WalletController(getContext()).calculateTotalAmount(data));
         walletAdapter.swapCursor(data);
     }
 
@@ -117,7 +124,6 @@ public class WalletTransactionFragment extends Fragment implements LoaderManager
     public void onLoaderReset(@NonNull Loader<Cursor> loader) {
         // ini kalo loadernya di reset
         walletAdapter.swapCursor(null);
-
     }
 
 }

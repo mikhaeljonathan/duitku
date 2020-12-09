@@ -39,6 +39,9 @@ public class MonthlyTransactionFragment extends Fragment implements LoaderManage
     private ExpandableListView monthlyExpandableListView;
     private MonthlyExpandableAdapter monthlyExpandableAdapter;
     private TextView periodTextView;
+    private TextView totalAmountTextView;
+    private TextView totalGlobalIncomeTextView;
+    private TextView totalGlobalExpenseTextView;
 
     private List<MonthlyTransaction> monthlyTransactionList;
     private HashMap<MonthlyTransaction, List<CategoryTransaction>> categoryTransactionListHashMap;
@@ -61,6 +64,10 @@ public class MonthlyTransactionFragment extends Fragment implements LoaderManage
         periodTextView = header.findViewById(R.id.transaction_header_monthly_period);
         periodTextView.setText(mYear + "");
 
+        totalAmountTextView = header.findViewById(R.id.transaction_header_monthly_amount_textview);
+        totalGlobalIncomeTextView = header.findViewById(R.id.transaction_header_monthly_income_amount_textview);
+        totalGlobalExpenseTextView = header.findViewById(R.id.transaction_header_monthly_expense_amount_textview);
+
         monthlyExpandableListView = rootView.findViewById(R.id.transaction_monthly_expandablelistview);
         monthlyExpandableListView.addHeaderView(header);
 
@@ -80,36 +87,6 @@ public class MonthlyTransactionFragment extends Fragment implements LoaderManage
 
         return rootView;
     }
-
-//    private void setContent(){
-//
-//        monthlyTransactionList = new ArrayList<>();
-//        categoryTransactionListHashMap = new HashMap<>();
-//
-//        monthlyTransactionList.add(new MonthlyTransaction("Jan", "Rp 10.000.000", "Rp 50.000.000"));
-//        monthlyTransactionList.add(new MonthlyTransaction("Feb", "Rp 15.000.000", "Rp 75.000.000"));
-//        monthlyTransactionList.add(new MonthlyTransaction("Mar", "Rp 20.000.000", "Rp 100.000.000"));
-//
-//        ArrayList<String> temp = new ArrayList<String>();
-//        temp.add("Salary");
-//        temp.add("Transfer");
-//        temp.add("Food");
-//
-//        List<CategoryTransaction> categoryTransaction1 = new ArrayList<>();
-//        List<CategoryTransaction> categoryTransaction2 = new ArrayList<>();
-//        List<CategoryTransaction> categoryTransaction3 = new ArrayList<>();
-//
-//        for (int i = 0; i < temp.size();i++){
-//            categoryTransaction1.add(new CategoryTransaction(1, 100000));
-//            categoryTransaction2.add(new CategoryTransaction(2, 200000));
-//            categoryTransaction3.add(new CategoryTransaction(3, 300000));
-//        }
-//
-//        categoryTransactionListHashMap.put(monthlyTransactionList.get(0), categoryTransaction1);
-//        categoryTransactionListHashMap.put(monthlyTransactionList.get(1), categoryTransaction2);
-//        categoryTransactionListHashMap.put(monthlyTransactionList.get(2), categoryTransaction3);
-//
-//    }
 
     @NonNull
     @Override
@@ -141,6 +118,8 @@ public class MonthlyTransactionFragment extends Fragment implements LoaderManage
         double totalExpense = 0;
         int lastMonth = -1;
         Calendar c = Calendar.getInstance();
+        double totalGlobalIncome = 0;
+        double totalGlobalExpense = 0;
 
         List<Transaction> allTransactions = Utility.convertCursorToListOfTransaction(data);
 
@@ -176,8 +155,10 @@ public class MonthlyTransactionFragment extends Fragment implements LoaderManage
             }
             // agregasi expense atau income
             if (type.equals(DuitkuContract.CategoryEntry.TYPE_EXPENSE)){
+                totalGlobalExpense += curTransaction.getAmount();
                 totalExpense += curTransaction.getAmount();
             } else if (type.equals(DuitkuContract.CategoryEntry.TYPE_INCOME)){
+                totalGlobalIncome += curTransaction.getAmount();
                 totalIncome += curTransaction.getAmount();
             }
 
@@ -199,6 +180,10 @@ public class MonthlyTransactionFragment extends Fragment implements LoaderManage
             monthlyTransactionList.add(monthlyTransaction); // masukin list
             categoryTransactionListHashMap.put(monthlyTransaction, Utility.convertHashMapToList(categoryTransactionHashMap));
         }
+
+        totalAmountTextView.setText((totalGlobalIncome - totalGlobalExpense) + "");
+        totalGlobalIncomeTextView.setText(totalGlobalIncome + "");
+        totalGlobalExpenseTextView.setText(totalGlobalExpense + "");
 
         monthlyExpandableAdapter = new MonthlyExpandableAdapter(monthlyTransactionList, categoryTransactionListHashMap, getContext());
         monthlyExpandableListView.setAdapter(monthlyExpandableAdapter);
