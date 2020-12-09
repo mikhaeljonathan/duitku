@@ -96,10 +96,10 @@ public class ReportExpenseFragment extends Fragment {
         List<CategoryTransaction> categoryTransaction4 = new ArrayList<>();
 
         for (int i = 0; i < temp.size();i++){
-            categoryTransaction1.add(new CategoryTransaction(temp.get(i), "sekian"));
-            categoryTransaction2.add(new CategoryTransaction(temp.get(i), "sekian"));
-            categoryTransaction3.add(new CategoryTransaction(temp.get(i), "sekian"));
-            categoryTransaction4.add(new CategoryTransaction(temp.get(i), "sekian"));
+            categoryTransaction1.add(new CategoryTransaction(1, 1000));
+            categoryTransaction2.add(new CategoryTransaction(2, 2000));
+            categoryTransaction3.add(new CategoryTransaction(3, 3000));
+            categoryTransaction4.add(new CategoryTransaction(4, 4000));
         }
 
         expenseReportListHashMap.put(expenseReportList.get(0), categoryTransaction1);
@@ -174,10 +174,10 @@ public class ReportExpenseFragment extends Fragment {
             }
 
             TextView categoryName = view.findViewById(R.id.item_list_transaction_category_name_textview);
-            categoryName.setText(categoryTransaction.getCategory());
+            categoryName.setText(Long.toString(categoryTransaction.getCategoryId()));
 
             TextView amount = view.findViewById(R.id.item_list_transaction_category_amount_textview);
-            amount.setText(categoryTransaction.getAmount());
+            amount.setText(Double.toString(categoryTransaction.getAmount()));
 
             return view;
         }
