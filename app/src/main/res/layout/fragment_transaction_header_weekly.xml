@@ -58,7 +58,7 @@
         android:id="@+id/transaction_header_weekly_total_textview"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginStart="24dp"
+        android:layout_marginStart="48dp"
         android:layout_marginTop="24dp"
         android:text="Total:"
         android:textColor="@android:color/white"
@@ -72,19 +72,20 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginTop="24dp"
-        android:layout_marginEnd="16dp"
-        tools:text="1.000.000"
+        android:layout_marginEnd="48dp"
         android:textColor="@android:color/white"
         android:textSize="24sp"
         app:layout_constraintEnd_toEndOf="@+id/transaction_header_weekly_container"
-        app:layout_constraintTop_toTopOf="@+id/transaction_header_weekly_container" />
+        app:layout_constraintTop_toTopOf="@+id/transaction_header_weekly_container"
+        tools:text="1.000.000" />
 
     <View
         android:id="@+id/transaction_header_weekly_divider"
         android:layout_width="1dp"
         android:layout_height="84dp"
-        android:layout_marginBottom="32dp"
+        android:layout_marginBottom="36dp"
         android:background="@android:color/white"
+        android:foreground="@android:color/white"
         app:layout_constraintBottom_toBottomOf="@+id/transaction_header_weekly_container"
         app:layout_constraintEnd_toEndOf="@+id/transaction_header_weekly_container"
         app:layout_constraintStart_toStartOf="@+id/transaction_header_weekly_container" />
@@ -96,14 +97,15 @@
         android:layout_marginTop="32dp"
         android:text="Income"
         android:textColor="@android:color/white"
+        android:textSize="18sp"
         app:layout_constraintEnd_toStartOf="@+id/transaction_header_weekly_divider"
         app:layout_constraintStart_toEndOf="@+id/transaction_header_weekly_income_imageview"
         app:layout_constraintTop_toBottomOf="@+id/transaction_header_weekly_total_textview" />
 
     <ImageView
         android:id="@+id/transaction_header_weekly_income_imageview"
-        android:layout_width="24dp"
-        android:layout_height="24dp"
+        android:layout_width="18dp"
+        android:layout_height="18dp"
         android:layout_marginEnd="8dp"
         app:layout_constraintBottom_toBottomOf="@+id/transaction_header_weekly_income_textview"
         app:layout_constraintEnd_toStartOf="@+id/transaction_header_weekly_income_textview"
@@ -130,6 +132,7 @@
         android:layout_height="wrap_content"
         android:layout_marginTop="32dp"
         android:text="Expense"
+        android:textSize="18sp"
         android:textColor="@android:color/white"
         app:layout_constraintEnd_toEndOf="@+id/transaction_header_weekly_container"
         app:layout_constraintStart_toEndOf="@+id/transaction_header_weekly_expense_imageview"
@@ -137,8 +140,8 @@
 
     <ImageView
         android:id="@+id/transaction_header_weekly_expense_imageview"
-        android:layout_width="24dp"
-        android:layout_height="24dp"
+        android:layout_width="18dp"
+        android:layout_height="18dp"
         android:layout_marginEnd="8dp"
         app:layout_constraintBottom_toBottomOf="@+id/transaction_header_weekly_expense_textview"
         app:layout_constraintEnd_toStartOf="@+id/transaction_header_weekly_expense_textview"
