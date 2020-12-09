@@ -95,14 +95,15 @@ cuman ini akumulasi 1 tahun, bkn 1 bulan-->
         android:layout_marginTop="32dp"
         android:text="Income"
         android:textColor="@android:color/white"
+        android:textSize="18sp"
         app:layout_constraintEnd_toStartOf="@+id/transaction_header_monthly_divider"
         app:layout_constraintStart_toEndOf="@+id/transaction_header_monthly_income_imageview"
         app:layout_constraintTop_toBottomOf="@+id/transaction_header_monthly_total_textview" />
 
     <ImageView
         android:id="@+id/transaction_header_monthly_income_imageview"
-        android:layout_width="24dp"
-        android:layout_height="24dp"
+        android:layout_width="18dp"
+        android:layout_height="18dp"
         app:layout_constraintBottom_toBottomOf="@+id/transaction_header_monthly_income_textview"
         app:layout_constraintEnd_toStartOf="@+id/transaction_header_monthly_income_textview"
         app:layout_constraintHorizontal_chainStyle="packed"
@@ -130,14 +131,15 @@ cuman ini akumulasi 1 tahun, bkn 1 bulan-->
         android:layout_marginTop="32dp"
         android:text="Expense"
         android:textColor="@android:color/white"
+        android:textSize="18sp"
         app:layout_constraintEnd_toEndOf="@+id/transaction_header_monthly_container"
         app:layout_constraintStart_toEndOf="@+id/transaction_header_monthly_expense_imageview"
         app:layout_constraintTop_toBottomOf="@+id/transaction_header_monthly_amount_textview" />
 
     <ImageView
         android:id="@+id/transaction_header_monthly_expense_imageview"
-        android:layout_width="24dp"
-        android:layout_height="24dp"
+        android:layout_width="18dp"
+        android:layout_height="18dp"
         app:layout_constraintBottom_toBottomOf="@+id/transaction_header_monthly_expense_textview"
         app:layout_constraintEnd_toStartOf="@+id/transaction_header_monthly_expense_textview"
         app:layout_constraintHorizontal_chainStyle="packed"
