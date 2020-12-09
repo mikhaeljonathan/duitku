@@ -16,7 +16,7 @@ import androidx.loader.app.LoaderManager;
 import androidx.loader.content.CursorLoader;
 import androidx.loader.content.Loader;
 
-import com.example.duitku.DateValue;
+import com.example.duitku.Utility;
 import com.example.duitku.R;
 import com.example.duitku.adapter.DailyExpandableAdapter;
 import com.example.duitku.database.DuitkuContract.CategoryEntry;
@@ -73,7 +73,7 @@ public class DailyTransactionFragment extends Fragment implements LoaderManager.
         mYear = calendar.get(Calendar.YEAR);
 
         periodTextView = header.findViewById(R.id.transaction_header_daily_period);
-        periodTextView.setText(DateValue.monthsName[mMonth] + " " + mYear);
+        periodTextView.setText(Utility.monthsName[mMonth] + " " + mYear);
 
         // initiate ExpandableListViewnya
         dailyExpandableListView = rootView.findViewById(R.id.transaction_daily_expandablelistview);
@@ -191,7 +191,7 @@ public class DailyTransactionFragment extends Fragment implements LoaderManager.
                 int dayOfWeek = c.get(Calendar.DAY_OF_WEEK);
 
                 // buat object dailytransaction (judul / parentnya)
-                DailyTransaction dailyTransaction = new DailyTransaction(dayOfMonth, DateValue.daysName[dayOfWeek], totalIncome, totalExpense);
+                DailyTransaction dailyTransaction = new DailyTransaction(dayOfMonth, Utility.daysName[dayOfWeek], totalIncome, totalExpense);
                 dailyTransactionList.add(dailyTransaction); // masukin list
                 dailyTransactionListHashMap.put(dailyTransaction, transactions); // masukin hashmap juga dr parent ke anak2nya
 
@@ -226,7 +226,7 @@ public class DailyTransactionFragment extends Fragment implements LoaderManager.
             c.setTime(lastDate);
             int dayOfMonth = c.get(Calendar.DAY_OF_MONTH);
             int dayOfWeek = c.get(Calendar.DAY_OF_WEEK);
-            DailyTransaction dailyTransaction = new DailyTransaction(dayOfMonth, DateValue.daysName[dayOfWeek], totalIncome, totalExpense);
+            DailyTransaction dailyTransaction = new DailyTransaction(dayOfMonth, Utility.daysName[dayOfWeek], totalIncome, totalExpense);
             dailyTransactionList.add(dailyTransaction);
             dailyTransactionListHashMap.put(dailyTransaction, transactions);
         }
@@ -247,7 +247,7 @@ public class DailyTransactionFragment extends Fragment implements LoaderManager.
     public void pickMonthYear(int month, int year) {
         mMonth = month;
         mYear = year;
-        periodTextView.setText(DateValue.monthsName[mMonth] + " " + mYear);
+        periodTextView.setText(Utility.monthsName[mMonth] + " " + mYear);
         LoaderManager.getInstance(this).restartLoader(TRANSACTION_LOADER_DAILY, null, this);
     }
 

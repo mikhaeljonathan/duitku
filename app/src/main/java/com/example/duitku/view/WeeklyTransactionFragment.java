@@ -16,13 +16,12 @@ import androidx.loader.app.LoaderManager;
 import androidx.loader.content.CursorLoader;
 import androidx.loader.content.Loader;
 
-import com.example.duitku.DateValue;
+import com.example.duitku.Utility;
 import com.example.duitku.R;
 import com.example.duitku.adapter.WeeklyExpandableAdapter;
 import com.example.duitku.database.DuitkuContract.CategoryEntry;
 import com.example.duitku.database.DuitkuContract.TransactionEntry;
 import com.example.duitku.dialog.MonthYearPickerDialog;
-import com.example.duitku.model.Category;
 import com.example.duitku.model.CategoryTransaction;
 import com.example.duitku.model.Transaction;
 import com.example.duitku.model.WeeklyTransaction;
@@ -68,7 +67,7 @@ public class WeeklyTransactionFragment extends Fragment implements LoaderManager
         mYear = calendar.get(Calendar.YEAR);
 
         periodTextView = header.findViewById(R.id.transaction_header_weekly_period);
-        periodTextView.setText(DateValue.monthsName[mMonth] + " " + mYear);
+        periodTextView.setText(Utility.monthsName[mMonth] + " " + mYear);
 
         weeklyExpandableListView = rootView.findViewById(R.id.transaction_weekly_expandablelistview);
         weeklyExpandableListView.addHeaderView(header); // ini buat masukin header nya
@@ -83,88 +82,11 @@ public class WeeklyTransactionFragment extends Fragment implements LoaderManager
                 monthYearPickerDialog.show(getFragmentManager(), "Month Year Picker Dialog");
             }
         });
-//        setContent();
 
         LoaderManager.getInstance(this).restartLoader(TRANSACTION_LOADER_WEEKLY, null, this);
         LoaderManager.getInstance(this).initLoader(TRANSACTION_LOADER_WEEKLY, null, this);
 
         return rootView;
-    }
-
-
-//    private void setContent(){
-//
-//
-//
-//        weeklyTransactionList.add(new WeeklyTransaction("12.10.2020 -\n18.10.2020", "Rp 7.000.000", "Rp 5.000.000"));
-//        weeklyTransactionList.add(new WeeklyTransaction("18.10.2020 -\n24.10.2020", "Rp 5.000.000", "Rp 7.000.000"));
-//        weeklyTransactionList.add(new WeeklyTransaction("24.10.2020 -\n30.10.2020", "Rp 3.000.000", "Rp 10.000.000"));
-//
-//        ArrayList<String> temp = new ArrayList<String>();
-//        temp.add("Salary");
-//        temp.add("Transfer");
-//        temp.add("Food");
-//
-//        List<CategoryTransaction> categoryTransaction1 = new ArrayList<>();
-//        List<CategoryTransaction> categoryTransaction2 = new ArrayList<>();
-//        List<CategoryTransaction> categoryTransaction3 = new ArrayList<>();
-//
-//        for (int i = 0; i < temp.size();i++){
-//            categoryTransaction1.add(new CategoryTransaction(temp.get(i), "Rp 100.000"));
-//            categoryTransaction2.add(new CategoryTransaction(temp.get(i), "Rp 200.000"));
-//            categoryTransaction3.add(new CategoryTransaction(temp.get(i), "Rp 300.000"));
-//        }
-//
-//        categoryTransactionListHashMap.put(weeklyTransactionList.get(0), categoryTransaction1);
-//        categoryTransactionListHashMap.put(weeklyTransactionList.get(1), categoryTransaction2);
-//        categoryTransactionListHashMap.put(weeklyTransactionList.get(2), categoryTransaction3);
-//
-//    }
-
-    private List<Transaction> convertCursorToList(Cursor data){
-        // litsnya kita init dlu
-        List<Transaction> ret = new ArrayList<>();
-
-        if (!data.moveToFirst()) return ret;
-        do {
-            // posisi kolom
-            int transactionIdColumnIndex = data.getColumnIndex(TransactionEntry.COLUMN_ID);
-            int dateColumnIndex = data.getColumnIndex(TransactionEntry.COLUMN_DATE);
-            int walletIdColumnIndex = data.getColumnIndex(TransactionEntry.COLUMN_WALLET_ID);
-            int walletDestIdColumnIndex = data.getColumnIndex(TransactionEntry.COLUMN_WALLETDEST_ID);
-            int categoryIdColumnIndex = data.getColumnIndex(TransactionEntry.COLUMN_CATEGORY_ID);
-            int descColumnIndex = data.getColumnIndex(TransactionEntry.COLUMN_DESC);
-            int amountColumnIndex = data.getColumnIndex(TransactionEntry.COLUMN_AMOUNT);
-
-            // ambil datanya
-            Date curDate = null;
-            try {
-                curDate = new SimpleDateFormat("dd/MM/yyyy").parse(data.getString(dateColumnIndex));
-            } catch (ParseException e) {
-                e.printStackTrace();
-            }
-            long transactionId = data.getLong(transactionIdColumnIndex);
-            long walletId = data.getLong(walletIdColumnIndex);
-            long walletDestId = data.getLong(walletDestIdColumnIndex);
-            long categoryId = data.getLong(categoryIdColumnIndex);
-            String desc = data.getString(descColumnIndex);
-            double amount= data.getDouble(amountColumnIndex);
-
-            // masukin ke list
-            ret.add(new Transaction(transactionId, curDate, walletId, walletDestId, categoryId, amount, desc));
-
-        } while (data.moveToNext());
-
-        // return listnya
-        return ret;
-    }
-
-    private List<CategoryTransaction> convertHashMapToList(HashMap<Long, CategoryTransaction> hashMap){
-        List<CategoryTransaction> ret = new ArrayList<>();
-        for (Map.Entry mapElement: hashMap.entrySet()){
-            ret.add((CategoryTransaction) mapElement.getValue());
-        }
-        return ret;
     }
 
     @NonNull
@@ -193,14 +115,13 @@ public class WeeklyTransactionFragment extends Fragment implements LoaderManager
         weeklyTransactionList.clear();
         categoryTransactionListHashMap.clear();
 
-        List<CategoryTransaction> categorytransactions = new ArrayList<>();
         HashMap<Long, CategoryTransaction> categoryTransactionHashMap = new HashMap<>();
         double totalIncome = 0;
         double totalExpense = 0;
         int lastWeek = -1;
         Calendar c = Calendar.getInstance();
 
-        List<Transaction> allTransactions = convertCursorToList(data);
+        List<Transaction> allTransactions = Utility.convertCursorToListOfTransaction(data);
 
         Collections.sort(allTransactions, new Comparator<Transaction>() {
             @Override
@@ -218,7 +139,7 @@ public class WeeklyTransactionFragment extends Fragment implements LoaderManager
                 // buat object dailytransaction (judul / parentnya)
                 WeeklyTransaction weeklyTransaction = new WeeklyTransaction(lastWeek, "Intervals", totalIncome, totalExpense);
                 weeklyTransactionList.add(weeklyTransaction); // masukin list
-                categoryTransactionListHashMap.put(weeklyTransaction, convertHashMapToList(categoryTransactionHashMap)); // masukin hashmap juga dr parent ke anak2nya
+                categoryTransactionListHashMap.put(weeklyTransaction, Utility.convertHashMapToList(categoryTransactionHashMap)); // masukin hashmap juga dr parent ke anak2nya
 
                 // reset variabel2 agregasinya
                 totalIncome = 0;
@@ -256,7 +177,7 @@ public class WeeklyTransactionFragment extends Fragment implements LoaderManager
         if (allTransactions.size() > 0){
             WeeklyTransaction weeklyTransaction = new WeeklyTransaction(lastWeek, "Intervals", totalIncome, totalExpense);
             weeklyTransactionList.add(weeklyTransaction); // masukin list
-            categoryTransactionListHashMap.put(weeklyTransaction, convertHashMapToList(categoryTransactionHashMap)); // masukin hashmap juga dr parent ke anak2nya
+            categoryTransactionListHashMap.put(weeklyTransaction, Utility.convertHashMapToList(categoryTransactionHashMap)); // masukin hashmap juga dr parent ke anak2nya
         }
 
         weeklyExpandableAdapter = new WeeklyExpandableAdapter(weeklyTransactionList, categoryTransactionListHashMap, getContext());
@@ -272,7 +193,7 @@ public class WeeklyTransactionFragment extends Fragment implements LoaderManager
     public void pickMonthYear(int month, int year) {
         mMonth = month;
         mYear = year;
-        periodTextView.setText(DateValue.monthsName[mMonth] + " " + mYear);
+        periodTextView.setText(Utility.monthsName[mMonth] + " " + mYear);
         LoaderManager.getInstance(this).restartLoader(TRANSACTION_LOADER_WEEKLY, null, this);
     }
 

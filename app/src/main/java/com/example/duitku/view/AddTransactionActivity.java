@@ -53,6 +53,7 @@ public class AddTransactionActivity extends AppCompatActivity {
         adapter.addFrag(new AddTransactionTransferFragment(), "Transfer");
 
         viewPager.setAdapter(adapter);
+        viewPager.setCurrentItem(1);
         tabLayout.setupWithViewPager(viewPager);
 
         // ini buat back button nya

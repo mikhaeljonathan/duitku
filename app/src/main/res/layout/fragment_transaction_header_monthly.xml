@@ -5,32 +5,62 @@ cuman ini akumulasi 1 tahun, bkn 1 bulan-->
 
 <androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/transaction_header_monthly_constraintlayout"
     android:layout_width="match_parent"
-    android:layout_height="match_parent">
+    android:layout_height="match_parent"
+    android:layoutDirection="ltr">
+
+    <TextView
+        android:id="@+id/transaction_header_monthly_title"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="16dp"
+        android:layout_marginTop="16dp"
+        android:text="Monthly Transaction"
+        android:textColor="@android:color/white"
+        android:textSize="30sp"
+        android:textStyle="bold"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <TextView
+        android:id="@+id/transaction_header_monthly_period"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="16dp"
+        android:layout_marginTop="16dp"
+        android:textColor="@android:color/darker_gray"
+        android:textSize="18sp"
+        android:textStyle="bold"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/transaction_header_monthly_title"
+        tools:text="2020" />
 
     <ImageView
         android:id="@+id/transaction_header_monthly_container"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginStart="32dp"
-        android:layout_marginTop="0dp"
-        android:layout_marginEnd="32dp"
+        android:layout_marginStart="16dp"
+        android:layout_marginTop="8dp"
+        android:layout_marginEnd="16dp"
+        android:layout_marginBottom="16dp"
         android:src="@drawable/header_background"
+        app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="1.0"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
+        app:layout_constraintTop_toBottomOf="@+id/transaction_header_monthly_period" />
 
     <TextView
         android:id="@+id/transaction_header_monthly_total_textview"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginTop="32dp"
-        android:text="Total this year"
+        android:layout_marginStart="24dp"
+        android:layout_marginTop="24dp"
+        android:text="Total:"
         android:textColor="@android:color/white"
-        android:textSize="25sp"
-        android:textStyle="bold"
-        app:layout_constraintEnd_toEndOf="@+id/transaction_header_monthly_container"
+        android:textSize="24sp"
         app:layout_constraintStart_toStartOf="@+id/transaction_header_monthly_container"
         app:layout_constraintTop_toTopOf="@+id/transaction_header_monthly_container" />
 
@@ -38,12 +68,12 @@ cuman ini akumulasi 1 tahun, bkn 1 bulan-->
         android:id="@+id/transaction_header_monthly_amount_textview"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginTop="16dp"
+        android:layout_marginTop="24dp"
+        android:layout_marginEnd="24dp"
         android:text="Rp 8.000.000"
         android:textColor="@android:color/white"
-        android:textSize="30sp"
+        android:textSize="24sp"
         app:layout_constraintEnd_toEndOf="@+id/transaction_header_monthly_container"
-        app:layout_constraintStart_toStartOf="@+id/transaction_header_monthly_container"
-        app:layout_constraintTop_toBottomOf="@+id/transaction_header_monthly_total_textview" />
+        app:layout_constraintTop_toTopOf="@+id/transaction_header_monthly_container" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>
