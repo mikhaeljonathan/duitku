@@ -204,3 +204,4 @@ public class MonthlyTransactionFragment extends Fragment implements LoaderManage
     }
 
 }
+
