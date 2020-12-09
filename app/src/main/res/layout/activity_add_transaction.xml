@@ -35,7 +35,7 @@
         android:layout_height="wrap_content"
         android:layout_marginStart="16dp"
         android:text="Add Transaction"
-        android:textColor="@android:color/white"
+        android:textColor="@color/textLight"
         android:textSize="18sp"
         app:layout_constraintBottom_toBottomOf="@+id/add_transaction_toolbar"
         app:layout_constraintStart_toEndOf="@+id/add_transaction_back_btn"

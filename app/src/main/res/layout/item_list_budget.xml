@@ -15,7 +15,7 @@
         android:layout_height="wrap_content"
         android:layout_marginStart="16dp"
         android:layout_marginTop="16dp"
-        android:textColor="@android:color/white"
+        android:textColor="@color/textLight"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
         tools:text="Food" />
@@ -26,7 +26,7 @@
         android:layout_height="wrap_content"
         android:layout_marginStart="16dp"
         android:layout_marginBottom="16dp"
-        android:textColor="@android:color/white"
+        android:textColor="@color/textLight"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/item_list_budget_category_textview"
@@ -56,7 +56,7 @@
         android:id="@+id/item_list_budget_used_textview"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:textColor="@android:color/white"
+        android:textColor="@color/textLight"
         app:layout_constraintStart_toStartOf="@+id/item_list_budget_progressbar"
         app:layout_constraintTop_toBottomOf="@+id/item_list_budget_progressbar"
         tools:text="Rp 700.000" />
@@ -65,7 +65,7 @@
         android:id="@+id/item_list_budget_left_textview"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:textColor="@android:color/white"
+        android:textColor="@color/textLight"
         app:layout_constraintEnd_toEndOf="@+id/item_list_budget_progressbar"
         app:layout_constraintTop_toBottomOf="@+id/item_list_budget_progressbar"
         tools:text="Rp 300.000" />
