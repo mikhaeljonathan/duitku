@@ -70,12 +70,12 @@ cuman ini akumulasi 1 tahun, bkn 1 bulan-->
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginTop="24dp"
-        android:layout_marginEnd="24dp"
-        tools:text="5.000.000"
+        android:layout_marginEnd="48dp"
         android:textColor="@android:color/white"
         android:textSize="24sp"
         app:layout_constraintEnd_toEndOf="@+id/transaction_header_monthly_container"
-        app:layout_constraintTop_toTopOf="@+id/transaction_header_monthly_container" />
+        app:layout_constraintTop_toTopOf="@+id/transaction_header_monthly_container"
+        tools:text="5.000.000" />
 
     <View
         android:id="@+id/transaction_header_monthly_divider"
