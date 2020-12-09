@@ -4,15 +4,28 @@
     android:layout_height="match_parent"
     xmlns:app="http://schemas.android.com/apk/res-auto">
 
-    <TextView
-        android:id="@+id/a"
-        android:layout_width="wrap_content"
+    <com.google.android.material.tabs.TabLayout
+        android:id="@+id/report_tabLayout"
+        android:layout_width="0dp"
         android:layout_height="wrap_content"
-        android:text="ReportFragment"
-        android:textColor="@android:color/white"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:tabTextColor="@android:color/white">
+
+    </com.google.android.material.tabs.TabLayout>
+
+    <!--ViewPager sebagai placeHolder fragment daily, weekly, dll-->
+    <!--Di bawah ada margin bottom 78dp itu aku kira2
+    supaya ga ketutupan sama bottomAppBar-->
+    <androidx.viewpager.widget.ViewPager
+        android:id="@+id/report_viewPager"
+        android:layout_width="wrap_content"
+        android:layout_height="0dp"
+        android:layout_marginBottom="65dp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
+        app:layout_constraintTop_toBottomOf="@+id/report_tabLayout" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>
