@@ -7,12 +7,13 @@ import android.database.Cursor;
 import android.net.Uri;
 import android.os.Build;
 import android.os.Bundle;
+import android.text.Editable;
+import android.text.TextWatcher;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.DatePicker;
-import android.widget.EditText;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -28,11 +29,11 @@ import com.example.duitku.controller.TransactionController;
 import com.example.duitku.database.DuitkuContract.WalletEntry;
 import com.example.duitku.dialog.DatePickerFragment;
 import com.example.duitku.dialog.PickWalletDialog;
-import com.example.duitku.dialog.ViewCategoriesDialog;
 import com.example.duitku.model.Transaction;
+import com.google.android.material.textfield.TextInputEditText;
+import com.google.android.material.textfield.TextInputLayout;
 
 import java.text.DateFormat;
-import java.text.SimpleDateFormat;
 import java.util.Calendar;
 import java.util.Date;
 
@@ -44,8 +45,15 @@ public class AddTransactionTransferFragment extends Fragment implements PickWall
     private TextView dateTextView;
     private TextView walletTextView;
     private TextView walletDestTextView;
-    private EditText amountField;
-    private EditText descField;
+
+    private TextInputLayout amountLayout;
+    private TextInputLayout descLayout;
+    private TextInputEditText amountField;
+    private TextInputEditText descField;
+
+    private TextView walletErrorTextView;
+    private TextView walletDestErrorTextView;
+
     private Button saveBtn;
 
     private Date mDate;
@@ -66,13 +74,59 @@ public class AddTransactionTransferFragment extends Fragment implements PickWall
         dateTextView = rootView.findViewById(R.id.add_transaction_transfer_date_textview);
         walletTextView = rootView.findViewById(R.id.add_transaction_transfer_wallet_textview);
         walletDestTextView = rootView.findViewById(R.id.add_transaction_transfer_walletdest_textview);
+        amountLayout = rootView.findViewById(R.id.add_transaction_transfer_amount_layout);
+        descLayout = rootView.findViewById(R.id.add_transaction_transfer_desc_layout);
         amountField = rootView.findViewById(R.id.add_transaction_transfer_amount_edittext);
         descField = rootView.findViewById(R.id.add_transaction_transfer_desc_edittext);
+        walletErrorTextView = rootView.findViewById(R.id.add_transasction_transfer_wallet_error_textview);
+        walletDestErrorTextView = rootView.findViewById(R.id.add_transasction_transfer_walletdest_error_textview);
         saveBtn = rootView.findViewById(R.id.add_transaction_transfer_save_btn);
+
+        amountField.addTextChangedListener(new TextWatcher() {
+            @Override
+            public void beforeTextChanged(CharSequence charSequence, int i, int i1, int i2) {
+
+            }
+
+            @Override
+            public void onTextChanged(CharSequence charSequence, int i, int i1, int i2) {
+
+            }
+
+            @Override
+            public void afterTextChanged(Editable editable) {
+                if (editable.toString().length() > 9){
+                    amountLayout.setError("Amount too much");
+                } else {
+                    amountLayout.setErrorEnabled(false);
+                }
+            }
+        });
+        descField.addTextChangedListener(new TextWatcher() {
+            @Override
+            public void beforeTextChanged(CharSequence charSequence, int i, int i1, int i2) {
+
+            }
+
+            @Override
+            public void onTextChanged(CharSequence charSequence, int i, int i1, int i2) {
+
+            }
+
+            @Override
+            public void afterTextChanged(Editable editable) {
+                if (editable.toString().length() > 50){
+                    descLayout.setError("Description max 50 characters");
+                } else {
+                    descLayout.setErrorEnabled(false);
+                }
+            }
+        });
 
         walletId = -1;
         walletDestId = -1;
-        mDate = null;
+        Calendar c = Calendar.getInstance();
+        mDate = c.getTime();
 
         listener = new DatePickerDialog.OnDateSetListener() {
             @Override
@@ -87,6 +141,11 @@ public class AddTransactionTransferFragment extends Fragment implements PickWall
 
                 // ubah jadi string
                 String currentDateString = DateFormat.getDateInstance(DateFormat.FULL).format(mDate);
+
+                calendar = Calendar.getInstance();
+                if (calendar.get(Calendar.YEAR) == year && calendar.get(Calendar.MONTH) == month && calendar.get(Calendar.DAY_OF_MONTH) == dayOfMonth){
+                    currentDateString = "Today";
+                }
 
                 // update di startdate textview
                 dateTextView.setText(currentDateString);
@@ -119,9 +178,10 @@ public class AddTransactionTransferFragment extends Fragment implements PickWall
         saveBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                addTransaction();
-                getActivity().finish(); // activity add transaction ny udh selesai
-                startActivity(new Intent(getActivity(), MainActivity.class));
+                if (addTransaction() != null){
+                    getActivity().finish(); // activity add transaction ny udh selesai
+                    startActivity(new Intent(getActivity(), MainActivity.class));
+                }
             }
         });
         
@@ -139,6 +199,7 @@ public class AddTransactionTransferFragment extends Fragment implements PickWall
         if (cursor.moveToFirst()){
             String walletName = cursor.getString(cursor.getColumnIndex(WalletEntry.COLUMN_NAME));
             walletTextView.setText(walletName);
+            walletTextView.setTextColor(getResources().getColor(android.R.color.white));
         }
     }
 
@@ -153,25 +214,60 @@ public class AddTransactionTransferFragment extends Fragment implements PickWall
         if (cursor.moveToFirst()){
             String walletName = cursor.getString(cursor.getColumnIndex(WalletEntry.COLUMN_NAME));
             walletDestTextView.setText(walletName);
+            walletDestTextView.setTextColor(getResources().getColor(android.R.color.white));
         }
     }
 
-    private void addTransaction(){
+    private Uri addTransaction(){
 
         // ambil data dari view
-        double amount = Double.parseDouble(amountField.getText().toString().trim());
+        String amountString = amountField.getText().toString().trim();
+        if (amountString.equals("")){
+            amountLayout.setError("Amount can't be empty");
+            return null;
+        }
+
+        double amount = Double.parseDouble(amountString);
         String desc = descField.getText().toString().trim();
+
+        if (amount <= 0){
+            amountLayout.setError("Amount not allowed");
+            return null;
+        }
+
+        if (amount > 999999999){
+            return null;
+        }
+
+        if (desc.length() > 50){
+            return null;
+        }
+
+        if (walletId == -1){
+            walletErrorTextView.setVisibility(View.VISIBLE);
+            return null;
+        } else {
+            walletErrorTextView.setVisibility(View.GONE);
+        }
+
+        if (walletDestId == -1){
+            walletDestErrorTextView.setVisibility(View.VISIBLE);
+            return null;
+        } else {
+            walletDestErrorTextView.setVisibility(View.GONE);
+        }
 
         // panggil controller nya
         Transaction transactionAdded = new Transaction(-1, mDate, walletId, walletDestId, -1, amount, desc);
-        Uri uri = new TransactionController(getContext()).addTransaction(transactionAdded);
+        Uri uri = new TransactionController(getContext()).addTransferTransaction(transactionAdded);
 
         // hasil insert nya gimana
-        if (uri == null){
-            Toast.makeText(getContext(), "Error inserting new transaction", Toast.LENGTH_SHORT).show();
-        } else {
+        if (uri != null){
             Toast.makeText(getContext(), "Transaction Added", Toast.LENGTH_SHORT).show();
+        } else {
+            Toast.makeText(getContext(), "Error inserting new transaction", Toast.LENGTH_SHORT).show();
         }
+        return uri;
 
     }
 

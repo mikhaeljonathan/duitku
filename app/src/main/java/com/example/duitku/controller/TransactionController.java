@@ -21,21 +21,19 @@ public class TransactionController {
         mContext = context;
     }
 
-    public Uri addTransaction(Transaction transaction){
+    public Uri addTransferTransaction(Transaction transaction){
+
+        String date = new SimpleDateFormat("dd/MM/yyyy").format(transaction.getDate());
+        double amount = transaction.getAmount();
+        String desc = transaction.getDesc();
+        long walletId = transaction.getWalletId();
+        long walletDestId = transaction.getWalletDestId();
 
         // taruh di contentvalues
         ContentValues values = new ContentValues();
-        String date = new SimpleDateFormat("dd/MM/yyyy").format(transaction.getDate());
         values.put(TransactionEntry.COLUMN_DATE, date);
         values.put(TransactionEntry.COLUMN_WALLET_ID, transaction.getWalletId());
-        long walletDestId = transaction.getWalletDestId();
-        if (walletDestId != -1){ // ini kalau transaction tidak berupa transfer
-            values.put(TransactionEntry.COLUMN_WALLETDEST_ID, walletDestId);
-        }
-        long categoryId = transaction.getCategoryId();
-        if (categoryId != -1){ // ini kalau transaction berupa transfer
-            values.put(TransactionEntry.COLUMN_CATEGORY_ID, categoryId);
-        }
+        values.put(TransactionEntry.COLUMN_WALLETDEST_ID, walletDestId);
         values.put(TransactionEntry.COLUMN_AMOUNT, transaction.getAmount());
         values.put(TransactionEntry.COLUMN_DESC, transaction.getDesc());
 
