@@ -7,6 +7,9 @@ import android.database.Cursor;
 import android.net.Uri;
 import android.os.Build;
 import android.os.Bundle;
+import android.text.Editable;
+import android.text.TextWatcher;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -32,6 +35,10 @@ import com.example.duitku.dialog.ViewCategoriesDialog;
 import com.example.duitku.database.DuitkuContract.CategoryEntry;
 import com.example.duitku.database.DuitkuContract.WalletEntry;
 import com.example.duitku.model.Transaction;
+import com.google.android.material.textfield.TextInputEditText;
+import com.google.android.material.textfield.TextInputLayout;
+
+import org.w3c.dom.Text;
 
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
@@ -46,8 +53,15 @@ public class AddTransactionIncomeFragment extends Fragment implements ViewCatego
     private TextView dateTextView;
     private TextView categoryTextView;
     private TextView walletTextView;
-    private EditText amountField;
-    private EditText descField;
+
+    private TextInputLayout amountLayout;
+    private TextInputLayout descLayout;
+    private TextInputEditText amountField;
+    private TextInputEditText descField;
+
+    private TextView categoryErrorTextView;
+    private TextView walletErrorTextView;
+
     private Button saveBtn;
 
     private Date mDate;
@@ -68,13 +82,59 @@ public class AddTransactionIncomeFragment extends Fragment implements ViewCatego
         dateTextView = rootView.findViewById(R.id.add_transaction_income_date_textview);
         categoryTextView = rootView.findViewById(R.id.add_transaction_income_category_textview);
         walletTextView = rootView.findViewById(R.id.add_transaction_income_wallet_textview);
+        amountLayout = rootView.findViewById(R.id.textInputLayout);
+        descLayout = rootView.findViewById(R.id.textInputLayout2);
         amountField = rootView.findViewById(R.id.add_transaction_income_amount_edittext);
         descField = rootView.findViewById(R.id.add_transaction_income_desc_edittext);
+        categoryErrorTextView = rootView.findViewById(R.id.add_transasction_income_category_error_textview);
+        walletErrorTextView = rootView.findViewById(R.id.add_transasction_income_wallet_error_textview);
         saveBtn = rootView.findViewById(R.id.add_transaction_income_save_btn);
+
+        amountField.addTextChangedListener(new TextWatcher() {
+            @Override
+            public void beforeTextChanged(CharSequence charSequence, int i, int i1, int i2) {
+
+            }
+
+            @Override
+            public void onTextChanged(CharSequence charSequence, int i, int i1, int i2) {
+
+            }
+
+            @Override
+            public void afterTextChanged(Editable editable) {
+                if (editable.toString().length() > 9){
+                    amountLayout.setError("Amount too much");
+                } else {
+                    amountLayout.setErrorEnabled(false);
+                }
+            }
+        });
+        descField.addTextChangedListener(new TextWatcher() {
+            @Override
+            public void beforeTextChanged(CharSequence charSequence, int i, int i1, int i2) {
+
+            }
+
+            @Override
+            public void onTextChanged(CharSequence charSequence, int i, int i1, int i2) {
+
+            }
+
+            @Override
+            public void afterTextChanged(Editable editable) {
+                if (editable.toString().length() > 50){
+                    descLayout.setError("Description max 50 characters");
+                } else {
+                    descLayout.setErrorEnabled(false);
+                }
+            }
+        });
 
         categoryId = -1;
         walletId = -1;
-        mDate = null;
+        Calendar c = Calendar.getInstance();
+        mDate = c.getTime();
 
         listener = new DatePickerDialog.OnDateSetListener() {
             @Override
@@ -121,9 +181,10 @@ public class AddTransactionIncomeFragment extends Fragment implements ViewCatego
         saveBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                addTransaction();
-                getActivity().finish(); // activity add transaction ny udh selesai
-                startActivity(new Intent(getActivity(), MainActivity.class));
+                if (addTransaction() != null){
+                    getActivity().finish(); // activity add transaction ny udh selesai
+                    startActivity(new Intent(getActivity(), MainActivity.class));
+                }
             }
         });
 
@@ -141,6 +202,7 @@ public class AddTransactionIncomeFragment extends Fragment implements ViewCatego
         if (cursor.moveToFirst()){
             String categoryName = cursor.getString(cursor.getColumnIndex(CategoryEntry.COLUMN_NAME));
             categoryTextView.setText(categoryName);
+            categoryTextView.setTextColor(getResources().getColor(android.R.color.white));
         }
     }
 
@@ -155,26 +217,54 @@ public class AddTransactionIncomeFragment extends Fragment implements ViewCatego
         if (cursor.moveToFirst()){
             String walletName = cursor.getString(cursor.getColumnIndex(WalletEntry.COLUMN_NAME));
             walletTextView.setText(walletName);
+            walletTextView.setTextColor(getResources().getColor(android.R.color.white));
         }
     }
 
-    private void addTransaction(){
+    private Uri addTransaction(){
 
         // ambil data dari view
-        double amount = Double.parseDouble(amountField.getText().toString().trim());
+        String amountString = amountField.getText().toString().trim();
+        if (amountString.equals("")){
+            amountLayout.setError("Amount can't be empty");
+            return null;
+        }
+
+        double amount = Double.parseDouble(amountString);
         String desc = descField.getText().toString().trim();
+
+        if (amount > 999999999){
+            return null;
+        }
+
+        if (desc.length() > 50){
+            return null;
+        }
+
+        if (categoryId == -1){
+            categoryErrorTextView.setVisibility(View.VISIBLE);
+            return null;
+        } else {
+            categoryErrorTextView.setVisibility(View.GONE);
+        }
+
+        if (walletId == -1){
+            walletErrorTextView.setVisibility(View.VISIBLE);
+            return null;
+        } else {
+            walletErrorTextView.setVisibility(View.GONE);
+        }
 
         // panggil controller nya
         Transaction transactionAdded = new Transaction(-1, mDate, walletId, -1, categoryId, amount, desc);
-        Uri uri = new TransactionController(getContext()).addTransaction(transactionAdded);
+        Uri uri = new TransactionController(getContext()).addNonTransferTransaction(transactionAdded);
 
-        // hasil insert nya gimana
-        if (uri == null){
-            Toast.makeText(getContext(), "Error inserting new transaction", Toast.LENGTH_SHORT).show();
-        } else {
+        if (uri != null){
             Toast.makeText(getContext(), "Transaction Added", Toast.LENGTH_SHORT).show();
+        } else {
+            Toast.makeText(getContext(), "Error inserting new transaction", Toast.LENGTH_SHORT).show();
         }
-
+        return uri;
     }
 
 }

@@ -6,6 +6,7 @@ import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Button;
 import android.widget.ExpandableListView;
 import android.widget.TextView;
 
@@ -43,7 +44,7 @@ public class DailyTransactionFragment extends Fragment implements LoaderManager.
     // Ini kita pake ExpandableListView buat listView yang bisa di-expand
     private ExpandableListView dailyExpandableListView;
     private DailyExpandableAdapter dailyExpandableAdapter; // ExpandableListView juga perlu adapter
-    private TextView periodTextView;
+    private Button periodTextView;
 
     // DailyTransaction ini buat gabungan dari beberapa Transaction dalam sehari
     // Istilahnya group kalo di ExpandableListView
@@ -77,7 +78,7 @@ public class DailyTransactionFragment extends Fragment implements LoaderManager.
 
         // initiate ExpandableListViewnya
         dailyExpandableListView = rootView.findViewById(R.id.transaction_daily_expandablelistview);
-        dailyExpandableListView.addHeaderView(header);
+        dailyExpandableListView.addHeaderView(header, null, false);
 
         dailyTransactionList = new ArrayList<>();
         dailyTransactionListHashMap = new HashMap<>();
