@@ -16,8 +16,8 @@
         android:ems="10"
         android:hint="Wallet Name"
         android:inputType="textPersonName"
-        android:textColor="@android:color/white"
-        android:textColorHint="@android:color/darker_gray"
+        android:textColor="@color/textLight"
+        android:textColorHint="@color/textDark"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
@@ -32,8 +32,8 @@
         android:ems="10"
         android:hint="Amount"
         android:inputType="textPersonName"
-        android:textColor="@android:color/white"
-        android:textColorHint="@android:color/darker_gray"
+        android:textColor="@color/textLight"
+        android:textColorHint="@color/textDark"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/add_wallet_walletname_edittext" />
@@ -48,8 +48,8 @@
         android:ems="10"
         android:hint="Description"
         android:inputType="textPersonName"
-        android:textColor="@android:color/white"
-        android:textColorHint="@android:color/darker_gray"
+        android:textColor="@color/textLight"
+        android:textColorHint="@color/textDark"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/add_wallet_amount_edittext" />

@@ -17,7 +17,7 @@ bisa di kanan-->
 
     <ImageView
         android:id="@+id/item_list_transaction_categorytype_icon"
-        android:layout_width="24dp"
+        android:layout_width="wrap_content"
         android:layout_height="24dp"
         android:layout_marginStart="32dp"
         android:layout_marginEnd="8dp"
@@ -33,7 +33,7 @@ bisa di kanan-->
         android:layout_height="wrap_content"
         android:layout_marginStart="32dp"
         android:layout_marginTop="8dp"
-        android:textColor="@android:color/white"
+        android:textColor="@color/textLight"
         android:textStyle="bold"
         app:layout_constraintBottom_toTopOf="@+id/item_list_transaction_desc_textview"
         app:layout_constraintStart_toEndOf="@+id/item_list_transaction_barrier"
@@ -43,7 +43,7 @@ bisa di kanan-->
 
     <ImageView
         android:id="@+id/item_list_transaction_transfer_imageview"
-        android:layout_width="24dp"
+        android:layout_width="wrap_content"
         android:layout_height="24dp"
         android:layout_marginStart="16dp"
         android:visibility="gone"
@@ -57,7 +57,7 @@ bisa di kanan-->
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginStart="16dp"
-        android:textColor="@android:color/white"
+        android:textColor="@color/textLight"
         android:textSize="14sp"
         android:textStyle="bold"
         android:visibility="gone"
@@ -72,7 +72,7 @@ bisa di kanan-->
         android:layout_height="wrap_content"
         android:layout_marginStart="32dp"
         android:layout_marginBottom="8dp"
-        android:textColor="@android:color/white"
+        android:textColor="@color/textLight"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintStart_toEndOf="@id/item_list_transaction_barrier"
         app:layout_constraintTop_toBottomOf="@+id/item_list_transaction_header_textview"
@@ -84,7 +84,7 @@ bisa di kanan-->
         android:layout_height="wrap_content"
         android:layout_marginEnd="32dp"
         android:gravity="end"
-        android:textColor="@android:color/white"
+        android:textColor="@color/textLight"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintTop_toTopOf="parent"

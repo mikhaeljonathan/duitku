@@ -33,7 +33,7 @@
             android:layout_height="wrap_content"
             android:layout_marginStart="16dp"
             android:text="Select Start Date"
-            android:textColor="@android:color/white"
+            android:textColor="@color/textLight"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintStart_toEndOf="@+id/add_budget_startdate_imageview"
             app:layout_constraintTop_toTopOf="parent" />
@@ -67,7 +67,7 @@
             android:layout_height="wrap_content"
             android:layout_marginStart="16dp"
             android:text="Select End Date"
-            android:textColor="@android:color/white"
+            android:textColor="@color/textLight"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintStart_toEndOf="@+id/add_budget_enddate_imageview"
             app:layout_constraintTop_toTopOf="parent" />
@@ -101,7 +101,7 @@
             android:layout_height="wrap_content"
             android:layout_marginStart="16dp"
             android:text="Select Category"
-            android:textColor="@android:color/white"
+            android:textColor="@color/textLight"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintStart_toEndOf="@+id/add_budget_category_imageview"
             app:layout_constraintTop_toTopOf="parent" />
@@ -117,8 +117,8 @@
         android:ems="10"
         android:hint="Goal Amount"
         android:inputType="textPersonName"
-        android:textColor="@android:color/white"
-        android:textColorHint="@android:color/darker_gray"
+        android:textColor="@color/textLight"
+        android:textColorHint="@color/textDark"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/add_budget_category_constraintlayout" />
@@ -131,7 +131,7 @@
         android:layout_marginTop="16dp"
         android:paddingLeft="16dp"
         android:text="Recurring Budget"
-        android:textColor="@android:color/white"
+        android:textColor="@color/textLight"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/add_budget_amount_edittext" />
 
