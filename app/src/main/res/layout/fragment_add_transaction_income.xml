@@ -133,7 +133,6 @@
         android:layout_marginTop="8dp"
         android:text="Category has to be chosen"
         android:textColor="@color/red"
-        android:textColorHint="#FFFFFF"
         android:visibility="gone"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/add_transaction_income_category_constraintlayout" />
@@ -174,17 +173,6 @@
             app:layout_constraintTop_toTopOf="parent" />
     </androidx.constraintlayout.widget.ConstraintLayout>
 
-    <Button
-        android:id="@+id/add_transaction_income_save_btn"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="8dp"
-        android:text="Save"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.498"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/add_transasction_income_wallet_error_textview" />
-
     <TextView
         android:id="@+id/add_transasction_income_wallet_error_textview"
         android:layout_width="wrap_content"
@@ -196,6 +184,16 @@
         android:visibility="gone"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/add_transaction_income_wallet_constraintlayout" />
+
+    <Button
+        android:id="@+id/add_transaction_income_save_btn"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="32dp"
+        android:text="Save"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/add_transasction_income_wallet_error_textview" />
 
 
 </androidx.constraintlayout.widget.ConstraintLayout>

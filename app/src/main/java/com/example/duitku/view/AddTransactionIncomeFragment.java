@@ -150,6 +150,11 @@ public class AddTransactionIncomeFragment extends Fragment implements ViewCatego
                 // ubah jadi string
                 String currentDateString = DateFormat.getDateInstance(DateFormat.FULL).format(mDate);
 
+                calendar = Calendar.getInstance();
+                if (calendar.get(Calendar.YEAR) == year && calendar.get(Calendar.MONTH) == month && calendar.get(Calendar.DAY_OF_MONTH) == dayOfMonth){
+                    currentDateString = "Today";
+                }
+
                 // update di startdate textview
                 dateTextView.setText(currentDateString);
             }
@@ -233,6 +238,11 @@ public class AddTransactionIncomeFragment extends Fragment implements ViewCatego
         double amount = Double.parseDouble(amountString);
         String desc = descField.getText().toString().trim();
 
+        if (amount <= 0){
+            amountLayout.setError("Amount not allowed");
+            return null;
+        }
+
         if (amount > 999999999){
             return null;
         }
@@ -265,6 +275,7 @@ public class AddTransactionIncomeFragment extends Fragment implements ViewCatego
             Toast.makeText(getContext(), "Error inserting new transaction", Toast.LENGTH_SHORT).show();
         }
         return uri;
+
     }
 
 }
