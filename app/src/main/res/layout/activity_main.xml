@@ -42,7 +42,7 @@ melayang gitu-->
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_gravity="bottom"
-        android:backgroundTint="@color/colorPrimary">
+        android:backgroundTint="@color/colorPrimaryDark">
 
         <!--BottomAppBar cuma kulitnya,
         BottomNavBar ini isi menu2 nya-->
@@ -52,7 +52,6 @@ melayang gitu-->
             android:id="@+id/main_bottomnavbar"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:background="@color/colorPrimaryDark"
             app:itemIconTint="@drawable/bottomnav_foreground"
             app:itemTextColor="@drawable/bottomnav_foreground"
             app:labelVisibilityMode="labeled"
