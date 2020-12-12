@@ -44,6 +44,9 @@ public class DuitkuContract {
         public static final String TYPE_INCOME = "INC";
         public static final String TYPE_EXPENSE = "EXP";
 
+        // default category
+        public static final String DEFAULT_CATEGORY_NAME = "Others";
+
     }
 
     public static final class BudgetEntry implements BaseColumns {

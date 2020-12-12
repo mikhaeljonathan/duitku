@@ -69,7 +69,7 @@ public class MonthlyTransactionFragment extends Fragment implements LoaderManage
         totalGlobalExpenseTextView = header.findViewById(R.id.transaction_header_monthly_expense_amount_textview);
 
         monthlyExpandableListView = rootView.findViewById(R.id.transaction_monthly_expandablelistview);
-        monthlyExpandableListView.addHeaderView(header);
+        monthlyExpandableListView.addHeaderView(header, null, false);
 
         monthlyTransactionList = new ArrayList<>();
         categoryTransactionListHashMap = new HashMap<>();

@@ -77,7 +77,7 @@ public class WeeklyTransactionFragment extends Fragment implements LoaderManager
         totalGlobalExpenseTextView = header.findViewById(R.id.transaction_header_weekly_expense_amount_textview);
 
         weeklyExpandableListView = rootView.findViewById(R.id.transaction_weekly_expandablelistview);
-        weeklyExpandableListView.addHeaderView(header); // ini buat masukin header nya
+        weeklyExpandableListView.addHeaderView(header, null, false); // ini buat masukin header nya
 
         weeklyTransactionList = new ArrayList<>();
         categoryTransactionListHashMap = new HashMap<>();

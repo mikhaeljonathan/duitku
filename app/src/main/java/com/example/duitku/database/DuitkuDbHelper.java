@@ -5,6 +5,7 @@ import com.example.duitku.database.DuitkuContract.BudgetEntry;
 import com.example.duitku.database.DuitkuContract.TransactionEntry;
 import com.example.duitku.database.DuitkuContract.CategoryEntry;
 
+import android.content.ContentValues;
 import android.content.Context;
 import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteOpenHelper;
@@ -66,6 +67,17 @@ public class DuitkuDbHelper extends SQLiteOpenHelper {
         sqLiteDatabase.execSQL(CREATE_CATEGORY_TABLE);
         sqLiteDatabase.execSQL(CREATE_BUDGET_TABLE);
         sqLiteDatabase.execSQL(CREATE_TRANSACTION_TABLE);
+
+        // add default category
+        ContentValues cv = new ContentValues();
+        cv.put(CategoryEntry.COLUMN_NAME, CategoryEntry.DEFAULT_CATEGORY_NAME);
+        cv.put(CategoryEntry.COLUMN_TYPE, CategoryEntry.TYPE_INCOME);
+        sqLiteDatabase.insert(CategoryEntry.TABLE_NAME, null, cv);
+
+        cv = new ContentValues();
+        cv.put(CategoryEntry.COLUMN_NAME, CategoryEntry.DEFAULT_CATEGORY_NAME);
+        cv.put(CategoryEntry.COLUMN_TYPE, CategoryEntry.TYPE_EXPENSE);
+        sqLiteDatabase.insert(CategoryEntry.TABLE_NAME, null, cv);
 
     }
 

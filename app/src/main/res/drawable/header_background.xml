@@ -11,8 +11,4 @@
         android:endColor="#541DFF"
         android:angle="-45"/>
 
-    <size
-        android:width="400dp"
-        android:height="200dp" />
-
 </shape>

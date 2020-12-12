@@ -40,4 +40,13 @@ public class CategoryController {
         return ret;
     }
 
+    public Category getCategoryByNameAndType(String name, String type){
+        Category ret = null;
+        Cursor temp = mContext.getContentResolver().query(CategoryEntry.CONTENT_URI, new String[]{CategoryEntry.COLUMN_ID, CategoryEntry.COLUMN_NAME, CategoryEntry.COLUMN_TYPE}, CategoryEntry.COLUMN_NAME + " = ? AND " + CategoryEntry.COLUMN_TYPE + " = ?", new String[]{name, type}, null);
+        if (temp.moveToFirst()){
+            ret = new Category(temp.getLong(temp.getColumnIndex(CategoryEntry.COLUMN_ID)), temp.getString(temp.getColumnIndex(CategoryEntry.COLUMN_NAME)), temp.getString(temp.getColumnIndex(CategoryEntry.COLUMN_TYPE)));
+        }
+        return ret;
+    }
+
 }
