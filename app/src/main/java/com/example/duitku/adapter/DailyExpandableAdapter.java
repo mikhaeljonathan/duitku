@@ -74,7 +74,6 @@ public class DailyExpandableAdapter extends BaseExpandableListAdapter {
 
     @Override
     public View getGroupView(int i, boolean b, View view, ViewGroup viewGroup) {
-
         DailyTransaction dailyTransaction = (DailyTransaction) getGroup(i);
         if (view == null) {
             view = LayoutInflater.from(context).inflate(R.layout.item_list_transaction_daily, viewGroup, false);
@@ -97,9 +96,7 @@ public class DailyExpandableAdapter extends BaseExpandableListAdapter {
 
     @Override
     public View getChildView(int i, int i1, boolean b, View view, ViewGroup viewGroup) {
-
         Transaction transaction = (Transaction) getChild(i, i1);
-
         if (view == null){
             view = LayoutInflater.from(context).inflate(R.layout.item_list_transaction, viewGroup, false);
         }
@@ -121,7 +118,6 @@ public class DailyExpandableAdapter extends BaseExpandableListAdapter {
     }
 
     private void setupHeader(View view, Category category, Transaction transaction){
-
         TextView headerTextView = view.findViewById(R.id.item_list_transaction_header_textview);
         ImageView transferImageView = view.findViewById(R.id.item_list_transaction_transfer_imageview);
         TextView walletDestTextView = view.findViewById(R.id.item_list_transaction_walletdest_textview);

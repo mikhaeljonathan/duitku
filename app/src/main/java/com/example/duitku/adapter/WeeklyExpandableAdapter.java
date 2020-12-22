@@ -9,6 +9,7 @@ import android.widget.TextView;
 
 import com.example.duitku.R;
 import com.example.duitku.controller.CategoryController;
+import com.example.duitku.model.Category;
 import com.example.duitku.model.CategoryTransaction;
 import com.example.duitku.model.WeeklyTransaction;
 
@@ -17,37 +18,36 @@ import java.util.List;
 
 public class WeeklyExpandableAdapter extends BaseExpandableListAdapter {
 
-    private List<WeeklyTransaction> mWeeklyTransactionList;
-    private HashMap<WeeklyTransaction, List<CategoryTransaction>> mCategoryTransactionListHashMap;
-    private Context mContext;
+    private List<WeeklyTransaction> weeklyTransactionList;
+    private HashMap<WeeklyTransaction, List<CategoryTransaction>> categoryTransactionListHashMap;
+    private Context context;
 
     public WeeklyExpandableAdapter(List<WeeklyTransaction> weeklyTransactionList,
                                    HashMap<WeeklyTransaction, List<CategoryTransaction>> categoryTransactionListHashMap,
                                    Context context){
-        super();
-        mContext = context;
-        mWeeklyTransactionList = weeklyTransactionList;
-        mCategoryTransactionListHashMap = categoryTransactionListHashMap;
+        this.weeklyTransactionList = weeklyTransactionList;
+        this.categoryTransactionListHashMap = categoryTransactionListHashMap;
+        this.context = context;
     }
 
     @Override
     public int getGroupCount() {
-        return mWeeklyTransactionList.size();
+        return weeklyTransactionList.size();
     }
 
     @Override
     public int getChildrenCount(int i) {
-        return mCategoryTransactionListHashMap.get(mWeeklyTransactionList.get(i)).size();
+        return categoryTransactionListHashMap.get(weeklyTransactionList.get(i)).size();
     }
 
     @Override
     public Object getGroup(int i) {
-        return mWeeklyTransactionList.get(i);
+        return weeklyTransactionList.get(i);
     }
 
     @Override
     public Object getChild(int i, int i1) {
-        return mCategoryTransactionListHashMap.get(mWeeklyTransactionList.get(i)).get(i1);
+        return categoryTransactionListHashMap.get(weeklyTransactionList.get(i)).get(i1);
     }
 
     @Override
@@ -68,9 +68,8 @@ public class WeeklyExpandableAdapter extends BaseExpandableListAdapter {
     @Override
     public View getGroupView(int i, boolean b, View view, ViewGroup viewGroup) {
         WeeklyTransaction weeklyTransaction = (WeeklyTransaction) getGroup(i);
-
         if (view == null){
-            view = LayoutInflater.from(mContext).inflate(R.layout.item_list_transaction_weekly, viewGroup, false);
+            view = LayoutInflater.from(context).inflate(R.layout.item_list_transaction_weekly, viewGroup, false);
         }
 
         TextView weekTextView = view.findViewById(R.id.item_list_transaction_weekly_week_textview);
@@ -91,13 +90,14 @@ public class WeeklyExpandableAdapter extends BaseExpandableListAdapter {
     @Override
     public View getChildView(int i, int i1, boolean b, View view, ViewGroup viewGroup) {
         CategoryTransaction categoryTransaction = (CategoryTransaction) getChild(i, i1);
-
         if (view == null){
-            view = LayoutInflater.from(mContext).inflate(R.layout.item_list_transaction_category, viewGroup, false);
+            view = LayoutInflater.from(context).inflate(R.layout.item_list_transaction_category, viewGroup, false);
         }
 
         TextView categoryNameTextView = view.findViewById(R.id.item_list_transaction_category_name_textview);
-        categoryNameTextView.setText(new CategoryController(mContext).getCategoryNameById(categoryTransaction.getCategoryId()));
+        CategoryController categoryController = new CategoryController(context);
+        Category category = categoryController.getCategoryById(categoryTransaction.getCategoryId());
+        categoryNameTextView.setText(category.getName());
 
         TextView transactionCountTextView = view.findViewById(R.id.item_list_transaction_category_transactioncount_textview);
         transactionCountTextView.setText("There are " + categoryTransaction.getTransactions().size() + " transaction(s)");

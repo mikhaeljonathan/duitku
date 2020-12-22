@@ -11,6 +11,7 @@ import android.widget.TextView;
 import com.example.duitku.R;
 import com.example.duitku.Utility;
 import com.example.duitku.controller.CategoryController;
+import com.example.duitku.model.Category;
 import com.example.duitku.model.CategoryTransaction;
 import com.example.duitku.model.MonthlyTransaction;
 import com.example.duitku.model.WeeklyTransaction;
@@ -96,7 +97,9 @@ public class MonthlyExpandableAdapter extends BaseExpandableListAdapter {
         }
 
         TextView categoryNameTextView = view.findViewById(R.id.item_list_transaction_category_name_textview);
-        categoryNameTextView.setText(new CategoryController(mContext).getCategoryNameById(categoryTransaction.getCategoryId()));
+        CategoryController categoryController = new CategoryController(mContext);
+        Category category = categoryController.getCategoryById(categoryTransaction.getCategoryId());
+        categoryNameTextView.setText(category.getName());
 
         TextView transactionCountTextView = view.findViewById(R.id.item_list_transaction_category_transactioncount_textview);
         transactionCountTextView.setText("There are " + categoryTransaction.getTransactions().size() + " transaction(s)");

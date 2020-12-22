@@ -29,15 +29,6 @@ public class CategoryController {
         return uri;
     }
 
-    public String getCategoryNameById(long id){
-        String ret = "Transfer";
-        Cursor temp = context.getContentResolver().query(ContentUris.withAppendedId(CategoryEntry.CONTENT_URI, id), new String[]{CategoryEntry.COLUMN_ID, CategoryEntry.COLUMN_NAME}, null,null, null);
-        if (temp.moveToFirst()){
-            ret = temp.getString(temp.getColumnIndex(CategoryEntry.COLUMN_NAME));
-        }
-        return ret;
-    }
-
     public Category getCategoryByNameAndType(String name, String type){
         Category ret = null;
         Cursor temp = context.getContentResolver().query(CategoryEntry.CONTENT_URI, new String[]{CategoryEntry.COLUMN_ID, CategoryEntry.COLUMN_NAME, CategoryEntry.COLUMN_TYPE}, CategoryEntry.COLUMN_NAME + " = ? AND " + CategoryEntry.COLUMN_TYPE + " = ?", new String[]{name, type}, null);
