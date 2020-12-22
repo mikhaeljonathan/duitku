@@ -1,4 +1,4 @@
-package com.example.duitku.view;
+package com.example.duitku.flows;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
@@ -73,7 +73,7 @@ public class EditWalletActivity extends AppCompatActivity implements LoaderManag
                 String walletDesc = walletDescEditText.getText().toString().trim();
 
                 // panggil contentresolver yg akan return jumlah row yang diupdate
-                Wallet wallet = new Wallet(walletName, walletAmount, walletDesc);
+                Wallet wallet = new Wallet(-1,walletName, walletAmount, walletDesc);
                 int rowsUpdated = new WalletController(EditWalletActivity.this).updateWallet(wallet, currentWalletUri);
 
                 // kasih pesan error atau berhasil

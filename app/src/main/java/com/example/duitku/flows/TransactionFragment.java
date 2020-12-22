@@ -1,4 +1,4 @@
-package com.example.duitku.view;
+package com.example.duitku.flows;
 
 import android.os.Bundle;
 import android.view.LayoutInflater;
@@ -10,12 +10,17 @@ import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
 
 import com.example.duitku.R;
+import com.example.duitku.view.TransactionFragmentView;
+import com.example.duitku.view.UIView;
 
-public class AccountFragment extends Fragment {
+public class TransactionFragment extends Fragment {
 
     @Nullable
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
-        return inflater.inflate(R.layout.fragment_account, container, false);
+        UIView transactionFragmentView = new TransactionFragmentView(inflater, container, this);
+        transactionFragmentView.setUpUI();
+        return transactionFragmentView.getView();
     }
+
 }

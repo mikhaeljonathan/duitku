@@ -57,7 +57,7 @@ public class DuitkuDbHelper extends SQLiteOpenHelper {
                 TransactionEntry.COLUMN_DATE + " TEXT NOT NULL CHECK(" + TransactionEntry.COLUMN_DATE + " LIKE '%/%/%'), " +
                 TransactionEntry.COLUMN_AMOUNT + " DOUBLE NOT NULL DEFAULT 0, " +
                 TransactionEntry.COLUMN_WALLET_ID + " INTEGER, " +
-                TransactionEntry.COLUMN_WALLETDEST_ID + " INTEGER, " +
+                TransactionEntry.COLUMN_WALLET_DEST_ID + " INTEGER, " +
                 TransactionEntry.COLUMN_CATEGORY_ID + " INTEGER, " +
                 "FOREIGN KEY (" + TransactionEntry.COLUMN_WALLET_ID + ") REFERENCES " + WalletEntry.TABLE_NAME + "(" + WalletEntry.COLUMN_ID + "), " +
                 "FOREIGN KEY (" + TransactionEntry.COLUMN_CATEGORY_ID + ") REFERENCES " + CategoryEntry.TABLE_NAME + "(" + CategoryEntry.COLUMN_ID + "))";

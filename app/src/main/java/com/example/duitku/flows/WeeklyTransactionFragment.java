@@ -1,4 +1,4 @@
-package com.example.duitku.view;
+package com.example.duitku.flows;
 
 import android.content.ContentUris;
 import android.database.Cursor;
@@ -26,16 +26,12 @@ import com.example.duitku.model.CategoryTransaction;
 import com.example.duitku.model.Transaction;
 import com.example.duitku.model.WeeklyTransaction;
 
-import java.text.ParseException;
-import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Collections;
 import java.util.Comparator;
-import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
 
 public class WeeklyTransactionFragment extends Fragment implements LoaderManager.LoaderCallbacks<Cursor>, MonthYearPickerDialog.PickMonthYearListener {
 
@@ -63,18 +59,18 @@ public class WeeklyTransactionFragment extends Fragment implements LoaderManager
 
         View rootView = inflater.inflate(R.layout.fragment_transaction_weekly, container, false);
         // header ini buat elemen pertama dari ExpandableListView yang berupa summary nya
-        View header = inflater.inflate(R.layout.fragment_transaction_header_weekly, null);
+        View header = inflater.inflate(R.layout.fragment_transaction_header, null);
 
         calendar = Calendar.getInstance();
         mMonth = calendar.get(Calendar.MONTH);
         mYear = calendar.get(Calendar.YEAR);
 
-        periodTextView = header.findViewById(R.id.transaction_header_weekly_period);
+        periodTextView = header.findViewById(R.id.transaction_header_period_btn);
         periodTextView.setText(Utility.monthsName[mMonth] + " " + mYear);
 
-        totalAmountTextView = header.findViewById(R.id.transaction_header_weekly_amount_textview);
-        totalGlobalIncomeTextView = header.findViewById(R.id.transaction_header_weekly_income_amount_textview);
-        totalGlobalExpenseTextView = header.findViewById(R.id.transaction_header_weekly_expense_amount_textview);
+        totalAmountTextView = header.findViewById(R.id.transaction_header_amount_textview);
+        totalGlobalIncomeTextView = header.findViewById(R.id.transaction_header_income_amount_textview);
+        totalGlobalExpenseTextView = header.findViewById(R.id.transaction_header_expense_amount_textview);
 
         weeklyExpandableListView = rootView.findViewById(R.id.transaction_weekly_expandablelistview);
         weeklyExpandableListView.addHeaderView(header, null, false); // ini buat masukin header nya
@@ -106,7 +102,7 @@ public class WeeklyTransactionFragment extends Fragment implements LoaderManager
                         TransactionEntry.COLUMN_DATE,
                         TransactionEntry.COLUMN_AMOUNT,
                         TransactionEntry.COLUMN_WALLET_ID,
-                        TransactionEntry.COLUMN_WALLETDEST_ID,
+                        TransactionEntry.COLUMN_WALLET_DEST_ID,
                         TransactionEntry.COLUMN_CATEGORY_ID};
                 String selection = TransactionEntry.COLUMN_DATE + " LIKE ?";
                 String[] selectionArgs = new String[]{"%/" + String.format("%02d", mMonth + 1) + "/" + mYear};

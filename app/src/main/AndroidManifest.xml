@@ -9,14 +9,14 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
-        <activity android:name=".view.EditWalletActivity"
+        <activity android:name=".flows.EditWalletActivity"
             android:screenOrientation="portrait"></activity>
         <activity
-            android:name=".view.AddTransactionActivity"
-            android:parentActivityName=".view.MainActivity"
+            android:name=".flows.AddTransactionActivity"
+            android:parentActivityName=".flows.MainActivity"
             android:screenOrientation="portrait"/>
         <activity
-            android:name=".view.MainActivity"
+            android:name=".flows.MainActivity"
             android:configChanges="orientation"
             android:screenOrientation="portrait">
             <intent-filter>

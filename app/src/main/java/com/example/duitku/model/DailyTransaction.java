@@ -2,32 +2,32 @@ package com.example.duitku.model;
 
 public class DailyTransaction {
 
-    private int mDate;
-    private String mDay;
-    private double mIncome;
-    private double mExpense;
+    private int date;
+    private String day;
+    private double income;
+    private double expense;
 
     public DailyTransaction(int date, String day, double income, double expense){
-        mDate = date;
-        mDay = day;
-        mIncome = income;
-        mExpense = expense;
+        this.date = date;
+        this.day = day;
+        this.income = income;
+        this.expense = expense;
     }
 
     public int getDate() {
-        return mDate;
+        return date;
     }
 
     public String getDay() {
-        return mDay;
+        return day;
     }
 
     public double getIncome() {
-        return mIncome;
+        return income;
     }
 
     public double getExpense() {
-        return mExpense;
+        return expense;
     }
 
 }

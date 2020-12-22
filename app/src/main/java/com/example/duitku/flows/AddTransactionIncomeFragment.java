@@ -1,4 +1,4 @@
-package com.example.duitku.view;
+package com.example.duitku.flows;
 
 import android.app.DatePickerDialog;
 import android.content.ContentUris;
@@ -9,13 +9,11 @@ import android.os.Build;
 import android.os.Bundle;
 import android.text.Editable;
 import android.text.TextWatcher;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.DatePicker;
-import android.widget.EditText;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -38,10 +36,7 @@ import com.example.duitku.model.Transaction;
 import com.google.android.material.textfield.TextInputEditText;
 import com.google.android.material.textfield.TextInputLayout;
 
-import org.w3c.dom.Text;
-
 import java.text.DateFormat;
-import java.text.SimpleDateFormat;
 import java.util.Calendar;
 import java.util.Date;
 
@@ -188,7 +183,6 @@ public class AddTransactionIncomeFragment extends Fragment implements ViewCatego
             public void onClick(View view) {
                 if (addTransaction() != null){
                     getActivity().finish(); // activity add transaction ny udh selesai
-                    startActivity(new Intent(getActivity(), MainActivity.class));
                 }
             }
         });
@@ -266,7 +260,7 @@ public class AddTransactionIncomeFragment extends Fragment implements ViewCatego
         }
 
         // panggil controller nya
-        Transaction transactionAdded = new Transaction(-1, mDate, walletId, -1, categoryId, amount, desc);
+        Transaction transactionAdded = new Transaction(-1, walletId, -1, categoryId, desc, mDate, amount);
         Uri uri = new TransactionController(getContext()).addNonTransferTransaction(transactionAdded);
 
         if (uri != null){

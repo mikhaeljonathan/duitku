@@ -1,4 +1,4 @@
-package com.example.duitku.view;
+package com.example.duitku.flows;
 
 import android.app.DatePickerDialog;
 import android.content.ContentUris;
@@ -27,8 +27,10 @@ import androidx.fragment.app.Fragment;
 import com.example.duitku.R;
 import com.example.duitku.controller.TransactionController;
 import com.example.duitku.database.DuitkuContract.WalletEntry;
+import com.example.duitku.database.DuitkuContract.CategoryEntry;
 import com.example.duitku.dialog.DatePickerFragment;
 import com.example.duitku.dialog.PickWalletDialog;
+import com.example.duitku.dialog.ViewCategoriesDialog;
 import com.example.duitku.model.Transaction;
 import com.google.android.material.textfield.TextInputEditText;
 import com.google.android.material.textfield.TextInputLayout;
@@ -37,50 +39,51 @@ import java.text.DateFormat;
 import java.util.Calendar;
 import java.util.Date;
 
-public class AddTransactionTransferFragment extends Fragment implements PickWalletDialog.PickWalletListener, PickWalletDialog.PickWalletDestListener {
+public class AddTransactionExpenseFragment extends Fragment implements ViewCategoriesDialog.ViewCategoriesListener, PickWalletDialog.PickWalletListener {
 
     private ConstraintLayout dateConstraintLayout;
+    private ConstraintLayout categoryConstraintLayout;
     private ConstraintLayout walletConstraintLayout;
-    private ConstraintLayout walletDestConstraintLayout;
     private TextView dateTextView;
+    private TextView categoryTextView;
     private TextView walletTextView;
-    private TextView walletDestTextView;
 
     private TextInputLayout amountLayout;
     private TextInputLayout descLayout;
     private TextInputEditText amountField;
     private TextInputEditText descField;
 
+    private TextView categoryErrorTextView;
     private TextView walletErrorTextView;
-    private TextView walletDestErrorTextView;
 
     private Button saveBtn;
 
     private Date mDate;
+    private long categoryId;
     private long walletId;
-    private long walletDestId;
 
     private DatePickerDialog.OnDateSetListener listener;
+
 
     @Nullable
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
-        View rootView = inflater.inflate(R.layout.fragment_add_transaction_transfer, container, false);
+        View rootView = inflater.inflate(R.layout.fragment_add_transaction_expense, container, false);
 
         // Initialize the views
-        dateConstraintLayout = rootView.findViewById(R.id.add_transaction_transfer_date_constraintlayout);
-        walletConstraintLayout = rootView.findViewById(R.id.add_transaction_transfer_wallet_constraintlayout);
-        walletDestConstraintLayout = rootView.findViewById(R.id.add_transaction_transfer_walletdest_constraintlayout);
-        dateTextView = rootView.findViewById(R.id.add_transaction_transfer_date_textview);
-        walletTextView = rootView.findViewById(R.id.add_transaction_transfer_wallet_textview);
-        walletDestTextView = rootView.findViewById(R.id.add_transaction_transfer_walletdest_textview);
-        amountLayout = rootView.findViewById(R.id.add_transaction_transfer_amount_layout);
-        descLayout = rootView.findViewById(R.id.add_transaction_transfer_desc_layout);
-        amountField = rootView.findViewById(R.id.add_transaction_transfer_amount_edittext);
-        descField = rootView.findViewById(R.id.add_transaction_transfer_desc_edittext);
-        walletErrorTextView = rootView.findViewById(R.id.add_transasction_transfer_wallet_error_textview);
-        walletDestErrorTextView = rootView.findViewById(R.id.add_transasction_transfer_walletdest_error_textview);
-        saveBtn = rootView.findViewById(R.id.add_transaction_transfer_save_btn);
+        dateConstraintLayout = rootView.findViewById(R.id.add_transaction_expense_date_constraintlayout);
+        categoryConstraintLayout = rootView.findViewById(R.id.add_transaction_expense_category_constraintlayout);
+        walletConstraintLayout = rootView.findViewById(R.id.add_transaction_expense_wallet_constraintlayout);
+        dateTextView = rootView.findViewById(R.id.add_transaction_expense_date_textview);
+        categoryTextView = rootView.findViewById(R.id.add_transaction_expense_category_textview);
+        walletTextView = rootView.findViewById(R.id.add_transaction_expense_wallet_textview);
+        amountLayout = rootView.findViewById(R.id.add_transaction_expense_amount_layout);
+        descLayout = rootView.findViewById(R.id.add_transaction_expense_desc_layout);
+        amountField = rootView.findViewById(R.id.add_transaction_expense_amount_edittext);
+        descField = rootView.findViewById(R.id.add_transaction_expense_desc_edittext);
+        categoryErrorTextView = rootView.findViewById(R.id.add_transasction_expense_category_error_textview);
+        walletErrorTextView = rootView.findViewById(R.id.add_transasction_expense_wallet_error_textview);
+        saveBtn = rootView.findViewById(R.id.add_transaction_expense_save_btn);
 
         amountField.addTextChangedListener(new TextWatcher() {
             @Override
@@ -123,8 +126,8 @@ public class AddTransactionTransferFragment extends Fragment implements PickWall
             }
         });
 
+        categoryId = -1;
         walletId = -1;
-        walletDestId = -1;
         Calendar c = Calendar.getInstance();
         mDate = c.getTime();
 
@@ -159,18 +162,18 @@ public class AddTransactionTransferFragment extends Fragment implements PickWall
                 datePicker.show(getFragmentManager(), "Date Picker Dialog");
             }
         });
+        categoryConstraintLayout.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                ViewCategoriesDialog viewCategoriesDialog = new ViewCategoriesDialog(AddTransactionExpenseFragment.this, CategoryEntry.TYPE_EXPENSE);
+                viewCategoriesDialog.show(getFragmentManager(), "View Category Dialog");
+            }
+        });
         walletConstraintLayout.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                PickWalletDialog pickWalletDialog = new PickWalletDialog(AddTransactionTransferFragment.this, false);
+                PickWalletDialog pickWalletDialog = new PickWalletDialog(AddTransactionExpenseFragment.this, false);
                 pickWalletDialog.show(getFragmentManager(), "Pick Wallet Dialog");
-            }
-        });
-        walletDestConstraintLayout.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                PickWalletDialog pickWalletDialog = new PickWalletDialog(AddTransactionTransferFragment.this, true);
-                pickWalletDialog.show(getFragmentManager(), "Pick Wallet Destination Dialog");
             }
         });
 
@@ -180,12 +183,27 @@ public class AddTransactionTransferFragment extends Fragment implements PickWall
             public void onClick(View view) {
                 if (addTransaction() != null){
                     getActivity().finish(); // activity add transaction ny udh selesai
-                    startActivity(new Intent(getActivity(), MainActivity.class));
+//                    startActivity(new Intent(getActivity(), MainActivity.class));
                 }
             }
         });
-        
+
         return rootView;
+    }
+
+    @RequiresApi(api = Build.VERSION_CODES.O)
+    @Override
+    public void pickCategory(long id) {
+        // tampilin nama category nya
+        categoryId = id;
+        Uri currentCategoryUri = ContentUris.withAppendedId(CategoryEntry.CONTENT_URI, categoryId);
+        String[] projection = new String[]{ CategoryEntry.COLUMN_ID, CategoryEntry.COLUMN_NAME};
+        Cursor cursor = getContext().getContentResolver().query(currentCategoryUri, projection, null, null);
+        if (cursor.moveToFirst()){
+            String categoryName = cursor.getString(cursor.getColumnIndex(CategoryEntry.COLUMN_NAME));
+            categoryTextView.setText(categoryName);
+            categoryTextView.setTextColor(getResources().getColor(android.R.color.white));
+        }
     }
 
     @RequiresApi(api = Build.VERSION_CODES.O)
@@ -201,21 +219,7 @@ public class AddTransactionTransferFragment extends Fragment implements PickWall
             walletTextView.setText(walletName);
             walletTextView.setTextColor(getResources().getColor(android.R.color.white));
         }
-    }
 
-    @RequiresApi(api = Build.VERSION_CODES.O)
-    @Override
-    public void pickWalletDest(long id) {
-        // tampilin nama wallet nya
-        walletDestId = id;
-        Uri currentWalletUri = ContentUris.withAppendedId(WalletEntry.CONTENT_URI, walletDestId);
-        String[] projection = new String[]{ WalletEntry.COLUMN_ID, WalletEntry.COLUMN_NAME};
-        Cursor cursor = getContext().getContentResolver().query(currentWalletUri, projection, null, null);
-        if (cursor.moveToFirst()){
-            String walletName = cursor.getString(cursor.getColumnIndex(WalletEntry.COLUMN_NAME));
-            walletDestTextView.setText(walletName);
-            walletDestTextView.setTextColor(getResources().getColor(android.R.color.white));
-        }
     }
 
     private Uri addTransaction(){
@@ -243,6 +247,13 @@ public class AddTransactionTransferFragment extends Fragment implements PickWall
             return null;
         }
 
+        if (categoryId == -1){
+            categoryErrorTextView.setVisibility(View.VISIBLE);
+            return null;
+        } else {
+            categoryErrorTextView.setVisibility(View.GONE);
+        }
+
         if (walletId == -1){
             walletErrorTextView.setVisibility(View.VISIBLE);
             return null;
@@ -250,16 +261,9 @@ public class AddTransactionTransferFragment extends Fragment implements PickWall
             walletErrorTextView.setVisibility(View.GONE);
         }
 
-        if (walletDestId == -1){
-            walletDestErrorTextView.setVisibility(View.VISIBLE);
-            return null;
-        } else {
-            walletDestErrorTextView.setVisibility(View.GONE);
-        }
-
         // panggil controller nya
-        Transaction transactionAdded = new Transaction(-1, mDate, walletId, walletDestId, -1, amount, desc);
-        Uri uri = new TransactionController(getContext()).addTransferTransaction(transactionAdded);
+        Transaction transactionAdded = new Transaction(-1, walletId, -1, categoryId, desc, mDate, amount);
+        Uri uri = new TransactionController(getContext()).addNonTransferTransaction(transactionAdded);
 
         // hasil insert nya gimana
         if (uri != null){

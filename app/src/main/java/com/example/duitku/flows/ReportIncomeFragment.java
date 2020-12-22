@@ -1,4 +1,4 @@
-package com.example.duitku.view;
+package com.example.duitku.flows;
 
 import android.graphics.Color;
 import android.os.Bundle;
@@ -15,8 +15,6 @@ import android.widget.TextView;
 import com.example.duitku.R;
 import com.example.duitku.model.CategoryTransaction;
 import com.example.duitku.model.IncomeReport;
-import com.example.duitku.model.MonthlyTransaction;
-import com.example.duitku.model.Transaction;
 import com.github.mikephil.charting.charts.PieChart;
 import com.github.mikephil.charting.data.PieData;
 import com.github.mikephil.charting.data.PieDataSet;
@@ -24,7 +22,6 @@ import com.github.mikephil.charting.data.PieEntry;
 import com.github.mikephil.charting.utils.ColorTemplate;
 
 import java.util.ArrayList;
-import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
 

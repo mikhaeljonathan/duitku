@@ -6,7 +6,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="#1F2028"
-    tools:context=".view.AddTransactionActivity">
+    tools:context=".flows.AddTransactionActivity">
 
     <androidx.appcompat.widget.Toolbar
         android:id="@+id/add_transaction_toolbar"

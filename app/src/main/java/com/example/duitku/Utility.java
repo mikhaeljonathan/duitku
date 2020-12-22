@@ -2,8 +2,6 @@ package com.example.duitku;
 
 import android.database.Cursor;
 
-import androidx.annotation.Nullable;
-
 import com.example.duitku.database.DuitkuContract;
 import com.example.duitku.model.CategoryTransaction;
 import com.example.duitku.model.Transaction;
@@ -55,7 +53,7 @@ public class Utility {
             int transactionIdColumnIndex = data.getColumnIndex(DuitkuContract.TransactionEntry.COLUMN_ID);
             int dateColumnIndex = data.getColumnIndex(DuitkuContract.TransactionEntry.COLUMN_DATE);
             int walletIdColumnIndex = data.getColumnIndex(DuitkuContract.TransactionEntry.COLUMN_WALLET_ID);
-            int walletDestIdColumnIndex = data.getColumnIndex(DuitkuContract.TransactionEntry.COLUMN_WALLETDEST_ID);
+            int walletDestIdColumnIndex = data.getColumnIndex(DuitkuContract.TransactionEntry.COLUMN_WALLET_DEST_ID);
             int categoryIdColumnIndex = data.getColumnIndex(DuitkuContract.TransactionEntry.COLUMN_CATEGORY_ID);
             int descColumnIndex = data.getColumnIndex(DuitkuContract.TransactionEntry.COLUMN_DESC);
             int amountColumnIndex = data.getColumnIndex(DuitkuContract.TransactionEntry.COLUMN_AMOUNT);
@@ -75,7 +73,7 @@ public class Utility {
             double amount= data.getDouble(amountColumnIndex);
 
             // masukin ke list
-            ret.add(new Transaction(transactionId, curDate, walletId, walletDestId, categoryId, amount, desc));
+            ret.add(new Transaction(transactionId, walletId, walletDestId, categoryId, desc, curDate, amount));
 
         } while (data.moveToNext());
 

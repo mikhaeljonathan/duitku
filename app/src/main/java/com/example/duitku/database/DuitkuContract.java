@@ -76,7 +76,7 @@ public class DuitkuContract {
 
         public static final String COLUMN_ID = BaseColumns._ID;
         public static final String COLUMN_WALLET_ID = "wallet_id";
-        public static final String COLUMN_WALLETDEST_ID = "walletdest_id";
+        public static final String COLUMN_WALLET_DEST_ID = "walletdest_id";
         public static final String COLUMN_CATEGORY_ID = "category_id";
         public static final String COLUMN_DESC = "transaction_desc";
         public static final String COLUMN_DATE = "transaction_date";

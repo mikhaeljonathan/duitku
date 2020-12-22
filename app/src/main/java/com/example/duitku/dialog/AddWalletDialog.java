@@ -78,7 +78,7 @@ public class AddWalletDialog extends AppCompatDialogFragment {
         String walletDesc = walletDescriptionEditText.getText().toString().trim();
 
         // panggil controller untuk ditambahin ke database
-        Wallet walletAdded = new Wallet(walletName, walletAmount, walletDesc);
+        Wallet walletAdded = new Wallet(-1, walletName, walletAmount, walletDesc);
         Uri uri = new WalletController(getContext()).addWallet(walletAdded);
 
         // cek apakah insert nya error

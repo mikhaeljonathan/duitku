@@ -1,8 +1,4 @@
-package com.example.duitku.view;
-
-import com.example.duitku.controller.TransactionController;
-import com.example.duitku.database.DuitkuContract;
-import com.example.duitku.database.DuitkuContract.TransactionEntry;
+package com.example.duitku.flows;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
@@ -13,18 +9,11 @@ import androidx.fragment.app.FragmentPagerAdapter;
 import androidx.viewpager.widget.ViewPager;
 
 import com.example.duitku.R;
-import com.example.duitku.dialog.ViewCategoriesDialog;
 import com.google.android.material.tabs.TabLayout;
 
-import android.content.ContentValues;
-import android.net.Uri;
 import android.os.Bundle;
 import android.view.View;
-import android.widget.Button;
-import android.widget.EditText;
 import android.widget.ImageButton;
-import android.widget.TextView;
-import android.widget.Toast;
 
 import java.util.ArrayList;
 import java.util.List;

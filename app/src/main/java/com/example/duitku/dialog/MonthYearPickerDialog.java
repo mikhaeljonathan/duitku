@@ -3,6 +3,7 @@ package com.example.duitku.dialog;
 import android.app.AlertDialog;
 import android.app.Dialog;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.AdapterView;
@@ -25,16 +26,15 @@ public class MonthYearPickerDialog extends AppCompatDialogFragment {
     private Spinner yearSpinner;
     private Button pickButton;
 
-    private int mMonth;
-    private int mYear;
+    private int month;
+    private int year;
 
-    private PickMonthYearListener mListener;
+    private PickMonthYearListener listener;
 
     public MonthYearPickerDialog(PickMonthYearListener listener, int month, int year){
-        super();
-        this.mListener = mListener;
-        mMonth = month;
-        mYear = year;
+        this.listener = listener;
+        this.month = month;
+        this.year = year;
     }
 
     @NonNull
@@ -45,55 +45,8 @@ public class MonthYearPickerDialog extends AppCompatDialogFragment {
         LayoutInflater inflater = getActivity().getLayoutInflater();
         View view = inflater.inflate(R.layout.dialog_monthyear_picker, null);
 
-        monthSpinner = view.findViewById(R.id.monthyear_picker_month_spinner);
-        yearSpinner = view.findViewById(R.id.monthyear_picker_year_spinner);
-        pickButton = view.findViewById(R.id.monthyear_picker_pick_btn);
-
-        ArrayAdapter<String> monthAdapter = new ArrayAdapter<>(getContext(), android.R.layout.simple_spinner_item, Utility.monthsName);
-        ArrayAdapter<String> yearAdapter = new ArrayAdapter<>(getContext(), android.R.layout.simple_spinner_item, Utility.generateYear());
-
-        monthAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
-        yearAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
-
-        monthSpinner.setAdapter(monthAdapter);
-        yearSpinner.setAdapter(yearAdapter);
-
-        final Calendar calendar = Calendar.getInstance();
-        monthSpinner.setSelection(mMonth);
-        yearSpinner.setSelection(mYear - calendar.get(Calendar.YEAR) + 5);
-
-        monthSpinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
-            @Override
-            public void onItemSelected(AdapterView<?> adapterView, View view, int i, long l) {
-                mMonth = Utility.monthPosition().get(adapterView.getItemAtPosition(i).toString());
-            }
-
-            @Override
-            public void onNothingSelected(AdapterView<?> adapterView) {
-                mMonth = calendar.get(Calendar.MONTH);
-            }
-        });
-
-        yearSpinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
-            @Override
-            public void onItemSelected(AdapterView<?> adapterView, View view, int i, long l) {
-                mYear = Integer.parseInt(adapterView.getItemAtPosition(i).toString());
-            }
-
-            @Override
-            public void onNothingSelected(AdapterView<?> adapterView) {
-                mYear = calendar.get(Calendar.YEAR);
-            }
-        });
-
-        pickButton.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                mListener.pickMonthYear(mMonth, mYear);
-                dismiss();
-            }
-        });
-
+        setUpSpinner(view);
+        setUpPickButton(view);
 
         builder.setView(view);
 
@@ -101,6 +54,63 @@ public class MonthYearPickerDialog extends AppCompatDialogFragment {
         dialog.getWindow().setBackgroundDrawableResource(R.color.colorPrimary);
         return dialog;
 
+    }
+
+    private void setUpSpinner(View view){
+        // initialize spinner
+        monthSpinner = view.findViewById(R.id.monthyear_picker_month_spinner);
+        yearSpinner = view.findViewById(R.id.monthyear_picker_year_spinner);
+
+        // setup isi spinnernya
+        ArrayAdapter<String> monthAdapter = new ArrayAdapter<>(getContext(), android.R.layout.simple_spinner_item, Utility.monthsName);
+        ArrayAdapter<String> yearAdapter = new ArrayAdapter<>(getContext(), android.R.layout.simple_spinner_item, Utility.generateYear());
+
+        // setup style isi spinnernya
+        monthAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+        yearAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+
+        monthSpinner.setAdapter(monthAdapter);
+        yearSpinner.setAdapter(yearAdapter);
+
+        // set current spinner
+        final Calendar calendar = Calendar.getInstance();
+        monthSpinner.setSelection(month);
+        yearSpinner.setSelection(year - calendar.get(Calendar.YEAR) + 5);
+
+        monthSpinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+            @Override
+            public void onItemSelected(AdapterView<?> adapterView, View view, int i, long l) {
+                month = Utility.monthPosition().get(adapterView.getItemAtPosition(i).toString());
+            }
+
+            @Override
+            public void onNothingSelected(AdapterView<?> adapterView) {
+
+            }
+        });
+
+        yearSpinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+            @Override
+            public void onItemSelected(AdapterView<?> adapterView, View view, int i, long l) {
+                year = Integer.parseInt(adapterView.getItemAtPosition(i).toString());
+            }
+
+            @Override
+            public void onNothingSelected(AdapterView<?> adapterView) {
+
+            }
+        });
+    }
+
+    private void setUpPickButton(View view){
+        pickButton = view.findViewById(R.id.monthyear_picker_pick_btn);
+        pickButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                listener.pickMonthYear(month, year);
+                dismiss();
+            }
+        });
     }
 
     public interface PickMonthYearListener{

@@ -18,7 +18,7 @@ import androidx.appcompat.app.AppCompatDialogFragment;
 
 import com.example.duitku.R;
 import com.example.duitku.database.DuitkuContract.WalletEntry;
-import com.example.duitku.view.EditWalletActivity;
+import com.example.duitku.flows.EditWalletActivity;
 
 public class ViewWalletDialog extends AppCompatDialogFragment {
 

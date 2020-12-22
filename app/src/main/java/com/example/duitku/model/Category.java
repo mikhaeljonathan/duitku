@@ -2,25 +2,25 @@ package com.example.duitku.model;
 
 public class Category {
 
-    private long mId;
-    private String mName;
-    private String mType;
+    private long id;
+    private String name;
+    private String type;
 
     public Category(long id, String name, String type){
-        mId = id;
-        mName = name;
-        mType = type;
+        this.id = id;
+        this.name = name;
+        this.type = type;
     }
 
     public long getId(){
-        return mId;
+        return id;
     }
 
     public String getName() {
-        return mName;
+        return name;
     }
 
     public String getType() {
-        return mType;
+        return type;
     }
 }

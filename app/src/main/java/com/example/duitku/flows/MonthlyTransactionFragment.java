@@ -1,4 +1,4 @@
-package com.example.duitku.view;
+package com.example.duitku.flows;
 
 import android.content.ContentUris;
 import android.database.Cursor;
@@ -24,7 +24,6 @@ import com.example.duitku.dialog.YearPickerDialog;
 import com.example.duitku.model.CategoryTransaction;
 import com.example.duitku.model.MonthlyTransaction;
 import com.example.duitku.model.Transaction;
-import com.example.duitku.model.WeeklyTransaction;
 
 import java.util.ArrayList;
 import java.util.Calendar;
@@ -98,7 +97,7 @@ public class MonthlyTransactionFragment extends Fragment implements LoaderManage
                         DuitkuContract.TransactionEntry.COLUMN_DATE,
                         DuitkuContract.TransactionEntry.COLUMN_AMOUNT,
                         DuitkuContract.TransactionEntry.COLUMN_WALLET_ID,
-                        DuitkuContract.TransactionEntry.COLUMN_WALLETDEST_ID,
+                        DuitkuContract.TransactionEntry.COLUMN_WALLET_DEST_ID,
                         DuitkuContract.TransactionEntry.COLUMN_CATEGORY_ID};
                 String selection = DuitkuContract.TransactionEntry.COLUMN_DATE + " LIKE ?";
                 String[] selectionArgs = new String[]{"%/%/" + mYear};

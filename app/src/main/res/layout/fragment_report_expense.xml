@@ -5,7 +5,7 @@
     android:id="@+id/report_expense_constraintlayout"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".view.ReportExpenseFragment">
+    tools:context=".flows.ReportExpenseFragment">
 
     <ExpandableListView
         android:id="@+id/report_expense_expandablelistview"

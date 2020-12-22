@@ -2,7 +2,7 @@
 <androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
-    android:id="@+id/transaction_header_weekly_constraintlayout"
+    android:id="@+id/transaction_header_constraintlayout"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:layoutDirection="ltr">
@@ -13,40 +13,51 @@
     color gradient nya-->
 
     <TextView
-        android:id="@+id/transaction_header_weekly_title"
+        android:id="@+id/transaction_header_title_textview"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginStart="16dp"
         android:layout_marginTop="16dp"
-        android:text="Weekly Transaction"
+        tools:text="Title Transaction"
         android:textColor="@android:color/white"
         android:textSize="30sp"
         android:textStyle="bold"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
 
+    <ImageView
+        android:id="@+id/transaction_header_add_btn"
+        android:layout_width="36dp"
+        android:layout_height="36dp"
+        android:layout_marginTop="16dp"
+        android:layout_marginEnd="16dp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:srcCompat="@drawable/icon_add" />
+
     <Button
-        android:id="@+id/transaction_header_weekly_period"
+        android:id="@+id/transaction_header_period_btn"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginStart="16dp"
         android:layout_marginTop="16dp"
+        android:layout_marginBottom="16dp"
         android:background="@drawable/selector_picker_background"
-        android:textColor="@android:color/darker_gray"
         android:paddingStart="16dp"
         android:paddingEnd="16dp"
+        android:textColor="@color/textDark"
         android:textSize="18sp"
         android:textStyle="bold"
+        app:layout_constraintBottom_toTopOf="@id/transaction_header_summary_container"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/transaction_header_weekly_title"
-        tools:text="December 2020" />
+        app:layout_constraintTop_toBottomOf="@+id/transaction_header_title_textview"
+        tools:text="Period" />
 
     <androidx.constraintlayout.widget.ConstraintLayout
-        android:id="@+id/transaction_header_weekly_container"
+        android:id="@+id/transaction_header_summary_container"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginStart="16dp"
-        android:layout_marginTop="16dp"
         android:layout_marginEnd="16dp"
         android:layout_marginBottom="16dp"
         android:background="@drawable/header_background"
@@ -54,11 +65,11 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.0"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/transaction_header_weekly_period"
-        app:layout_constraintVertical_bias="0.501" >
+        app:layout_constraintTop_toBottomOf="@+id/transaction_header_period_btn"
+        app:layout_constraintVertical_bias="0.501">
 
         <TextView
-            android:id="@+id/transaction_header_weekly_total_textview"
+            android:id="@+id/transaction_header_total_textview"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginTop="24dp"
@@ -66,23 +77,23 @@
             android:textColor="@android:color/white"
             android:textSize="24sp"
             android:textStyle="bold"
-            app:layout_constraintEnd_toEndOf="@+id/transaction_header_weekly_container"
-            app:layout_constraintStart_toStartOf="@+id/transaction_header_weekly_container"
-            app:layout_constraintTop_toTopOf="@+id/transaction_header_weekly_container" />
+            app:layout_constraintEnd_toEndOf="@+id/transaction_header_summary_container"
+            app:layout_constraintStart_toStartOf="@+id/transaction_header_summary_container"
+            app:layout_constraintTop_toTopOf="@+id/transaction_header_summary_container" />
 
         <TextView
-            android:id="@+id/transaction_header_weekly_amount_textview"
+            android:id="@+id/transaction_header_amount_textview"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:textColor="@android:color/white"
             android:textSize="32sp"
-            app:layout_constraintEnd_toEndOf="@+id/transaction_header_weekly_container"
-            app:layout_constraintStart_toStartOf="@+id/transaction_header_weekly_container"
-            app:layout_constraintTop_toBottomOf="@+id/transaction_header_weekly_total_textview"
+            app:layout_constraintEnd_toEndOf="@+id/transaction_header_summary_container"
+            app:layout_constraintStart_toStartOf="@+id/transaction_header_summary_container"
+            app:layout_constraintTop_toBottomOf="@+id/transaction_header_total_textview"
             tools:text="1.000.000" />
 
         <View
-            android:id="@+id/transaction_header_weekly_divider"
+            android:id="@+id/transaction_header_divider"
             android:layout_width="1dp"
             android:layout_height="72dp"
             android:layout_marginTop="16dp"
@@ -90,84 +101,84 @@
             android:background="@android:color/white"
             android:foreground="@android:color/white"
             app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintEnd_toEndOf="@+id/transaction_header_weekly_container"
-            app:layout_constraintStart_toStartOf="@+id/transaction_header_weekly_container"
-            app:layout_constraintTop_toBottomOf="@+id/transaction_header_weekly_amount_textview" />
+            app:layout_constraintEnd_toEndOf="@+id/transaction_header_summary_container"
+            app:layout_constraintStart_toStartOf="@+id/transaction_header_summary_container"
+            app:layout_constraintTop_toBottomOf="@+id/transaction_header_amount_textview" />
 
         <TextView
-            android:id="@+id/transaction_header_weekly_income_textview"
+            android:id="@+id/transaction_header_income_textview"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginTop="24dp"
             android:text="Income"
             android:textColor="@android:color/white"
             android:textSize="18sp"
-            app:layout_constraintEnd_toStartOf="@+id/transaction_header_weekly_divider"
-            app:layout_constraintStart_toEndOf="@+id/transaction_header_weekly_income_imageview"
-            app:layout_constraintTop_toBottomOf="@+id/transaction_header_weekly_amount_textview" />
+            app:layout_constraintEnd_toStartOf="@+id/transaction_header_divider"
+            app:layout_constraintStart_toEndOf="@+id/transaction_header_income_imageview"
+            app:layout_constraintTop_toBottomOf="@+id/transaction_header_amount_textview" />
 
         <ImageView
-            android:id="@+id/transaction_header_weekly_income_imageview"
+            android:id="@+id/transaction_header_income_imageview"
             android:layout_width="18dp"
             android:layout_height="18dp"
             android:layout_marginEnd="8dp"
-            app:layout_constraintBottom_toBottomOf="@+id/transaction_header_weekly_income_textview"
-            app:layout_constraintEnd_toStartOf="@+id/transaction_header_weekly_income_textview"
+            app:layout_constraintBottom_toBottomOf="@+id/transaction_header_income_textview"
+            app:layout_constraintEnd_toStartOf="@+id/transaction_header_income_textview"
             app:layout_constraintHorizontal_chainStyle="packed"
-            app:layout_constraintStart_toStartOf="@+id/transaction_header_weekly_container"
-            app:layout_constraintTop_toTopOf="@+id/transaction_header_weekly_income_textview"
+            app:layout_constraintStart_toStartOf="@+id/transaction_header_summary_container"
+            app:layout_constraintTop_toTopOf="@+id/transaction_header_income_textview"
             app:srcCompat="@drawable/icon_income" />
 
         <TextView
-            android:id="@+id/transaction_header_weekly_income_amount_textview"
+            android:id="@+id/transaction_header_income_amount_textview"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginTop="8dp"
             android:layout_marginBottom="16dp"
             android:textColor="@android:color/white"
             android:textSize="18sp"
-            app:layout_constraintBottom_toBottomOf="@id/transaction_header_weekly_container"
-            app:layout_constraintEnd_toStartOf="@+id/transaction_header_weekly_divider"
-            app:layout_constraintStart_toStartOf="@+id/transaction_header_weekly_container"
-            app:layout_constraintTop_toBottomOf="@+id/transaction_header_weekly_income_textview"
+            app:layout_constraintBottom_toBottomOf="@id/transaction_header_summary_container"
+            app:layout_constraintEnd_toStartOf="@+id/transaction_header_divider"
+            app:layout_constraintStart_toStartOf="@+id/transaction_header_summary_container"
+            app:layout_constraintTop_toBottomOf="@+id/transaction_header_income_textview"
             tools:text="3.000.000" />
 
         <TextView
-            android:id="@+id/transaction_header_weekly_expense_textview"
+            android:id="@+id/transaction_header_expense_textview"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginTop="24dp"
             android:text="Expense"
             android:textColor="@android:color/white"
             android:textSize="18sp"
-            app:layout_constraintEnd_toEndOf="@+id/transaction_header_weekly_container"
-            app:layout_constraintStart_toEndOf="@+id/transaction_header_weekly_expense_imageview"
-            app:layout_constraintTop_toBottomOf="@+id/transaction_header_weekly_amount_textview" />
+            app:layout_constraintEnd_toEndOf="@+id/transaction_header_summary_container"
+            app:layout_constraintStart_toEndOf="@+id/transaction_header_expense_imageview"
+            app:layout_constraintTop_toBottomOf="@+id/transaction_header_amount_textview" />
 
         <ImageView
-            android:id="@+id/transaction_header_weekly_expense_imageview"
+            android:id="@+id/transaction_header_expense_imageview"
             android:layout_width="18dp"
             android:layout_height="18dp"
             android:layout_marginEnd="8dp"
-            app:layout_constraintBottom_toBottomOf="@+id/transaction_header_weekly_expense_textview"
-            app:layout_constraintEnd_toStartOf="@+id/transaction_header_weekly_expense_textview"
+            app:layout_constraintBottom_toBottomOf="@+id/transaction_header_expense_textview"
+            app:layout_constraintEnd_toStartOf="@+id/transaction_header_expense_textview"
             app:layout_constraintHorizontal_chainStyle="packed"
-            app:layout_constraintStart_toEndOf="@+id/transaction_header_weekly_divider"
-            app:layout_constraintTop_toTopOf="@+id/transaction_header_weekly_expense_textview"
+            app:layout_constraintStart_toEndOf="@+id/transaction_header_divider"
+            app:layout_constraintTop_toTopOf="@+id/transaction_header_expense_textview"
             app:srcCompat="@drawable/icon_expense" />
 
         <TextView
-            android:id="@+id/transaction_header_weekly_expense_amount_textview"
+            android:id="@+id/transaction_header_expense_amount_textview"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginTop="8dp"
             android:layout_marginBottom="16dp"
             android:textColor="@android:color/white"
             android:textSize="18sp"
-            app:layout_constraintBottom_toBottomOf="@id/transaction_header_weekly_container"
-            app:layout_constraintEnd_toEndOf="@+id/transaction_header_weekly_container"
-            app:layout_constraintStart_toEndOf="@+id/transaction_header_weekly_divider"
-            app:layout_constraintTop_toBottomOf="@+id/transaction_header_weekly_expense_textview"
+            app:layout_constraintBottom_toBottomOf="@id/transaction_header_summary_container"
+            app:layout_constraintEnd_toEndOf="@+id/transaction_header_summary_container"
+            app:layout_constraintStart_toEndOf="@+id/transaction_header_divider"
+            app:layout_constraintTop_toBottomOf="@+id/transaction_header_expense_textview"
             tools:text="2.000.000" />
 
     </androidx.constraintlayout.widget.ConstraintLayout>

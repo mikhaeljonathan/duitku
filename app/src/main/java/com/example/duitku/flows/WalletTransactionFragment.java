@@ -1,9 +1,8 @@
-package com.example.duitku.view;
+package com.example.duitku.flows;
 
 import com.example.duitku.adapter.WalletAdapter;
 import com.example.duitku.controller.WalletController;
 import com.example.duitku.database.DuitkuContract.WalletEntry;
-import com.example.duitku.database.DuitkuContract.BudgetEntry;
 
 import android.database.Cursor;
 import android.os.Bundle;
@@ -11,8 +10,6 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
-import android.widget.Button;
-import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.ListView;
 import android.widget.TextView;
@@ -25,7 +22,6 @@ import androidx.loader.content.CursorLoader;
 import androidx.loader.content.Loader;
 
 import com.example.duitku.R;
-import com.example.duitku.dialog.AddBudgetDialog;
 import com.example.duitku.dialog.AddWalletDialog;
 import com.example.duitku.dialog.ViewWalletDialog;
 
