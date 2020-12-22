@@ -2,25 +2,25 @@ package com.example.duitku.model;
 
 public class MonthlyTransaction {
 
-    private int mMonth;
-    private double mIncome;
-    private double mExpense;
+    private int month;
+    private double income;
+    private double expense;
 
     public MonthlyTransaction(int month, double income, double expense){
-        mMonth = month;
-        mIncome = income;
-        mExpense = expense;
+        this.month = month;
+        this.income = income;
+        this.expense = expense;
     }
 
     public int getMonth() {
-        return mMonth;
+        return month;
     }
 
     public double getIncome() {
-        return mIncome;
+        return income;
     }
 
     public double getExpense() {
-        return mExpense;
+        return expense;
     }
 }

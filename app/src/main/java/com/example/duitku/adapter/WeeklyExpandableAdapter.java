@@ -79,10 +79,10 @@ public class WeeklyExpandableAdapter extends BaseExpandableListAdapter {
         intervalsTextView.setText(weeklyTransaction.getIntervals());
 
         TextView incomeTextView = view.findViewById(R.id.item_list_transaction_weekly_income_textview);
-        incomeTextView.setText(Double.toString(weeklyTransaction.getIncome()));
+        incomeTextView.setText(weeklyTransaction.getIncome() + "");
 
         TextView expenseTextView = view.findViewById(R.id.item_list_transaction_weekly_expense_textview);
-        expenseTextView.setText(Double.toString(weeklyTransaction.getExpense()));
+        expenseTextView.setText(weeklyTransaction.getExpense() + "");
 
         return view;
     }
@@ -106,7 +106,6 @@ public class WeeklyExpandableAdapter extends BaseExpandableListAdapter {
         amountTextView.setText(Double.toString(categoryTransaction.getAmount()));
 
         return view;
-
     }
 
     @Override

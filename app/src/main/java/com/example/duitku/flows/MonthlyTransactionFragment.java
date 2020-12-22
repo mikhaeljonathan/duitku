@@ -19,11 +19,15 @@ import androidx.loader.content.Loader;
 import com.example.duitku.R;
 import com.example.duitku.Utility;
 import com.example.duitku.adapter.MonthlyExpandableAdapter;
+import com.example.duitku.controller.CategoryController;
+import com.example.duitku.controller.TransactionController;
 import com.example.duitku.database.DuitkuContract;
 import com.example.duitku.dialog.YearPickerDialog;
+import com.example.duitku.model.Category;
 import com.example.duitku.model.CategoryTransaction;
 import com.example.duitku.model.MonthlyTransaction;
 import com.example.duitku.model.Transaction;
+import com.example.duitku.view.MonthlyTransactionFragmentView;
 
 import java.util.ArrayList;
 import java.util.Calendar;
@@ -34,57 +38,37 @@ import java.util.List;
 
 public class MonthlyTransactionFragment extends Fragment implements LoaderManager.LoaderCallbacks<Cursor>, YearPickerDialog.PickYearListener {
 
-    // Kurang lebih sama kayak DailyTransactionFragment penjelasannya
-    private ExpandableListView monthlyExpandableListView;
-    private MonthlyExpandableAdapter monthlyExpandableAdapter;
-    private TextView periodTextView;
-    private TextView totalAmountTextView;
-    private TextView totalGlobalIncomeTextView;
-    private TextView totalGlobalExpenseTextView;
+    private int year;
 
-    private List<MonthlyTransaction> monthlyTransactionList;
-    private HashMap<MonthlyTransaction, List<CategoryTransaction>> categoryTransactionListHashMap;
+    private List<MonthlyTransaction> monthlyTransactionList = new ArrayList<>();
+    private HashMap<MonthlyTransaction, List<CategoryTransaction>> categoryTransactionListHashMap = new HashMap<>();
+    private HashMap<Long, CategoryTransaction> categoryTransactionHashMap = new HashMap<>();
+    private double totalIncome;
+    private double totalExpense;
+    private double totalGlobalIncome;
+    private double totalGlobalExpense;
 
-    private Calendar calendar;
-    private int mYear;
+    private TransactionController transactionController = new TransactionController(getActivity());
 
-    private static final int TRANSACTION_LOADER_MONTHLY = 0;
+    private MonthlyTransactionFragmentView monthlyTransactionFragmentView;
+
+    private final int TRANSACTION_LOADER_MONTHLY = 0;
 
     @Nullable
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
+        // get current year
+        Calendar calendar = Calendar.getInstance();
+        year = calendar.get(Calendar.YEAR);
 
-        View rootView = inflater.inflate(R.layout.fragment_transaction_monthly, container, false);
-        View header = inflater.inflate(R.layout.fragment_transaction_header_monthly, null);
+        // setup the UI
+        monthlyTransactionFragmentView = new MonthlyTransactionFragmentView(inflater, container, this);
+        monthlyTransactionFragmentView.setUpUI();
+        monthlyTransactionFragmentView.updatePeriodButton(year);
 
-        calendar = Calendar.getInstance();
-        mYear = calendar.get(Calendar.YEAR);
-
-        periodTextView = header.findViewById(R.id.transaction_header_monthly_period);
-        periodTextView.setText(mYear + "");
-
-        totalAmountTextView = header.findViewById(R.id.transaction_header_monthly_amount_textview);
-        totalGlobalIncomeTextView = header.findViewById(R.id.transaction_header_monthly_income_amount_textview);
-        totalGlobalExpenseTextView = header.findViewById(R.id.transaction_header_monthly_expense_amount_textview);
-
-        monthlyExpandableListView = rootView.findViewById(R.id.transaction_monthly_expandablelistview);
-        monthlyExpandableListView.addHeaderView(header, null, false);
-
-        monthlyTransactionList = new ArrayList<>();
-        categoryTransactionListHashMap = new HashMap<>();
-
-        periodTextView.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                YearPickerDialog yearPickerDialog = new YearPickerDialog(MonthlyTransactionFragment.this, mYear);
-                yearPickerDialog.show(getFragmentManager(), "Year Picker Dialog");
-            }
-        });
-
-        LoaderManager.getInstance(this).restartLoader(TRANSACTION_LOADER_MONTHLY, null, this);
         LoaderManager.getInstance(this).initLoader(TRANSACTION_LOADER_MONTHLY, null, this);
 
-        return rootView;
+        return monthlyTransactionFragmentView.getView();
     }
 
     @NonNull
@@ -92,15 +76,9 @@ public class MonthlyTransactionFragment extends Fragment implements LoaderManage
     public Loader<Cursor> onCreateLoader(int id, @Nullable Bundle args) {
         switch (id) {
             case TRANSACTION_LOADER_MONTHLY:
-                String[] projection = new String[]{DuitkuContract.TransactionEntry.COLUMN_ID,
-                        DuitkuContract.TransactionEntry.COLUMN_DESC,
-                        DuitkuContract.TransactionEntry.COLUMN_DATE,
-                        DuitkuContract.TransactionEntry.COLUMN_AMOUNT,
-                        DuitkuContract.TransactionEntry.COLUMN_WALLET_ID,
-                        DuitkuContract.TransactionEntry.COLUMN_WALLET_DEST_ID,
-                        DuitkuContract.TransactionEntry.COLUMN_CATEGORY_ID};
+                String[] projection = transactionController.getProjection();
                 String selection = DuitkuContract.TransactionEntry.COLUMN_DATE + " LIKE ?";
-                String[] selectionArgs = new String[]{"%/%/" + mYear};
+                String[] selectionArgs = new String[]{"%/%/" + year};
                 return new CursorLoader(getContext(), DuitkuContract.TransactionEntry.CONTENT_URI, projection, selection, selectionArgs, null);
             default:
                 throw new IllegalStateException("Unknown Loader");
@@ -109,83 +87,85 @@ public class MonthlyTransactionFragment extends Fragment implements LoaderManage
 
     @Override
     public void onLoadFinished(@NonNull Loader<Cursor> loader, Cursor data) {
-        monthlyTransactionList.clear();
-        categoryTransactionListHashMap.clear();
-
-        HashMap<Long, CategoryTransaction> categoryTransactionHashMap = new HashMap<>();
-        double totalIncome = 0;
-        double totalExpense = 0;
-        int lastMonth = -1;
-        Calendar c = Calendar.getInstance();
-        double totalGlobalIncome = 0;
-        double totalGlobalExpense = 0;
-
         List<Transaction> allTransactions = Utility.convertCursorToListOfTransaction(data);
-
+        // sort transaction brdsrkan tanggal
         Collections.sort(allTransactions, new Comparator<Transaction>() {
             @Override
             public int compare(Transaction t1, Transaction t2) {
                 return t2.getDate().compareTo(t1.getDate()); // dari tanggal yang paling recent
             }
         });
+        setUpListAndHashMap(allTransactions);
+        monthlyTransactionFragmentView.updateSummary(totalGlobalIncome, totalGlobalExpense);
+        monthlyTransactionFragmentView.fillListView(monthlyTransactionList, categoryTransactionListHashMap, getActivity());
+    }
 
+    private void setUpListAndHashMap(List<Transaction> allTransactions){
+        monthlyTransactionList.clear();
+        categoryTransactionListHashMap.clear();
+        categoryTransactionHashMap.clear();
+        totalIncome = 0;
+        totalExpense = 0;
+        totalGlobalIncome = 0;
+        totalGlobalExpense = 0;
+
+        int lastMonth = -1;
+
+        if (allTransactions.isEmpty()) return;
+
+        // traverse through list
         for (Transaction curTransaction: allTransactions){
-
-            // kalo dah ganti pekan
-            c.setTime(curTransaction.getDate());
-            if (lastMonth != -1 && c.get(Calendar.MONTH) != lastMonth) {
-
-                // buat object dailytransaction (judul / parentnya)
-                MonthlyTransaction monthlyTransaction = new MonthlyTransaction(lastMonth, totalIncome, totalExpense);
-                monthlyTransactionList.add(monthlyTransaction); // masukin list
-                categoryTransactionListHashMap.put(monthlyTransaction, new Utility().convertHashMapToList(categoryTransactionHashMap)); // masukin hashmap juga dr parent ke anak2nya
-
+            // kalo dah ganti bulan
+            Calendar calendar = Calendar.getInstance();
+            calendar.setTime(curTransaction.getDate());
+            if (lastMonth != -1 && calendar.get(Calendar.MONTH) != lastMonth) {
+                addToListAndHashMap(lastMonth);
                 // reset variabel2 agregasinya
                 totalIncome = 0;
                 totalExpense = 0;
-                categoryTransactionHashMap = new HashMap<>();
-
+                categoryTransactionHashMap.clear();
             }
-
-            Cursor temp = getContext().getContentResolver().query(ContentUris.withAppendedId(DuitkuContract.CategoryEntry.CONTENT_URI, curTransaction.getCategoryId()), new String[]{DuitkuContract.CategoryEntry.COLUMN_ID, DuitkuContract.CategoryEntry.COLUMN_TYPE}, null,null, null);
-            String type = "TRANS";
-            if (temp.moveToFirst()){
-                type = temp.getString(temp.getColumnIndex(DuitkuContract.CategoryEntry.COLUMN_TYPE));
-            }
-            // agregasi expense atau income
-            if (type.equals(DuitkuContract.CategoryEntry.TYPE_EXPENSE)){
-                totalGlobalExpense += curTransaction.getAmount();
-                totalExpense += curTransaction.getAmount();
-            } else if (type.equals(DuitkuContract.CategoryEntry.TYPE_INCOME)){
-                totalGlobalIncome += curTransaction.getAmount();
-                totalIncome += curTransaction.getAmount();
-            }
-
-            long categoryId = curTransaction.getCategoryId();
-            CategoryTransaction categoryTransaction = categoryTransactionHashMap.get(categoryId);
-            if (categoryTransaction == null){
-                categoryTransaction = new CategoryTransaction(categoryId, 0);
-                categoryTransactionHashMap.put(categoryId, categoryTransaction);
-            }
-            categoryTransaction.addTransaction(curTransaction);
-
-            c.setTime(curTransaction.getDate());
-            lastMonth = c.get(Calendar.MONTH);
+            updateIncomeAndExpense(curTransaction);
+            addToCategoryTransactionHashMap(curTransaction); //ini buat bikin transaksi yang digrup by category
+            // setiap iterasi pasti jalanin ini
+            calendar.setTime(curTransaction.getDate());
+            lastMonth = calendar.get(Calendar.MONTH);
         }
+        //sisanya
+        addToListAndHashMap(lastMonth);
+    }
 
-        if (allTransactions.size() > 0){
-            MonthlyTransaction monthlyTransaction = new MonthlyTransaction(lastMonth, totalIncome, totalExpense);
-            monthlyTransactionList.add(monthlyTransaction); // masukin list
-            categoryTransactionListHashMap.put(monthlyTransaction, new Utility().convertHashMapToList(categoryTransactionHashMap));
+    private void addToListAndHashMap(int lastMonth){
+        MonthlyTransaction monthlyTransaction = new MonthlyTransaction(lastMonth, totalIncome, totalExpense);
+        monthlyTransactionList.add(monthlyTransaction);
+        categoryTransactionListHashMap.put(monthlyTransaction, new Utility().convertHashMapToList(categoryTransactionHashMap));
+    }
+
+    private void updateIncomeAndExpense(Transaction curTransaction){
+        CategoryController categoryController = new CategoryController(getActivity());
+        long categoryId = curTransaction.getCategoryId();
+        Category category = categoryController.getCategoryById(categoryId);
+
+        if (category == null) return;
+
+        String type = category.getType();
+        if (type.equals(DuitkuContract.CategoryEntry.TYPE_EXPENSE)){
+            totalGlobalExpense += curTransaction.getAmount();
+            totalExpense += curTransaction.getAmount();
+        } else {
+            totalGlobalIncome += curTransaction.getAmount();
+            totalIncome += curTransaction.getAmount();
         }
+    }
 
-        totalAmountTextView.setText((totalGlobalIncome - totalGlobalExpense) + "");
-        totalGlobalIncomeTextView.setText(totalGlobalIncome + "");
-        totalGlobalExpenseTextView.setText(totalGlobalExpense + "");
-
-        monthlyExpandableAdapter = new MonthlyExpandableAdapter(monthlyTransactionList, categoryTransactionListHashMap, getContext());
-        monthlyExpandableListView.setAdapter(monthlyExpandableAdapter);
-
+    private void addToCategoryTransactionHashMap(Transaction curTransaction){
+        long categoryId = curTransaction.getCategoryId();
+        CategoryTransaction categoryTransaction = categoryTransactionHashMap.get(categoryId);
+        if (categoryTransaction == null){ //belum ada category yang setipe dengan transaksi ini
+            categoryTransaction = new CategoryTransaction(categoryId, 0);
+            categoryTransactionHashMap.put(categoryId, categoryTransaction);
+        }
+        categoryTransaction.addTransaction(curTransaction);
     }
 
     @Override
@@ -193,11 +173,10 @@ public class MonthlyTransactionFragment extends Fragment implements LoaderManage
 
     }
 
-
     @Override
     public void pickYear(int year) {
-        mYear = year;
-        periodTextView.setText(mYear + "");
+        this.year = year;
+        monthlyTransactionFragmentView.updatePeriodButton(year);
         LoaderManager.getInstance(this).restartLoader(TRANSACTION_LOADER_MONTHLY, null, this);
     }
 

@@ -40,7 +40,6 @@ public class MonthYearPickerDialog extends AppCompatDialogFragment {
     @NonNull
     @Override
     public Dialog onCreateDialog(@Nullable Bundle savedInstanceState) {
-
         AlertDialog.Builder builder = new AlertDialog.Builder(getActivity());
         LayoutInflater inflater = getActivity().getLayoutInflater();
         View view = inflater.inflate(R.layout.dialog_monthyear_picker, null);
@@ -51,9 +50,8 @@ public class MonthYearPickerDialog extends AppCompatDialogFragment {
         builder.setView(view);
 
         Dialog dialog = builder.create();
-        dialog.getWindow().setBackgroundDrawableResource(R.color.colorPrimary);
+        dialog.getWindow().setBackgroundDrawableResource(R.color.colorPrimary); //biar bg gelap
         return dialog;
-
     }
 
     private void setUpSpinner(View view){

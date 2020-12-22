@@ -54,12 +54,12 @@ public class WeeklyTransactionFragment extends Fragment implements LoaderManager
 
     private WeeklyTransactionFragmentView weeklyTransactionFragmentView;
 
-    private static final int TRANSACTION_LOADER_WEEKLY = 0;
+    private final int TRANSACTION_LOADER_WEEKLY = 0;
 
     @Nullable
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
-        // get current date
+        // get current month and year
         Calendar calendar = Calendar.getInstance();
         month = calendar.get(Calendar.MONTH);
         year = calendar.get(Calendar.YEAR);
@@ -69,7 +69,6 @@ public class WeeklyTransactionFragment extends Fragment implements LoaderManager
         weeklyTransactionFragmentView.setUpUI();
         weeklyTransactionFragmentView.updatePeriodButton(month, year);
 
-//        LoaderManager.getInstance(this).restartLoader(TRANSACTION_LOADER_WEEKLY, null, this);
         LoaderManager.getInstance(this).initLoader(TRANSACTION_LOADER_WEEKLY, null, this);
 
         return weeklyTransactionFragmentView.getView();
@@ -108,6 +107,7 @@ public class WeeklyTransactionFragment extends Fragment implements LoaderManager
         // initialize variabel2 penting
         weeklyTransactionList.clear();
         categoryTransactionListHashMap.clear();
+        categoryTransactionHashMap.clear();
         totalIncome = 0;
         totalExpense = 0;
         totalGlobalIncome = 0;

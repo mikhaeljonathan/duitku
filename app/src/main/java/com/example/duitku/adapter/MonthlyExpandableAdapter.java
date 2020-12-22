@@ -1,7 +1,6 @@
 package com.example.duitku.adapter;
 
 import android.content.Context;
-import android.text.Layout;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -14,43 +13,42 @@ import com.example.duitku.controller.CategoryController;
 import com.example.duitku.model.Category;
 import com.example.duitku.model.CategoryTransaction;
 import com.example.duitku.model.MonthlyTransaction;
-import com.example.duitku.model.WeeklyTransaction;
 
 import java.util.HashMap;
 import java.util.List;
 
 public class MonthlyExpandableAdapter extends BaseExpandableListAdapter {
 
-    private List<MonthlyTransaction> mMonthlyTransactionList;
-    private HashMap<MonthlyTransaction, List<CategoryTransaction>> mCategoryTransactionListHashMap;
-    private Context mContext;
+    private List<MonthlyTransaction> monthlyTransactionList;
+    private HashMap<MonthlyTransaction, List<CategoryTransaction>> categoryTransactionListHashMap;
+    private Context context;
 
     public MonthlyExpandableAdapter(List<MonthlyTransaction> monthlyTransactionList,
                                     HashMap<MonthlyTransaction, List<CategoryTransaction>> categoryTransactionListHashMap,
                                     Context context){
-        mMonthlyTransactionList = monthlyTransactionList;
-        mCategoryTransactionListHashMap = categoryTransactionListHashMap;
-        mContext = context;
+        this.monthlyTransactionList = monthlyTransactionList;
+        this.categoryTransactionListHashMap = categoryTransactionListHashMap;
+        this.context = context;
     }
 
     @Override
     public int getGroupCount() {
-        return mMonthlyTransactionList.size();
+        return monthlyTransactionList.size();
     }
 
     @Override
     public int getChildrenCount(int i) {
-        return mCategoryTransactionListHashMap.get(mMonthlyTransactionList.get(i)).size();
+        return categoryTransactionListHashMap.get(monthlyTransactionList.get(i)).size();
     }
 
     @Override
     public Object getGroup(int i) {
-        return mMonthlyTransactionList.get(i);
+        return monthlyTransactionList.get(i);
     }
 
     @Override
     public Object getChild(int i, int i1) {
-        return mCategoryTransactionListHashMap.get(mMonthlyTransactionList.get(i)).get(i1);
+        return categoryTransactionListHashMap.get(monthlyTransactionList.get(i)).get(i1);
     }
 
     @Override
@@ -71,9 +69,8 @@ public class MonthlyExpandableAdapter extends BaseExpandableListAdapter {
     @Override
     public View getGroupView(int i, boolean b, View view, ViewGroup viewGroup) {
         MonthlyTransaction monthlyTransaction = (MonthlyTransaction) getGroup(i);
-
         if (view == null){
-            view = LayoutInflater.from(mContext).inflate(R.layout.item_list_transaction_monthly, viewGroup, false);
+            view = LayoutInflater.from(context).inflate(R.layout.item_list_transaction_monthly, viewGroup, false);
         }
 
         TextView monthName = view.findViewById(R.id.item_list_transaction_monthly_name_textview);
@@ -91,13 +88,12 @@ public class MonthlyExpandableAdapter extends BaseExpandableListAdapter {
     @Override
     public View getChildView(int i, int i1, boolean b, View view, ViewGroup viewGroup) {
         CategoryTransaction categoryTransaction = (CategoryTransaction) getChild(i, i1);
-
         if (view == null){
-            view = LayoutInflater.from(mContext).inflate(R.layout.item_list_transaction_category, viewGroup, false);
+            view = LayoutInflater.from(context).inflate(R.layout.item_list_transaction_category, viewGroup, false);
         }
 
         TextView categoryNameTextView = view.findViewById(R.id.item_list_transaction_category_name_textview);
-        CategoryController categoryController = new CategoryController(mContext);
+        CategoryController categoryController = new CategoryController(context);
         Category category = categoryController.getCategoryById(categoryTransaction.getCategoryId());
         categoryNameTextView.setText(category.getName());
 
