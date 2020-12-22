@@ -1,0 +1,93 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/view_wallet_constraintlayout"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/colorPrimary">
+
+    <androidx.appcompat.widget.Toolbar
+        android:id="@+id/view_wallet_toolbar"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:background="@color/colorPrimaryDark"
+        android:minHeight="?attr/actionBarSize"
+        android:theme="?attr/actionBarTheme"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <ImageButton
+        android:id="@+id/view_wallet_back_btn"
+        android:layout_width="48dp"
+        android:layout_height="48dp"
+        android:background="@null"
+        app:layout_constraintBottom_toBottomOf="@+id/view_wallet_toolbar"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="@+id/view_wallet_toolbar"
+        app:srcCompat="@drawable/icon_arrow_back" />
+
+    <TextView
+        android:id="@+id/view_wallet_title_textview"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="16dp"
+        android:text="View Wallet"
+        android:textColor="@color/textLight"
+        android:textSize="18sp"
+        app:layout_constraintBottom_toBottomOf="@+id/view_wallet_toolbar"
+        app:layout_constraintStart_toEndOf="@+id/view_wallet_back_btn"
+        app:layout_constraintTop_toTopOf="@+id/view_wallet_toolbar" />
+
+    <ImageButton
+        android:id="@+id/view_wallet_edit_btn"
+        android:layout_width="48dp"
+        android:layout_height="48dp"
+        android:background="@null"
+        app:layout_constraintEnd_toEndOf="@+id/view_wallet_toolbar"
+        app:layout_constraintTop_toTopOf="parent"
+        app:srcCompat="@drawable/icon_edit" />
+
+    <TextView
+        android:id="@+id/view_wallet_name_textview"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="16dp"
+        android:layout_marginLeft="16dp"
+        android:textColor="@color/textLight"
+        android:textSize="30sp"
+        android:textStyle="bold"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/view_wallet_toolbar"
+        tools:text="Mobile Banking" />
+
+    <TextView
+        android:id="@+id/view_wallet_amount_textview"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="16dp"
+        android:layout_marginTop="16dp"
+        android:textColor="@color/textLight"
+        android:textSize="24sp"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/view_wallet_name_textview"
+        tools:text="10000000" />
+
+    <TextView
+        android:id="@+id/view_wallet_desc_textview"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="16dp"
+        android:layout_marginTop="16dp"
+        android:layout_marginEnd="16dp"
+        android:paddingBottom="48dp"
+        android:textColor="@color/textDark"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/view_wallet_amount_textview"
+        tools:text="Dompet yang nemu di pinggir jalan asdkfjsdhfklsdjfhsdklfjsdhfljksdfhsdklfjsdhfkljsdfhklsjf" />
+
+
+
+</androidx.constraintlayout.widget.ConstraintLayout>

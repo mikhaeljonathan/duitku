@@ -2,16 +2,16 @@ package com.example.duitku.factory.fragment;
 
 import androidx.fragment.app.Fragment;
 
-import com.example.duitku.flows.WalletTransactionFragment;
+import com.example.duitku.flows.WalletFragment;
 
-public class WalletTransactionFragmentFactory implements FragmentFactory{
+public class WalletFragmentFactory implements FragmentFactory{
 
     private static Fragment instance;
 
     @Override
     public Fragment createProduct() {
         if (instance == null){
-            instance = new WalletTransactionFragment();
+            instance = new WalletFragment();
             return instance;
         }
         return instance;

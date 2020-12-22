@@ -4,23 +4,19 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
-import androidx.annotation.NonNull;
 import androidx.fragment.app.Fragment;
-import androidx.fragment.app.FragmentManager;
-import androidx.fragment.app.FragmentPagerAdapter;
 import androidx.viewpager.widget.ViewPager;
 
 import com.example.duitku.R;
 import com.example.duitku.adapter.TransactionAdapter;
-import com.example.duitku.factory.fragment.BudgetTransactionFragmentFactory;
+import com.example.duitku.factory.fragment.BudgetFragmentFactory;
 import com.example.duitku.factory.fragment.DailyTransactionFragmentFactory;
 import com.example.duitku.factory.fragment.FragmentFactory;
 import com.example.duitku.factory.fragment.MonthlyTransactionFragmentFactory;
-import com.example.duitku.factory.fragment.WalletTransactionFragmentFactory;
+import com.example.duitku.factory.fragment.WalletFragmentFactory;
 import com.example.duitku.factory.fragment.WeeklyTransactionFragmentFactory;
 
 import java.util.ArrayList;
-import java.util.List;
 
 public class TransactionFragmentView implements UIView{
 
@@ -50,8 +46,8 @@ public class TransactionFragmentView implements UIView{
         fragmentFactories.add(new MonthlyTransactionFragmentFactory());
         fragmentFactories.add(new WeeklyTransactionFragmentFactory());
         fragmentFactories.add(new DailyTransactionFragmentFactory());
-        fragmentFactories.add(new WalletTransactionFragmentFactory());
-        fragmentFactories.add(new BudgetTransactionFragmentFactory());
+        fragmentFactories.add(new WalletFragmentFactory());
+        fragmentFactories.add(new BudgetFragmentFactory());
 
         TransactionAdapter adapter = new TransactionAdapter(fragment.getChildFragmentManager());
 

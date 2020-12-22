@@ -11,9 +11,10 @@
         android:theme="@style/AppTheme">
         <activity android:name=".flows.EditWalletActivity"
             android:screenOrientation="portrait"></activity>
+        <activity android:name=".flows.ViewWalletActivity"
+            android:screenOrientation="portrait"></activity>
         <activity
             android:name=".flows.AddTransactionActivity"
-            android:parentActivityName=".flows.MainActivity"
             android:screenOrientation="portrait"/>
         <activity
             android:name=".flows.MainActivity"

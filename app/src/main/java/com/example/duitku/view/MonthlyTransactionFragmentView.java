@@ -7,28 +7,22 @@ import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.ExpandableListView;
 import android.widget.ImageView;
+import android.widget.ListView;
 import android.widget.TextView;
 
-import androidx.appcompat.app.AppCompatDialogFragment;
-
 import com.example.duitku.R;
-import com.example.duitku.Utility;
 import com.example.duitku.adapter.MonthlyExpandableAdapter;
-import com.example.duitku.adapter.WeeklyExpandableAdapter;
-import com.example.duitku.dialog.MonthYearPickerDialog;
 import com.example.duitku.dialog.YearPickerDialog;
 import com.example.duitku.flows.MonthlyTransactionFragment;
-import com.example.duitku.flows.WeeklyTransactionFragment;
 import com.example.duitku.model.CategoryTransaction;
 import com.example.duitku.model.MonthlyTransaction;
-import com.example.duitku.model.WeeklyTransaction;
 
 import java.util.HashMap;
 import java.util.List;
 
 public class MonthlyTransactionFragmentView implements UIView{
 
-    private ExpandableListView listView;
+    private ExpandableListView expandableListView;
     private MonthlyExpandableAdapter adapter;
     private Button periodButton;
     private View header;
@@ -75,27 +69,31 @@ public class MonthlyTransactionFragmentView implements UIView{
 
     public void fillListView(List<MonthlyTransaction> monthlyTransactionList, HashMap<MonthlyTransaction, List<CategoryTransaction>> categoryTransactionListHashMap, Context context){
         adapter = new MonthlyExpandableAdapter(monthlyTransactionList, categoryTransactionListHashMap, context);
-        listView.setAdapter(adapter);
+        expandableListView.setAdapter(adapter);
     }
 
     private void setUpExpandableListView(){
-        listView = view.findViewById(R.id.fragment_transaction_viewpager_expandablelistview);
+        ListView listView = view.findViewById(R.id.fragment_transaction_viewpager_listview);
+        listView.setVisibility(View.GONE);
+        expandableListView = view.findViewById(R.id.fragment_transaction_viewpager_expandablelistview);
     }
 
     private void setUpHeader(){
         header = inflater.inflate(R.layout.fragment_transaction_header, container, false);
 
         TextView titleTextView = header.findViewById(R.id.transaction_header_title_textview);
+        TextView totalWalletTextView = header.findViewById(R.id.transaction_header_totalwallet_textview);
         ImageView addButton = header.findViewById(R.id.transaction_header_add_btn);
 
         titleTextView.setText("Monthly Transaction");
+        totalWalletTextView.setVisibility(View.GONE);
         addButton.setVisibility(View.GONE);
 
         totalAmountTextView = header.findViewById(R.id.transaction_header_amount_textview);
         totalGlobalIncomeTextView = header.findViewById(R.id.transaction_header_income_amount_textview);
         totalGlobalExpenseTextView = header.findViewById(R.id.transaction_header_expense_amount_textview);
 
-        listView.addHeaderView(header, null, false);
+        expandableListView.addHeaderView(header, null, false);
     }
 
     private void setUpPeriodButton(){

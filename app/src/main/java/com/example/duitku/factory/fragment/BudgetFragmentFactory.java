@@ -4,7 +4,7 @@ import androidx.fragment.app.Fragment;
 
 import com.example.duitku.flows.BudgetTransactionFragment;
 
-public class BudgetTransactionFragmentFactory implements FragmentFactory{
+public class BudgetFragmentFactory implements FragmentFactory{
 
     private static Fragment instance;
 

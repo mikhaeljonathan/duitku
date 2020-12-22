@@ -5,7 +5,7 @@
     android:id="@+id/add_transaction_constraintlayout"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="#1F2028"
+    android:background="@color/colorPrimary"
     tools:context=".flows.AddTransactionActivity">
 
     <androidx.appcompat.widget.Toolbar

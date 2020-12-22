@@ -9,6 +9,15 @@
     <!--ExpandableListView seperti ListView yang bisa di-expand
     layoutDirection rtl supaya panah nya ada di kanan-->
 
+    <ListView
+        android:id="@+id/fragment_transaction_viewpager_listview"
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"/>
+
     <ExpandableListView
         android:id="@+id/fragment_transaction_viewpager_expandablelistview"
         android:layout_width="0dp"

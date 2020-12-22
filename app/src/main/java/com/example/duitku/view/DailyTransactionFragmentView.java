@@ -7,6 +7,7 @@ import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.ExpandableListView;
 import android.widget.ImageView;
+import android.widget.ListView;
 import android.widget.TextView;
 
 import androidx.appcompat.app.AppCompatDialogFragment;
@@ -25,7 +26,7 @@ import java.util.List;
 
 public class DailyTransactionFragmentView implements UIView{
 
-    private ExpandableListView listView;
+    private ExpandableListView expandableListView;
     private DailyExpandableAdapter adapter;
     private Button periodButton;
     private View header;
@@ -44,6 +45,8 @@ public class DailyTransactionFragmentView implements UIView{
     @Override
     public void setUpUI() {
         this.view = inflater.inflate(R.layout.fragment_transaction_viewpager, container, false);
+
+
         setUpExpandableListView();
         setUpHeader();
         setUpPeriodButton();
@@ -62,25 +65,29 @@ public class DailyTransactionFragmentView implements UIView{
 
     public void fillListView(List<DailyTransaction> dailyTransactionList, HashMap<DailyTransaction, List<Transaction>> dailyTransactionListHashMap, Context context){
         adapter = new DailyExpandableAdapter(dailyTransactionList, dailyTransactionListHashMap, context);
-        listView.setAdapter(adapter);
+        expandableListView.setAdapter(adapter);
     }
 
     private void setUpExpandableListView(){
-        listView = view.findViewById(R.id.fragment_transaction_viewpager_expandablelistview);
+        ListView listView = view.findViewById(R.id.fragment_transaction_viewpager_listview);
+        listView.setVisibility(View.GONE);
+        expandableListView = view.findViewById(R.id.fragment_transaction_viewpager_expandablelistview);
     }
 
     private void setUpHeader(){
         header = inflater.inflate(R.layout.fragment_transaction_header, container, false);
 
         TextView titleTextView = header.findViewById(R.id.transaction_header_title_textview);
+        TextView totalWalletTextView = header.findViewById(R.id.transaction_header_totalwallet_textview);
         ImageView addButton = header.findViewById(R.id.transaction_header_add_btn);
         ConstraintLayout summaryContainer = header.findViewById(R.id.transaction_header_summary_container);
 
         titleTextView.setText("Daily Transaction");
+        totalWalletTextView.setVisibility(View.GONE);
         addButton.setVisibility(View.GONE);
         summaryContainer.setVisibility(View.GONE);
 
-        listView.addHeaderView(header, null, false);
+        expandableListView.addHeaderView(header, null, false);
     }
 
     private void setUpPeriodButton(){
