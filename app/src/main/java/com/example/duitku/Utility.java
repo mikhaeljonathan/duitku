@@ -82,7 +82,7 @@ public class Utility {
 
     }
 
-    public static List<CategoryTransaction> convertHashMapToList(HashMap<Long, CategoryTransaction> hashMap){
+    public List<CategoryTransaction> convertHashMapToList(HashMap<Long, CategoryTransaction> hashMap){
         List<CategoryTransaction> ret = new ArrayList<>();
         for (Map.Entry mapElement: hashMap.entrySet()){
             ret.add((CategoryTransaction) mapElement.getValue());

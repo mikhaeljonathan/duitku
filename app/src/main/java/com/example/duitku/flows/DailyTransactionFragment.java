@@ -40,8 +40,8 @@ public class DailyTransactionFragment extends Fragment implements LoaderManager.
 
     private List<DailyTransaction> dailyTransactionList = new ArrayList<>();
     private HashMap<DailyTransaction, List<Transaction>> dailyTransactionListHashMap = new HashMap<>();
-    private double totalIncome = 0;
-    private double totalExpense = 0;
+    private double totalIncome;
+    private double totalExpense;
 
     private TransactionController transactionController = new TransactionController(getActivity());
 
@@ -68,15 +68,6 @@ public class DailyTransactionFragment extends Fragment implements LoaderManager.
         return dailyTransactionFragmentView.getView();
     }
 
-    private List<Transaction> convertCursorToList(Cursor data){
-        List<Transaction> ret = new ArrayList<>();
-        if (!data.moveToFirst()) return ret;
-        do {
-            ret.add(transactionController.convertCursorToTransaction(data));
-        } while (data.moveToNext());
-        return ret;
-    }
-
     @NonNull
     @Override
     public Loader onCreateLoader(int id, @Nullable Bundle args) {
@@ -93,8 +84,7 @@ public class DailyTransactionFragment extends Fragment implements LoaderManager.
 
     @Override
     public void onLoadFinished(@NonNull Loader<Cursor> loader, Cursor data) {
-        List<Transaction> allTransactions = convertCursorToList(data);
-
+        List<Transaction> allTransactions = transactionController.convertCursorToList(data);
         // sort transaction brdsrkan tanggal
         Collections.sort(allTransactions, new Comparator<Transaction>() {
             @Override
@@ -102,7 +92,6 @@ public class DailyTransactionFragment extends Fragment implements LoaderManager.
                 return t2.getDate().compareTo(t1.getDate()); // dari tanggal yang paling recent
             }
         });
-
         setUpListAndHashMap(allTransactions);
         dailyTransactionFragmentView.fillListView(dailyTransactionList, dailyTransactionListHashMap, getActivity());
     }
@@ -111,6 +100,8 @@ public class DailyTransactionFragment extends Fragment implements LoaderManager.
         // initialize variabel2 penting
         dailyTransactionList.clear();
         dailyTransactionListHashMap.clear();
+        totalExpense = 0;
+        totalIncome = 0;
         List<Transaction> transactions = new ArrayList<>();
 
         Date lastDate = null;
@@ -157,7 +148,6 @@ public class DailyTransactionFragment extends Fragment implements LoaderManager.
         if (category == null) return;
 
         String type = category.getType();
-
         if (type.equals(CategoryEntry.TYPE_EXPENSE)){
             totalExpense += curTransaction.getAmount();
         } else {

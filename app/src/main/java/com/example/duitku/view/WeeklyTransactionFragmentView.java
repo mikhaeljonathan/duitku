@@ -15,27 +15,34 @@ import androidx.constraintlayout.widget.ConstraintLayout;
 import com.example.duitku.R;
 import com.example.duitku.Utility;
 import com.example.duitku.adapter.DailyExpandableAdapter;
+import com.example.duitku.adapter.WeeklyExpandableAdapter;
 import com.example.duitku.dialog.MonthYearPickerDialog;
-import com.example.duitku.flows.DailyTransactionFragment;
+import com.example.duitku.flows.WeeklyTransactionFragment;
+import com.example.duitku.model.CategoryTransaction;
 import com.example.duitku.model.DailyTransaction;
 import com.example.duitku.model.Transaction;
+import com.example.duitku.model.WeeklyTransaction;
 
 import java.util.HashMap;
 import java.util.List;
 
-public class DailyTransactionFragmentView implements UIView{
+public class WeeklyTransactionFragmentView implements UIView{
 
     private ExpandableListView listView;
-    private DailyExpandableAdapter adapter;
+    private WeeklyExpandableAdapter adapter;
     private Button periodButton;
     private View header;
+
+    private TextView totalAmountTextView;
+    private TextView totalGlobalIncomeTextView;
+    private TextView totalGlobalExpenseTextView;
 
     private LayoutInflater inflater;
     private ViewGroup container;
     private View view;
-    private DailyTransactionFragment fragment;
+    private WeeklyTransactionFragment fragment;
 
-    public DailyTransactionFragmentView(LayoutInflater inflater, ViewGroup container, DailyTransactionFragment fragment){
+    public WeeklyTransactionFragmentView(LayoutInflater inflater, ViewGroup container, WeeklyTransactionFragment fragment){
         this.inflater = inflater;
         this.container = container;
         this.fragment = fragment;
@@ -60,8 +67,14 @@ public class DailyTransactionFragmentView implements UIView{
         });
     }
 
-    public void fillListView(List<DailyTransaction> dailyTransactionList, HashMap<DailyTransaction, List<Transaction>> dailyTransactionListHashMap, Context context){
-        adapter = new DailyExpandableAdapter(dailyTransactionList, dailyTransactionListHashMap, context);
+    public void updateSummary(double totalGlobalIncome, double totalGlobalExpense){
+        totalAmountTextView.setText((totalGlobalIncome - totalGlobalExpense) + "");
+        totalGlobalIncomeTextView.setText(totalGlobalIncome + "");
+        totalGlobalExpenseTextView.setText(totalGlobalExpense + "");
+    }
+
+    public void fillListView(List<WeeklyTransaction> weeklyTransactionList, HashMap<WeeklyTransaction, List<CategoryTransaction>> categoryTransactionListHashMap, Context context){
+        adapter = new WeeklyExpandableAdapter(weeklyTransactionList, categoryTransactionListHashMap, context);
         listView.setAdapter(adapter);
     }
 
@@ -74,11 +87,13 @@ public class DailyTransactionFragmentView implements UIView{
 
         TextView titleTextView = header.findViewById(R.id.transaction_header_title_textview);
         ImageView addButton = header.findViewById(R.id.transaction_header_add_btn);
-        ConstraintLayout summaryContainer = header.findViewById(R.id.transaction_header_summary_container);
 
-        titleTextView.setText("Daily Transaction");
+        titleTextView.setText("Weekly Transaction");
         addButton.setVisibility(View.GONE);
-        summaryContainer.setVisibility(View.GONE);
+
+        totalAmountTextView = header.findViewById(R.id.transaction_header_amount_textview);
+        totalGlobalIncomeTextView = header.findViewById(R.id.transaction_header_income_amount_textview);
+        totalGlobalExpenseTextView = header.findViewById(R.id.transaction_header_expense_amount_textview);
 
         listView.addHeaderView(header, null, false);
     }
@@ -91,5 +106,4 @@ public class DailyTransactionFragmentView implements UIView{
     public View getView() {
         return view;
     }
-
 }

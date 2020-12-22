@@ -13,7 +13,9 @@ import com.example.duitku.model.Transaction;
 
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
+import java.util.ArrayList;
 import java.util.Date;
+import java.util.List;
 
 public class TransactionController {
 
@@ -100,6 +102,15 @@ public class TransactionController {
         Transaction ret = new Transaction(transactionId, walletId, walletDestId, categoryId, desc, date, amount);
         return ret;
 
+    }
+
+    public List<Transaction> convertCursorToList(Cursor data){
+        List<Transaction> ret = new ArrayList<>();
+        if (!data.moveToFirst()) return ret;
+        do {
+            ret.add(convertCursorToTransaction(data));
+        } while (data.moveToNext());
+        return ret;
     }
 
     public String[] getProjection(){

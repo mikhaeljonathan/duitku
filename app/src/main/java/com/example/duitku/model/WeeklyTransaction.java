@@ -2,32 +2,32 @@ package com.example.duitku.model;
 
 public class WeeklyTransaction {
 
-    private int mWeek;
-    private String mIntervals;
-    private double mIncome;
-    private double mExpense;
+    private int week;
+    private String intervals;
+    private double income;
+    private double expense;
 
     public WeeklyTransaction(int week, String intervals, double income, double expense){
-        mWeek = week;
-        mIntervals = intervals;
-        mIncome = income;
-        mExpense = expense;
+        this.week = week;
+        this.intervals = intervals;
+        this.income = income;
+        this.expense = expense;
     }
 
     public int getWeek(){
-        return mWeek;
+        return week;
     }
 
     public String getIntervals() {
-        return mIntervals;
+        return intervals;
     }
 
     public double getIncome() {
-        return mIncome;
+        return income;
     }
 
     public double getExpense() {
-        return mExpense;
+        return expense;
     }
 
 }

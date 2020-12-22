@@ -5,33 +5,34 @@ import java.util.List;
 
 public class CategoryTransaction {
 
-    private List<Long> transactions;
-    private long mCategoryId;
-    private double mAmount;
+    private List<Transaction> transactions;
+    private long categoryId;
+    private double amount;
 
     public CategoryTransaction(long categoryId, double amount){
         transactions = new ArrayList<>();
-        mCategoryId = categoryId;
-        mAmount = amount;
+        this.categoryId = categoryId;
+        this.amount = amount;
     }
 
-    public void addTransaction(long transactionId){
-        transactions.add(transactionId);
+    public void addTransaction(Transaction transaction){
+        transactions.add(transaction);
+        addAmount(transaction.getAmount());
     }
 
     public void addAmount(double amount){
-        mAmount += amount;
+        this.amount += amount;
     }
 
     public long getCategoryId() {
-        return mCategoryId;
+        return categoryId;
     }
 
     public double getAmount() {
-        return mAmount;
+        return amount;
     }
 
-    public List<Long> getTransactions (){
+    public List<Transaction> getTransactions (){
         return transactions;
     }
 }

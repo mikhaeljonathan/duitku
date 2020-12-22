@@ -138,7 +138,7 @@ public class MonthlyTransactionFragment extends Fragment implements LoaderManage
                 // buat object dailytransaction (judul / parentnya)
                 MonthlyTransaction monthlyTransaction = new MonthlyTransaction(lastMonth, totalIncome, totalExpense);
                 monthlyTransactionList.add(monthlyTransaction); // masukin list
-                categoryTransactionListHashMap.put(monthlyTransaction, Utility.convertHashMapToList(categoryTransactionHashMap)); // masukin hashmap juga dr parent ke anak2nya
+                categoryTransactionListHashMap.put(monthlyTransaction, new Utility().convertHashMapToList(categoryTransactionHashMap)); // masukin hashmap juga dr parent ke anak2nya
 
                 // reset variabel2 agregasinya
                 totalIncome = 0;
@@ -167,8 +167,7 @@ public class MonthlyTransactionFragment extends Fragment implements LoaderManage
                 categoryTransaction = new CategoryTransaction(categoryId, 0);
                 categoryTransactionHashMap.put(categoryId, categoryTransaction);
             }
-            categoryTransaction.addTransaction(curTransaction.getId());
-            categoryTransaction.addAmount(curTransaction.getAmount());
+            categoryTransaction.addTransaction(curTransaction);
 
             c.setTime(curTransaction.getDate());
             lastMonth = c.get(Calendar.MONTH);
@@ -177,7 +176,7 @@ public class MonthlyTransactionFragment extends Fragment implements LoaderManage
         if (allTransactions.size() > 0){
             MonthlyTransaction monthlyTransaction = new MonthlyTransaction(lastMonth, totalIncome, totalExpense);
             monthlyTransactionList.add(monthlyTransaction); // masukin list
-            categoryTransactionListHashMap.put(monthlyTransaction, Utility.convertHashMapToList(categoryTransactionHashMap));
+            categoryTransactionListHashMap.put(monthlyTransaction, new Utility().convertHashMapToList(categoryTransactionHashMap));
         }
 
         totalAmountTextView.setText((totalGlobalIncome - totalGlobalExpense) + "");
