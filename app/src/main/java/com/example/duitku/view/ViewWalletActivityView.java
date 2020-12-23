@@ -37,6 +37,10 @@ public class ViewWalletActivityView implements UIView {
     public void setUpUI() {
         activity.setContentView(R.layout.activity_view_wallet);
         wallet = walletController.getWalletById(id);
+        if (wallet == null) {
+            activity.finish();
+            return;
+        }
         setUpListView();
         setUpHeader();
         setUpButtons();

@@ -3,13 +3,10 @@ package com.example.duitku.dialog;
 import android.app.AlertDialog;
 import android.app.Dialog;
 import android.content.ContentUris;
-import android.content.ContentValues;
-import android.content.DialogInterface;
 import android.net.Uri;
 import android.os.Bundle;
 import android.text.Editable;
 import android.text.TextWatcher;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.Button;
@@ -75,9 +72,9 @@ public class AddWalletDialog extends AppCompatDialogFragment {
         nameLayout = view.findViewById(R.id.add_wallet_name_textinputlayout);
         amountLayout = view.findViewById(R.id.add_wallet_amount_textinputlayout);
         descLayout = view.findViewById(R.id.add_wallet_desc_textinputlayout);
-        nameField = view.findViewById(R.id.add_wallet_name_edittext);
-        amountField = view.findViewById(R.id.add_wallet_amount_edittext);
-        descField = view.findViewById(R.id.add_wallet_desc_edittext);
+        nameField = view.findViewById(R.id.add_wallet_name_field);
+        amountField = view.findViewById(R.id.add_wallet_amount_field);
+        descField = view.findViewById(R.id.add_wallet_desc_field);
         addButton = view.findViewById(R.id.add_wallet_add_btn);
 
         // set textChangedListener
@@ -149,7 +146,6 @@ public class AddWalletDialog extends AppCompatDialogFragment {
                 if (!validateInput()) return;
                 Uri uri = addWallet();
                 if (amount > 0) addTransaction(uri);
-
                 if (uri == null){
                     Toast.makeText(getContext(), "Error adding new wallet", Toast.LENGTH_SHORT).show();
                 } else {

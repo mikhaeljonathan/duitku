@@ -29,47 +29,16 @@ public class WalletController {
         return uri;
     }
 
-    public int updateWallet(Wallet wallet, Uri currentWalletUri){
-
-        // taruh di contentvalues
-        ContentValues values = new ContentValues();
-        values.put(WalletEntry.COLUMN_NAME, wallet.getName());
-        values.put(WalletEntry.COLUMN_AMOUNT, wallet.getAmount());
-        values.put(WalletEntry.COLUMN_DESC, wallet.getDescription());
-
-        // add or subtract transaction
-        double amountBefore = 0;
-        double amountCurrent = wallet.getAmount();
-        Cursor temp = context.getContentResolver().query(currentWalletUri, new String[]{WalletEntry.COLUMN_AMOUNT}, null, null, null);
-        if (temp.moveToFirst()){
-            amountBefore = temp.getDouble(temp.getColumnIndex(WalletEntry.COLUMN_AMOUNT));
-        }
-
-        Calendar c = Calendar.getInstance();
-        ContentValues cv = new ContentValues();
-        cv.put(TransactionEntry.COLUMN_DATE, new SimpleDateFormat("dd/MM/yyyy").format(c.getTime()));
-        cv.put(TransactionEntry.COLUMN_WALLET_ID, ContentUris.parseId(currentWalletUri));
-        cv.put(TransactionEntry.COLUMN_DESC, "Balance Adjustment");
-        if (amountBefore > amountCurrent){
-            cv.put(TransactionEntry.COLUMN_CATEGORY_ID, new CategoryController(context).getCategoryByNameAndType(CategoryEntry.DEFAULT_CATEGORY_NAME, CategoryEntry.TYPE_EXPENSE).getId());
-            cv.put(TransactionEntry.COLUMN_AMOUNT, amountBefore - amountCurrent);
-        } else if (amountBefore < amountCurrent){
-            cv.put(TransactionEntry.COLUMN_CATEGORY_ID, new CategoryController(context).getCategoryByNameAndType(CategoryEntry.DEFAULT_CATEGORY_NAME, CategoryEntry.TYPE_INCOME).getId());
-            cv.put(TransactionEntry.COLUMN_AMOUNT, amountCurrent - amountBefore);
-        }
-        context.getContentResolver().insert(TransactionEntry.CONTENT_URI, cv);
-
-        int rowsUpdated = context.getContentResolver().update(currentWalletUri, values, null, null);
-
+    public int updateWallet(Wallet wallet){
+        ContentValues values = convertWalletToContentValues(wallet);
+        String id = Long.toString(wallet.getId());
+        int rowsUpdated = context.getContentResolver().update(Uri.withAppendedPath(WalletEntry.CONTENT_URI, id), values, null, null);
         return rowsUpdated;
-
     }
 
-    public int deleteWallet(Uri currentWalletUri){
-
-        int rowsDeleted = context.getContentResolver().delete(currentWalletUri, null, null);
+    public int deleteWallet(long id){
+        int rowsDeleted = context.getContentResolver().delete(Uri.withAppendedPath(WalletEntry.CONTENT_URI, Long.toString(id)), null, null);
         return rowsDeleted;
-
     }
 
     public double calculateTotalAmount(Cursor data){

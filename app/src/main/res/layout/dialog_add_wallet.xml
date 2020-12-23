@@ -33,7 +33,7 @@
         app:layout_constraintTop_toBottomOf="@+id/add_wallet_title_textview">
 
         <com.google.android.material.textfield.TextInputEditText
-            android:id="@+id/add_wallet_name_edittext"
+            android:id="@+id/add_wallet_name_field"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:hint="Wallet Name"
@@ -55,7 +55,7 @@
         android:layout_marginEnd="16dp">
 
         <com.google.android.material.textfield.TextInputEditText
-            android:id="@+id/add_wallet_amount_edittext"
+            android:id="@+id/add_wallet_amount_field"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:hint="Amount"
@@ -78,7 +78,7 @@
         android:layout_marginEnd="16dp" >
 
         <com.google.android.material.textfield.TextInputEditText
-            android:id="@+id/add_wallet_desc_edittext"
+            android:id="@+id/add_wallet_desc_field"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:hint="Description"

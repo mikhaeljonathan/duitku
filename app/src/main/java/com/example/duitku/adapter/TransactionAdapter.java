@@ -13,16 +13,21 @@ import android.widget.TextView;
 import com.example.duitku.R;
 import com.example.duitku.controller.CategoryController;
 import com.example.duitku.controller.TransactionController;
+import com.example.duitku.controller.WalletController;
 import com.example.duitku.database.DuitkuContract;
 import com.example.duitku.model.Category;
 import com.example.duitku.model.Transaction;
+import com.example.duitku.model.Wallet;
 
 public class TransactionAdapter extends CursorAdapter {
 
     private TransactionController transactionController;
+    private Transaction transaction;
+    private Context context;
 
     public TransactionAdapter(Context context, Cursor c) {
         super(context, c, 0);
+        this.context = context;
         transactionController = new TransactionController(context);
     }
 
@@ -33,7 +38,7 @@ public class TransactionAdapter extends CursorAdapter {
 
     @Override
     public void bindView(View view, Context context, Cursor cursor) {
-        Transaction transaction = transactionController.convertCursorToTransaction(cursor);
+        transaction = transactionController.convertCursorToTransaction(cursor);
 
         CategoryController categoryController = new CategoryController(context);
         Category category = categoryController.getCategoryById(transaction.getCategoryId());
@@ -65,11 +70,17 @@ public class TransactionAdapter extends CursorAdapter {
     }
 
     private void setUpHeader(View view, Category category){
-        TextView categoryTextView = view.findViewById(R.id.item_list_transaction_header_textview);
+        TextView headerTextView = view.findViewById(R.id.item_list_transaction_header_textview);
         ImageView transferIcon = view.findViewById(R.id.item_list_transaction_transfer_imageview);
         TextView walletDestTextView = view.findViewById(R.id.item_list_transaction_walletdest_textview);
 
-        categoryTextView.setText(category.getName());
+        if (category == null) {
+            WalletController walletController = new WalletController(context);
+            Wallet wallet = walletController.getWalletById(transaction.getWalletDestId());
+            headerTextView.setText("Transferred to Wallet " + wallet.getName());
+        } else {
+            headerTextView.setText(category.getName());
+        }
         transferIcon.setVisibility(View.GONE);
         walletDestTextView.setVisibility(View.GONE);
     }

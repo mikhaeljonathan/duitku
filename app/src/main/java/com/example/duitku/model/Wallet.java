@@ -29,4 +29,16 @@ public class Wallet {
     public String getDescription() {
         return description;
     }
+
+    public void setName(String name){
+        this.name = name;
+    }
+
+    public void setAmount(double amount){
+        this.amount = amount;
+    }
+
+    public void setDescription(String description){
+        this.description = description;
+    }
 }

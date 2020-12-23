@@ -41,8 +41,14 @@ public class ViewWalletActivity extends AppCompatActivity implements LoaderManag
         walletId = getIntent().getLongExtra("ID", -1);
         viewWalletActivityView = new ViewWalletActivityView(walletId, this);
         viewWalletActivityView.setUpUI();
+    }
 
+    @Override
+    protected void onResume() {
+        super.onResume();
+        LoaderManager.getInstance(this).restartLoader(WALLET_TRANSACTION_LOADER, null, this);
         LoaderManager.getInstance(this).initLoader(WALLET_TRANSACTION_LOADER, null, this);
+        viewWalletActivityView.setUpUI();
     }
 
     @NonNull
