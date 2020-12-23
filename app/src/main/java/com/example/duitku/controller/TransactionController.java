@@ -10,7 +10,9 @@ import com.example.duitku.database.DuitkuContract.TransactionEntry;
 import com.example.duitku.database.DuitkuContract.CategoryEntry;
 import com.example.duitku.database.DuitkuContract.WalletEntry;
 import com.example.duitku.model.Transaction;
+import com.example.duitku.model.Wallet;
 
+import java.text.DateFormat;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
@@ -82,6 +84,12 @@ public class TransactionController {
         return uri;
     }
 
+    public Uri addTransaction(Transaction transaction){
+        ContentValues values = convertTransactionToContentValues(transaction);
+        Uri uri = context.getContentResolver().insert(TransactionEntry.CONTENT_URI, values);
+        return uri;
+    }
+
     public Transaction convertCursorToTransaction(Cursor data){
         int transactionIdColumnIndex = data.getColumnIndex(TransactionEntry.COLUMN_ID);
         int walletIdColumnIndex = data.getColumnIndex(TransactionEntry.COLUMN_WALLET_ID);
@@ -131,6 +139,19 @@ public class TransactionController {
         } catch (ParseException e) {
             e.printStackTrace();
         }
+        return ret;
+    }
+
+    private ContentValues convertTransactionToContentValues(Transaction transaction){
+        String date = new SimpleDateFormat("dd/MM/yyyy").format(transaction.getDate());
+
+        ContentValues ret = new ContentValues();
+        ret.put(TransactionEntry.COLUMN_WALLET_ID, transaction.getWalletId());
+        ret.put(TransactionEntry.COLUMN_WALLET_DEST_ID, transaction.getWalletDestId());
+        ret.put(TransactionEntry.COLUMN_CATEGORY_ID, transaction.getCategoryId());
+        ret.put(TransactionEntry.COLUMN_DESC, transaction.getDesc());
+        ret.put(TransactionEntry.COLUMN_DATE, date);
+        ret.put(TransactionEntry.COLUMN_AMOUNT, transaction.getAmount());
         return ret;
     }
 

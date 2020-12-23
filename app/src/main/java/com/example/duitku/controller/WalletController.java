@@ -9,6 +9,7 @@ import android.net.Uri;
 import com.example.duitku.database.DuitkuContract.CategoryEntry;
 import com.example.duitku.database.DuitkuContract.WalletEntry;
 import com.example.duitku.database.DuitkuContract.TransactionEntry;
+import com.example.duitku.model.Transaction;
 import com.example.duitku.model.Wallet;
 
 import java.text.SimpleDateFormat;
@@ -23,29 +24,9 @@ public class WalletController {
     }
 
     public Uri addWallet(Wallet wallet){
-
-        // taruh di contentvalues
-        ContentValues values = new ContentValues();
-        values.put(WalletEntry.COLUMN_NAME, wallet.getName());
-        values.put(WalletEntry.COLUMN_AMOUNT, wallet.getAmount());
-        values.put(WalletEntry.COLUMN_DESC, wallet.getDescription());
-
-        // add wallet to database
+        ContentValues values = convertWalletToContentValues(wallet);
         Uri uri = context.getContentResolver().insert(WalletEntry.CONTENT_URI, values);
-
-        // add transaction initial balance
-        Calendar c = Calendar.getInstance();
-        ContentValues cv = new ContentValues();
-        cv.put(TransactionEntry.COLUMN_DATE, new SimpleDateFormat("dd/MM/yyyy").format(c.getTime()));
-        cv.put(TransactionEntry.COLUMN_WALLET_ID, ContentUris.parseId(uri));
-        cv.put(TransactionEntry.COLUMN_CATEGORY_ID, new CategoryController(context).getCategoryByNameAndType(CategoryEntry.DEFAULT_CATEGORY_NAME, CategoryEntry.TYPE_INCOME).getId());
-        cv.put(TransactionEntry.COLUMN_DESC, "Initial Balance");
-        cv.put(TransactionEntry.COLUMN_AMOUNT, wallet.getAmount());
-        context.getContentResolver().insert(TransactionEntry.CONTENT_URI, cv);
-
-        // panggil contentresolver yg nanti diterima sama contentprovider
         return uri;
-
     }
 
     public int updateWallet(Wallet wallet, Uri currentWalletUri){
@@ -130,6 +111,14 @@ public class WalletController {
                 WalletEntry.COLUMN_AMOUNT,
                 WalletEntry.COLUMN_DESC};
         return projection;
+    }
+
+    private ContentValues convertWalletToContentValues(Wallet wallet){
+        ContentValues ret = new ContentValues();
+        ret.put(WalletEntry.COLUMN_NAME, wallet.getName());
+        ret.put(WalletEntry.COLUMN_AMOUNT, wallet.getAmount());
+        ret.put(WalletEntry.COLUMN_DESC, wallet.getDescription());
+        return ret;
     }
 
 }
