@@ -8,7 +8,7 @@ import androidx.fragment.app.Fragment;
 import androidx.viewpager.widget.ViewPager;
 
 import com.example.duitku.R;
-import com.example.duitku.adapter.TransactionAdapter;
+import com.example.duitku.adapter.TransactionViewPagerAdapter;
 import com.example.duitku.factory.fragment.BudgetFragmentFactory;
 import com.example.duitku.factory.fragment.DailyTransactionFragmentFactory;
 import com.example.duitku.factory.fragment.FragmentFactory;
@@ -49,7 +49,7 @@ public class TransactionFragmentView implements UIView{
         fragmentFactories.add(new WalletFragmentFactory());
         fragmentFactories.add(new BudgetFragmentFactory());
 
-        TransactionAdapter adapter = new TransactionAdapter(fragment.getChildFragmentManager());
+        TransactionViewPagerAdapter adapter = new TransactionViewPagerAdapter(fragment.getChildFragmentManager());
 
         for (FragmentFactory fragmentFactory: fragmentFactories){
             adapter.addFrag(fragmentFactory.createProduct());

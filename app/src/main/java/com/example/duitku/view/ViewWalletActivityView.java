@@ -1,20 +1,25 @@
 package com.example.duitku.view;
 
 import android.content.Intent;
+import android.database.Cursor;
 import android.util.Log;
 import android.view.View;
-import android.widget.Button;
 import android.widget.ImageButton;
+import android.widget.ListView;
 import android.widget.TextView;
 
 import androidx.appcompat.app.AppCompatActivity;
 
 import com.example.duitku.R;
+import com.example.duitku.adapter.TransactionAdapter;
 import com.example.duitku.controller.WalletController;
 import com.example.duitku.flows.EditWalletActivity;
 import com.example.duitku.model.Wallet;
 
-public class ViewWalletActivityView implements UIView{
+public class ViewWalletActivityView implements UIView {
+
+    private ListView listView;
+    private TransactionAdapter adapter;
 
     private WalletController walletController;
 
@@ -32,18 +37,39 @@ public class ViewWalletActivityView implements UIView{
     public void setUpUI() {
         activity.setContentView(R.layout.activity_view_wallet);
         wallet = walletController.getWalletById(id);
-        setUpSummary();
+        setUpListView();
+        setUpHeader();
         setUpButtons();
+        setUpAdapter();
     }
 
-    private void setUpSummary(){
-        TextView nameTextView = activity.findViewById(R.id.view_wallet_name_textview);
-        TextView amountTextView = activity.findViewById(R.id.view_wallet_amount_textview);
-        TextView descTextView = activity.findViewById(R.id.view_wallet_desc_textview);
+    public TransactionAdapter getAdapter(){
+        return adapter;
+    }
+
+    private void setUpListView(){
+        listView = activity.findViewById(R.id.view_wallet_listview);
+    }
+
+    private void setUpHeader(){
+        View header = activity.getLayoutInflater().inflate(R.layout.activity_summary_header, null);
+
+        TextView nameTextView = header.findViewById(R.id.summary_header_title);
+        TextView amountTextView = header.findViewById(R.id.summary_header_amount);
+        TextView periodTextView = header.findViewById(R.id.summary_header_period);
+        TextView descTextView = header.findViewById(R.id.summary_header_desc);
 
         nameTextView.setText(wallet.getName());
         amountTextView.setText(wallet.getAmount() + "");
-        descTextView.setText(wallet.getDescription());
+        periodTextView.setText("December 2020");
+        String desc = wallet.getDescription();
+        if (desc.equals("")){
+            descTextView.setVisibility(View.GONE);
+        } else {
+            descTextView.setText(wallet.getDescription());
+        }
+
+        listView.addHeaderView(header, null, false);
     }
 
     private void setUpButtons(){
@@ -65,6 +91,11 @@ public class ViewWalletActivityView implements UIView{
                 activity.startActivity(editWalletIntent);
             }
         });
+    }
+
+    private void setUpAdapter(){
+        adapter = new TransactionAdapter(activity, null);
+        listView.setAdapter(adapter);
     }
 
     @Override

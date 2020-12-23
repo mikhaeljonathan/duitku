@@ -29,13 +29,13 @@ public class WalletAdapter extends CursorAdapter {
 
     @Override
     public void bindView(View view, Context context, Cursor cursor) {
-        TextView walletNameTextView = view.findViewById(R.id.item_list_wallet_name_textview);
-        TextView walletAmountTextView = view.findViewById(R.id.item_list_wallet_amount_textview);
-
         Wallet wallet = walletController.convertCursorToWallet(cursor);
 
         String name = wallet.getName();
         double amount = wallet.getAmount();
+
+        TextView walletNameTextView = view.findViewById(R.id.item_list_wallet_name_textview);
+        TextView walletAmountTextView = view.findViewById(R.id.item_list_wallet_amount_textview);
 
         walletNameTextView.setText(name);
         walletAmountTextView.setText(amount + "");

@@ -2,6 +2,7 @@ package com.example.duitku.view;
 
 import android.content.Intent;
 import android.database.Cursor;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -43,7 +44,6 @@ public class WalletFragmentView implements UIView{
         this.view = inflater.inflate(R.layout.fragment_transaction_viewpager, container, false);
         setUpListView();
         setUpHeader();
-        setUpTotalWalletTextView();
         setUpAdapter();
     }
 
@@ -51,8 +51,8 @@ public class WalletFragmentView implements UIView{
         totalWalletTextView.setText("Total amount:   " + amount);
     }
 
-    public void swapCursor(Cursor data){
-        adapter.swapCursor(data);
+    public WalletAdapter getAdapter(){
+        return adapter;
     }
 
     private void setUpListView(){
@@ -74,6 +74,7 @@ public class WalletFragmentView implements UIView{
         TextView titleTextView = header.findViewById(R.id.transaction_header_title_textview);
         ImageView addButton = header.findViewById(R.id.transaction_header_add_btn);
         Button periodButton = header.findViewById(R.id.transaction_header_period_btn);
+        totalWalletTextView = header.findViewById(R.id.transaction_header_totalwallet_textview);
         ConstraintLayout summaryContainer = header.findViewById(R.id.transaction_header_summary_container);
 
         titleTextView.setText("Wallet");
@@ -88,10 +89,6 @@ public class WalletFragmentView implements UIView{
         });
 
         listView.addHeaderView(header, null, false);
-    }
-
-    private void setUpTotalWalletTextView(){
-        totalWalletTextView = header.findViewById(R.id.transaction_header_totalwallet_textview);
     }
 
     private void setUpAdapter(){

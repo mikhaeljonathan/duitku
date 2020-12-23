@@ -51,12 +51,12 @@ public class WalletFragment extends Fragment implements LoaderManager.LoaderCall
     @Override
     public void onLoadFinished(@NonNull Loader<Cursor> loader, Cursor data) {
         walletFragmentView.updateTotalWalletTextView(walletController.calculateTotalAmount(data));
-        walletFragmentView.swapCursor(data);
+        walletFragmentView.getAdapter().swapCursor(data);
     }
 
     @Override
     public void onLoaderReset(@NonNull Loader<Cursor> loader) {
-        walletFragmentView.swapCursor(null);
+        walletFragmentView.getAdapter().swapCursor(null);
     }
 
 }

@@ -117,6 +117,22 @@ public class DailyExpandableAdapter extends BaseExpandableListAdapter {
         return view;
     }
 
+    private void setUpIcon(View view, Category category){
+        ImageView categoryImageView = view.findViewById(R.id.item_list_transaction_categorytype_icon);
+
+        if (category == null){
+            categoryImageView.setImageResource(R.drawable.icon_transfer);
+            return;
+        }
+
+        String type = category.getType();
+        if (type.equals(CategoryEntry.TYPE_INCOME)){
+            categoryImageView.setImageResource(R.drawable.icon_income);
+        } else {
+            categoryImageView.setImageResource(R.drawable.icon_expense);
+        }
+    }
+
     private void setupHeader(View view, Category category, Transaction transaction){
         TextView headerTextView = view.findViewById(R.id.item_list_transaction_header_textview);
         ImageView transferImageView = view.findViewById(R.id.item_list_transaction_transfer_imageview);
@@ -145,22 +161,6 @@ public class DailyExpandableAdapter extends BaseExpandableListAdapter {
             headerTextView.setText(category.getName());
         }
 
-    }
-
-    private void setUpIcon(View view, Category category){
-        ImageView categoryImageView = view.findViewById(R.id.item_list_transaction_categorytype_icon);
-
-        if (category == null){
-            categoryImageView.setImageResource(R.drawable.icon_transfer);
-            return;
-        }
-
-        String type = category.getType();
-        if (type.equals(CategoryEntry.TYPE_INCOME)){
-            categoryImageView.setImageResource(R.drawable.icon_income);
-        } else {
-            categoryImageView.setImageResource(R.drawable.icon_expense);
-        }
     }
 
     @Override
