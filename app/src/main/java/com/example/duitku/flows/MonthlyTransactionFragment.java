@@ -77,7 +77,8 @@ public class MonthlyTransactionFragment extends Fragment implements LoaderManage
         switch (id) {
             case TRANSACTION_LOADER_MONTHLY:
                 String[] projection = transactionController.getProjection();
-                String selection = DuitkuContract.TransactionEntry.COLUMN_DATE + " LIKE ?";
+                // yang transfer ga termasuk
+                String selection = DuitkuContract.TransactionEntry.COLUMN_DATE + " LIKE ? AND " + DuitkuContract.TransactionEntry.COLUMN_CATEGORY_ID + " > 0";
                 String[] selectionArgs = new String[]{"%/%/" + year};
                 return new CursorLoader(getContext(), DuitkuContract.TransactionEntry.CONTENT_URI, projection, selection, selectionArgs, null);
             default:

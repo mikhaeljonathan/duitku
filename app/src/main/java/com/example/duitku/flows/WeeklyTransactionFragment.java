@@ -80,7 +80,8 @@ public class WeeklyTransactionFragment extends Fragment implements LoaderManager
         switch (id){
             case TRANSACTION_LOADER_WEEKLY:
                 String[] projection = transactionController.getProjection();
-                String selection = TransactionEntry.COLUMN_DATE + " LIKE ?";
+                // yang transfer ga termasuk
+                String selection = TransactionEntry.COLUMN_DATE + " LIKE ? AND " + TransactionEntry.COLUMN_CATEGORY_ID + " > 0";
                 String[] selectionArgs = new String[]{"%/" + String.format("%02d", month + 1) + "/" + year};
                 return new CursorLoader(getContext(), TransactionEntry.CONTENT_URI, projection, selection, selectionArgs, null);
             default:
