@@ -5,6 +5,7 @@ import android.content.ContentValues;
 import android.content.Context;
 import android.database.Cursor;
 import android.net.Uri;
+import android.util.Log;
 
 import com.example.duitku.database.DuitkuContract.TransactionEntry;
 import com.example.duitku.database.DuitkuContract.CategoryEntry;
@@ -130,6 +131,13 @@ public class TransactionController {
                 TransactionEntry.COLUMN_DATE,
                 TransactionEntry.COLUMN_AMOUNT};
         return projection;
+    }
+
+    public int deleteAllTransactionWithWalletId(long walletId){
+        String selection = TransactionEntry.COLUMN_WALLET_ID + " = ?";
+        String[] selectionArgs = new String[]{Long.toString(walletId)};
+        int rowsDeleted = context.getContentResolver().delete(TransactionEntry.CONTENT_URI, selection, selectionArgs);
+        return rowsDeleted;
     }
 
     private Date parseDate(String date){

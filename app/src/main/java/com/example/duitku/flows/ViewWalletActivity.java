@@ -57,8 +57,8 @@ public class ViewWalletActivity extends AppCompatActivity implements LoaderManag
         switch (id){
             case WALLET_TRANSACTION_LOADER:
                 String[] projection = transactionController.getProjection();
-                String selection = TransactionEntry.COLUMN_DATE + " LIKE ? AND " + TransactionEntry.COLUMN_WALLET_ID + " = ?";
-                String[] selectionArgs = new String[]{"%/" + String.format("%02d", month + 1) + "/" + year, Long.toString(walletId)};
+                String selection = TransactionEntry.COLUMN_DATE + " LIKE ? AND (" + TransactionEntry.COLUMN_WALLET_ID + " = ? OR " + TransactionEntry.COLUMN_WALLET_DEST_ID + " = ?)";
+                String[] selectionArgs = new String[]{"%/" + String.format("%02d", month + 1) + "/" + year, Long.toString(walletId), Long.toString(walletId)};
                 return new CursorLoader(this, TransactionEntry.CONTENT_URI, projection, selection, selectionArgs, null);
             default:
                 throw new IllegalStateException("Unknown Loader");

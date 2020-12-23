@@ -150,6 +150,9 @@ public class DuitkuProvider extends ContentProvider {
 
         int match = mUriMatcher.match(uri);
         switch (match){
+            case TRANSACTION:
+                rowsDeleted = db.delete(TransactionEntry.TABLE_NAME, selection, selectionArgs);
+                break;
             case WALLET_ID:
                 selection = WalletEntry._ID + "=?";
                 selectionArgs = new String[] {String.valueOf(ContentUris.parseId(uri))};

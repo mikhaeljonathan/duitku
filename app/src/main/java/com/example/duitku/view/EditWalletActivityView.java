@@ -167,6 +167,7 @@ public class EditWalletActivityView implements UIView{
         deleteBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
+                transactionController.deleteAllTransactionWithWalletId(id);
                 int rowsDeleted = walletController.deleteWallet(id);
                 if (rowsDeleted == 0){
                     Toast.makeText(activity, "Error deleting wallet", Toast.LENGTH_SHORT).show();

@@ -98,7 +98,7 @@ public class ViewWalletActivityView implements UIView {
     }
 
     private void setUpAdapter(){
-        adapter = new TransactionAdapter(activity, null);
+        adapter = new TransactionAdapter(activity, id, null);
         listView.setAdapter(adapter);
     }
 

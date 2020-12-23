@@ -24,10 +24,12 @@ public class TransactionAdapter extends CursorAdapter {
     private TransactionController transactionController;
     private Transaction transaction;
     private Context context;
+    private long walletId;
 
-    public TransactionAdapter(Context context, Cursor c) {
+    public TransactionAdapter(Context context, long walletId, Cursor c) {
         super(context, c, 0);
         this.context = context;
+        this.walletId = walletId;
         transactionController = new TransactionController(context);
     }
 
@@ -76,8 +78,13 @@ public class TransactionAdapter extends CursorAdapter {
 
         if (category == null) {
             WalletController walletController = new WalletController(context);
-            Wallet wallet = walletController.getWalletById(transaction.getWalletDestId());
-            headerTextView.setText("Transferred to Wallet " + wallet.getName());
+            if (transaction.getWalletId() == walletId){
+                Wallet wallet = walletController.getWalletById(transaction.getWalletDestId());
+                headerTextView.setText("Transferred to Wallet " + wallet.getName());
+            } else {
+                Wallet wallet = walletController.getWalletById(transaction.getWalletId());
+                headerTextView.setText("Transferred from Wallet " + wallet.getName());
+            }
         } else {
             headerTextView.setText(category.getName());
         }
