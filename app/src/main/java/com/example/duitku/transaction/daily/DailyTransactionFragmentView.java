@@ -43,8 +43,6 @@ public class DailyTransactionFragmentView implements UIView {
     @Override
     public void setUpUI() {
         this.view = inflater.inflate(R.layout.fragment_transaction_viewpager, container, false);
-
-
         setUpExpandableListView();
         setUpHeader();
         setUpPeriodButton();

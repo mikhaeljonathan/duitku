@@ -13,7 +13,6 @@ import androidx.loader.app.LoaderManager;
 import androidx.loader.content.CursorLoader;
 import androidx.loader.content.Loader;
 
-import com.example.duitku.main.Utility;
 import com.example.duitku.category.CategoryController;
 import com.example.duitku.transaction.TransactionController;
 import com.example.duitku.database.DuitkuContract;
@@ -135,7 +134,7 @@ public class MonthlyTransactionFragment extends Fragment implements LoaderManage
     private void addToListAndHashMap(int lastMonth){
         MonthlyTransaction monthlyTransaction = new MonthlyTransaction(lastMonth, totalIncome, totalExpense);
         monthlyTransactionList.add(monthlyTransaction);
-        categoryTransactionListHashMap.put(monthlyTransaction, transactionController.convertHashMapToList(categoryTransactionHashMap));
+        categoryTransactionListHashMap.put(monthlyTransaction, transactionController.convertHashMapToListOfCategoryTransaction(categoryTransactionHashMap));
     }
 
     private void updateIncomeAndExpense(Transaction curTransaction){

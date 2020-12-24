@@ -14,7 +14,7 @@ public class DuitkuDbHelper extends SQLiteOpenHelper {
 
     private static final String DATABASE_NAME = "duitku.db";
 
-    private static final int DATABASE_VERSION = 1;
+    private static final int DATABASE_VERSION = 2;
 
     public DuitkuDbHelper(Context context) {
         super(context, DATABASE_NAME, null, DATABASE_VERSION);
@@ -25,7 +25,6 @@ public class DuitkuDbHelper extends SQLiteOpenHelper {
     public void onCreate(SQLiteDatabase sqLiteDatabase) {
 
         // Wallet sama category dlu yang dibuat karena ga mengandung FK
-
         final String CREATE_WALLET_TABLE = "CREATE TABLE " + WalletEntry.TABLE_NAME + " (" +
                 WalletEntry.COLUMN_ID + " INTEGER PRIMARY KEY AUTOINCREMENT, " +
                 WalletEntry.COLUMN_NAME + " TEXT NOT NULL, " +
@@ -41,7 +40,8 @@ public class DuitkuDbHelper extends SQLiteOpenHelper {
                 BudgetEntry.COLUMN_ID + " INTEGER PRIMARY KEY AUTOINCREMENT, " +
                 BudgetEntry.COLUMN_STARTDATE + " TEXT, " +
                 BudgetEntry.COLUMN_ENDDATE + " TEXT, " +
-                BudgetEntry.COLUMN_AMOUNT + " DOUBLE NOT NULL DEFAULT 0, " +
+                BudgetEntry.COLUMN_AMOUNT + " DOUBLE NOT NULL, " +
+                BudgetEntry.COLUMN_USED + " DOUBLE NOT NULL DEFAULT 0, " +
                 BudgetEntry.COLUMN_TYPE + " TEXT CHECK(" + BudgetEntry.COLUMN_TYPE + " IN ('" + BudgetEntry.TYPE_MONTH + "', '" + BudgetEntry.TYPE_3MONTH + "', '" + BudgetEntry.TYPE_YEAR + "')), "+
                 BudgetEntry.COLUMN_CATEGORY_ID + " INTEGER, " +
                 "FOREIGN KEY (" + BudgetEntry.COLUMN_CATEGORY_ID + ") REFERENCES " + CategoryEntry.TABLE_NAME + "(" + CategoryEntry.COLUMN_ID + "))";
@@ -63,7 +63,10 @@ public class DuitkuDbHelper extends SQLiteOpenHelper {
         sqLiteDatabase.execSQL(CREATE_BUDGET_TABLE);
         sqLiteDatabase.execSQL(CREATE_TRANSACTION_TABLE);
 
-        // add default category
+        addDefaultCategory(sqLiteDatabase);
+    }
+
+    private void addDefaultCategory(SQLiteDatabase sqLiteDatabase){
         ContentValues cv = new ContentValues();
         cv.put(CategoryEntry.COLUMN_NAME, CategoryEntry.DEFAULT_CATEGORY_NAME);
         cv.put(CategoryEntry.COLUMN_TYPE, CategoryEntry.TYPE_INCOME);
@@ -73,7 +76,6 @@ public class DuitkuDbHelper extends SQLiteOpenHelper {
         cv.put(CategoryEntry.COLUMN_NAME, CategoryEntry.DEFAULT_CATEGORY_NAME);
         cv.put(CategoryEntry.COLUMN_TYPE, CategoryEntry.TYPE_EXPENSE);
         sqLiteDatabase.insert(CategoryEntry.TABLE_NAME, null, cv);
-
     }
 
     // di execute kalo versinya ganti

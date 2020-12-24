@@ -54,6 +54,7 @@ public class DuitkuContract {
 
         public static final String COLUMN_ID = BaseColumns._ID;
         public static final String COLUMN_AMOUNT = "budget_amount";
+        public static final String COLUMN_USED = "budget_used";
         public static final String COLUMN_STARTDATE = "budget_startdate";
         public static final String COLUMN_ENDDATE = "budget_enddate";
         public static final String COLUMN_TYPE = "budget_type";

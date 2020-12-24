@@ -13,7 +13,6 @@ import androidx.loader.app.LoaderManager;
 import androidx.loader.content.CursorLoader;
 import androidx.loader.content.Loader;
 
-import com.example.duitku.main.Utility;
 import com.example.duitku.category.CategoryController;
 import com.example.duitku.transaction.TransactionController;
 import com.example.duitku.database.DuitkuContract.CategoryEntry;
@@ -139,7 +138,7 @@ public class WeeklyTransactionFragment extends Fragment implements LoaderManager
     private void addToListAndHashMap(int lastWeek){
         WeeklyTransaction weeklyTransaction = new WeeklyTransaction(lastWeek, "Intervals", totalIncome, totalExpense);
         weeklyTransactionList.add(weeklyTransaction);
-        categoryTransactionListHashMap.put(weeklyTransaction, transactionController.convertHashMapToList(categoryTransactionHashMap));
+        categoryTransactionListHashMap.put(weeklyTransaction, transactionController.convertHashMapToListOfCategoryTransaction(categoryTransactionHashMap));
     }
 
     private void updateIncomeAndExpense(Transaction curTransaction){

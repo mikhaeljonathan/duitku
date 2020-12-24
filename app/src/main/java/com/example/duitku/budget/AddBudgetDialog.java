@@ -31,6 +31,7 @@ import com.example.duitku.category.CategoryController;
 import com.example.duitku.database.DuitkuContract.CategoryEntry;
 import com.example.duitku.date.DatePickerFragment;
 import com.example.duitku.category.PickCategoryDialog;
+import com.example.duitku.main.Utility;
 import com.google.android.material.textfield.TextInputEditText;
 import com.google.android.material.textfield.TextInputLayout;
 
@@ -223,14 +224,14 @@ public class AddBudgetDialog extends AppCompatDialogFragment {
             @Override
             public void onDateSet(DatePicker datePicker, int year, int month, int dayOfMonth) {
                 startDate = convertToDate(year, month, dayOfMonth);
-                startDateTextView.setText(convertDateToString(startDate));
+                startDateTextView.setText(Utility.convertDateToFullString(startDate));
             }
         };
         endDatePickerListener = new DatePickerDialog.OnDateSetListener() {
             @Override
             public void onDateSet(DatePicker datePicker, int year, int month, int dayOfMonth) {
                 endDate = convertToDate(year, month, dayOfMonth);
-                endDateTextView.setText(convertDateToString(endDate));
+                endDateTextView.setText(Utility.convertDateToFullString(endDate));
             }
         };
         categoryPickerListener = new PickCategoryDialog.ViewCategoryListener() {
@@ -251,14 +252,9 @@ public class AddBudgetDialog extends AppCompatDialogFragment {
         return calendar.getTime();
     }
 
-    private String convertDateToString(Date date){
-        String ret = DateFormat.getDateInstance(DateFormat.FULL).format(date);
-        return ret;
-    }
-
     private Uri addBudget(){
         String budgetType = BudgetController.budgetType[budgetTypePos];
-        Budget budget = new Budget(-1, amount, startDate, endDate, budgetType, categoryId);
+        Budget budget = new Budget(-1, amount, 0, startDate, endDate, budgetType, categoryId);
         Uri uri = budgetController.addBudget(budget);
         return uri;
     }

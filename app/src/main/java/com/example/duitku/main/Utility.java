@@ -6,6 +6,7 @@ import com.example.duitku.database.DuitkuContract;
 import com.example.duitku.category.CategoryTransaction;
 import com.example.duitku.transaction.Transaction;
 
+import java.text.DateFormat;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
@@ -40,6 +41,27 @@ public class Utility {
             ret[i] = Integer.toString(year);
         }
 
+        return ret;
+    }
+
+    public static Date parseDate(String date){
+        if (date == null) return null;
+        Date ret = null;
+        try {
+            ret = new SimpleDateFormat("dd/MM/yyyy").parse(date);
+        } catch (ParseException e) {
+            e.printStackTrace();
+        }
+        return ret;
+    }
+
+    public static String convertDateToFullString(Date date){
+        String ret = DateFormat.getDateInstance(DateFormat.FULL).format(date);
+        return ret;
+    }
+
+    public static String convertDateToString(Date date){
+        String ret = new SimpleDateFormat("dd/MM/yyyy").format(date);
         return ret;
     }
 
