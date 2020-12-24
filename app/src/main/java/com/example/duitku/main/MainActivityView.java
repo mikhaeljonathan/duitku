@@ -1,20 +1,21 @@
 package com.example.duitku.main;
 
+import android.accounts.Account;
 import android.content.Intent;
 import android.view.MenuItem;
 import android.view.View;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.fragment.app.Fragment;
 
 import com.example.duitku.R;
-import com.example.duitku.account.AccountFragmentFactory;
-import com.example.duitku.article.ArticleFragmentFactory;
-import com.example.duitku.interfaces.FragmentFactory;
-import com.example.duitku.report.ReportFragmentFactory;
-import com.example.duitku.transaction.parent.TransactionFragmentFactory;
+import com.example.duitku.account.AccountFragment;
+import com.example.duitku.article.ArticleFragment;
+import com.example.duitku.report.ReportFragment;
 import com.example.duitku.transaction.add.AddTransactionActivity;
 import com.example.duitku.interfaces.UIView;
+import com.example.duitku.transaction.parent.TransactionFragment;
 import com.google.android.material.bottomnavigation.BottomNavigationView;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 
@@ -44,28 +45,28 @@ public class MainActivityView implements UIView {
             public boolean onNavigationItemSelected(@NonNull MenuItem menuItem) {
                 // biar kalau diklik ga kerefresh
                 if (bottomNavBar.getSelectedItemId() == menuItem.getItemId()) return true;
-                FragmentFactory fragmentFactory = null;
+                Fragment fragment = null;
                 switch (menuItem.getItemId()){
                     case R.id.nav_transaction:
-                        fragmentFactory = new TransactionFragmentFactory();
+                        fragment = new TransactionFragment();
                         break;
                     case R.id.nav_report:
-                        fragmentFactory = new ReportFragmentFactory();
+                        fragment = new ReportFragment();
                         break;
                     case R.id.nav_article:
-                        fragmentFactory = new ArticleFragmentFactory();
+                        fragment = new ArticleFragment();
                         break;
                     case R.id.nav_account:
-                        fragmentFactory = new AccountFragmentFactory();
+                        fragment = new AccountFragment();
                         break;
                 }
-                activity.getSupportFragmentManager().beginTransaction().replace(R.id.main_container, fragmentFactory.createProduct()).commit();
+                activity.getSupportFragmentManager().beginTransaction().replace(R.id.main_container, fragment).commit();
                 return true;
             }
 
         });
         // Default fragment, kalau kita blm teken menu apa2 di bottomnavbar
-        activity.getSupportFragmentManager().beginTransaction().replace(R.id.main_container, new TransactionFragmentFactory().createProduct()).commit();
+        activity.getSupportFragmentManager().beginTransaction().replace(R.id.main_container, new TransactionFragment()).commit();
     }
 
     private void setUpFloatingActionButton(){

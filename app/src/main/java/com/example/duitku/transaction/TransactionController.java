@@ -188,7 +188,6 @@ public class TransactionController {
                 int quarter = curMonth / 4 + 2; // value dari 1 sampe 4
                 monthLowerBound = 3 * (quarter - 1) + 1;
                 monthUpperBound = 3 * quarter;
-
             }
         }
 

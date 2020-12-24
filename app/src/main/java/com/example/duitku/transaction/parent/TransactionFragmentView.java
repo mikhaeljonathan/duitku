@@ -8,13 +8,12 @@ import androidx.fragment.app.Fragment;
 import androidx.viewpager.widget.ViewPager;
 
 import com.example.duitku.R;
-import com.example.duitku.budget.BudgetFragmentFactory;
-import com.example.duitku.transaction.daily.DailyTransactionFragmentFactory;
-import com.example.duitku.interfaces.FragmentFactory;
-import com.example.duitku.transaction.monthly.MonthlyTransactionFragmentFactory;
+import com.example.duitku.budget.BudgetFragment;
 import com.example.duitku.interfaces.UIView;
-import com.example.duitku.wallet.WalletFragmentFactory;
-import com.example.duitku.transaction.weekly.WeeklyTransactionFragmentFactory;
+import com.example.duitku.transaction.daily.DailyTransactionFragment;
+import com.example.duitku.transaction.monthly.MonthlyTransactionFragment;
+import com.example.duitku.transaction.weekly.WeeklyTransactionFragment;
+import com.example.duitku.wallet.WalletFragment;
 
 import java.util.ArrayList;
 
@@ -42,18 +41,13 @@ public class TransactionFragmentView implements UIView {
     private void setUpViewPager(){
         viewPager = view.findViewById(R.id.fragment_transaction_viewpager);
 
-        ArrayList<FragmentFactory> fragmentFactories = new ArrayList<>();
-        fragmentFactories.add(new MonthlyTransactionFragmentFactory());
-        fragmentFactories.add(new WeeklyTransactionFragmentFactory());
-        fragmentFactories.add(new DailyTransactionFragmentFactory());
-        fragmentFactories.add(new WalletFragmentFactory());
-        fragmentFactories.add(new BudgetFragmentFactory());
-
         TransactionViewPagerAdapter adapter = new TransactionViewPagerAdapter(fragment.getChildFragmentManager());
 
-        for (FragmentFactory fragmentFactory: fragmentFactories){
-            adapter.addFrag(fragmentFactory.createProduct());
-        }
+        adapter.addFrag(new MonthlyTransactionFragment());
+        adapter.addFrag(new WeeklyTransactionFragment());
+        adapter.addFrag(new DailyTransactionFragment());
+        adapter.addFrag(new WalletFragment());
+        adapter.addFrag(new BudgetFragment());
 
         viewPager.setAdapter(adapter);
         viewPager.setCurrentItem(2); // mulai dari daily transaction
