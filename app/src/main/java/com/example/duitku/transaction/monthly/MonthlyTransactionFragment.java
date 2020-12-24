@@ -13,11 +13,11 @@ import androidx.loader.app.LoaderManager;
 import androidx.loader.content.CursorLoader;
 import androidx.loader.content.Loader;
 
-import com.example.duitku.Utility;
+import com.example.duitku.main.Utility;
 import com.example.duitku.category.CategoryController;
 import com.example.duitku.transaction.TransactionController;
 import com.example.duitku.database.DuitkuContract;
-import com.example.duitku.picker.YearPickerDialog;
+import com.example.duitku.date.YearPickerDialog;
 import com.example.duitku.category.Category;
 import com.example.duitku.category.CategoryTransaction;
 import com.example.duitku.transaction.Transaction;
@@ -84,7 +84,7 @@ public class MonthlyTransactionFragment extends Fragment implements LoaderManage
 
     @Override
     public void onLoadFinished(@NonNull Loader<Cursor> loader, Cursor data) {
-        List<Transaction> allTransactions = Utility.convertCursorToListOfTransaction(data);
+        List<Transaction> allTransactions = transactionController.convertCursorToList(data);
         // sort transaction brdsrkan tanggal
         Collections.sort(allTransactions, new Comparator<Transaction>() {
             @Override
@@ -135,7 +135,7 @@ public class MonthlyTransactionFragment extends Fragment implements LoaderManage
     private void addToListAndHashMap(int lastMonth){
         MonthlyTransaction monthlyTransaction = new MonthlyTransaction(lastMonth, totalIncome, totalExpense);
         monthlyTransactionList.add(monthlyTransaction);
-        categoryTransactionListHashMap.put(monthlyTransaction, new Utility().convertHashMapToList(categoryTransactionHashMap));
+        categoryTransactionListHashMap.put(monthlyTransaction, transactionController.convertHashMapToList(categoryTransactionHashMap));
     }
 
     private void updateIncomeAndExpense(Transaction curTransaction){

@@ -8,11 +8,10 @@ import android.widget.BaseExpandableListAdapter;
 import android.widget.TextView;
 
 import com.example.duitku.R;
-import com.example.duitku.Utility;
+import com.example.duitku.main.Utility;
 import com.example.duitku.category.CategoryController;
 import com.example.duitku.category.Category;
 import com.example.duitku.category.CategoryTransaction;
-import com.example.duitku.transaction.monthly.MonthlyTransaction;
 
 import java.util.HashMap;
 import java.util.List;

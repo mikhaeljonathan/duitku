@@ -1,4 +1,4 @@
-package com.example.duitku;
+package com.example.duitku.main;
 
 import android.content.Intent;
 import android.view.MenuItem;
@@ -7,10 +7,11 @@ import android.view.View;
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 
-import com.example.duitku.factory.fragment.AccountFragmentFactory;
-import com.example.duitku.factory.fragment.ArticleFragmentFactory;
+import com.example.duitku.R;
+import com.example.duitku.account.AccountFragmentFactory;
+import com.example.duitku.article.ArticleFragmentFactory;
 import com.example.duitku.interfaces.FragmentFactory;
-import com.example.duitku.factory.fragment.ReportFragmentFactory;
+import com.example.duitku.report.ReportFragmentFactory;
 import com.example.duitku.transaction.parent.TransactionFragmentFactory;
 import com.example.duitku.transaction.add.AddTransactionActivity;
 import com.example.duitku.interfaces.UIView;

@@ -6,7 +6,7 @@ melayang gitu-->
     android:id="@+id/main_coordlayout"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".flows.MainActivity">
+    tools:context=".main.MainActivity">
 
     <androidx.constraintlayout.widget.ConstraintLayout
         android:id="@+id/main_constraintlayout1"

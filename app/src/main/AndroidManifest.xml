@@ -17,7 +17,7 @@
             android:name=".transaction.add.AddTransactionActivity"
             android:screenOrientation="portrait"/>
         <activity
-            android:name=".flows.MainActivity"
+            android:name=".main.MainActivity"
             android:configChanges="orientation"
             android:screenOrientation="portrait">
             <intent-filter>

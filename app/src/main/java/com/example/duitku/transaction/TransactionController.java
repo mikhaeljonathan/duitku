@@ -6,6 +6,7 @@ import android.content.Context;
 import android.database.Cursor;
 import android.net.Uri;
 
+import com.example.duitku.category.CategoryTransaction;
 import com.example.duitku.database.DuitkuContract.TransactionEntry;
 import com.example.duitku.database.DuitkuContract.CategoryEntry;
 import com.example.duitku.database.DuitkuContract.WalletEntry;
@@ -16,7 +17,9 @@ import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 public class TransactionController {
 
@@ -158,6 +161,14 @@ public class TransactionController {
         ret.put(TransactionEntry.COLUMN_DESC, transaction.getDesc());
         ret.put(TransactionEntry.COLUMN_DATE, date);
         ret.put(TransactionEntry.COLUMN_AMOUNT, transaction.getAmount());
+        return ret;
+    }
+
+    public List<CategoryTransaction> convertHashMapToList(HashMap<Long, CategoryTransaction> hashMap){
+        List<CategoryTransaction> ret = new ArrayList<>();
+        for (Map.Entry mapElement: hashMap.entrySet()){
+            ret.add((CategoryTransaction) mapElement.getValue());
+        }
         return ret;
     }
 

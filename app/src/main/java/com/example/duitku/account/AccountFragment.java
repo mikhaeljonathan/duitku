@@ -1,4 +1,4 @@
-package com.example.duitku.flows;
+package com.example.duitku.account;
 
 import android.os.Bundle;
 import android.view.LayoutInflater;

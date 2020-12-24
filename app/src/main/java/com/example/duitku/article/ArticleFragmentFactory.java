@@ -1,8 +1,7 @@
-package com.example.duitku.factory.fragment;
+package com.example.duitku.article;
 
 import androidx.fragment.app.Fragment;
 
-import com.example.duitku.flows.ArticleFragment;
 import com.example.duitku.interfaces.FragmentFactory;
 
 public class ArticleFragmentFactory implements FragmentFactory {

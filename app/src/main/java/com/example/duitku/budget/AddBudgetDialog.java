@@ -29,7 +29,7 @@ import com.example.duitku.R;
 import com.example.duitku.category.Category;
 import com.example.duitku.category.CategoryController;
 import com.example.duitku.database.DuitkuContract.CategoryEntry;
-import com.example.duitku.picker.DatePickerFragment;
+import com.example.duitku.date.DatePickerFragment;
 import com.example.duitku.category.PickCategoryDialog;
 import com.google.android.material.textfield.TextInputEditText;
 import com.google.android.material.textfield.TextInputLayout;
