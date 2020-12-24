@@ -9,12 +9,12 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
-        <activity android:name=".flows.EditWalletActivity"
+        <activity android:name=".wallet.EditWalletActivity"
             android:screenOrientation="portrait"></activity>
-        <activity android:name=".flows.ViewWalletActivity"
+        <activity android:name=".wallet.ViewWalletActivity"
             android:screenOrientation="portrait"></activity>
         <activity
-            android:name=".flows.AddTransactionActivity"
+            android:name=".transaction.add.AddTransactionActivity"
             android:screenOrientation="portrait"/>
         <activity
             android:name=".flows.MainActivity"

@@ -12,13 +12,8 @@ import android.database.sqlite.SQLiteOpenHelper;
 
 public class DuitkuDbHelper extends SQLiteOpenHelper {
 
-    // Ini class buat bikin database SQLite nya
-    // class ini harus subclass dari SQLiteOpenHelper
-
-    // Ini nama database nya
     private static final String DATABASE_NAME = "duitku.db";
 
-    // Ini versi database nya
     private static final int DATABASE_VERSION = 1;
 
     public DuitkuDbHelper(Context context) {
@@ -44,10 +39,10 @@ public class DuitkuDbHelper extends SQLiteOpenHelper {
 
         final String CREATE_BUDGET_TABLE = "CREATE TABLE " + BudgetEntry.TABLE_NAME + " (" +
                 BudgetEntry.COLUMN_ID + " INTEGER PRIMARY KEY AUTOINCREMENT, " +
-                BudgetEntry.COLUMN_STARTDATE + " TEXT NOT NULL, " +
+                BudgetEntry.COLUMN_STARTDATE + " TEXT, " +
                 BudgetEntry.COLUMN_ENDDATE + " TEXT, " +
                 BudgetEntry.COLUMN_AMOUNT + " DOUBLE NOT NULL DEFAULT 0, " +
-                BudgetEntry.COLUMN_RECURRING + " TEXT NOT NULL CHECK(" + BudgetEntry.COLUMN_RECURRING + " IN ('" + BudgetEntry.RECURRING_YES + "', '" + BudgetEntry.RECURRING_NO + "')), "+
+                BudgetEntry.COLUMN_TYPE + " TEXT CHECK(" + BudgetEntry.COLUMN_TYPE + " IN ('" + BudgetEntry.TYPE_MONTH + "', '" + BudgetEntry.TYPE_3MONTH + "', '" + BudgetEntry.TYPE_YEAR + "')), "+
                 BudgetEntry.COLUMN_CATEGORY_ID + " INTEGER, " +
                 "FOREIGN KEY (" + BudgetEntry.COLUMN_CATEGORY_ID + ") REFERENCES " + CategoryEntry.TABLE_NAME + "(" + CategoryEntry.COLUMN_ID + "))";
 
@@ -84,13 +79,11 @@ public class DuitkuDbHelper extends SQLiteOpenHelper {
     // di execute kalo versinya ganti
     @Override
     public void onUpgrade(SQLiteDatabase sqLiteDatabase, int oldVersion, int newVersion) {
-
         sqLiteDatabase.execSQL("DROP TABLE IF EXISTS " + WalletEntry.TABLE_NAME);
         sqLiteDatabase.execSQL("DROP TABLE IF EXISTS " + BudgetEntry.TABLE_NAME);
         sqLiteDatabase.execSQL("DROP TABLE IF EXISTS " + TransactionEntry.TABLE_NAME);
         sqLiteDatabase.execSQL("DROP TABLE IF EXISTS " + CategoryEntry.TABLE_NAME);
         onCreate(sqLiteDatabase);
-
     }
 
 }

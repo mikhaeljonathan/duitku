@@ -3,8 +3,8 @@ package com.example.duitku;
 import android.database.Cursor;
 
 import com.example.duitku.database.DuitkuContract;
-import com.example.duitku.model.CategoryTransaction;
-import com.example.duitku.model.Transaction;
+import com.example.duitku.category.CategoryTransaction;
+import com.example.duitku.transaction.Transaction;
 
 import java.text.ParseException;
 import java.text.SimpleDateFormat;

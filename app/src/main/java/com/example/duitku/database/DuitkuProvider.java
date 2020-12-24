@@ -4,7 +4,6 @@ import com.example.duitku.database.DuitkuContract.WalletEntry;
 import com.example.duitku.database.DuitkuContract.BudgetEntry;
 import com.example.duitku.database.DuitkuContract.TransactionEntry;
 import com.example.duitku.database.DuitkuContract.CategoryEntry;
-import com.example.duitku.model.Category;
 
 import android.content.ContentProvider;
 import android.content.ContentUris;
@@ -103,7 +102,6 @@ public class DuitkuProvider extends ContentProvider {
     }
 
 
-
     // yang ini buat insert ke db
     @Nullable
     @Override
@@ -122,6 +120,7 @@ public class DuitkuProvider extends ContentProvider {
                 break;
             case BUDGET:
                 id = db.insert(BudgetEntry.TABLE_NAME, null, contentValues);
+                Log.v("HAHA", id+"");
                 break;
             case TRANSACTION:
                 id = db.insert(TransactionEntry.TABLE_NAME, null, contentValues);

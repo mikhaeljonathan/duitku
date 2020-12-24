@@ -4,8 +4,8 @@ import androidx.appcompat.app.AppCompatActivity;
 
 import android.os.Bundle;
 
-import com.example.duitku.view.MainActivityView;
-import com.example.duitku.view.UIView;
+import com.example.duitku.MainActivityView;
+import com.example.duitku.interfaces.UIView;
 
 public class MainActivity extends AppCompatActivity {
 

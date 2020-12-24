@@ -1,18 +1,17 @@
-package com.example.duitku.factory.fragment;
+package com.example.duitku.budget;
 
 import androidx.fragment.app.Fragment;
 
-import com.example.duitku.flows.AccountFragment;
 import com.example.duitku.interfaces.FragmentFactory;
 
-public class AccountFragmentFactory implements FragmentFactory {
+public class BudgetFragmentFactory implements FragmentFactory {
 
     private static Fragment instance;
 
     @Override
     public Fragment createProduct() {
         if (instance == null){
-            instance = new AccountFragment();
+            instance = new BudgetFragment();
             return instance;
         }
         return instance;

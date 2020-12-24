@@ -5,8 +5,6 @@ import android.provider.BaseColumns;
 
 public class DuitkuContract {
 
-    // Class ini untuk nyimpen2 URI, nama tabel, nama column dll
-    // URI ini buat ngasih tau ContentResolver table mana yang mau diakses
     public static final String CONTENT_AUTHORITY = "com.example.duitku";
     public static final Uri BASE_CONTENT_URI = Uri.parse("content://" + CONTENT_AUTHORITY);
 
@@ -15,7 +13,6 @@ public class DuitkuContract {
     public static final String PATH_CATEGORY = "category";
     public static final String PATH_BUDGET = "budget";
 
-    // Setiap inner class di sini mewakili 1 table
     public static final class WalletEntry implements BaseColumns {
         public static final Uri CONTENT_URI =
                 BASE_CONTENT_URI.buildUpon().appendPath(PATH_WALLET).build();
@@ -56,15 +53,16 @@ public class DuitkuContract {
         public static final String TABLE_NAME = "budget";
 
         public static final String COLUMN_ID = BaseColumns._ID;
+        public static final String COLUMN_AMOUNT = "budget_amount";
         public static final String COLUMN_STARTDATE = "budget_startdate";
         public static final String COLUMN_ENDDATE = "budget_enddate";
+        public static final String COLUMN_TYPE = "budget_type";
         public static final String COLUMN_CATEGORY_ID = "category_id";
-        public static final String COLUMN_AMOUNT = "budget_amount";
-        public static final String COLUMN_RECURRING = "budget_recurring";
 
-        // tipe2 recurring
-        public static final String RECURRING_YES = "Y";
-        public static final String RECURRING_NO = "N";
+        // tipe2 budget
+        public static final String TYPE_MONTH = "MONTH";
+        public static final String TYPE_3MONTH = "3MONTH";
+        public static final String TYPE_YEAR = "YEAR";
     }
 
     public static final class TransactionEntry implements BaseColumns {
