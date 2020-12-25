@@ -1,5 +1,6 @@
 package com.example.duitku.wallet;
 
+import android.content.ContentUris;
 import android.content.DialogInterface;
 import android.text.Editable;
 import android.text.TextWatcher;
@@ -152,7 +153,6 @@ public class EditWalletActivityView implements UIView {
             @Override
             public void onClick(View view) {
                 if (!validateInput()) return;
-                if (amount != wallet.getAmount()) addTransaction();
                 int rowsUpdated = updateWallet();
                 if (rowsUpdated == 0){
                     Toast.makeText(activity, "Error editing wallet", Toast.LENGTH_SHORT).show();
@@ -192,7 +192,6 @@ public class EditWalletActivityView implements UIView {
     }
 
     private void deleteWallet(){
-        transactionController.deleteAllTransactionWithWalletId(id);
         int rowsDeleted = walletController.deleteWallet(id);
         if (rowsDeleted == 0){
             Toast.makeText(activity, "Error deleting wallet", Toast.LENGTH_SHORT).show();
@@ -231,28 +230,18 @@ public class EditWalletActivityView implements UIView {
     }
 
     private int updateWallet(){
+        double amountBefore = wallet.getAmount();
+
         wallet.setName(name);
         wallet.setAmount(amount);
         wallet.setDescription(desc);
-        return walletController.updateWallet(wallet);
-    }
 
-    private void addTransaction(){
-        Calendar calendar = Calendar.getInstance();
-        Category category;
-        if (amount > wallet.getAmount()){
-            category = categoryController.getCategoryByNameAndType(DuitkuContract.CategoryEntry.DEFAULT_CATEGORY_NAME, DuitkuContract.CategoryEntry.TYPE_INCOME);
-        } else {
-            category = categoryController.getCategoryByNameAndType(DuitkuContract.CategoryEntry.DEFAULT_CATEGORY_NAME, DuitkuContract.CategoryEntry.TYPE_EXPENSE);
+        if (amountBefore != wallet.getAmount()) {
+            transactionController.addTransactionFromUpdatedWallet(amountBefore, wallet);
         }
 
-        Date date = calendar.getTime();
-        long walletId = id;
-        long walletDestId = -1;
-        long categoryId = category.getId();
-        String desc = "Balance Adjustment for Wallet " + name;
-        Transaction transaction = new Transaction(-1, walletId, walletDestId, categoryId, desc, date, Math.abs(amount - wallet.getAmount()));
-        transactionController.addTransaction(transaction);
+        int rowsUpdated = walletController.updateWallet(wallet);
+        return rowsUpdated;
     }
 
     @Override

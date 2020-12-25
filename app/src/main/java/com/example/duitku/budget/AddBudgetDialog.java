@@ -35,8 +35,6 @@ import com.example.duitku.main.Utility;
 import com.google.android.material.textfield.TextInputEditText;
 import com.google.android.material.textfield.TextInputLayout;
 
-import java.text.DateFormat;
-import java.util.Calendar;
 import java.util.Date;
 
 public class AddBudgetDialog extends AppCompatDialogFragment {
@@ -59,7 +57,7 @@ public class AddBudgetDialog extends AppCompatDialogFragment {
 
     private DatePickerDialog.OnDateSetListener startDatePickerListener;
     private DatePickerDialog.OnDateSetListener endDatePickerListener;
-    private PickCategoryDialog.ViewCategoryListener categoryPickerListener;
+    private PickCategoryDialog.PickCategoryListener categoryPickerListener;
 
     private CategoryController categoryController;
     private BudgetController budgetController;
@@ -164,7 +162,7 @@ public class AddBudgetDialog extends AppCompatDialogFragment {
                 if (!validateInput()) return;
                 Uri uri = addBudget();
                 if (uri == null){
-                    Toast.makeText(getContext(), "Error adding new budget", Toast.LENGTH_SHORT).show();
+                    Toast.makeText(getActivity(), "Error adding new budget", Toast.LENGTH_SHORT).show();
                 } else {
                     Toast.makeText(getContext(), "Budget added", Toast.LENGTH_SHORT).show();
                 }
@@ -223,18 +221,18 @@ public class AddBudgetDialog extends AppCompatDialogFragment {
         startDatePickerListener = new DatePickerDialog.OnDateSetListener() {
             @Override
             public void onDateSet(DatePicker datePicker, int year, int month, int dayOfMonth) {
-                startDate = convertToDate(year, month, dayOfMonth);
+                startDate = Utility.convertElementsToDate(year, month, dayOfMonth);
                 startDateTextView.setText(Utility.convertDateToFullString(startDate));
             }
         };
         endDatePickerListener = new DatePickerDialog.OnDateSetListener() {
             @Override
             public void onDateSet(DatePicker datePicker, int year, int month, int dayOfMonth) {
-                endDate = convertToDate(year, month, dayOfMonth);
+                endDate = Utility.convertElementsToDate(year, month, dayOfMonth);
                 endDateTextView.setText(Utility.convertDateToFullString(endDate));
             }
         };
-        categoryPickerListener = new PickCategoryDialog.ViewCategoryListener() {
+        categoryPickerListener = new PickCategoryDialog.PickCategoryListener() {
             @Override
             public void pickCategory(long id) {
                 Category category = categoryController.getCategoryById(id);
@@ -242,14 +240,6 @@ public class AddBudgetDialog extends AppCompatDialogFragment {
                 categoryId = id;
             }
         };
-    }
-
-    private Date convertToDate(int year, int month, int dayOfMonth){
-        Calendar calendar = Calendar.getInstance();
-        calendar.set(Calendar.YEAR, year);
-        calendar.set(Calendar.MONTH, month);
-        calendar.set(Calendar.DAY_OF_MONTH, dayOfMonth);
-        return calendar.getTime();
     }
 
     private Uri addBudget(){

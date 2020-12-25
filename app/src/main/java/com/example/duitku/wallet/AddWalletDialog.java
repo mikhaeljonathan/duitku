@@ -143,7 +143,6 @@ public class AddWalletDialog extends AppCompatDialogFragment {
             public void onClick(View view) {
                 if (!validateInput()) return;
                 Uri uri = addWallet();
-                if (amount > 0) addTransaction(uri);
                 if (uri == null){
                     Toast.makeText(getContext(), "Error adding new wallet", Toast.LENGTH_SHORT).show();
                 } else {
@@ -160,19 +159,6 @@ public class AddWalletDialog extends AppCompatDialogFragment {
         return uri;
     }
 
-    private void addTransaction(Uri uri){
-        Calendar calendar = Calendar.getInstance();
-        Category category = categoryController.getCategoryByNameAndType(CategoryEntry.DEFAULT_CATEGORY_NAME, CategoryEntry.TYPE_INCOME);
-
-        Date date = calendar.getTime();
-        long walletId = ContentUris.parseId(uri);
-        long walletDestId = -1;
-        long categoryId = category.getId();
-        String desc = "Initial Balance for Wallet " + name;
-        Transaction transaction = new Transaction(-1, walletId, walletDestId, categoryId, desc, date, amount);
-        transactionController.addTransaction(transaction);
-    }
-
     private boolean validateInput(){
         // Wallet name
         name = nameField.getText().toString().trim();
@@ -187,10 +173,6 @@ public class AddWalletDialog extends AppCompatDialogFragment {
             amount = 0;
         } else {
             amount = Double.parseDouble(amountString);
-        }
-        if (amount < 0){
-            amountLayout.setError("Amount not allowed");
-            return false;
         }
         if (amount > 999999999){
             return false;

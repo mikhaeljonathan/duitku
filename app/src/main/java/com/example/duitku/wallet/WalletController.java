@@ -6,8 +6,12 @@ import android.content.Context;
 import android.database.Cursor;
 import android.net.Uri;
 
+import com.example.duitku.category.Category;
+import com.example.duitku.category.CategoryController;
+import com.example.duitku.database.DuitkuContract.CategoryEntry;
 import com.example.duitku.database.DuitkuContract.WalletEntry;
-import com.example.duitku.wallet.Wallet;
+import com.example.duitku.transaction.Transaction;
+import com.example.duitku.transaction.TransactionController;
 
 public class WalletController {
 
@@ -20,6 +24,12 @@ public class WalletController {
     public Uri addWallet(Wallet wallet){
         ContentValues values = convertWalletToContentValues(wallet);
         Uri uri = context.getContentResolver().insert(WalletEntry.CONTENT_URI, values);
+
+        if (wallet.getAmount() != 0){
+            long id = ContentUris.parseId(uri);
+            new TransactionController(context).addTransactionFromInitialWallet(id, wallet);
+        }
+
         return uri;
     }
 
@@ -32,6 +42,7 @@ public class WalletController {
 
     public int deleteWallet(long id){
         int rowsDeleted = context.getContentResolver().delete(Uri.withAppendedPath(WalletEntry.CONTENT_URI, Long.toString(id)), null, null);
+        new TransactionController(context).deleteAllTransactionWithWalletId(id);
         return rowsDeleted;
     }
 
@@ -45,15 +56,19 @@ public class WalletController {
     }
 
     public Wallet getWalletById(long id){
+        if (id == -1) return null;
+
         Wallet ret = null;
         Cursor data = context.getContentResolver().query(ContentUris.withAppendedId(WalletEntry.CONTENT_URI, id), new String[]{WalletEntry.COLUMN_ID, WalletEntry.COLUMN_NAME, WalletEntry.COLUMN_AMOUNT, WalletEntry.COLUMN_DESC}, null, null, null);
         if (data.moveToFirst()){
             ret = convertCursorToWallet(data);
         }
+
         return ret;
     }
 
     public Wallet convertCursorToWallet(Cursor data){
+
         int idColumnIndex = data.getColumnIndex(WalletEntry.COLUMN_ID);
         int nameColumnIndex = data.getColumnIndex(WalletEntry.COLUMN_NAME);
         int amountColumnIndex = data.getColumnIndex(WalletEntry.COLUMN_AMOUNT);
@@ -82,6 +97,25 @@ public class WalletController {
         ret.put(WalletEntry.COLUMN_AMOUNT, wallet.getAmount());
         ret.put(WalletEntry.COLUMN_DESC, wallet.getDescription());
         return ret;
+    }
+
+    public int updateWalletFromTransaction(Transaction transaction){
+        Category category = new CategoryController(context).getCategoryById(transaction.getCategoryId());
+        Wallet wallet = getWalletById(transaction.getWalletId());
+        Wallet walletDest = getWalletById(transaction.getWalletDestId());
+
+        if (category == null){ // transfer
+            wallet.setAmount(wallet.getAmount() - transaction.getAmount());
+            walletDest.setAmount(walletDest.getAmount() + transaction.getAmount());
+        } else if (category.getType().equals(CategoryEntry.TYPE_EXPENSE)){
+            wallet.setAmount(wallet.getAmount() - transaction.getAmount());
+        } else { // income
+            wallet.setAmount(wallet.getAmount() + transaction.getAmount());
+        }
+
+        int rowsUpdated = updateWallet(wallet);
+        if (walletDest != null) updateWallet(walletDest);
+        return rowsUpdated;
     }
 
 }

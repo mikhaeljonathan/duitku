@@ -29,13 +29,13 @@ public class PickCategoryDialog extends AppCompatDialogFragment implements Loade
     private GridView gridView;
 
     private ViewCategoryAdapter viewCategoryAdapter;
-    private ViewCategoryListener listener;
+    private PickCategoryListener listener;
 
     private CategoryController categoryController = new CategoryController(getActivity());
 
     private final int CATEGORY_LOADER = 0;
 
-    public PickCategoryDialog(ViewCategoryListener listener, String type){
+    public PickCategoryDialog(PickCategoryListener listener, String type){
         this.listener = listener;
         this.categoryType = type;
     }
@@ -112,7 +112,7 @@ public class PickCategoryDialog extends AppCompatDialogFragment implements Loade
         viewCategoryAdapter.swapCursor(null);
     }
 
-    public interface ViewCategoryListener {
+    public interface PickCategoryListener {
         void pickCategory(long id);
     }
 

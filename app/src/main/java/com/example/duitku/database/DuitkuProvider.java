@@ -153,7 +153,7 @@ public class DuitkuProvider extends ContentProvider {
                 rowsDeleted = db.delete(TransactionEntry.TABLE_NAME, selection, selectionArgs);
                 break;
             case WALLET_ID:
-                selection = WalletEntry._ID + "=?";
+                selection = WalletEntry._ID + " = ?";
                 selectionArgs = new String[] {String.valueOf(ContentUris.parseId(uri))};
                 rowsDeleted = db.delete(WalletEntry.TABLE_NAME, selection, selectionArgs);
                 break;
@@ -178,9 +178,14 @@ public class DuitkuProvider extends ContentProvider {
         int match = mUriMatcher.match(uri);
         switch (match){
             case WALLET_ID:
-                selection = WalletEntry._ID + "=?";
+                selection = WalletEntry._ID + " = ?";
                 selectionArgs = new String[] {String.valueOf(ContentUris.parseId(uri))};
                 rowsUpdated = db.update(WalletEntry.TABLE_NAME, contentValues, selection, selectionArgs);
+                break;
+            case BUDGET_ID:
+                selection = BudgetEntry._ID + " = ?";
+                selectionArgs = new String[] {String.valueOf(ContentUris.parseId(uri))};
+                rowsUpdated = db.update(BudgetEntry.TABLE_NAME, contentValues, selection, selectionArgs);
                 break;
             default:
                 throw new IllegalArgumentException("Update is not supported for " + uri);

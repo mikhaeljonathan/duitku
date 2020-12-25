@@ -1,6 +1,7 @@
-package com.example.duitku.transaction.parent;
+package com.example.duitku.transaction.add;
 
 import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentManager;
 import androidx.fragment.app.FragmentPagerAdapter;
@@ -8,11 +9,12 @@ import androidx.fragment.app.FragmentPagerAdapter;
 import java.util.ArrayList;
 import java.util.List;
 
-public class TransactionViewPagerAdapter extends FragmentPagerAdapter {
+public class AddTransactionViewPagerAdapter extends FragmentPagerAdapter {
 
     private final List<Fragment> fragmentList = new ArrayList<>();
+    private final List<String> fragmentTitleList = new ArrayList<>();
 
-    public TransactionViewPagerAdapter(FragmentManager fm){
+    public AddTransactionViewPagerAdapter(@NonNull FragmentManager fm) {
         super(fm, (BEHAVIOR_RESUME_ONLY_CURRENT_FRAGMENT));
     }
 
@@ -27,8 +29,15 @@ public class TransactionViewPagerAdapter extends FragmentPagerAdapter {
         return fragmentList.size();
     }
 
-    public void addFrag(Fragment fragment){
+    @Nullable
+    @Override
+    public CharSequence getPageTitle(int position) {
+        return fragmentTitleList.get(position);
+    }
+
+    public void addFrag(Fragment fragment, String title){
         fragmentList.add(fragment);
+        fragmentTitleList.add(title);
     }
 
 }

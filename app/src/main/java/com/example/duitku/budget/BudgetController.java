@@ -4,14 +4,14 @@ import android.content.ContentValues;
 import android.content.Context;
 import android.database.Cursor;
 import android.net.Uri;
-import android.util.Log;
 
+import com.example.duitku.category.Category;
+import com.example.duitku.category.CategoryController;
 import com.example.duitku.database.DuitkuContract.BudgetEntry;
 import com.example.duitku.main.Utility;
 import com.example.duitku.transaction.Transaction;
 import com.example.duitku.transaction.TransactionController;
 
-import java.text.DateFormat;
 import java.util.Date;
 import java.util.List;
 
@@ -57,8 +57,7 @@ public class BudgetController {
 
     private void initialUsed(Budget budget){
         TransactionController transactionController = new TransactionController(context);
-        Cursor data = transactionController.getTransactionsByBudget(budget);
-        List<Transaction> transactions = transactionController.convertCursorToList(data);
+        List<Transaction> transactions = transactionController.getTransactionsByBudget(budget);
 
         double used = 0;
         for (Transaction transaction: transactions){
@@ -80,6 +79,7 @@ public class BudgetController {
     }
 
     public Budget convertCursorToBudget(Cursor data){
+
         int idColumnIndex = data.getColumnIndex(BudgetEntry.COLUMN_ID);
         int amountColumnIndex = data.getColumnIndex(BudgetEntry.COLUMN_AMOUNT);
         int usedColumnIndex = data.getColumnIndex(BudgetEntry.COLUMN_USED);
@@ -97,6 +97,36 @@ public class BudgetController {
         long categoryId = data.getLong(categoryIdColumnIndex);
 
         Budget ret = new Budget(id, amount, used, startDate, endDate, type, categoryId);
+        return ret;
+    }
+
+    public int updateBudget(Budget budget){
+        ContentValues values = convertBudgetToContentValues(budget);
+        String id = Long.toString(budget.getId());
+        int rowsUpdated = context.getContentResolver().update(Uri.withAppendedPath(BudgetEntry.CONTENT_URI, id), values, null, null);
+        return rowsUpdated;
+    }
+
+    public int updateBudgetFromTransaction(Transaction transaction){
+        Budget budget = getBudgetByCategoryId(transaction.getCategoryId());
+
+        if (budget == null) return 0;
+        budget.setUsed(budget.getUsed() + transaction.getAmount());
+
+        int rowsUpdated = updateBudget(budget);
+        return rowsUpdated;
+    }
+
+    private Budget getBudgetByCategoryId(long categoryId){
+        String[] projection = getFullProjection();
+        String selection = BudgetEntry.COLUMN_CATEGORY_ID + " = ?";
+        String[] selectionArgs = new String[]{Long.toString(categoryId)};
+
+        Budget ret = null;
+        Cursor data = context.getContentResolver().query(BudgetEntry.CONTENT_URI, projection, selection, selectionArgs, null);
+        if (data.moveToFirst()){
+            ret = convertCursorToBudget(data);
+        }
         return ret;
     }
 

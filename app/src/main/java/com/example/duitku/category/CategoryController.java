@@ -37,11 +37,14 @@ public class CategoryController {
     }
 
     public Category getCategoryById(long id){
+        if (id == -1) return null;
+
         Category ret = null;
         Cursor data = context.getContentResolver().query(ContentUris.withAppendedId(CategoryEntry.CONTENT_URI, id), getFullProjection(), null, null,null);
         if (data.moveToFirst()){
             ret = convertCursorToCategory(data);
         }
+
         return ret;
     }
 

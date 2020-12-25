@@ -57,6 +57,17 @@ public class Utility {
 
     public static String convertDateToFullString(Date date){
         String ret = DateFormat.getDateInstance(DateFormat.FULL).format(date);
+
+        Calendar calendar = Calendar.getInstance();
+        int curYear = calendar.get(Calendar.YEAR);
+        int curMonth = calendar.get(Calendar.MONTH);
+        int curDay = calendar.get(Calendar.DAY_OF_MONTH);
+
+        calendar.setTime(date);
+
+        if (calendar.get(Calendar.YEAR) == curYear && calendar.get(Calendar.MONTH) == curMonth && calendar.get(Calendar.DAY_OF_MONTH) == curDay){
+            ret = "Today";
+        }
         return ret;
     }
 
@@ -79,6 +90,14 @@ public class Utility {
         if (((year % 4 == 0) && (year % 100 != 0)) || (year % 400 == 0))
             return true;
         return false;
+    }
+
+    public static Date convertElementsToDate(int year, int month, int dayOfMonth){
+        Calendar calendar = Calendar.getInstance();
+        calendar.set(Calendar.YEAR, year);
+        calendar.set(Calendar.MONTH, month);
+        calendar.set(Calendar.DAY_OF_MONTH, dayOfMonth);
+        return calendar.getTime();
     }
 
 }

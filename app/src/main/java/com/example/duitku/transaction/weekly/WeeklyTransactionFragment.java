@@ -86,7 +86,7 @@ public class WeeklyTransactionFragment extends Fragment implements LoaderManager
 
     @Override
     public void onLoadFinished(@NonNull Loader<Cursor> loader, Cursor data) {
-        List<Transaction> allTransactions = transactionController.convertCursorToList(data);
+        List<Transaction> allTransactions = transactionController.convertCursorToListOfTransaction(data);
         // sort transaction brdsrkan tanggal
         Collections.sort(allTransactions, new Comparator<Transaction>() {
             @Override

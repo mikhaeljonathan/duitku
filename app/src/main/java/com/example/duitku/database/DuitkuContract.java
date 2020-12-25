@@ -41,6 +41,9 @@ public class DuitkuContract {
         public static final String TYPE_INCOME = "INC";
         public static final String TYPE_EXPENSE = "EXP";
 
+        // ini ga ada di db, cuma penamaan aja
+        public static final String TYPE_TRANSFER = "TRANS";
+
         // default category
         public static final String DEFAULT_CATEGORY_NAME = "Others";
 

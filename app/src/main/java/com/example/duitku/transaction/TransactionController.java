@@ -8,13 +8,17 @@ import android.net.Uri;
 import android.util.Log;
 
 import com.example.duitku.budget.Budget;
+import com.example.duitku.category.Category;
+import com.example.duitku.category.CategoryController;
 import com.example.duitku.category.CategoryTransaction;
+import com.example.duitku.database.DuitkuContract;
 import com.example.duitku.database.DuitkuContract.BudgetEntry;
 import com.example.duitku.database.DuitkuContract.TransactionEntry;
 import com.example.duitku.database.DuitkuContract.CategoryEntry;
 import com.example.duitku.database.DuitkuContract.WalletEntry;
 import com.example.duitku.main.Utility;
 import com.example.duitku.transaction.Transaction;
+import com.example.duitku.wallet.Wallet;
 import com.example.duitku.wallet.WalletController;
 
 import java.text.ParseException;
@@ -34,62 +38,6 @@ public class TransactionController {
         this.context = context;
     }
 
-    public Uri addTransferTransaction(Transaction transaction){
-
-        String date = new SimpleDateFormat("dd/MM/yyyy").format(transaction.getDate());
-        double amount = transaction.getAmount();
-        String desc = transaction.getDesc();
-        long walletId = transaction.getWalletId();
-        long walletDestId = transaction.getWalletDestId();
-
-        // taruh di contentvalues
-        ContentValues values = new ContentValues();
-        values.put(TransactionEntry.COLUMN_DATE, date);
-        values.put(TransactionEntry.COLUMN_WALLET_ID, walletId);
-        values.put(TransactionEntry.COLUMN_WALLET_DEST_ID, walletDestId);
-        values.put(TransactionEntry.COLUMN_AMOUNT, amount);
-        values.put(TransactionEntry.COLUMN_DESC, desc);
-
-        // panggil contentresolver yg nanti diterima sama contentprovider
-        Uri uri = context.getContentResolver().insert(TransactionEntry.CONTENT_URI, values);
-        return uri;
-
-    }
-
-    public Uri addNonTransferTransaction(Transaction transaction){
-
-        // taruh di contentvalues
-        String date = new SimpleDateFormat("dd/MM/yyyy").format(transaction.getDate());
-        double amount = transaction.getAmount();
-        String desc = transaction.getDesc();
-        long categoryId = transaction.getCategoryId();
-        long walletId = transaction.getWalletId();
-
-        ContentValues values = new ContentValues();
-        values.put(TransactionEntry.COLUMN_DATE, date);
-        values.put(TransactionEntry.COLUMN_WALLET_ID, walletId);
-        values.put(TransactionEntry.COLUMN_AMOUNT, amount);
-        values.put(TransactionEntry.COLUMN_DESC, desc);
-        values.put(TransactionEntry.COLUMN_CATEGORY_ID, categoryId);
-
-        // tambah atau kurangin wallet
-        Cursor temp = context.getContentResolver().query(ContentUris.withAppendedId(CategoryEntry.CONTENT_URI, categoryId), new String[]{CategoryEntry.COLUMN_ID, CategoryEntry.COLUMN_TYPE}, null, null, null);
-        if (temp.moveToFirst()){
-            if (temp.getString(temp.getColumnIndex(CategoryEntry.COLUMN_TYPE)).equals(CategoryEntry.TYPE_EXPENSE)){
-                ContentValues cv = new ContentValues();
-                cv.put(WalletEntry.COLUMN_AMOUNT, new WalletController(context).getWalletById(walletId).getAmount() - amount);
-                context.getContentResolver().update(ContentUris.withAppendedId(WalletEntry.CONTENT_URI, walletId), cv, null, null);
-            } else {
-                ContentValues cv = new ContentValues();
-                cv.put(WalletEntry.COLUMN_AMOUNT, new WalletController(context).getWalletById(walletId).getAmount() + amount);
-                context.getContentResolver().update(ContentUris.withAppendedId(WalletEntry.CONTENT_URI, walletId), cv, null, null);
-            }
-        }
-
-        // panggil contentresolver yg nanti diterima sama contentprovider
-        Uri uri = context.getContentResolver().insert(TransactionEntry.CONTENT_URI, values);
-        return uri;
-    }
 
     public Uri addTransaction(Transaction transaction){
         ContentValues values = convertTransactionToContentValues(transaction);
@@ -99,11 +47,19 @@ public class TransactionController {
 
     private ContentValues convertTransactionToContentValues(Transaction transaction){
         String date = Utility.convertDateToString(transaction.getDate());
+        Long categoryId = null;
+        if (transaction.getCategoryId() != -1){
+            categoryId = transaction.getCategoryId();
+        }
+        Long walletDestId = null;
+        if (transaction.getWalletDestId() != -1){
+            walletDestId = transaction.getWalletDestId();
+        }
 
         ContentValues ret = new ContentValues();
         ret.put(TransactionEntry.COLUMN_WALLET_ID, transaction.getWalletId());
-        ret.put(TransactionEntry.COLUMN_WALLET_DEST_ID, transaction.getWalletDestId());
-        ret.put(TransactionEntry.COLUMN_CATEGORY_ID, transaction.getCategoryId());
+        ret.put(TransactionEntry.COLUMN_WALLET_DEST_ID, walletDestId);
+        ret.put(TransactionEntry.COLUMN_CATEGORY_ID, categoryId);
         ret.put(TransactionEntry.COLUMN_DESC, transaction.getDesc());
         ret.put(TransactionEntry.COLUMN_DATE, date);
         ret.put(TransactionEntry.COLUMN_AMOUNT, transaction.getAmount());
@@ -112,6 +68,7 @@ public class TransactionController {
     }
 
     public Transaction convertCursorToTransaction(Cursor data){
+
         int transactionIdColumnIndex = data.getColumnIndex(TransactionEntry.COLUMN_ID);
         int walletIdColumnIndex = data.getColumnIndex(TransactionEntry.COLUMN_WALLET_ID);
         int walletDestIdColumnIndex = data.getColumnIndex(TransactionEntry.COLUMN_WALLET_DEST_ID);
@@ -132,7 +89,7 @@ public class TransactionController {
         return ret;
     }
 
-    public List<Transaction> convertCursorToList(Cursor data){
+    public List<Transaction> convertCursorToListOfTransaction(Cursor data){
         List<Transaction> ret = new ArrayList<>();
         if (!data.moveToFirst()) return ret;
         do {
@@ -167,7 +124,7 @@ public class TransactionController {
         return ret;
     }
 
-    public Cursor getTransactionsByBudget(Budget budget){
+    public List<Transaction> getTransactionsByBudget(Budget budget){
         Calendar calendar = Calendar.getInstance();
         int curMonth = calendar.get(Calendar.MONTH);
         int curYear = calendar.get(Calendar.YEAR);
@@ -203,10 +160,12 @@ public class TransactionController {
                                 Integer.toString(monthUpperBound),
                                 "%/%/" + curYear};
         Cursor data = context.getContentResolver().query(TransactionEntry.CONTENT_URI, projection, selection, selectionArgs, null);
-        return data;
+
+        List<Transaction> ret = convertCursorToListOfTransaction(data);
+        return ret;
     }
 
-    public Cursor getTransactionsByBudgetCustomDate(Budget budget){
+    private List<Transaction> getTransactionsByBudgetCustomDate(Budget budget){
         String startDate = Utility.convertDateToString(budget.getStartDate());
         String endDate = Utility.convertDateToString(budget.getEndDate());
         String dateLowerBound = startDate.substring(6) + startDate.substring(3, 5) + startDate.substring(0, 2);
@@ -218,7 +177,48 @@ public class TransactionController {
                 "BETWEEN ? AND ?";
         String[] selectionArgs = new String[]{Long.toString(budget.getCategoryId()), dateLowerBound, dateUpperBound};
         Cursor data = context.getContentResolver().query(TransactionEntry.CONTENT_URI, projection, selection, selectionArgs, null);
-        return data;
+
+        List<Transaction> ret = convertCursorToListOfTransaction(data);
+        return ret;
+    }
+
+    public Uri addTransactionFromInitialWallet(long walletId, Wallet wallet){
+        Calendar calendar = Calendar.getInstance();
+        Category category = new CategoryController(context).getCategoryByNameAndType(CategoryEntry.DEFAULT_CATEGORY_NAME, CategoryEntry.TYPE_INCOME);
+        if (wallet.getAmount() < 0){
+            category = new CategoryController(context).getCategoryByNameAndType(CategoryEntry.DEFAULT_CATEGORY_NAME, CategoryEntry.TYPE_EXPENSE);
+        }
+
+        long walletDestId = -1;
+        long categoryId = category.getId();
+        String desc = "Initial Balance for Wallet " + wallet.getName();
+        Date date = calendar.getTime();
+        double amount = wallet.getAmount();
+        Transaction transaction = new Transaction(-1, walletId, walletDestId, categoryId, desc, date, amount);
+
+        Uri uri = addTransaction(transaction);
+        return uri;
+    }
+
+    public Uri addTransactionFromUpdatedWallet(double amountBefore, Wallet wallet){
+        Calendar calendar = Calendar.getInstance();
+        Category category;
+        if (amountBefore < wallet.getAmount()){
+            category = new CategoryController(context).getCategoryByNameAndType(DuitkuContract.CategoryEntry.DEFAULT_CATEGORY_NAME, DuitkuContract.CategoryEntry.TYPE_INCOME);
+        } else {
+            category = new CategoryController(context).getCategoryByNameAndType(DuitkuContract.CategoryEntry.DEFAULT_CATEGORY_NAME, DuitkuContract.CategoryEntry.TYPE_EXPENSE);
+        }
+
+        long walletId = wallet.getId();
+        long walletDestId = -1;
+        long categoryId = category.getId();
+        String desc = "Balance Adjustment for Wallet " + wallet.getName();
+        Date date = calendar.getTime();
+        double amount = Math.abs(amountBefore - wallet.getAmount());
+        Transaction transaction = new Transaction(-1, walletId, walletDestId, categoryId, desc, date, amount);
+
+        Uri uri = addTransaction(transaction);
+        return uri;
     }
 
 }
