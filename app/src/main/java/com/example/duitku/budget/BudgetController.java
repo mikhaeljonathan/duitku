@@ -37,8 +37,8 @@ public class BudgetController {
         String startDate = null;
         String endDate = null;
         if (budget.getStartDate() != null) {
-            startDate = DateFormat.getDateInstance(DateFormat.SHORT).format(budget.getStartDate());
-            endDate = DateFormat.getDateInstance(DateFormat.SHORT).format(budget.getEndDate());
+            startDate = Utility.convertDateToString(budget.getStartDate());
+            endDate = Utility.convertDateToString(budget.getEndDate());
         }
 
         String type = budget.getType();

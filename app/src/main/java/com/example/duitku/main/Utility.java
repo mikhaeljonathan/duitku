@@ -65,4 +65,20 @@ public class Utility {
         return ret;
     }
 
+    public static int getMaxDayOfMonth(int month, int year){
+        int[] maxDayOfMonth = {31, 28, 21, 30, 31, 30, 31, 31, 30, 31, 30, 31};
+
+        if (month == 2 && leapYear(year)){
+            return 29;
+        } else {
+            return maxDayOfMonth[month - 1];
+        }
+    }
+
+    public static boolean leapYear(int year){
+        if (((year % 4 == 0) && (year % 100 != 0)) || (year % 400 == 0))
+            return true;
+        return false;
+    }
+
 }

@@ -1,5 +1,6 @@
 package com.example.duitku.wallet;
 
+import android.content.DialogInterface;
 import android.text.Editable;
 import android.text.TextWatcher;
 import android.view.View;
@@ -7,6 +8,7 @@ import android.widget.Button;
 import android.widget.ImageButton;
 import android.widget.Toast;
 
+import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 
 import com.example.duitku.R;
@@ -163,16 +165,41 @@ public class EditWalletActivityView implements UIView {
         deleteBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                transactionController.deleteAllTransactionWithWalletId(id);
-                int rowsDeleted = walletController.deleteWallet(id);
-                if (rowsDeleted == 0){
-                    Toast.makeText(activity, "Error deleting wallet", Toast.LENGTH_SHORT).show();
-                } else {
-                    Toast.makeText(activity, "Wallet is deleted", Toast.LENGTH_SHORT).show();
-                }
-                activity.finish();
+                showDeleteConfirmationDialog();
             }
         });
+    }
+
+    private void showDeleteConfirmationDialog(){
+        AlertDialog.Builder alertDialogBuilder = new AlertDialog.Builder(activity, R.style.AlertDialogCustom);
+        alertDialogBuilder.setTitle("Delete Confirmation");
+        alertDialogBuilder.setMessage("Are you sure to delete this wallet?\nAll transactions with this wallet are deleted too.")
+                .setPositiveButton("Yes", new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialogInterface, int i) {
+                        deleteWallet();
+                    }
+                })
+                .setNegativeButton("No", new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialogInterface, int i) {
+
+                    }
+                });
+        AlertDialog alertDialog = alertDialogBuilder.create();
+        alertDialog.getWindow().setBackgroundDrawableResource(R.color.colorPrimary); //biar bg gelap
+        alertDialog.show();
+    }
+
+    private void deleteWallet(){
+        transactionController.deleteAllTransactionWithWalletId(id);
+        int rowsDeleted = walletController.deleteWallet(id);
+        if (rowsDeleted == 0){
+            Toast.makeText(activity, "Error deleting wallet", Toast.LENGTH_SHORT).show();
+        } else {
+            Toast.makeText(activity, "Wallet is deleted", Toast.LENGTH_SHORT).show();
+        }
+        activity.finish();
     }
 
     private boolean validateInput(){

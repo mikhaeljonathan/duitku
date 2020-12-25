@@ -172,23 +172,25 @@ public class TransactionController {
         int curMonth = calendar.get(Calendar.MONTH);
         int curYear = calendar.get(Calendar.YEAR);
 
-        // yearly
-        int monthLowerBound = 1;
-        int monthUpperBound = 12;
+        // monthly
+        int monthLowerBound = curMonth + 1;
+        int monthUpperBound = curMonth + 1;
 
         if (budget.getStartDate() == null){ // ga custom date
             String type = budget.getType();
-            if (type.equals(BudgetEntry.TYPE_MONTH)){
-
-                monthLowerBound = curMonth + 1;
-                monthUpperBound = curMonth + 1;
-
-            } else if (type.equals(BudgetEntry.TYPE_3MONTH)){
+            if (type.equals(BudgetEntry.TYPE_3MONTH)){
 
                 int quarter = curMonth / 4 + 2; // value dari 1 sampe 4
                 monthLowerBound = 3 * (quarter - 1) + 1;
                 monthUpperBound = 3 * quarter;
+
+            } else if (type.equals(BudgetEntry.TYPE_YEAR)){
+
+                monthLowerBound = 1;
+                monthUpperBound = 12;
             }
+        } else { // custom date
+            return getTransactionsByBudgetCustomDate(budget);
         }
 
         String[] projection = getFullProjection();
@@ -200,6 +202,21 @@ public class TransactionController {
                                 Integer.toString(monthLowerBound),
                                 Integer.toString(monthUpperBound),
                                 "%/%/" + curYear};
+        Cursor data = context.getContentResolver().query(TransactionEntry.CONTENT_URI, projection, selection, selectionArgs, null);
+        return data;
+    }
+
+    public Cursor getTransactionsByBudgetCustomDate(Budget budget){
+        String startDate = Utility.convertDateToString(budget.getStartDate());
+        String endDate = Utility.convertDateToString(budget.getEndDate());
+        String dateLowerBound = startDate.substring(6) + startDate.substring(3, 5) + startDate.substring(0, 2);
+        String dateUpperBound = endDate.substring(6) + endDate.substring(3, 5) + endDate.substring(0, 2);
+
+        String[] projection = getFullProjection();
+        String selection = TransactionEntry.COLUMN_CATEGORY_ID + " = ? " +
+                "AND SUBSTR(" + TransactionEntry.COLUMN_DATE + ", 7)||SUBSTR(" + TransactionEntry.COLUMN_DATE + ", 4, 2)||SUBSTR(" + TransactionEntry.COLUMN_DATE + ", 1, 2) " +
+                "BETWEEN ? AND ?";
+        String[] selectionArgs = new String[]{Long.toString(budget.getCategoryId()), dateLowerBound, dateUpperBound};
         Cursor data = context.getContentResolver().query(TransactionEntry.CONTENT_URI, projection, selection, selectionArgs, null);
         return data;
     }
