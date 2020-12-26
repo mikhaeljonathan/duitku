@@ -221,7 +221,7 @@ public class AddTransactionFragmentView implements UIView {
         walletConstraintLayout.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                PickWalletDialog pickWalletDialog = new PickWalletDialog(pickWalletListener, false);
+                PickWalletDialog pickWalletDialog = new PickWalletDialog(pickWalletListener);
                 pickWalletDialog.show(fragment.getFragmentManager(), "Pick Wallet Dialog");
             }
         });
@@ -245,7 +245,7 @@ public class AddTransactionFragmentView implements UIView {
         walletDestConstraintLayout.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                PickWalletDialog pickWalletDialog = new PickWalletDialog(pickWalletListener, false);
+                PickWalletDialog pickWalletDialog = new PickWalletDialog(pickWalletListener);
                 pickWalletDialog.show(fragment.getFragmentManager(), "Pick Wallet Dialog");
             }
         });

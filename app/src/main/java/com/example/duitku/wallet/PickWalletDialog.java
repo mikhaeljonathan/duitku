@@ -21,56 +21,55 @@ import com.example.duitku.database.DuitkuContract.WalletEntry;
 
 public class PickWalletDialog extends AppCompatDialogFragment implements LoaderManager.LoaderCallbacks<Cursor> {
 
-    private static final int WALLET_LOADER = 0;
-
-    private PickWalletAdapter pickWalletAdapter;
     private ListView pickWalletListView;
 
-    private boolean mDestination;
-    private PickWalletListener listener;
-    private PickWalletDestListener destListener;
+    private WalletAdapter pickWalletAdapter;
 
-    public PickWalletDialog(Object caller, boolean destination){
-        super();
-        listener = (PickWalletListener) caller;
-        if (destination){
-            destListener = (PickWalletDestListener) caller;
-        }
-        mDestination = destination;
+    private PickWalletListener listener;
+
+    private WalletController walletController;
+
+    private final int WALLET_LOADER = 0;
+
+    public PickWalletDialog(PickWalletListener listener){
+        this.listener = listener;
+        walletController = new WalletController(getActivity());
     }
 
     @NonNull
     @Override
     public Dialog onCreateDialog(@Nullable Bundle savedInstanceState) {
-        // bikin builderny
         AlertDialog.Builder builder = new AlertDialog.Builder(getActivity());
         LayoutInflater inflater = getActivity().getLayoutInflater();
         View view = inflater.inflate(R.layout.dialog_pick_wallet, null);
 
-        // set listview dan adapter nya
-        pickWalletListView = view.findViewById(R.id.pick_wallet_listview);
-        pickWalletAdapter = new PickWalletAdapter(getContext(), null);
-        pickWalletListView.setAdapter(pickWalletAdapter);
-
-        pickWalletListView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
-            @Override
-            public void onItemClick(AdapterView<?> adapterView, View view, int position, long id) {
-                if (mDestination){
-                    destListener.pickWalletDest(id);
-                } else {
-                    listener.pickWallet(id);
-                }
-                dismiss();
-            }
-        });
+        setUpListView(view);
+        setUpAdapter();
 
         builder.setView(view);
 
         LoaderManager.getInstance(this).initLoader(WALLET_LOADER, null ,this);
 
+
         Dialog dialog = builder.create();
         dialog.getWindow().setBackgroundDrawableResource(R.color.colorPrimary);
         return dialog;
+    }
+
+    private void setUpAdapter(){
+        pickWalletAdapter = new WalletAdapter(getActivity(), null);
+        pickWalletListView.setAdapter(pickWalletAdapter);
+    }
+
+    private void setUpListView(View view){
+        pickWalletListView = view.findViewById(R.id.pick_wallet_listview);
+        pickWalletListView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+            @Override
+            public void onItemClick(AdapterView<?> adapterView, View view, int position, long id) {
+                listener.pickWallet(id);
+                dismiss();
+            }
+        });
     }
 
     @NonNull
@@ -78,7 +77,7 @@ public class PickWalletDialog extends AppCompatDialogFragment implements LoaderM
     public Loader<Cursor> onCreateLoader(int id, @Nullable Bundle args) {
         switch (id){
             case WALLET_LOADER:
-                String[] projection = new String[]{WalletEntry.COLUMN_ID, WalletEntry.COLUMN_NAME};
+                String[] projection = walletController.getFullProjection();
                 return new CursorLoader(getContext(), WalletEntry.CONTENT_URI, projection, null, null, null);
             default:
                 throw new IllegalStateException("Unknown Loader");
@@ -97,10 +96,6 @@ public class PickWalletDialog extends AppCompatDialogFragment implements LoaderM
 
     public interface PickWalletListener{
         void pickWallet(long id);
-    }
-
-    public interface PickWalletDestListener{
-        void pickWalletDest(long id);
     }
 
 }
