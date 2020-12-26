@@ -2,14 +2,19 @@ package com.example.duitku.wallet;
 
 import android.content.Intent;
 import android.graphics.Paint;
+import android.util.Log;
 import android.view.View;
+import android.widget.Button;
 import android.widget.ImageButton;
 import android.widget.ListView;
 import android.widget.TextView;
 
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.appcompat.app.AppCompatDialogFragment;
 
 import com.example.duitku.R;
+import com.example.duitku.date.MonthYearPickerDialog;
+import com.example.duitku.main.Utility;
 import com.example.duitku.transaction.TransactionAdapter;
 import com.example.duitku.interfaces.UIView;
 
@@ -18,13 +23,16 @@ public class ViewWalletActivityView implements UIView {
     private ListView listView;
     private TransactionAdapter adapter;
 
+    private Button periodButton;
+
     private WalletController walletController;
 
     private long id;
     private Wallet wallet;
-    private AppCompatActivity activity;
+    private ViewWalletActivity activity;
+    private View header;
 
-    public ViewWalletActivityView(long id, AppCompatActivity activity){
+    public ViewWalletActivityView(long id, ViewWalletActivity activity){
         this.id = id;
         this.activity = activity;
         walletController = new WalletController(activity);
@@ -42,10 +50,22 @@ public class ViewWalletActivityView implements UIView {
         setUpHeader();
         setUpButtons();
         setUpAdapter();
+        setUpPeriodButton();
     }
 
     public TransactionAdapter getAdapter(){
         return adapter;
+    }
+
+    public void updatePeriodButton(final int month, final int year){
+        periodButton.setText(Utility.monthsName[month] + " " + year);
+        periodButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                AppCompatDialogFragment monthYearPickerDialog = new MonthYearPickerDialog(activity, month, year);
+                monthYearPickerDialog.show(activity.getSupportFragmentManager(), "Month Year Picker Dialog");
+            }
+        });
     }
 
     private void setUpListView(){
@@ -53,17 +73,15 @@ public class ViewWalletActivityView implements UIView {
     }
 
     private void setUpHeader(){
-        View header = activity.getLayoutInflater().inflate(R.layout.activity_summary_header, null);
+        header = activity.getLayoutInflater().inflate(R.layout.activity_summary_header, null);
 
         TextView nameTextView = header.findViewById(R.id.summary_header_title);
         TextView amountTextView = header.findViewById(R.id.summary_header_amount);
-        TextView periodTextView = header.findViewById(R.id.summary_header_period);
         TextView descTextView = header.findViewById(R.id.summary_header_desc);
         TextView transactionTextView = header.findViewById(R.id.summary_header_transaction_textview);
 
         nameTextView.setText(wallet.getName());
         amountTextView.setText(wallet.getAmount() + "");
-        periodTextView.setText("December 2020");
         String desc = wallet.getDescription();
         if (desc.equals("")){
             descTextView.setVisibility(View.GONE);
@@ -99,6 +117,10 @@ public class ViewWalletActivityView implements UIView {
     private void setUpAdapter(){
         adapter = new TransactionAdapter(activity, id, null);
         listView.setAdapter(adapter);
+    }
+
+    private void setUpPeriodButton(){
+        periodButton = header.findViewById(R.id.summary_header_period_btn);
     }
 
     @Override

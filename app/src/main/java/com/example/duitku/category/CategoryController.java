@@ -25,11 +25,15 @@ public class CategoryController {
     }
 
     public Category getCategoryByNameAndType(String name, String type){
+        String selection = CategoryEntry.COLUMN_NAME + " = ? COLLATE NOCASE AND " + CategoryEntry.COLUMN_TYPE + " = ? "; // COLLATE NOCASE buat insensitive case
+        String[] selectionArgs = new String[]{name, type};
+
         Category ret = null;
-        Cursor temp = context.getContentResolver().query(CategoryEntry.CONTENT_URI, new String[]{CategoryEntry.COLUMN_ID, CategoryEntry.COLUMN_NAME, CategoryEntry.COLUMN_TYPE}, CategoryEntry.COLUMN_NAME + " = ? AND " + CategoryEntry.COLUMN_TYPE + " = ?", new String[]{name, type}, null);
+        Cursor temp = context.getContentResolver().query(CategoryEntry.CONTENT_URI, getFullProjection(), selection, selectionArgs, null);
         if (temp.moveToFirst()){
             ret = new Category(temp.getLong(temp.getColumnIndex(CategoryEntry.COLUMN_ID)), temp.getString(temp.getColumnIndex(CategoryEntry.COLUMN_NAME)), temp.getString(temp.getColumnIndex(CategoryEntry.COLUMN_TYPE)));
         }
+
         return ret;
     }
 

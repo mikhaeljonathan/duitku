@@ -175,7 +175,7 @@ public class AddBudgetDialog extends AppCompatDialogFragment {
     }
 
     private void setUpSpinner(){
-        ArrayAdapter<String> periodAdapter = new ArrayAdapter<>(getActivity(), android.R.layout.simple_spinner_item, BudgetController.budgetPeriod);
+        ArrayAdapter<String> periodAdapter = new ArrayAdapter<>(getActivity(), R.layout.spinner_item, BudgetController.budgetPeriod);
         periodAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
         periodSpinner.setAdapter(periodAdapter);
         periodSpinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
@@ -252,6 +252,15 @@ public class AddBudgetDialog extends AppCompatDialogFragment {
     private boolean validateInput(){
         // category
         if (categoryId == -1){
+            errorCategoryTextView.setText("Category has to be chosen");
+            errorCategoryTextView.setVisibility(View.VISIBLE);
+            return false;
+        } else {
+            errorCategoryTextView.setVisibility(View.GONE);
+        }
+        Budget budget = budgetController.getBudgetByCategoryId(categoryId);
+        if (budget != null){
+            errorCategoryTextView.setText("There is a budget with this category");
             errorCategoryTextView.setVisibility(View.VISIBLE);
             return false;
         } else {
@@ -284,6 +293,16 @@ public class AddBudgetDialog extends AppCompatDialogFragment {
 
         // endDate
         if (customDateCheckBox.isChecked() && endDate == null){
+            errorEndDateTextView.setText("End date has to be chosen");
+            errorEndDateTextView.setVisibility(View.VISIBLE);
+            return false;
+        } else {
+            errorEndDateTextView.setVisibility(View.GONE);
+        }
+
+        // startDate and endDate
+        if (customDateCheckBox.isChecked() && startDate.compareTo(endDate) > 0){
+            errorEndDateTextView.setText("End date has to be later than start date");
             errorEndDateTextView.setVisibility(View.VISIBLE);
             return false;
         } else {

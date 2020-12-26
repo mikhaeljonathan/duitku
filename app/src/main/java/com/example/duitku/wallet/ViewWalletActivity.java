@@ -10,12 +10,13 @@ import androidx.loader.app.LoaderManager;
 import androidx.loader.content.CursorLoader;
 import androidx.loader.content.Loader;
 
+import com.example.duitku.date.MonthYearPickerDialog;
 import com.example.duitku.transaction.TransactionController;
 import com.example.duitku.database.DuitkuContract.TransactionEntry;
 
 import java.util.Calendar;
 
-public class ViewWalletActivity extends AppCompatActivity implements LoaderManager.LoaderCallbacks<Cursor> {
+public class ViewWalletActivity extends AppCompatActivity implements LoaderManager.LoaderCallbacks<Cursor>, MonthYearPickerDialog.PickMonthYearListener {
 
     private int month;
     private int year;
@@ -38,7 +39,6 @@ public class ViewWalletActivity extends AppCompatActivity implements LoaderManag
 
         walletId = getIntent().getLongExtra("ID", -1);
         viewWalletActivityView = new ViewWalletActivityView(walletId, this);
-        viewWalletActivityView.setUpUI();
     }
 
     @Override
@@ -47,6 +47,7 @@ public class ViewWalletActivity extends AppCompatActivity implements LoaderManag
         LoaderManager.getInstance(this).restartLoader(WALLET_TRANSACTION_LOADER, null, this);
         LoaderManager.getInstance(this).initLoader(WALLET_TRANSACTION_LOADER, null, this);
         viewWalletActivityView.setUpUI();
+        viewWalletActivityView.updatePeriodButton(month, year);
     }
 
     @NonNull
@@ -73,4 +74,11 @@ public class ViewWalletActivity extends AppCompatActivity implements LoaderManag
         viewWalletActivityView.getAdapter().swapCursor(null);
     }
 
+    @Override
+    public void pickMonthYear(int month, int year) {
+        this.month = month;
+        this.year = year;
+        viewWalletActivityView.updatePeriodButton(month, year);
+        LoaderManager.getInstance(this).restartLoader(WALLET_TRANSACTION_LOADER, null, this);
+    }
 }

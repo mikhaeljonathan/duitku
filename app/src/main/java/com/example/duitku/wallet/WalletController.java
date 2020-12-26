@@ -59,11 +59,22 @@ public class WalletController {
         if (id == -1) return null;
 
         Wallet ret = null;
-        Cursor data = context.getContentResolver().query(ContentUris.withAppendedId(WalletEntry.CONTENT_URI, id), new String[]{WalletEntry.COLUMN_ID, WalletEntry.COLUMN_NAME, WalletEntry.COLUMN_AMOUNT, WalletEntry.COLUMN_DESC}, null, null, null);
+        Cursor data = context.getContentResolver().query(ContentUris.withAppendedId(WalletEntry.CONTENT_URI, id), getFullProjection(), null, null, null);
         if (data.moveToFirst()){
             ret = convertCursorToWallet(data);
         }
 
+        return ret;
+    }
+
+    public Wallet getWalletByName(String name){
+        Wallet ret = null;
+        String selection = WalletEntry.COLUMN_NAME + " = ? COLLATE NOCASE"; // COLLATE NOCASE buat insensitive case
+        String[] selectionArgs = new String[]{name};
+        Cursor data = context.getContentResolver().query(WalletEntry.CONTENT_URI, getFullProjection(), selection, selectionArgs, null);
+        if (data.moveToFirst()){
+            ret = convertCursorToWallet(data);
+        }
         return ret;
     }
 

@@ -166,6 +166,11 @@ public class AddWalletDialog extends AppCompatDialogFragment {
             nameLayout.setError("Wallet name can't be empty");
             return false;
         }
+        Wallet wallet = walletController.getWalletByName(name);
+        if (wallet != null){
+            nameLayout.setError("There is a wallet with this name");
+            return false;
+        }
 
         // Wallet amount
         String amountString = amountField.getText().toString().trim();

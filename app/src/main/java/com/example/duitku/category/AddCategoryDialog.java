@@ -92,6 +92,11 @@ public class AddCategoryDialog extends AppCompatDialogFragment {
             nameLayout.setError("Category name can't be empty");
             return false;
         }
+        Category category = categoryController.getCategoryByNameAndType(name, categoryType);
+        if (category != null){
+            nameLayout.setError("There is a category with this name");
+            return false;
+        }
 
         return true;
     }

@@ -89,6 +89,7 @@ public class DailyTransactionFragmentView implements UIView {
     private void setUpPeriodButton(){
         periodButton = header.findViewById(R.id.transaction_header_period_btn);
     }
+
     @Override
     public View getView() {
         return view;

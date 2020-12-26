@@ -314,6 +314,16 @@ public class AddTransactionFragmentView implements UIView {
 
         // wallet dest
         if (type.equals(CategoryEntry.TYPE_TRANSFER) && walletDestId == -1){
+            walletDestErrorTextView.setText("Wallet destination has to be chosen");
+            walletDestErrorTextView.setVisibility(View.VISIBLE);
+            return false;
+        } else {
+            walletDestErrorTextView.setVisibility(View.GONE);
+        }
+
+        // wallet and walletdest
+        if (type.equals(CategoryEntry.TYPE_TRANSFER) && walletId == walletDestId){
+            walletDestErrorTextView.setText("Wallet source can't be same\nwith wallet destination");
             walletDestErrorTextView.setVisibility(View.VISIBLE);
             return false;
         } else {

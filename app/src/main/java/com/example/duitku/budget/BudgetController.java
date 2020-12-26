@@ -117,7 +117,7 @@ public class BudgetController {
         return rowsUpdated;
     }
 
-    private Budget getBudgetByCategoryId(long categoryId){
+    public Budget getBudgetByCategoryId(long categoryId){
         String[] projection = getFullProjection();
         String selection = BudgetEntry.COLUMN_CATEGORY_ID + " = ?";
         String[] selectionArgs = new String[]{Long.toString(categoryId)};
