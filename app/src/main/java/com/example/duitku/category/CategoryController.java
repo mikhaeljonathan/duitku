@@ -5,6 +5,7 @@ import android.content.ContentValues;
 import android.content.Context;
 import android.database.Cursor;
 import android.net.Uri;
+import android.util.Log;
 
 import com.example.duitku.category.Category;
 import com.example.duitku.database.DuitkuContract.CategoryEntry;
@@ -18,11 +19,7 @@ public class CategoryController {
     }
 
     public Uri addCategory(Category category){
-        // taruh di contentvalues
-        ContentValues values = new ContentValues();
-        values.put(CategoryEntry.COLUMN_NAME, category.getName());
-        values.put(CategoryEntry.COLUMN_TYPE, category.getType());
-
+        ContentValues values = convertCategoryToContentValues(category);
         Uri uri = context.getContentResolver().insert(CategoryEntry.CONTENT_URI, values);
         return uri;
     }
@@ -66,6 +63,13 @@ public class CategoryController {
                 CategoryEntry.COLUMN_NAME,
                 CategoryEntry.COLUMN_TYPE};
         return projection;
+    }
+
+    private ContentValues convertCategoryToContentValues(Category category){
+        ContentValues ret = new ContentValues();
+        ret.put(CategoryEntry.COLUMN_NAME, category.getName());
+        ret.put(CategoryEntry.COLUMN_TYPE, category.getType());
+        return ret;
     }
 
 }

@@ -35,9 +35,9 @@ public class PickCategoryDialog extends AppCompatDialogFragment implements Loade
 
     private final int CATEGORY_LOADER = 0;
 
-    public PickCategoryDialog(PickCategoryListener listener, String type){
+    public PickCategoryDialog(PickCategoryListener listener, String categoryType){
         this.listener = listener;
-        this.categoryType = type;
+        this.categoryType = categoryType;
     }
 
     @NonNull
@@ -45,7 +45,7 @@ public class PickCategoryDialog extends AppCompatDialogFragment implements Loade
     public Dialog onCreateDialog(@Nullable Bundle savedInstanceState) {
         AlertDialog.Builder builder = new AlertDialog.Builder(getActivity());
         LayoutInflater inflater = getActivity().getLayoutInflater();
-        View view = inflater.inflate(R.layout.dialog_view_category, null);
+        View view = inflater.inflate(R.layout.dialog_pick_category, null);
 
         setUpUI(view);
         setUpAdapter();
@@ -60,14 +60,14 @@ public class PickCategoryDialog extends AppCompatDialogFragment implements Loade
     }
 
     private void setUpUI(View view){
-        addCategoryBtn = view.findViewById(R.id.view_category_add_btn);
-        gridView = view.findViewById(R.id.view_category_gridview);
+        addCategoryBtn = view.findViewById(R.id.pick_category_add_btn);
+        gridView = view.findViewById(R.id.pick_category_gridview);
 
         // set add button
         addCategoryBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                AddCategoryDialog addCategoryDialog = new AddCategoryDialog();
+                AddCategoryDialog addCategoryDialog = new AddCategoryDialog(categoryType);
                 addCategoryDialog.show(getFragmentManager(), "Add Category Dialog");
             }
         });

@@ -2,12 +2,12 @@
 <androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
-    android:id="@+id/view_category_constraintlayout"
+    android:id="@+id/pick_category_constraintlayout"
     android:layout_width="match_parent"
     android:layout_height="match_parent">
 
     <TextView
-        android:id="@+id/view_category_title_textview"
+        android:id="@+id/pick_category_title_textview"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginStart="16dp"
@@ -20,7 +20,7 @@
         app:layout_constraintTop_toTopOf="parent" />
 
     <ImageView
-        android:id="@+id/view_category_add_btn"
+        android:id="@+id/pick_category_add_btn"
         android:layout_width="36dp"
         android:layout_height="36dp"
         android:layout_marginTop="16dp"
@@ -31,14 +31,14 @@
         app:srcCompat="@drawable/icon_add" />
 
     <GridView
-        android:id="@+id/view_category_gridview"
+        android:id="@+id/pick_category_gridview"
         android:layout_width="0dp"
-        android:layout_height="wrap_content"
+        android:layout_height="500dp"
         android:layout_marginTop="16dp"
         android:numColumns="2"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/view_category_title_textview" />
+        app:layout_constraintTop_toBottomOf="@+id/pick_category_title_textview" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

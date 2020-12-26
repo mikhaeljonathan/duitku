@@ -7,6 +7,7 @@ import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.AdapterView;
+import android.widget.ImageView;
 import android.widget.ListView;
 
 import androidx.annotation.NonNull;
@@ -22,6 +23,7 @@ import com.example.duitku.database.DuitkuContract.WalletEntry;
 public class PickWalletDialog extends AppCompatDialogFragment implements LoaderManager.LoaderCallbacks<Cursor> {
 
     private ListView pickWalletListView;
+    private ImageView addWalletBtn;
 
     private WalletAdapter pickWalletAdapter;
 
@@ -45,6 +47,7 @@ public class PickWalletDialog extends AppCompatDialogFragment implements LoaderM
 
         setUpListView(view);
         setUpAdapter();
+        setUpAddBtn(view);
 
         builder.setView(view);
 
@@ -70,6 +73,21 @@ public class PickWalletDialog extends AppCompatDialogFragment implements LoaderM
                 dismiss();
             }
         });
+    }
+
+    private void setUpAddBtn(View view){
+        addWalletBtn = view.findViewById(R.id.pick_wallet_add_btn);
+        addWalletBtn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                addWallet();
+            }
+        });
+    }
+
+    private void addWallet(){
+        AddWalletDialog addWalletDialog = new AddWalletDialog();
+        addWalletDialog.show(getFragmentManager(), "Add Wallet Dialog");
     }
 
     @NonNull
