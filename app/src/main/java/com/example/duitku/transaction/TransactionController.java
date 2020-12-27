@@ -58,6 +58,18 @@ public class TransactionController {
     }
 
     // get transaction
+    public Transaction getTransactionById(long id){
+        if (id == -1) return null;
+
+        Transaction ret = null;
+        Cursor data = context.getContentResolver().query(ContentUris.withAppendedId(TransactionEntry.CONTENT_URI, id), getFullProjection(), null, null, null);
+        if (data.moveToFirst()){
+            ret = convertCursorToTransaction(data);
+        }
+
+        return ret;
+    }
+
     public List<Transaction> getTransactionsByBudget(Budget budget){
         Calendar calendar = Calendar.getInstance();
         int curMonth = calendar.get(Calendar.MONTH);

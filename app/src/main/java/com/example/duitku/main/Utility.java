@@ -57,6 +57,8 @@ public class Utility {
 
     public static String convertDateToFullString(Date date){
         String ret = DateFormat.getDateInstance(DateFormat.FULL).format(date);
+        String[] components = ret.split(", ");
+        ret = components[0] + "\n" + components[1];
 
         Calendar calendar = Calendar.getInstance();
         int curYear = calendar.get(Calendar.YEAR);
