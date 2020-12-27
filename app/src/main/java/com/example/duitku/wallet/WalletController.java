@@ -21,6 +21,7 @@ public class WalletController {
         this.context = context;
     }
 
+    // basic operations
     public Uri addWallet(Wallet wallet){
         ContentValues values = convertWalletToContentValues(wallet);
         Uri uri = context.getContentResolver().insert(WalletEntry.CONTENT_URI, values);
@@ -35,13 +36,13 @@ public class WalletController {
 
     public int updateWallet(Wallet wallet){
         ContentValues values = convertWalletToContentValues(wallet);
-        String id = Long.toString(wallet.getId());
-        int rowsUpdated = context.getContentResolver().update(Uri.withAppendedPath(WalletEntry.CONTENT_URI, id), values, null, null);
+        Uri uri = ContentUris.withAppendedId(WalletEntry.CONTENT_URI, wallet.getId());
+        int rowsUpdated = context.getContentResolver().update(uri, values, null, null);
         return rowsUpdated;
     }
 
     public int deleteWallet(long id){
-        int rowsDeleted = context.getContentResolver().delete(Uri.withAppendedPath(WalletEntry.CONTENT_URI, Long.toString(id)), null, null);
+        int rowsDeleted = context.getContentResolver().delete(ContentUris.withAppendedId(WalletEntry.CONTENT_URI, id), null, null);
         new TransactionController(context).deleteAllTransactionWithWalletId(id);
         return rowsDeleted;
     }
@@ -55,6 +56,7 @@ public class WalletController {
         return ret;
     }
 
+    // get wallet
     public Wallet getWalletById(long id){
         if (id == -1) return null;
 
@@ -78,8 +80,16 @@ public class WalletController {
         return ret;
     }
 
-    public Wallet convertCursorToWallet(Cursor data){
+    public String[] getFullProjection(){
+        String[] projection = new String[]{WalletEntry.COLUMN_ID,
+                WalletEntry.COLUMN_NAME,
+                WalletEntry.COLUMN_AMOUNT,
+                WalletEntry.COLUMN_DESC};
+        return projection;
+    }
 
+    // converting
+    public Wallet convertCursorToWallet(Cursor data){
         int idColumnIndex = data.getColumnIndex(WalletEntry.COLUMN_ID);
         int nameColumnIndex = data.getColumnIndex(WalletEntry.COLUMN_NAME);
         int amountColumnIndex = data.getColumnIndex(WalletEntry.COLUMN_AMOUNT);
@@ -94,14 +104,6 @@ public class WalletController {
         return ret;
     }
 
-    public String[] getFullProjection(){
-        String[] projection = new String[]{WalletEntry.COLUMN_ID,
-                WalletEntry.COLUMN_NAME,
-                WalletEntry.COLUMN_AMOUNT,
-                WalletEntry.COLUMN_DESC};
-        return projection;
-    }
-
     private ContentValues convertWalletToContentValues(Wallet wallet){
         ContentValues ret = new ContentValues();
         ret.put(WalletEntry.COLUMN_NAME, wallet.getName());
@@ -110,6 +112,7 @@ public class WalletController {
         return ret;
     }
 
+    // operations from other entity's operation
     public int updateWalletFromTransaction(Transaction transaction){
         Category category = new CategoryController(context).getCategoryById(transaction.getCategoryId());
         Wallet wallet = getWalletById(transaction.getWalletId());

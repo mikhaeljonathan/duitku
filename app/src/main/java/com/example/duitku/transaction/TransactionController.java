@@ -38,92 +38,26 @@ public class TransactionController {
         this.context = context;
     }
 
-
+    // basic operations
     public Uri addTransaction(Transaction transaction){
         ContentValues values = convertTransactionToContentValues(transaction);
         Uri uri = context.getContentResolver().insert(TransactionEntry.CONTENT_URI, values);
         return uri;
     }
 
-    private ContentValues convertTransactionToContentValues(Transaction transaction){
-        String date = Utility.convertDateToString(transaction.getDate());
-        Long categoryId = null;
-        if (transaction.getCategoryId() != -1){
-            categoryId = transaction.getCategoryId();
-        }
-        Long walletDestId = null;
-        if (transaction.getWalletDestId() != -1){
-            walletDestId = transaction.getWalletDestId();
-        }
-
-        ContentValues ret = new ContentValues();
-        ret.put(TransactionEntry.COLUMN_WALLET_ID, transaction.getWalletId());
-        ret.put(TransactionEntry.COLUMN_WALLET_DEST_ID, walletDestId);
-        ret.put(TransactionEntry.COLUMN_CATEGORY_ID, categoryId);
-        ret.put(TransactionEntry.COLUMN_DESC, transaction.getDesc());
-        ret.put(TransactionEntry.COLUMN_DATE, date);
-        ret.put(TransactionEntry.COLUMN_AMOUNT, transaction.getAmount());
-
-        return ret;
+    public int updateTransaction(Transaction transaction){
+        ContentValues values = convertTransactionToContentValues(transaction);
+        Uri uri = ContentUris.withAppendedId(TransactionEntry.CONTENT_URI, transaction.getId());
+        int rowsUpdated = context.getContentResolver().update(uri, values, null, null);
+        return rowsUpdated;
     }
 
-    public Transaction convertCursorToTransaction(Cursor data){
-
-        int transactionIdColumnIndex = data.getColumnIndex(TransactionEntry.COLUMN_ID);
-        int walletIdColumnIndex = data.getColumnIndex(TransactionEntry.COLUMN_WALLET_ID);
-        int walletDestIdColumnIndex = data.getColumnIndex(TransactionEntry.COLUMN_WALLET_DEST_ID);
-        int categoryIdColumnIndex = data.getColumnIndex(TransactionEntry.COLUMN_CATEGORY_ID);
-        int descColumnIndex = data.getColumnIndex(TransactionEntry.COLUMN_DESC);
-        int dateColumnIndex = data.getColumnIndex(TransactionEntry.COLUMN_DATE);
-        int amountColumnIndex = data.getColumnIndex(TransactionEntry.COLUMN_AMOUNT);
-
-        long transactionId = data.getLong(transactionIdColumnIndex);
-        long walletId = data.getLong(walletIdColumnIndex);
-        long walletDestId = data.getLong(walletDestIdColumnIndex);
-        long categoryId = data.getLong(categoryIdColumnIndex);
-        String desc = data.getString(descColumnIndex);
-        Date date = Utility.parseDate(data.getString(dateColumnIndex));
-        double amount= data.getDouble(amountColumnIndex);
-
-        Transaction ret = new Transaction(transactionId, walletId, walletDestId, categoryId, desc, date, amount);
-        return ret;
-    }
-
-    public List<Transaction> convertCursorToListOfTransaction(Cursor data){
-        List<Transaction> ret = new ArrayList<>();
-        if (!data.moveToFirst()) return ret;
-        do {
-            ret.add(convertCursorToTransaction(data));
-        } while (data.moveToNext());
-        return ret;
-    }
-
-    public String[] getFullProjection(){
-        String[] projection = new String[]{TransactionEntry.COLUMN_ID,
-                TransactionEntry.COLUMN_WALLET_ID,
-                TransactionEntry.COLUMN_WALLET_DEST_ID,
-                TransactionEntry.COLUMN_CATEGORY_ID,
-                TransactionEntry.COLUMN_DESC,
-                TransactionEntry.COLUMN_DATE,
-                TransactionEntry.COLUMN_AMOUNT};
-        return projection;
-    }
-
-    public int deleteAllTransactionWithWalletId(long walletId){
-        String selection = TransactionEntry.COLUMN_WALLET_ID + " = ? OR " + TransactionEntry.COLUMN_WALLET_DEST_ID + " = ?";
-        String[] selectionArgs = new String[]{Long.toString(walletId), Long.toString(walletId)};
-        int rowsDeleted = context.getContentResolver().delete(TransactionEntry.CONTENT_URI, selection, selectionArgs);
+    public int deleteTransaction(long id){
+        int rowsDeleted = context.getContentResolver().delete(ContentUris.withAppendedId(TransactionEntry.CONTENT_URI, id), null, null);
         return rowsDeleted;
     }
 
-    public List<CategoryTransaction> convertHashMapToListOfCategoryTransaction(HashMap<Long, CategoryTransaction> hashMap){
-        List<CategoryTransaction> ret = new ArrayList<>();
-        for (Map.Entry mapElement: hashMap.entrySet()){
-            ret.add((CategoryTransaction) mapElement.getValue());
-        }
-        return ret;
-    }
-
+    // get transaction
     public List<Transaction> getTransactionsByBudget(Budget budget){
         Calendar calendar = Calendar.getInstance();
         int curMonth = calendar.get(Calendar.MONTH);
@@ -156,9 +90,9 @@ public class TransactionController {
                 "AND CAST(SUBSTR(" + TransactionEntry.COLUMN_DATE + ", 4, 2) AS INTEGER) <= ? " +
                 "AND " + TransactionEntry.COLUMN_DATE + " LIKE ?";
         String[] selectionArgs = new String[]{Long.toString(budget.getCategoryId()),
-                                Integer.toString(monthLowerBound),
-                                Integer.toString(monthUpperBound),
-                                "%/%/" + curYear};
+                Integer.toString(monthLowerBound),
+                Integer.toString(monthUpperBound),
+                "%/%/" + curYear};
         Cursor data = context.getContentResolver().query(TransactionEntry.CONTENT_URI, projection, selection, selectionArgs, null);
 
         List<Transaction> ret = convertCursorToListOfTransaction(data);
@@ -180,6 +114,86 @@ public class TransactionController {
 
         List<Transaction> ret = convertCursorToListOfTransaction(data);
         return ret;
+    }
+
+    public String[] getFullProjection(){
+        String[] projection = new String[]{TransactionEntry.COLUMN_ID,
+                TransactionEntry.COLUMN_WALLET_ID,
+                TransactionEntry.COLUMN_WALLET_DEST_ID,
+                TransactionEntry.COLUMN_CATEGORY_ID,
+                TransactionEntry.COLUMN_DESC,
+                TransactionEntry.COLUMN_DATE,
+                TransactionEntry.COLUMN_AMOUNT};
+        return projection;
+    }
+
+    // converting
+    public Transaction convertCursorToTransaction(Cursor data){
+        int transactionIdColumnIndex = data.getColumnIndex(TransactionEntry.COLUMN_ID);
+        int walletIdColumnIndex = data.getColumnIndex(TransactionEntry.COLUMN_WALLET_ID);
+        int walletDestIdColumnIndex = data.getColumnIndex(TransactionEntry.COLUMN_WALLET_DEST_ID);
+        int categoryIdColumnIndex = data.getColumnIndex(TransactionEntry.COLUMN_CATEGORY_ID);
+        int descColumnIndex = data.getColumnIndex(TransactionEntry.COLUMN_DESC);
+        int dateColumnIndex = data.getColumnIndex(TransactionEntry.COLUMN_DATE);
+        int amountColumnIndex = data.getColumnIndex(TransactionEntry.COLUMN_AMOUNT);
+
+        long transactionId = data.getLong(transactionIdColumnIndex);
+        long walletId = data.getLong(walletIdColumnIndex);
+        long walletDestId = data.getLong(walletDestIdColumnIndex);
+        long categoryId = data.getLong(categoryIdColumnIndex);
+        String desc = data.getString(descColumnIndex);
+        Date date = Utility.parseDate(data.getString(dateColumnIndex));
+        double amount= data.getDouble(amountColumnIndex);
+
+        Transaction ret = new Transaction(transactionId, walletId, walletDestId, categoryId, desc, date, amount);
+        return ret;
+    }
+
+    private ContentValues convertTransactionToContentValues(Transaction transaction){
+        String date = Utility.convertDateToString(transaction.getDate());
+        Long categoryId = null;
+        if (transaction.getCategoryId() != -1){
+            categoryId = transaction.getCategoryId();
+        }
+        Long walletDestId = null;
+        if (transaction.getWalletDestId() != -1){
+            walletDestId = transaction.getWalletDestId();
+        }
+
+        ContentValues ret = new ContentValues();
+        ret.put(TransactionEntry.COLUMN_WALLET_ID, transaction.getWalletId());
+        ret.put(TransactionEntry.COLUMN_WALLET_DEST_ID, walletDestId);
+        ret.put(TransactionEntry.COLUMN_CATEGORY_ID, categoryId);
+        ret.put(TransactionEntry.COLUMN_DESC, transaction.getDesc());
+        ret.put(TransactionEntry.COLUMN_DATE, date);
+        ret.put(TransactionEntry.COLUMN_AMOUNT, transaction.getAmount());
+
+        return ret;
+    }
+
+    public List<Transaction> convertCursorToListOfTransaction(Cursor data){
+        List<Transaction> ret = new ArrayList<>();
+        if (!data.moveToFirst()) return ret;
+        do {
+            ret.add(convertCursorToTransaction(data));
+        } while (data.moveToNext());
+        return ret;
+    }
+
+    public List<CategoryTransaction> convertHashMapToListOfCategoryTransaction(HashMap<Long, CategoryTransaction> hashMap){
+        List<CategoryTransaction> ret = new ArrayList<>();
+        for (Map.Entry mapElement: hashMap.entrySet()){
+            ret.add((CategoryTransaction) mapElement.getValue());
+        }
+        return ret;
+    }
+
+    // operations from other entity's operation
+    public int deleteAllTransactionWithWalletId(long walletId){
+        String selection = TransactionEntry.COLUMN_WALLET_ID + " = ? OR " + TransactionEntry.COLUMN_WALLET_DEST_ID + " = ?";
+        String[] selectionArgs = new String[]{Long.toString(walletId), Long.toString(walletId)};
+        int rowsDeleted = context.getContentResolver().delete(TransactionEntry.CONTENT_URI, selection, selectionArgs);
+        return rowsDeleted;
     }
 
     public Uri addTransactionFromInitialWallet(long walletId, Wallet wallet){

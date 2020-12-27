@@ -18,10 +18,36 @@ public class CategoryController {
         this.context = context;
     }
 
+    // basic operations
     public Uri addCategory(Category category){
         ContentValues values = convertCategoryToContentValues(category);
         Uri uri = context.getContentResolver().insert(CategoryEntry.CONTENT_URI, values);
         return uri;
+    }
+
+    public int updateCategory(Category category){
+        ContentValues values = convertCategoryToContentValues(category);
+        Uri uri = ContentUris.withAppendedId(CategoryEntry.CONTENT_URI, category.getId());
+        int rowsUpdated = context.getContentResolver().update(uri, values, null, null);
+        return rowsUpdated;
+    }
+
+    public int deleteCategory(long id){
+        int rowsDeleted = context.getContentResolver().delete(ContentUris.withAppendedId(CategoryEntry.CONTENT_URI, id), null, null);
+        return rowsDeleted;
+    }
+
+    // get category
+    public Category getCategoryById(long id){
+        if (id == -1) return null;
+
+        Category ret = null;
+        Cursor data = context.getContentResolver().query(ContentUris.withAppendedId(CategoryEntry.CONTENT_URI, id), getFullProjection(), null, null,null);
+        if (data.moveToFirst()){
+            ret = convertCursorToCategory(data);
+        }
+
+        return ret;
     }
 
     public Category getCategoryByNameAndType(String name, String type){
@@ -37,18 +63,14 @@ public class CategoryController {
         return ret;
     }
 
-    public Category getCategoryById(long id){
-        if (id == -1) return null;
-
-        Category ret = null;
-        Cursor data = context.getContentResolver().query(ContentUris.withAppendedId(CategoryEntry.CONTENT_URI, id), getFullProjection(), null, null,null);
-        if (data.moveToFirst()){
-            ret = convertCursorToCategory(data);
-        }
-
-        return ret;
+    public String[] getFullProjection(){
+        String[] projection = new String[]{CategoryEntry.COLUMN_ID,
+                CategoryEntry.COLUMN_NAME,
+                CategoryEntry.COLUMN_TYPE};
+        return projection;
     }
 
+    // converting
     public Category convertCursorToCategory(Cursor data){
         int idColumnIndex = data.getColumnIndex(CategoryEntry.COLUMN_ID);
         int nameColumnIndex = data.getColumnIndex(CategoryEntry.COLUMN_NAME);
@@ -60,13 +82,6 @@ public class CategoryController {
 
         Category ret = new Category(id, name, type);
         return ret;
-    }
-
-    public String[] getFullProjection(){
-        String[] projection = new String[]{CategoryEntry.COLUMN_ID,
-                CategoryEntry.COLUMN_NAME,
-                CategoryEntry.COLUMN_TYPE};
-        return projection;
     }
 
     private ContentValues convertCategoryToContentValues(Category category){

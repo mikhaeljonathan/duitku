@@ -1,5 +1,6 @@
 package com.example.duitku.budget;
 
+import android.content.ContentUris;
 import android.content.ContentValues;
 import android.content.Context;
 import android.database.Cursor;
@@ -26,11 +27,83 @@ public class BudgetController {
         this.context = context;
     }
 
+    // basic operations
     public Uri addBudget(Budget budget){
         initialUsed(budget);
         ContentValues values = convertBudgetToContentValues(budget);
         Uri uri = context.getContentResolver().insert(BudgetEntry.CONTENT_URI, values);
         return uri;
+    }
+
+    private void initialUsed(Budget budget){
+        TransactionController transactionController = new TransactionController(context);
+        List<Transaction> transactions = transactionController.getTransactionsByBudget(budget);
+
+        double used = 0;
+        for (Transaction transaction: transactions){
+            used += transaction.getAmount();
+        }
+
+        budget.setUsed(used);
+    }
+
+    public int updateBudget(Budget budget){
+        ContentValues values = convertBudgetToContentValues(budget);
+        Uri uri = ContentUris.withAppendedId(BudgetEntry.CONTENT_URI, budget.getId());
+        int rowsUpdated = context.getContentResolver().update(uri, values, null, null);
+        return rowsUpdated;
+    }
+
+    public int deleteBudget(long id){
+        int rowsDeleted = context.getContentResolver().delete(ContentUris.withAppendedId(BudgetEntry.CONTENT_URI, id), null, null);
+        return rowsDeleted;
+    }
+
+    // get budget
+    public Budget getBudgetByCategoryId(long categoryId){
+        String[] projection = getFullProjection();
+        String selection = BudgetEntry.COLUMN_CATEGORY_ID + " = ?";
+        String[] selectionArgs = new String[]{Long.toString(categoryId)};
+
+        Budget ret = null;
+        Cursor data = context.getContentResolver().query(BudgetEntry.CONTENT_URI, projection, selection, selectionArgs, null);
+        if (data.moveToFirst()){
+            ret = convertCursorToBudget(data);
+        }
+        return ret;
+    }
+
+    public String[] getFullProjection(){
+        String[] projection = new String[]{BudgetEntry.COLUMN_ID,
+                BudgetEntry.COLUMN_STARTDATE,
+                BudgetEntry.COLUMN_ENDDATE,
+                BudgetEntry.COLUMN_AMOUNT,
+                BudgetEntry.COLUMN_USED,
+                BudgetEntry.COLUMN_TYPE,
+                BudgetEntry.COLUMN_CATEGORY_ID};
+        return projection;
+    }
+
+    // converting
+    public Budget convertCursorToBudget(Cursor data){
+        int idColumnIndex = data.getColumnIndex(BudgetEntry.COLUMN_ID);
+        int amountColumnIndex = data.getColumnIndex(BudgetEntry.COLUMN_AMOUNT);
+        int usedColumnIndex = data.getColumnIndex(BudgetEntry.COLUMN_USED);
+        int startDateColumnIndex = data.getColumnIndex(BudgetEntry.COLUMN_STARTDATE);
+        int endDateColumnIndex = data.getColumnIndex(BudgetEntry.COLUMN_ENDDATE);
+        int typeColumnIndex = data.getColumnIndex(BudgetEntry.COLUMN_TYPE);
+        int categoryIdColumnIndex = data.getColumnIndex(BudgetEntry.COLUMN_CATEGORY_ID);
+
+        long id = data.getLong(idColumnIndex);
+        double amount = data.getDouble(amountColumnIndex);
+        double used = data.getDouble(usedColumnIndex);
+        Date startDate = Utility.parseDate(data.getString(startDateColumnIndex));
+        Date endDate = Utility.parseDate(data.getString(endDateColumnIndex));
+        String type = data.getString(typeColumnIndex);
+        long categoryId = data.getLong(categoryIdColumnIndex);
+
+        Budget ret = new Budget(id, amount, used, startDate, endDate, type, categoryId);
+        return ret;
     }
 
     private ContentValues convertBudgetToContentValues(Budget budget){
@@ -55,58 +128,7 @@ public class BudgetController {
         return ret;
     }
 
-    private void initialUsed(Budget budget){
-        TransactionController transactionController = new TransactionController(context);
-        List<Transaction> transactions = transactionController.getTransactionsByBudget(budget);
-
-        double used = 0;
-        for (Transaction transaction: transactions){
-            used += transaction.getAmount();
-        }
-
-        budget.setUsed(used);
-    }
-
-    public String[] getFullProjection(){
-        String[] projection = new String[]{BudgetEntry.COLUMN_ID,
-                BudgetEntry.COLUMN_STARTDATE,
-                BudgetEntry.COLUMN_ENDDATE,
-                BudgetEntry.COLUMN_AMOUNT,
-                BudgetEntry.COLUMN_USED,
-                BudgetEntry.COLUMN_TYPE,
-                BudgetEntry.COLUMN_CATEGORY_ID};
-        return projection;
-    }
-
-    public Budget convertCursorToBudget(Cursor data){
-
-        int idColumnIndex = data.getColumnIndex(BudgetEntry.COLUMN_ID);
-        int amountColumnIndex = data.getColumnIndex(BudgetEntry.COLUMN_AMOUNT);
-        int usedColumnIndex = data.getColumnIndex(BudgetEntry.COLUMN_USED);
-        int startDateColumnIndex = data.getColumnIndex(BudgetEntry.COLUMN_STARTDATE);
-        int endDateColumnIndex = data.getColumnIndex(BudgetEntry.COLUMN_ENDDATE);
-        int typeColumnIndex = data.getColumnIndex(BudgetEntry.COLUMN_TYPE);
-        int categoryIdColumnIndex = data.getColumnIndex(BudgetEntry.COLUMN_CATEGORY_ID);
-
-        long id = data.getLong(idColumnIndex);
-        double amount = data.getDouble(amountColumnIndex);
-        double used = data.getDouble(usedColumnIndex);
-        Date startDate = Utility.parseDate(data.getString(startDateColumnIndex));
-        Date endDate = Utility.parseDate(data.getString(endDateColumnIndex));
-        String type = data.getString(typeColumnIndex);
-        long categoryId = data.getLong(categoryIdColumnIndex);
-
-        Budget ret = new Budget(id, amount, used, startDate, endDate, type, categoryId);
-        return ret;
-    }
-
-    public int updateBudget(Budget budget){
-        ContentValues values = convertBudgetToContentValues(budget);
-        String id = Long.toString(budget.getId());
-        int rowsUpdated = context.getContentResolver().update(Uri.withAppendedPath(BudgetEntry.CONTENT_URI, id), values, null, null);
-        return rowsUpdated;
-    }
-
+    // operation from other entity's operation
     public int updateBudgetFromTransaction(Transaction transaction){
         Budget budget = getBudgetByCategoryId(transaction.getCategoryId());
 
@@ -115,19 +137,6 @@ public class BudgetController {
 
         int rowsUpdated = updateBudget(budget);
         return rowsUpdated;
-    }
-
-    public Budget getBudgetByCategoryId(long categoryId){
-        String[] projection = getFullProjection();
-        String selection = BudgetEntry.COLUMN_CATEGORY_ID + " = ?";
-        String[] selectionArgs = new String[]{Long.toString(categoryId)};
-
-        Budget ret = null;
-        Cursor data = context.getContentResolver().query(BudgetEntry.CONTENT_URI, projection, selection, selectionArgs, null);
-        if (data.moveToFirst()){
-            ret = convertCursorToBudget(data);
-        }
-        return ret;
     }
 
 }
