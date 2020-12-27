@@ -5,9 +5,13 @@ import android.database.Cursor;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ArrayAdapter;
 import android.widget.CursorAdapter;
 import android.widget.ImageView;
 import android.widget.TextView;
+
+import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
 
 import com.example.duitku.R;
 import com.example.duitku.category.CategoryController;
@@ -18,43 +22,56 @@ import com.example.duitku.category.Category;
 import com.example.duitku.transaction.Transaction;
 import com.example.duitku.wallet.Wallet;
 
-public class TransactionAdapter extends CursorAdapter {
+import java.util.ArrayList;
+import java.util.List;
 
-    private TransactionController transactionController;
+public class TransactionAdapter extends ArrayAdapter<Transaction> {
+
     private Transaction transaction;
-    private Context context;
-    private long walletId;
+    private Category category;
+    private Wallet wallet;
 
-    public TransactionAdapter(Context context, long walletId, Cursor c) {
-        super(context, c, 0);
+    private Long walletId;
+
+    private WalletController walletController;
+    private CategoryController categoryController;
+
+    private Context context;
+
+    public TransactionAdapter(Context context, List<Transaction> transactions, Long walletId) {
+        super(context, 0, transactions);
         this.context = context;
         this.walletId = walletId;
-        transactionController = new TransactionController(context);
+        walletController = new WalletController(context);
+        categoryController = new CategoryController(context);
     }
 
+    @NonNull
     @Override
-    public View newView(Context context, Cursor cursor, ViewGroup viewGroup) {
-        return LayoutInflater.from(context).inflate(R.layout.item_list_transaction, viewGroup, false);
-    }
+    public View getView(int position, @Nullable View convertView, @NonNull ViewGroup parent) {
+        View view = convertView;
+        if (view == null){
+            view = LayoutInflater.from(getContext()).inflate(R.layout.item_list_transaction, parent, false);
+        }
 
-    @Override
-    public void bindView(View view, Context context, Cursor cursor) {
-        transaction = transactionController.convertCursorToTransaction(cursor);
+        transaction = getItem(position);
 
-        CategoryController categoryController = new CategoryController(context);
-        Category category = categoryController.getCategoryById(transaction.getCategoryId());
+        category = categoryController.getCategoryById(transaction.getCategoryId());
+        wallet = walletController.getWalletById(transaction.getWalletId());
 
-        setUpIcon(view, category);
-        setUpHeader(view, category);
+        setUpIcon(view);
+        setUpHeader(view);
 
         TextView descTextView = view.findViewById(R.id.item_list_transaction_desc_textview);
         descTextView.setText(transaction.getDesc());
 
         TextView amountTextView = view.findViewById(R.id.item_list_transaction_amount_textview);
         amountTextView.setText(Double.toString(transaction.getAmount()));
+
+        return view;
     }
 
-    private void setUpIcon(View view, Category category){
+    private void setUpIcon(View view){
         ImageView categoryImageView = view.findViewById(R.id.item_list_transaction_categorytype_icon);
 
         if (category == null){
@@ -70,25 +87,43 @@ public class TransactionAdapter extends CursorAdapter {
         }
     }
 
-    private void setUpHeader(View view, Category category){
+    private void setUpHeader(View view){
         TextView headerTextView = view.findViewById(R.id.item_list_transaction_header_textview);
         ImageView transferIcon = view.findViewById(R.id.item_list_transaction_transfer_imageview);
         TextView walletDestTextView = view.findViewById(R.id.item_list_transaction_walletdest_textview);
 
-        if (category == null) {
-            WalletController walletController = new WalletController(context);
-            if (transaction.getWalletId() == walletId){
-                Wallet wallet = walletController.getWalletById(transaction.getWalletDestId());
-                headerTextView.setText("Transferred to Wallet " + wallet.getName());
-            } else {
-                Wallet wallet = walletController.getWalletById(transaction.getWalletId());
-                headerTextView.setText("Transferred from Wallet " + wallet.getName());
-            }
-        } else {
-            headerTextView.setText(category.getName());
-        }
         transferIcon.setVisibility(View.GONE);
         walletDestTextView.setVisibility(View.GONE);
+
+        if (walletId != null){ // View Wallet
+
+            if (category == null) { // transfer
+
+                if (wallet.getId() == walletId){ // the wallet source is same with current wallet
+                    Wallet wallet = walletController.getWalletById(transaction.getWalletDestId());
+                    headerTextView.setText("Transferred to Wallet " + wallet.getName());
+                    return;
+                }
+
+                // the wallet dest is same with current wallet
+                Wallet wallet = walletController.getWalletById(transaction.getWalletId());
+                headerTextView.setText("Transferred from Wallet " + wallet.getName());
+                return;
+
+            }
+
+            // expense or transfer
+            headerTextView.setText(category.getName());
+            return;
+
+        } else {
+
+            // View category transaction
+            headerTextView.setText(wallet.getName());
+
+        }
+
+
     }
 
 }

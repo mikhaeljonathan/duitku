@@ -76,7 +76,7 @@ public class DailyTransactionFragmentView implements UIView {
             @Override
             public boolean onChildClick(ExpandableListView expandableListView, View view, int i, int i1, long id) {
                 Transaction transaction = (Transaction) adapter.getChild(i, i1);
-                viewTransaction(transaction.getId());
+                viewTransaction(transaction);
                 return true;
             }
         });
@@ -102,8 +102,8 @@ public class DailyTransactionFragmentView implements UIView {
         periodButton = header.findViewById(R.id.transaction_header_period_btn);
     }
 
-    private void viewTransaction(long id){
-        ViewTransactionDialog viewTransactionDialog = new ViewTransactionDialog(id);
+    private void viewTransaction(Transaction transaction){
+        ViewTransactionDialog viewTransactionDialog = new ViewTransactionDialog(transaction);
         viewTransactionDialog.show(fragment.getFragmentManager(), "View Transaction Dialog");
     }
 

@@ -1,11 +1,12 @@
-package com.example.duitku.category;
+package com.example.duitku.transaction.category;
 
 import com.example.duitku.transaction.Transaction;
 
+import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
 
-public class CategoryTransaction {
+public class CategoryTransaction implements Serializable { // serializable biar bisa dipass ke activity
 
     private List<Transaction> transactions;
     private long categoryId;

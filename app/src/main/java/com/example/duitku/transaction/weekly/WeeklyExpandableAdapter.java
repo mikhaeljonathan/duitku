@@ -10,8 +10,7 @@ import android.widget.TextView;
 import com.example.duitku.R;
 import com.example.duitku.category.CategoryController;
 import com.example.duitku.category.Category;
-import com.example.duitku.category.CategoryTransaction;
-import com.example.duitku.transaction.weekly.WeeklyTransaction;
+import com.example.duitku.transaction.category.CategoryTransaction;
 
 import java.util.HashMap;
 import java.util.List;

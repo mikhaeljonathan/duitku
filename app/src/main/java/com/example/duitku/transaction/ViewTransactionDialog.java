@@ -4,7 +4,6 @@ import android.app.AlertDialog;
 import android.app.Dialog;
 import android.content.Intent;
 import android.os.Bundle;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.ImageView;
@@ -24,19 +23,18 @@ import com.example.duitku.wallet.WalletController;
 
 public class ViewTransactionDialog extends AppCompatDialogFragment {
 
-    private long id;
     private Transaction transaction;
     private Category category;
     private String categoryType;
 
-    public ViewTransactionDialog(long id){
-        this.id = id;
+    public ViewTransactionDialog(Transaction transaction){
+        this.transaction = transaction;
     }
 
     @NonNull
     @Override
     public Dialog onCreateDialog(@Nullable Bundle savedInstanceState) {
-        initialize();
+        initializeCategory();
 
         AlertDialog.Builder builder = new AlertDialog.Builder(getActivity());
         LayoutInflater inflater = getActivity().getLayoutInflater();
@@ -51,9 +49,7 @@ public class ViewTransactionDialog extends AppCompatDialogFragment {
         return dialog;
     }
 
-    private void initialize(){
-        transaction = new TransactionController(getActivity()).getTransactionById(id);
-
+    private void initializeCategory(){
         CategoryController categoryController = new CategoryController(getActivity());
         category = categoryController.getCategoryById(transaction.getCategoryId());
         if (category != null){
@@ -134,7 +130,7 @@ public class ViewTransactionDialog extends AppCompatDialogFragment {
             @Override
             public void onClick(View view) {
                 Intent editTransactionIntent = new Intent(getActivity(), EditTransactionActivity.class);
-                editTransactionIntent.putExtra("ID", id);
+                editTransactionIntent.putExtra("ID", transaction.getId());
                 getActivity().startActivity(editTransactionIntent);
             }
         });

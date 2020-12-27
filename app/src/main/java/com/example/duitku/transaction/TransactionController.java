@@ -5,24 +5,18 @@ import android.content.ContentValues;
 import android.content.Context;
 import android.database.Cursor;
 import android.net.Uri;
-import android.util.Log;
 
 import com.example.duitku.budget.Budget;
 import com.example.duitku.category.Category;
 import com.example.duitku.category.CategoryController;
-import com.example.duitku.category.CategoryTransaction;
+import com.example.duitku.transaction.category.CategoryTransaction;
 import com.example.duitku.database.DuitkuContract;
 import com.example.duitku.database.DuitkuContract.BudgetEntry;
 import com.example.duitku.database.DuitkuContract.TransactionEntry;
 import com.example.duitku.database.DuitkuContract.CategoryEntry;
-import com.example.duitku.database.DuitkuContract.WalletEntry;
 import com.example.duitku.main.Utility;
-import com.example.duitku.transaction.Transaction;
 import com.example.duitku.wallet.Wallet;
-import com.example.duitku.wallet.WalletController;
 
-import java.text.ParseException;
-import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;

@@ -1,20 +1,11 @@
 package com.example.duitku.main;
 
-import android.database.Cursor;
-
-import com.example.duitku.database.DuitkuContract;
-import com.example.duitku.category.CategoryTransaction;
-import com.example.duitku.transaction.Transaction;
-
 import java.text.DateFormat;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
-import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
 import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
 
 public class Utility {
 

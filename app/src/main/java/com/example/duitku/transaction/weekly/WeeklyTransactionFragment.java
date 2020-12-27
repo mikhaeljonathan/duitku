@@ -19,7 +19,7 @@ import com.example.duitku.database.DuitkuContract.CategoryEntry;
 import com.example.duitku.database.DuitkuContract.TransactionEntry;
 import com.example.duitku.date.MonthYearPickerDialog;
 import com.example.duitku.category.Category;
-import com.example.duitku.category.CategoryTransaction;
+import com.example.duitku.transaction.category.CategoryTransaction;
 import com.example.duitku.transaction.Transaction;
 
 import java.util.ArrayList;

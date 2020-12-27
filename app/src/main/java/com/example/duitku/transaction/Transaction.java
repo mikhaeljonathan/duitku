@@ -1,8 +1,9 @@
 package com.example.duitku.transaction;
 
+import java.io.Serializable;
 import java.util.Date;
 
-public class Transaction {
+public class Transaction implements Serializable { // serializable biar bisa dipass ke activity
 
     private long id;
     private long walletId;

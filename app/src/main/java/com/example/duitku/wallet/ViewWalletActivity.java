@@ -66,12 +66,12 @@ public class ViewWalletActivity extends AppCompatActivity implements LoaderManag
 
     @Override
     public void onLoadFinished(@NonNull Loader<Cursor> loader, Cursor data) {
-        viewWalletActivityView.getAdapter().swapCursor(data);
+        viewWalletActivityView.setUpAdapter(transactionController.convertCursorToListOfTransaction(data));
     }
 
     @Override
     public void onLoaderReset(@NonNull Loader<Cursor> loader) {
-        viewWalletActivityView.getAdapter().swapCursor(null);
+
     }
 
     @Override

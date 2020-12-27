@@ -12,7 +12,7 @@ import android.widget.TextView;
 
 import com.example.duitku.R;
 import com.example.duitku.date.YearPickerDialog;
-import com.example.duitku.category.CategoryTransaction;
+import com.example.duitku.transaction.category.CategoryTransaction;
 import com.example.duitku.interfaces.UIView;
 
 import java.util.HashMap;
