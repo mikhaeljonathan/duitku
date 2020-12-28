@@ -339,11 +339,6 @@ public class AddTransactionFragmentView implements UIView {
 
         walletController.updateWalletFromTransaction(transaction);
 
-        Category category = categoryController.getCategoryById(transaction.getCategoryId());
-        if (category != null && category.getType().equals(CategoryEntry.TYPE_EXPENSE)){ //budget pasti expense
-            budgetController.updateBudgetFromTransaction(transaction);
-        }
-
         return uri;
     }
 

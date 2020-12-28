@@ -7,6 +7,7 @@ import android.database.Cursor;
 import android.net.Uri;
 
 import com.example.duitku.budget.Budget;
+import com.example.duitku.budget.BudgetController;
 import com.example.duitku.category.Category;
 import com.example.duitku.category.CategoryController;
 import com.example.duitku.transaction.category.CategoryTransaction;
@@ -36,6 +37,12 @@ public class TransactionController {
     public Uri addTransaction(Transaction transaction){
         ContentValues values = convertTransactionToContentValues(transaction);
         Uri uri = context.getContentResolver().insert(TransactionEntry.CONTENT_URI, values);
+
+        Category category = new CategoryController(context).getCategoryById(transaction.getCategoryId());
+        if (category != null && category.getType().equals(CategoryEntry.TYPE_EXPENSE)){ //budget pasti expense
+            new BudgetController(context).updateBudgetFromTransaction(transaction);
+        }
+
         return uri;
     }
 
