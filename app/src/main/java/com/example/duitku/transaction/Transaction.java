@@ -51,4 +51,31 @@ public class Transaction implements Serializable { // serializable biar bisa dip
         return amount;
     }
 
+    public void setId(long id) {
+        this.id = id;
+    }
+
+    public void setWalletId(long walletId) {
+        this.walletId = walletId;
+    }
+
+    public void setWalletDestId(long walletDestId) {
+        this.walletDestId = walletDestId;
+    }
+
+    public void setCategoryId(long categoryId) {
+        this.categoryId = categoryId;
+    }
+
+    public void setDesc(String desc) {
+        this.desc = desc;
+    }
+
+    public void setDate(Date date) {
+        this.date = date;
+    }
+
+    public void setAmount(double amount) {
+        this.amount = amount;
+    }
 }

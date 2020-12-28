@@ -1,8 +1,7 @@
-package com.example.duitku.wallet;
+package com.example.duitku.wallet.add;
 
 import android.app.AlertDialog;
 import android.app.Dialog;
-import android.content.ContentUris;
 import android.net.Uri;
 import android.os.Bundle;
 import android.text.Editable;
@@ -19,14 +18,10 @@ import androidx.appcompat.app.AppCompatDialogFragment;
 import com.example.duitku.R;
 import com.example.duitku.category.CategoryController;
 import com.example.duitku.transaction.TransactionController;
-import com.example.duitku.database.DuitkuContract.CategoryEntry;
-import com.example.duitku.category.Category;
-import com.example.duitku.transaction.Transaction;
+import com.example.duitku.wallet.Wallet;
+import com.example.duitku.wallet.WalletController;
 import com.google.android.material.textfield.TextInputEditText;
 import com.google.android.material.textfield.TextInputLayout;
-
-import java.util.Calendar;
-import java.util.Date;
 
 public class AddWalletDialog extends AppCompatDialogFragment {
 
@@ -67,13 +62,13 @@ public class AddWalletDialog extends AppCompatDialogFragment {
     }
 
     private void setUpUI(View view){
-        nameLayout = view.findViewById(R.id.add_wallet_name_textinputlayout);
-        amountLayout = view.findViewById(R.id.add_wallet_amount_textinputlayout);
-        descLayout = view.findViewById(R.id.add_wallet_desc_textinputlayout);
-        nameField = view.findViewById(R.id.add_wallet_name_field);
-        amountField = view.findViewById(R.id.add_wallet_amount_field);
-        descField = view.findViewById(R.id.add_wallet_desc_field);
-        addButton = view.findViewById(R.id.add_wallet_add_btn);
+        nameLayout = view.findViewById(R.id.wallet_name_textinputlayout);
+        amountLayout = view.findViewById(R.id.wallet_amount_textinputlayout);
+        descLayout = view.findViewById(R.id.wallet_desc_textinputlayout);
+        nameField = view.findViewById(R.id.wallet_name_field);
+        amountField = view.findViewById(R.id.wallet_amount_field);
+        descField = view.findViewById(R.id.wallet_desc_field);
+        addButton = view.findViewById(R.id.wallet_save_btn);
 
         // set textChangedListener
         nameField.addTextChangedListener(new TextWatcher() {
@@ -138,6 +133,7 @@ public class AddWalletDialog extends AppCompatDialogFragment {
         });
 
         // set button
+        addButton.setText("Add");
         addButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {

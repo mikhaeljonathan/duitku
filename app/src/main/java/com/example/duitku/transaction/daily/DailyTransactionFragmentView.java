@@ -1,11 +1,9 @@
 package com.example.duitku.transaction.daily;
 
 import android.content.Context;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.AdapterView;
 import android.widget.Button;
 import android.widget.ExpandableListView;
 import android.widget.ImageView;
@@ -20,8 +18,7 @@ import com.example.duitku.main.Utility;
 import com.example.duitku.date.MonthYearPickerDialog;
 import com.example.duitku.transaction.Transaction;
 import com.example.duitku.interfaces.UIView;
-import com.example.duitku.transaction.TransactionAdapter;
-import com.example.duitku.transaction.ViewTransactionDialog;
+import com.example.duitku.transaction.view.ViewTransactionDialog;
 
 import java.util.HashMap;
 import java.util.List;
@@ -76,7 +73,7 @@ public class DailyTransactionFragmentView implements UIView {
             @Override
             public boolean onChildClick(ExpandableListView expandableListView, View view, int i, int i1, long id) {
                 Transaction transaction = (Transaction) adapter.getChild(i, i1);
-                viewTransaction(transaction);
+                viewTransaction(transaction.getId());
                 return true;
             }
         });
@@ -102,8 +99,8 @@ public class DailyTransactionFragmentView implements UIView {
         periodButton = header.findViewById(R.id.transaction_header_period_btn);
     }
 
-    private void viewTransaction(Transaction transaction){
-        ViewTransactionDialog viewTransactionDialog = new ViewTransactionDialog(transaction);
+    private void viewTransaction(long id){
+        ViewTransactionDialog viewTransactionDialog = new ViewTransactionDialog(id);
         viewTransactionDialog.show(fragment.getFragmentManager(), "View Transaction Dialog");
     }
 

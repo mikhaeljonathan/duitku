@@ -4,7 +4,6 @@ import android.app.DatePickerDialog;
 import android.net.Uri;
 import android.text.Editable;
 import android.text.TextWatcher;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -28,7 +27,7 @@ import com.example.duitku.interfaces.UIView;
 import com.example.duitku.main.Utility;
 import com.example.duitku.transaction.Transaction;
 import com.example.duitku.transaction.TransactionController;
-import com.example.duitku.wallet.PickWalletDialog;
+import com.example.duitku.wallet.pick.PickWalletDialog;
 import com.example.duitku.wallet.Wallet;
 import com.example.duitku.wallet.WalletController;
 import com.google.android.material.textfield.TextInputEditText;
@@ -54,7 +53,7 @@ public class AddTransactionFragmentView implements UIView {
     private ConstraintLayout walletDestConstraintLayout;
     private TextView walletDestTextView;
     private TextView walletDestErrorTextView;
-    private Button saveBtn;
+    private Button addBtn;
 
     private double amount;
     private String desc;
@@ -63,10 +62,9 @@ public class AddTransactionFragmentView implements UIView {
     private long walletId;
     private long walletDestId;
 
-    private TransactionController transactionController;
+    private final TransactionController transactionController;
     private CategoryController categoryController;
     private WalletController walletController;
-    private BudgetController budgetController;
 
     private LayoutInflater inflater;
     private ViewGroup container;
@@ -84,7 +82,6 @@ public class AddTransactionFragmentView implements UIView {
         transactionController = new TransactionController(fragment.getActivity());
         categoryController = new CategoryController(fragment.getActivity());
         walletController = new WalletController(fragment.getActivity());
-        budgetController = new BudgetController(fragment.getActivity());
 
         desc = "";
         categoryId = -1;
@@ -103,10 +100,10 @@ public class AddTransactionFragmentView implements UIView {
     }
 
     private void setUpTextInput(){
-        amountLayout = view.findViewById(R.id.add_transaction_amount_textinputlayout);
-        descLayout = view.findViewById(R.id.add_transaction_desc_textinputlayout);
-        amountField = view.findViewById(R.id.add_transaction_amount_edittext);
-        descField = view.findViewById(R.id.add_transaction_desc_edittext);
+        amountLayout = view.findViewById(R.id.transaction_amount_textinputlayout);
+        amountField = view.findViewById(R.id.transaction_amount_edittext);
+        descLayout = view.findViewById(R.id.transaction_desc_textinputlayout);
+        descField = view.findViewById(R.id.transaction_desc_edittext);
 
         // set up textChangedListener
         amountField.addTextChangedListener(new TextWatcher() {
@@ -159,8 +156,8 @@ public class AddTransactionFragmentView implements UIView {
     }
 
     private void setUpDatePicker(){
-        dateConstraintLayout = view.findViewById(R.id.add_transaction_date_constraintlayout);
-        dateTextView = view.findViewById(R.id.add_transaction_date_textview);
+        dateConstraintLayout = view.findViewById(R.id.transaction_date_constraintlayout);
+        dateTextView = view.findViewById(R.id.transaction_date_textview);
 
         final DatePickerDialog.OnDateSetListener listener = new DatePickerDialog.OnDateSetListener() {
             @Override
@@ -179,9 +176,9 @@ public class AddTransactionFragmentView implements UIView {
     }
 
     private void setUpCategoryPicker(){
-        categoryConstraintLayout = view.findViewById(R.id.add_transaction_category_constraintlayout);
-        categoryTextView = view.findViewById(R.id.add_transaction_category_textview);
-        categoryErrorTextView = view.findViewById(R.id.add_transasction_category_error_textview);
+        categoryConstraintLayout = view.findViewById(R.id.transaction_category_constraintlayout);
+        categoryTextView = view.findViewById(R.id.transaction_category_textview);
+        categoryErrorTextView = view.findViewById(R.id.transasction_category_error_textview);
 
         final PickCategoryDialog.PickCategoryListener pickCategoryListener = new PickCategoryDialog.PickCategoryListener() {
             @Override
@@ -206,9 +203,9 @@ public class AddTransactionFragmentView implements UIView {
     }
 
     private void setUpWalletPicker(){
-        walletConstraintLayout = view.findViewById(R.id.add_transaction_wallet_constraintlayout);
-        walletTextView = view.findViewById(R.id.add_transaction_wallet_textview);
-        walletErrorTextView = view.findViewById(R.id.add_transasction_wallet_error_textview);
+        walletConstraintLayout = view.findViewById(R.id.transaction_wallet_constraintlayout);
+        walletTextView = view.findViewById(R.id.transaction_wallet_textview);
+        walletErrorTextView = view.findViewById(R.id.transasction_wallet_error_textview);
 
         final PickWalletDialog.PickWalletListener pickWalletListener = new PickWalletDialog.PickWalletListener() {
             @Override
@@ -230,9 +227,9 @@ public class AddTransactionFragmentView implements UIView {
     }
 
     private void setUpWalletDestPicker(){
-        walletDestConstraintLayout = view.findViewById(R.id.add_transaction_walletdest_constraintlayout);
-        walletDestTextView = view.findViewById(R.id.add_transaction_walletdest_textview);
-        walletDestErrorTextView = view.findViewById(R.id.add_transaction_walletdest_error_textview);
+        walletDestConstraintLayout = view.findViewById(R.id.transaction_walletdest_constraintlayout);
+        walletDestTextView = view.findViewById(R.id.transaction_walletdest_textview);
+        walletDestErrorTextView = view.findViewById(R.id.transaction_walletdest_error_textview);
 
         final PickWalletDialog.PickWalletListener pickWalletListener = new PickWalletDialog.PickWalletListener() {
             @Override
@@ -257,8 +254,9 @@ public class AddTransactionFragmentView implements UIView {
     }
 
     private void setUpButtons(){
-        saveBtn = view.findViewById(R.id.add_transaction_save_btn);
-        saveBtn.setOnClickListener(new View.OnClickListener() {
+        addBtn = view.findViewById(R.id.transaction_save_btn);
+        addBtn.setText("Add");
+        addBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 if (!validateInput()) return;

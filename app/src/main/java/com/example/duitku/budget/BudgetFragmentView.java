@@ -1,7 +1,6 @@
 package com.example.duitku.budget;
 
 import android.content.Intent;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -16,8 +15,9 @@ import androidx.constraintlayout.widget.ConstraintLayout;
 import androidx.fragment.app.Fragment;
 
 import com.example.duitku.R;
+import com.example.duitku.budget.add.AddBudgetDialog;
+import com.example.duitku.budget.view.ViewBudgetActivity;
 import com.example.duitku.interfaces.UIView;
-import com.example.duitku.wallet.ViewWalletActivity;
 
 
 public class BudgetFragmentView implements UIView {

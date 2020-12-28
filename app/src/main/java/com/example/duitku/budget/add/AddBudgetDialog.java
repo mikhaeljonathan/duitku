@@ -1,4 +1,4 @@
-package com.example.duitku.budget;
+package com.example.duitku.budget.add;
 
 import android.app.AlertDialog;
 import android.app.DatePickerDialog;
@@ -26,6 +26,8 @@ import androidx.constraintlayout.widget.ConstraintLayout;
 import androidx.fragment.app.DialogFragment;
 
 import com.example.duitku.R;
+import com.example.duitku.budget.Budget;
+import com.example.duitku.budget.BudgetController;
 import com.example.duitku.category.Category;
 import com.example.duitku.category.CategoryController;
 import com.example.duitku.database.DuitkuContract.CategoryEntry;

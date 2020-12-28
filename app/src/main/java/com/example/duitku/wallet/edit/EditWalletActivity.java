@@ -1,4 +1,4 @@
-package com.example.duitku.wallet;
+package com.example.duitku.wallet.edit;
 
 import androidx.appcompat.app.AppCompatActivity;
 

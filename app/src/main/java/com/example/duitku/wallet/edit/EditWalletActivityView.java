@@ -1,16 +1,20 @@
-package com.example.duitku.wallet;
+package com.example.duitku.wallet.edit;
 
 import android.content.ContentUris;
+import android.content.Context;
 import android.content.DialogInterface;
 import android.text.Editable;
 import android.text.TextWatcher;
+import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.Button;
+import android.widget.FrameLayout;
 import android.widget.ImageButton;
 import android.widget.Toast;
 
 import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.constraintlayout.widget.ConstraintLayout;
 
 import com.example.duitku.R;
 import com.example.duitku.category.CategoryController;
@@ -19,6 +23,8 @@ import com.example.duitku.database.DuitkuContract;
 import com.example.duitku.category.Category;
 import com.example.duitku.transaction.Transaction;
 import com.example.duitku.interfaces.UIView;
+import com.example.duitku.wallet.Wallet;
+import com.example.duitku.wallet.WalletController;
 import com.google.android.material.textfield.TextInputEditText;
 import com.google.android.material.textfield.TextInputLayout;
 
@@ -57,6 +63,7 @@ public class EditWalletActivityView implements UIView {
     @Override
     public void setUpUI() {
         activity.setContentView(R.layout.activity_edit_wallet);
+
         wallet = walletController.getWalletById(id);
         setUpField();
         setUpButton();
@@ -64,12 +71,12 @@ public class EditWalletActivityView implements UIView {
 
     private void setUpField(){
         // initialize the views
-        nameLayout = activity.findViewById(R.id.edit_wallet_name_textinputlayout);
-        amountLayout = activity.findViewById(R.id.edit_wallet_amount_textinputlayout);
-        descLayout = activity.findViewById(R.id.edit_wallet_desc_textinputlayout);
-        nameField = activity.findViewById(R.id.edit_wallet_name_edittext);
-        amountField = activity.findViewById(R.id.edit_wallet_amount_edittext);
-        descField = activity.findViewById(R.id.edit_wallet_desc_edittext);
+        nameLayout = activity.findViewById(R.id.wallet_name_textinputlayout);
+        amountLayout = activity.findViewById(R.id.wallet_amount_textinputlayout);
+        descLayout = activity.findViewById(R.id.wallet_desc_textinputlayout);
+        nameField = activity.findViewById(R.id.wallet_name_field);
+        amountField = activity.findViewById(R.id.wallet_amount_field);
+        descField = activity.findViewById(R.id.wallet_desc_field);
 
         // set textChangedListener
         nameField.addTextChangedListener(new TextWatcher() {
@@ -140,7 +147,7 @@ public class EditWalletActivityView implements UIView {
 
     private void setUpButton(){
         ImageButton backBtn = activity.findViewById(R.id.edit_wallet_back_btn);
-        Button saveBtn = activity.findViewById(R.id.edit_wallet_save_btn);
+        Button saveBtn = activity.findViewById(R.id.wallet_save_btn);
         Button deleteBtn = activity.findViewById(R.id.edit_wallet_delete_btn);
 
         backBtn.setOnClickListener(new View.OnClickListener() {

@@ -5,6 +5,7 @@ import android.content.ContentValues;
 import android.content.Context;
 import android.database.Cursor;
 import android.net.Uri;
+import android.util.Log;
 
 import com.example.duitku.budget.Budget;
 import com.example.duitku.budget.BudgetController;
@@ -157,6 +158,14 @@ public class TransactionController {
         String desc = data.getString(descColumnIndex);
         Date date = Utility.parseDate(data.getString(dateColumnIndex));
         double amount= data.getDouble(amountColumnIndex);
+
+        if (walletDestId == 0){
+            walletDestId = -1;
+        }
+
+        if (categoryId == 0){
+            categoryId = -1;
+        }
 
         Transaction ret = new Transaction(transactionId, walletId, walletDestId, categoryId, desc, date, amount);
         return ret;

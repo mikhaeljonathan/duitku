@@ -1,4 +1,4 @@
-package com.example.duitku.wallet;
+package com.example.duitku.wallet.view;
 
 import android.database.Cursor;
 import android.os.Bundle;

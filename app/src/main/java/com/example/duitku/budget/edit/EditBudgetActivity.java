@@ -1,4 +1,4 @@
-package com.example.duitku.budget;
+package com.example.duitku.budget.edit;
 
 import androidx.appcompat.app.AppCompatActivity;
 

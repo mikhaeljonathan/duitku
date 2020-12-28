@@ -1,4 +1,4 @@
-package com.example.duitku.budget;
+package com.example.duitku.budget.view;
 
 import android.content.Intent;
 import android.graphics.Paint;
@@ -13,13 +13,15 @@ import android.widget.TextView;
 import androidx.appcompat.app.AppCompatActivity;
 
 import com.example.duitku.R;
+import com.example.duitku.budget.Budget;
+import com.example.duitku.budget.BudgetController;
+import com.example.duitku.budget.edit.EditBudgetActivity;
 import com.example.duitku.category.CategoryController;
 import com.example.duitku.interfaces.UIView;
 import com.example.duitku.transaction.Transaction;
 import com.example.duitku.transaction.TransactionAdapter;
 import com.example.duitku.transaction.TransactionController;
-import com.example.duitku.transaction.ViewTransactionDialog;
-import com.example.duitku.wallet.EditWalletActivity;
+import com.example.duitku.transaction.view.ViewTransactionDialog;
 
 import java.util.List;
 
@@ -141,8 +143,7 @@ public class ViewBudgetActivityView implements UIView {
     }
 
     private void viewTransaction(long id){
-        Transaction transaction = new TransactionController(activity).getTransactionById(id);
-        ViewTransactionDialog viewTransactionDialog = new ViewTransactionDialog(transaction);
+        ViewTransactionDialog viewTransactionDialog = new ViewTransactionDialog(id);
         viewTransactionDialog.show(activity.getSupportFragmentManager(), "View Transaction Dialog");
     }
 

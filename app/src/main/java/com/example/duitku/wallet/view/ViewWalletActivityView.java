@@ -1,4 +1,4 @@
-package com.example.duitku.wallet;
+package com.example.duitku.wallet.view;
 
 import android.content.Intent;
 import android.graphics.Paint;
@@ -19,7 +19,10 @@ import com.example.duitku.transaction.Transaction;
 import com.example.duitku.transaction.TransactionAdapter;
 import com.example.duitku.interfaces.UIView;
 import com.example.duitku.transaction.TransactionController;
-import com.example.duitku.transaction.ViewTransactionDialog;
+import com.example.duitku.transaction.view.ViewTransactionDialog;
+import com.example.duitku.wallet.Wallet;
+import com.example.duitku.wallet.WalletController;
+import com.example.duitku.wallet.edit.EditWalletActivity;
 
 import java.util.List;
 
@@ -147,8 +150,7 @@ public class ViewWalletActivityView implements UIView {
     }
 
     private void viewTransaction(long id){
-        Transaction transaction = new TransactionController(activity).getTransactionById(id);
-        ViewTransactionDialog viewTransactionDialog = new ViewTransactionDialog(transaction);
+        ViewTransactionDialog viewTransactionDialog = new ViewTransactionDialog(id);
         viewTransactionDialog.show(activity.getSupportFragmentManager(), "View Transaction Dialog");
     }
 

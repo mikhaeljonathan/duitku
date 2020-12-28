@@ -1,18 +1,12 @@
-package com.example.duitku.budget;
+package com.example.duitku.budget.view;
 
-import androidx.annotation.NonNull;
-import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
-import androidx.loader.app.LoaderManager;
-import androidx.loader.content.CursorLoader;
-import androidx.loader.content.Loader;
 
-import com.example.duitku.R;
-import com.example.duitku.database.DuitkuContract.TransactionEntry;
+import com.example.duitku.budget.Budget;
+import com.example.duitku.budget.BudgetController;
 import com.example.duitku.transaction.Transaction;
 import com.example.duitku.transaction.TransactionController;
 
-import android.database.Cursor;
 import android.os.Bundle;
 
 import java.util.List;

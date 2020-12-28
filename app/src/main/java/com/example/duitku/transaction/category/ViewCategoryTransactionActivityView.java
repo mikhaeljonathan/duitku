@@ -19,7 +19,7 @@ import com.example.duitku.interfaces.UIView;
 import com.example.duitku.transaction.Transaction;
 import com.example.duitku.transaction.TransactionAdapter;
 import com.example.duitku.transaction.TransactionController;
-import com.example.duitku.transaction.ViewTransactionDialog;
+import com.example.duitku.transaction.view.ViewTransactionDialog;
 
 public class ViewCategoryTransactionActivityView implements UIView {
 
@@ -65,8 +65,7 @@ public class ViewCategoryTransactionActivityView implements UIView {
     }
 
     private void viewTransaction(long id){
-        Transaction transaction = new TransactionController(activity).getTransactionById(id);
-        ViewTransactionDialog viewTransactionDialog = new ViewTransactionDialog(transaction);
+        ViewTransactionDialog viewTransactionDialog = new ViewTransactionDialog(id);
         viewTransactionDialog.show(activity.getSupportFragmentManager(), "View Transaction Dialog");
     }
 

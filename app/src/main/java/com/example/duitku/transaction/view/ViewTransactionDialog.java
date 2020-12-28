@@ -1,9 +1,10 @@
-package com.example.duitku.transaction;
+package com.example.duitku.transaction.view;
 
 import android.app.AlertDialog;
 import android.app.Dialog;
 import android.content.Intent;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.ImageView;
@@ -18,6 +19,9 @@ import com.example.duitku.category.Category;
 import com.example.duitku.category.CategoryController;
 import com.example.duitku.database.DuitkuContract.CategoryEntry;
 import com.example.duitku.main.Utility;
+import com.example.duitku.transaction.Transaction;
+import com.example.duitku.transaction.TransactionController;
+import com.example.duitku.transaction.edit.EditTransactionActivity;
 import com.example.duitku.wallet.Wallet;
 import com.example.duitku.wallet.WalletController;
 
@@ -27,18 +31,23 @@ public class ViewTransactionDialog extends AppCompatDialogFragment {
     private Category category;
     private String categoryType;
 
-    public ViewTransactionDialog(Transaction transaction){
-        this.transaction = transaction;
+    private long transactionId;
+    private View view;
+
+    public ViewTransactionDialog(long transactionId){
+        this.transactionId = transactionId;
     }
 
     @NonNull
     @Override
     public Dialog onCreateDialog(@Nullable Bundle savedInstanceState) {
+        this.transaction = new TransactionController(getActivity()).getTransactionById(transactionId);
+
         initializeCategory();
 
         AlertDialog.Builder builder = new AlertDialog.Builder(getActivity());
         LayoutInflater inflater = getActivity().getLayoutInflater();
-        View view = inflater.inflate(R.layout.dialog_view_transaction, null);
+        view = inflater.inflate(R.layout.dialog_view_transaction, null);
 
         setUpUI(view);
 
@@ -47,6 +56,13 @@ public class ViewTransactionDialog extends AppCompatDialogFragment {
         Dialog dialog = builder.create();
         dialog.getWindow().setBackgroundDrawableResource(R.color.colorPrimary); //biar bg gelap
         return dialog;
+    }
+
+    @Override
+    public void onResume() {
+        super.onResume();
+        this.transaction = new TransactionController(getActivity()).getTransactionById(transactionId);
+        setUpUI(view);
     }
 
     private void initializeCategory(){

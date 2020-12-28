@@ -1,4 +1,4 @@
-package com.example.duitku.wallet;
+package com.example.duitku.wallet.pick;
 
 import android.app.AlertDialog;
 import android.app.Dialog;
@@ -19,6 +19,9 @@ import androidx.loader.content.Loader;
 
 import com.example.duitku.R;
 import com.example.duitku.database.DuitkuContract.WalletEntry;
+import com.example.duitku.wallet.WalletAdapter;
+import com.example.duitku.wallet.WalletController;
+import com.example.duitku.wallet.add.AddWalletDialog;
 
 public class PickWalletDialog extends AppCompatDialogFragment implements LoaderManager.LoaderCallbacks<Cursor> {
 

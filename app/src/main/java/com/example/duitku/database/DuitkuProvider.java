@@ -167,6 +167,11 @@ public class DuitkuProvider extends ContentProvider {
 
         int match = mUriMatcher.match(uri);
         switch (match){
+            case TRANSACTION_ID:
+                selection = TransactionEntry._ID + " = ?";
+                selectionArgs = new String[] { String.valueOf(ContentUris.parseId(uri))};
+                rowsUpdated = db.update(TransactionEntry.TABLE_NAME, contentValues, selection, selectionArgs);
+                break;
             case WALLET_ID:
                 selection = WalletEntry._ID + " = ?";
                 selectionArgs = new String[] {String.valueOf(ContentUris.parseId(uri))};
