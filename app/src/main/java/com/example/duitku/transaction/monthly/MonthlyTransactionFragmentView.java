@@ -1,6 +1,7 @@
 package com.example.duitku.transaction.monthly;
 
 import android.content.Context;
+import android.content.Intent;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -14,6 +15,7 @@ import com.example.duitku.R;
 import com.example.duitku.date.YearPickerDialog;
 import com.example.duitku.transaction.category.CategoryTransaction;
 import com.example.duitku.interfaces.UIView;
+import com.example.duitku.transaction.category.ViewCategoryTransactionActivity;
 
 import java.util.HashMap;
 import java.util.List;
@@ -74,6 +76,14 @@ public class MonthlyTransactionFragmentView implements UIView {
         ListView listView = view.findViewById(R.id.fragment_transaction_viewpager_listview);
         listView.setVisibility(View.GONE);
         expandableListView = view.findViewById(R.id.fragment_transaction_viewpager_expandablelistview);
+        expandableListView.setOnChildClickListener(new ExpandableListView.OnChildClickListener() {
+            @Override
+            public boolean onChildClick(ExpandableListView expandableListView, View view, int i, int i1, long l) {
+                CategoryTransaction categoryTransaction = (CategoryTransaction) adapter.getChild(i, i1);
+                viewCategoryTransaction(categoryTransaction);
+                return true;
+            }
+        });
     }
 
     private void setUpHeader(){
@@ -96,6 +106,12 @@ public class MonthlyTransactionFragmentView implements UIView {
 
     private void setUpPeriodButton(){
         periodButton = header.findViewById(R.id.transaction_header_period_btn);
+    }
+
+    private void viewCategoryTransaction(CategoryTransaction categoryTransaction){
+        Intent viewCategoryTransactionIntent = new Intent(fragment.getActivity(), ViewCategoryTransactionActivity.class);
+        viewCategoryTransactionIntent.putExtra("CategoryTransaction", categoryTransaction);
+        fragment.getActivity().startActivity(viewCategoryTransactionIntent);
     }
 
     @Override

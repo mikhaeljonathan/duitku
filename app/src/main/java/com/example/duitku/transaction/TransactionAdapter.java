@@ -27,6 +27,8 @@ import java.util.List;
 
 public class TransactionAdapter extends ArrayAdapter<Transaction> {
 
+    private List<Transaction> transactions;
+
     private Transaction transaction;
     private Category category;
     private Wallet wallet;
@@ -36,11 +38,9 @@ public class TransactionAdapter extends ArrayAdapter<Transaction> {
     private WalletController walletController;
     private CategoryController categoryController;
 
-    private Context context;
-
     public TransactionAdapter(Context context, List<Transaction> transactions, Long walletId) {
         super(context, 0, transactions);
-        this.context = context;
+        this.transactions = transactions;
         this.walletId = walletId;
         walletController = new WalletController(context);
         categoryController = new CategoryController(context);
@@ -69,6 +69,10 @@ public class TransactionAdapter extends ArrayAdapter<Transaction> {
         amountTextView.setText(Double.toString(transaction.getAmount()));
 
         return view;
+    }
+
+    public Transaction getTransaction(int position) {
+        return transactions.get(position);
     }
 
     private void setUpIcon(View view){

@@ -9,7 +9,9 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
-        <activity android:name=".transaction.category.ViewCategoryTransactionActivity"></activity>
+        <activity android:name=".budget.EditBudgetActivity"></activity>
+        <activity android:name=".budget.ViewBudgetActivity" />
+        <activity android:name=".transaction.category.ViewCategoryTransactionActivity" />
         <activity android:name=".transaction.EditTransactionActivity" />
         <activity
             android:name=".wallet.EditWalletActivity"

@@ -1,5 +1,6 @@
 package com.example.duitku.budget;
 
+import android.content.Intent;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -16,6 +17,7 @@ import androidx.fragment.app.Fragment;
 
 import com.example.duitku.R;
 import com.example.duitku.interfaces.UIView;
+import com.example.duitku.wallet.ViewWalletActivity;
 
 
 public class BudgetFragmentView implements UIView {
@@ -90,7 +92,9 @@ public class BudgetFragmentView implements UIView {
     }
 
     private void viewBudget(long id){
-
+        Intent viewBudgetIntent = new Intent(fragment.getActivity(), ViewBudgetActivity.class);
+        viewBudgetIntent.putExtra("ID", id);
+        fragment.getActivity().startActivity(viewBudgetIntent);
     }
 
     private void addBudget(){

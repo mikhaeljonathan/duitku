@@ -8,6 +8,7 @@ import android.net.Uri;
 
 import com.example.duitku.category.Category;
 import com.example.duitku.category.CategoryController;
+import com.example.duitku.database.DuitkuContract;
 import com.example.duitku.database.DuitkuContract.BudgetEntry;
 import com.example.duitku.main.Utility;
 import com.example.duitku.transaction.Transaction;
@@ -60,6 +61,18 @@ public class BudgetController {
     }
 
     // get budget
+    public Budget getBudgetById(long id){
+        if (id == -1) return null;
+
+        Budget ret = null;
+        Cursor data = context.getContentResolver().query(ContentUris.withAppendedId(BudgetEntry.CONTENT_URI, id), getFullProjection(), null, null, null);
+        if (data.moveToFirst()){
+            ret = convertCursorToBudget(data);
+        }
+
+        return ret;
+    }
+
     public Budget getBudgetByCategoryId(long categoryId){
         String[] projection = getFullProjection();
         String selection = BudgetEntry.COLUMN_CATEGORY_ID + " = ?";

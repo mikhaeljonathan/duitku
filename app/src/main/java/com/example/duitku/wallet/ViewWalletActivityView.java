@@ -21,7 +21,6 @@ import com.example.duitku.interfaces.UIView;
 import com.example.duitku.transaction.TransactionController;
 import com.example.duitku.transaction.ViewTransactionDialog;
 
-import java.util.ArrayList;
 import java.util.List;
 
 public class ViewWalletActivityView implements UIView {
@@ -51,7 +50,7 @@ public class ViewWalletActivityView implements UIView {
         textView.setText("View Wallet");
 
         wallet = walletController.getWalletById(id);
-        if (wallet == null) {
+        if (wallet == null) { // kalau di delete lgsg finish activity
             activity.finish();
             return;
         }
@@ -60,10 +59,6 @@ public class ViewWalletActivityView implements UIView {
         setUpHeader();
         setUpButtons();
         setUpPeriodButton();
-    }
-
-    public TransactionAdapter getAdapter(){
-        return adapter;
     }
 
     public void updatePeriodButton(final int month, final int year){
@@ -82,7 +77,8 @@ public class ViewWalletActivityView implements UIView {
         listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> adapterView, View view, int i, long id) {
-                viewTransaction(id);
+                Transaction transaction = adapter.getTransaction(i - 1);
+                viewTransaction(transaction.getId());
             }
         });
     }
@@ -113,7 +109,7 @@ public class ViewWalletActivityView implements UIView {
     private void hideView(){
         ProgressBar progressBar = header.findViewById(R.id.view_header_progressbar);
         TextView usedTextView = header.findViewById(R.id.view_header_used_textview);
-        TextView amountTextView = header.findViewById(R.id.view_header_amount_textview);
+        TextView amountTextView = header.findViewById(R.id.view_header_max_textview);
 
         progressBar.setVisibility(View.GONE);
         usedTextView.setVisibility(View.GONE);
