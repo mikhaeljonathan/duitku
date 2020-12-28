@@ -220,7 +220,7 @@ public class TransactionController {
         long categoryId = category.getId();
         String desc = "Initial Balance for Wallet " + wallet.getName();
         Date date = calendar.getTime();
-        double amount = wallet.getAmount();
+        double amount = Math.abs(wallet.getAmount());
         Transaction transaction = new Transaction(-1, walletId, walletDestId, categoryId, desc, date, amount);
 
         Uri uri = addTransaction(transaction);
@@ -231,9 +231,9 @@ public class TransactionController {
         Calendar calendar = Calendar.getInstance();
         Category category;
         if (amountBefore < wallet.getAmount()){
-            category = new CategoryController(context).getCategoryByNameAndType(DuitkuContract.CategoryEntry.DEFAULT_CATEGORY_NAME, DuitkuContract.CategoryEntry.TYPE_INCOME);
+            category = new CategoryController(context).getCategoryByNameAndType(CategoryEntry.DEFAULT_CATEGORY_NAME, CategoryEntry.TYPE_INCOME);
         } else {
-            category = new CategoryController(context).getCategoryByNameAndType(DuitkuContract.CategoryEntry.DEFAULT_CATEGORY_NAME, DuitkuContract.CategoryEntry.TYPE_EXPENSE);
+            category = new CategoryController(context).getCategoryByNameAndType(CategoryEntry.DEFAULT_CATEGORY_NAME, CategoryEntry.TYPE_EXPENSE);
         }
 
         long walletId = wallet.getId();

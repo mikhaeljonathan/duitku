@@ -94,10 +94,13 @@ public class ViewBudgetActivityView implements UIView {
         String period = "dari sini sampe sini";
         periodTextView.setText(period);
 
-        progressBar.setProgress((int)budget.getUsed());
-        progressBar.setMax((int)budget.getAmount());
-        usedTextView.setText(Double.toString(budget.getUsed()));
-        maxTextView.setText(Double.toString(budget.getAmount()));
+        double amount = budget.getAmount();
+        double used = budget.getUsed();
+
+        progressBar.setMax((int)amount);
+        progressBar.setProgress((int)used);
+        maxTextView.setText(Double.toString(amount));
+        usedTextView.setText(Double.toString(used));
 
         transactionTextView.setPaintFlags(transactionTextView.getPaintFlags()| Paint.UNDERLINE_TEXT_FLAG); //underline
 
