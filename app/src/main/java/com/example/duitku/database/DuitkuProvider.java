@@ -144,10 +144,20 @@ public class DuitkuProvider extends ContentProvider {
             case TRANSACTION:
                 rowsDeleted = db.delete(TransactionEntry.TABLE_NAME, selection, selectionArgs);
                 break;
+            case TRANSACTION_ID:
+                selection = TransactionEntry._ID + " = ?";
+                selectionArgs = new String[] {String.valueOf(ContentUris.parseId(uri))};
+                rowsDeleted = db.delete(TransactionEntry.TABLE_NAME, selection, selectionArgs);
+                break;
             case WALLET_ID:
                 selection = WalletEntry._ID + " = ?";
                 selectionArgs = new String[] {String.valueOf(ContentUris.parseId(uri))};
                 rowsDeleted = db.delete(WalletEntry.TABLE_NAME, selection, selectionArgs);
+                break;
+            case BUDGET_ID:
+                selection = BudgetEntry._ID + " = ?";
+                selectionArgs = new String[] {String.valueOf(ContentUris.parseId(uri))};
+                rowsDeleted = db.delete(BudgetEntry.TABLE_NAME, selection, selectionArgs);
                 break;
             default:
                 throw new IllegalArgumentException("Deletion is not supported for " + uri);

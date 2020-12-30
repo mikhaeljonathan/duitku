@@ -79,6 +79,7 @@ public class EditTransactionActivityView implements UIView {
         walletController = new WalletController(activity);
 
         transaction = transactionController.getTransactionById(id);
+
         amount = transaction.getAmount();
         desc = transaction.getDesc();
         date = transaction.getDate();

@@ -62,6 +62,10 @@ public class ViewTransactionDialog extends AppCompatDialogFragment {
     public void onResume() {
         super.onResume();
         this.transaction = new TransactionController(getActivity()).getTransactionById(transactionId);
+        if (transaction == null){
+            dismiss();
+            return;
+        }
         setUpUI(view);
     }
 

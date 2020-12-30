@@ -16,12 +16,20 @@ import com.example.duitku.transaction.TransactionController;
 
 import java.util.Calendar;
 import java.util.Date;
+import java.util.HashMap;
 import java.util.List;
 
 public class BudgetController {
 
     public static final String[] budgetPeriod = {"Monthly", "3 Month (Quarter)", "Yearly"};
     public static final String[] budgetType = {BudgetEntry.TYPE_MONTH, BudgetEntry.TYPE_3MONTH, BudgetEntry.TYPE_YEAR};
+    public static final HashMap<String, Integer> budgetPeriodMap = new HashMap<>();
+
+    static {
+        budgetPeriodMap.put(budgetType[0], 0);
+        budgetPeriodMap.put(budgetType[1], 1);
+        budgetPeriodMap.put(budgetType[2], 2);
+    }
 
     private Context context;
 
@@ -50,6 +58,7 @@ public class BudgetController {
     }
 
     public int updateBudget(Budget budget){
+        initialUsed(budget);
         ContentValues values = convertBudgetToContentValues(budget);
         Uri uri = ContentUris.withAppendedId(BudgetEntry.CONTENT_URI, budget.getId());
         int rowsUpdated = context.getContentResolver().update(uri, values, null, null);

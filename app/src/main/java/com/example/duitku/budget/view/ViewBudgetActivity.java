@@ -34,6 +34,10 @@ public class ViewBudgetActivity extends AppCompatActivity {
         super.onResume();
 
         budget = budgetController.getBudgetById(budgetId);
+        if (budget == null){
+            finish();
+            return;
+        }
         List<Transaction> transactionList = transactionController.getTransactionsByBudget(budget);
         viewBudgetActivityView.setTransactionList(transactionList);
         viewBudgetActivityView.setUpUI();

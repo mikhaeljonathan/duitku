@@ -95,21 +95,21 @@ public class AddBudgetDialog extends AppCompatDialogFragment {
     }
 
     private void setUpUI(View view){
-        categoryConstraintLayout = view.findViewById(R.id.add_budget_category_constraintlayout);
-        categoryTextView = view.findViewById(R.id.add_budget_category_textview);
-        errorCategoryTextView = view.findViewById(R.id.add_budget_category_error_textview);
-        amountLayout = view.findViewById(R.id.add_budget_amount_textinputlayout);
-        amountField = view.findViewById(R.id.add_budget_amount_field);
-        periodConstraintLayout = view.findViewById(R.id.add_budget_period_constraintlayout);
-        periodSpinner = view.findViewById(R.id.add_budget_period_spinner);
-        customDateCheckBox = view.findViewById(R.id.add_budget_customdate_checkbox);
-        startDateConstraintLayout = view.findViewById(R.id.add_budget_startdate_constraintlayout);
-        startDateTextView = view.findViewById(R.id.add_budget_startdate_textview);
-        errorStartDateTextView = view.findViewById(R.id.add_budget_startdate_error_textview);
-        endDateConstraintLayout = view.findViewById(R.id.add_budget_enddate_constraintlayout);
-        endDateTextView = view.findViewById(R.id.add_budget_enddate_textview);
-        errorEndDateTextView = view.findViewById(R.id.add_budget_enddate_error_textview);
-        addBudgetBtn = view.findViewById(R.id.add_budget_add_btn);
+        categoryConstraintLayout = view.findViewById(R.id.budget_category_constraintlayout);
+        categoryTextView = view.findViewById(R.id.budget_category_textview);
+        errorCategoryTextView = view.findViewById(R.id.budget_category_error_textview);
+        amountLayout = view.findViewById(R.id.budget_amount_textinputlayout);
+        amountField = view.findViewById(R.id.budget_amount_field);
+        periodConstraintLayout = view.findViewById(R.id.budget_period_constraintlayout);
+        periodSpinner = view.findViewById(R.id.budget_period_spinner);
+        customDateCheckBox = view.findViewById(R.id.budget_customdate_checkbox);
+        startDateConstraintLayout = view.findViewById(R.id.budget_startdate_constraintlayout);
+        startDateTextView = view.findViewById(R.id.budget_startdate_textview);
+        errorStartDateTextView = view.findViewById(R.id.budget_startdate_error_textview);
+        endDateConstraintLayout = view.findViewById(R.id.budget_enddate_constraintlayout);
+        endDateTextView = view.findViewById(R.id.budget_enddate_textview);
+        errorEndDateTextView = view.findViewById(R.id.budget_enddate_error_textview);
+        addBudgetBtn = view.findViewById(R.id.budget_save_btn);
 
         // error view's visibility are gone
         errorCategoryTextView.setVisibility(View.GONE);
@@ -158,6 +158,7 @@ public class AddBudgetDialog extends AppCompatDialogFragment {
         });
 
         // setup button
+        addBudgetBtn.setText("Add");
         addBudgetBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -246,6 +247,10 @@ public class AddBudgetDialog extends AppCompatDialogFragment {
 
     private Uri addBudget(){
         String budgetType = BudgetController.budgetType[budgetTypePos];
+        if (!customDateCheckBox.isChecked()){
+            startDate = null;
+            endDate = null;
+        }
         Budget budget = new Budget(-1, amount, 0, startDate, endDate, budgetType, categoryId);
         Uri uri = budgetController.addBudget(budget);
         return uri;
