@@ -5,19 +5,18 @@ import android.content.ContentValues;
 import android.content.Context;
 import android.database.Cursor;
 import android.net.Uri;
-import android.util.Log;
 
 import com.example.duitku.budget.Budget;
 import com.example.duitku.budget.BudgetController;
 import com.example.duitku.category.Category;
 import com.example.duitku.category.CategoryController;
 import com.example.duitku.transaction.category.CategoryTransaction;
-import com.example.duitku.database.DuitkuContract;
 import com.example.duitku.database.DuitkuContract.BudgetEntry;
 import com.example.duitku.database.DuitkuContract.TransactionEntry;
 import com.example.duitku.database.DuitkuContract.CategoryEntry;
 import com.example.duitku.main.Utility;
 import com.example.duitku.wallet.Wallet;
+import com.example.duitku.wallet.WalletController;
 
 import java.util.ArrayList;
 import java.util.Calendar;
@@ -41,16 +40,20 @@ public class TransactionController {
 
         Category category = new CategoryController(context).getCategoryById(transaction.getCategoryId());
         if (category != null && category.getType().equals(CategoryEntry.TYPE_EXPENSE)){ //budget pasti expense
-            new BudgetController(context).updateBudgetFromTransaction(transaction);
+            new BudgetController(context).updateBudgetFromInitialTransaction(transaction);
         }
 
         return uri;
     }
 
-    public int updateTransaction(Transaction transaction){
-        ContentValues values = convertTransactionToContentValues(transaction);
-        Uri uri = ContentUris.withAppendedId(TransactionEntry.CONTENT_URI, transaction.getId());
+    public int updateTransaction(Transaction transactionBefore, Transaction transactionAfter){
+        ContentValues values = convertTransactionToContentValues(transactionAfter);
+        Uri uri = ContentUris.withAppendedId(TransactionEntry.CONTENT_URI, transactionAfter.getId());
         int rowsUpdated = context.getContentResolver().update(uri, values, null, null);
+
+        new WalletController(context).updateWalletFromUpdatedTransaction(transactionBefore, transactionAfter);
+        new BudgetController(context).updateBudgetFromUpdatedTransaction(transactionBefore, transactionAfter);
+
         return rowsUpdated;
     }
 

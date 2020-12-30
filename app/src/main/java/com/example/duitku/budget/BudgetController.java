@@ -14,6 +14,7 @@ import com.example.duitku.main.Utility;
 import com.example.duitku.transaction.Transaction;
 import com.example.duitku.transaction.TransactionController;
 
+import java.util.Calendar;
 import java.util.Date;
 import java.util.List;
 
@@ -86,6 +87,50 @@ public class BudgetController {
         return ret;
     }
 
+    public Budget getBudgetByTransaction(Transaction transaction){
+        Budget budget = getBudgetByCategoryId(transaction.getCategoryId());
+
+        if (budget == null) return null;
+
+        if (budget.getStartDate() == null){ // ga custom
+            String type = budget.getType();
+
+            Calendar calendarDate = Calendar.getInstance();
+            calendarDate.setTime(transaction.getDate());
+
+            Calendar calendarBudget = Calendar.getInstance();;
+
+            if (type.equals(BudgetEntry.TYPE_MONTH)){
+
+                if (calendarDate.get(Calendar.MONTH) == calendarBudget.get(Calendar.MONTH)){
+                    return budget;
+                } else {
+                    return null;
+                }
+
+            } else if (type.equals(BudgetEntry.TYPE_3MONTH)){
+                return null;
+
+            } else {
+
+                if (calendarDate.get(Calendar.YEAR) == calendarBudget.get(Calendar.YEAR)){
+                    return budget;
+                } else {
+                    return null;
+                }
+
+            }
+        } else { // custom date
+
+            if (budget.getStartDate().compareTo(transaction.getDate()) <= 0 && budget.getEndDate().compareTo(transaction.getDate()) >= 0){
+                return budget;
+            } else {
+                return null;
+            }
+        }
+
+    }
+
     public String[] getFullProjection(){
         String[] projection = new String[]{BudgetEntry.COLUMN_ID,
                 BudgetEntry.COLUMN_STARTDATE,
@@ -142,7 +187,7 @@ public class BudgetController {
     }
 
     // operation from other entity's operation
-    public int updateBudgetFromTransaction(Transaction transaction){
+    public int updateBudgetFromInitialTransaction(Transaction transaction){
         Budget budget = getBudgetByCategoryId(transaction.getCategoryId());
 
         if (budget == null) return 0;
@@ -150,6 +195,46 @@ public class BudgetController {
 
         int rowsUpdated = updateBudget(budget);
         return rowsUpdated;
+    }
+
+    public void updateBudgetFromUpdatedTransaction(Transaction transactionBefore, Transaction transactionAfter){
+        Budget budget = getBudgetByTransaction(transactionBefore);
+
+        // categoryny berubah otomatis budget jg berubah
+        if (transactionBefore.getCategoryId() != transactionAfter.getCategoryId()){
+            if (budget != null){
+                budget.setUsed(budget.getUsed() - transactionBefore.getAmount());
+                updateBudget(budget);
+            }
+
+            Budget budgetAfter = getBudgetByTransaction(transactionAfter);
+            if (budgetAfter != null){
+                budgetAfter.setUsed(budgetAfter.getUsed() + transactionAfter.getAmount());
+                updateBudget(budgetAfter);
+            }
+
+        } else { // dalam category yg sama
+
+            // ada pergantian fase budget
+            Budget budgetAfter = getBudgetByTransaction(transactionAfter);
+
+            if (budget != null && budgetAfter == null){
+                budget.setUsed(budget.getUsed() - transactionBefore.getAmount());
+                updateBudget(budget);
+            }
+
+            if (budgetAfter != null && budget == null){
+                budgetAfter.setUsed(budgetAfter.getUsed() + transactionAfter.getAmount());
+                updateBudget(budgetAfter);
+            }
+
+            if (budget != null && budgetAfter != null){
+                budget.setUsed(budget.getUsed() - transactionBefore.getAmount() + transactionAfter.getAmount());
+                updateBudget(budget);
+            }
+
+        }
+
     }
 
 }

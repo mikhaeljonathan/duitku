@@ -17,7 +17,6 @@ import androidx.fragment.app.DialogFragment;
 import androidx.fragment.app.Fragment;
 
 import com.example.duitku.R;
-import com.example.duitku.budget.BudgetController;
 import com.example.duitku.category.Category;
 import com.example.duitku.category.CategoryController;
 import com.example.duitku.category.PickCategoryDialog;
@@ -335,7 +334,7 @@ public class AddTransactionFragmentView implements UIView {
         Transaction transaction = new Transaction(-1, walletId, walletDestId, categoryId, desc, date, amount);
         Uri uri = transactionController.addTransaction(transaction);
 
-        walletController.updateWalletFromTransaction(transaction);
+        walletController.updateWalletFromInitialTransaction(transaction);
 
         return uri;
     }

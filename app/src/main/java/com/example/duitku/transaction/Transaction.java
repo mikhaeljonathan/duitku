@@ -78,4 +78,17 @@ public class Transaction implements Serializable { // serializable biar bisa dip
     public void setAmount(double amount) {
         this.amount = amount;
     }
+
+    public static Transaction clone(Transaction transaction){
+        long id = transaction.getId();
+        long walletId = transaction.getWalletId();
+        long walletDestId = transaction.getWalletDestId();
+        long categoryId = transaction.getCategoryId();
+        String desc = transaction.getDesc();
+        Date date = transaction.getDate();
+        double amount = transaction.getAmount();
+
+        Transaction ret = new Transaction(id, walletId, walletDestId, categoryId, desc, date, amount);
+        return ret;
+    }
 }

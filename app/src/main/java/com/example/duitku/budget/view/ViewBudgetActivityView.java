@@ -91,7 +91,7 @@ public class ViewBudgetActivityView implements UIView {
 
         TextView transactionTextView = header.findViewById(R.id.view_header_transaction_textview);
 
-        nameTextView.setText(new CategoryController(activity).getCategoryById(id).getName());
+        nameTextView.setText(new CategoryController(activity).getCategoryById(budget.getCategoryId()).getName());
         amountTextView.setText(Double.toString(budget.getAmount()));
         String period = "dari sini sampe sini";
         periodTextView.setText(period);

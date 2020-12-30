@@ -8,6 +8,7 @@ import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.DatePicker;
+import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -17,9 +18,12 @@ import androidx.constraintlayout.widget.ConstraintLayout;
 import androidx.fragment.app.DialogFragment;
 
 import com.example.duitku.R;
+import com.example.duitku.budget.Budget;
+import com.example.duitku.budget.BudgetController;
 import com.example.duitku.category.Category;
 import com.example.duitku.category.CategoryController;
 import com.example.duitku.category.PickCategoryDialog;
+import com.example.duitku.database.DuitkuContract.CategoryEntry;
 import com.example.duitku.date.DatePickerFragment;
 import com.example.duitku.interfaces.UIView;
 import com.example.duitku.main.Utility;
@@ -54,6 +58,7 @@ public class EditTransactionActivityView implements UIView {
     private Button deleteBtn;
 
     private TransactionController transactionController;
+    private WalletController walletController;
 
     private long id;
     private double amount;
@@ -71,6 +76,7 @@ public class EditTransactionActivityView implements UIView {
         this.activity = activity;
 
         transactionController = new TransactionController(activity);
+        walletController = new WalletController(activity);
 
         transaction = transactionController.getTransactionById(id);
         amount = transaction.getAmount();
@@ -282,6 +288,7 @@ public class EditTransactionActivityView implements UIView {
     private void setUpButtons(){
         setUpSaveButton();
         setUpDeleteButton();
+        setUpBackButton();
     }
 
     private void setUpSaveButton(){
@@ -337,6 +344,8 @@ public class EditTransactionActivityView implements UIView {
     }
 
     private int updateTransaction(){
+        Transaction transactionBefore = Transaction.clone(transaction);
+
         transaction.setAmount(amount);
         transaction.setDesc(desc);
         transaction.setDate(date);
@@ -344,7 +353,7 @@ public class EditTransactionActivityView implements UIView {
         transaction.setWalletId(walletId);
         transaction.setWalletDestId(walletDestId);
 
-        int rowsUpdated = transactionController.updateTransaction(transaction);
+        int rowsUpdated = transactionController.updateTransaction(transactionBefore, transaction);
         return rowsUpdated;
     }
 
@@ -387,6 +396,16 @@ public class EditTransactionActivityView implements UIView {
             Toast.makeText(activity, "Transaction is deleted", Toast.LENGTH_SHORT).show();
         }
         activity.finish();
+    }
+
+    private void setUpBackButton(){
+        ImageView backBtn = activity.findViewById(R.id.edit_transaction_back_btn);
+        backBtn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                activity.finish();
+            }
+        });
     }
 
     @Override
