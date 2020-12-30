@@ -193,4 +193,19 @@ public class WalletController {
         updateWallet(wallet);
     }
 
+    public void updateWalletFromDeletedTransaction(Transaction transaction){
+        Category category = new CategoryController(context).getCategoryById(transaction.getCategoryId());
+
+        if (category == null) {
+
+            updateWalletAmount(transaction.getWalletId(), transaction.getAmount());
+            updateWalletAmount(transaction.getWalletDestId(), -transaction.getAmount());
+
+        } else if (category.equals(CategoryEntry.TYPE_EXPENSE)){
+            updateWalletAmount(transaction.getWalletId(), transaction.getAmount());
+        } else {
+            updateWalletAmount(transaction.getWalletId(), -transaction.getAmount());
+        }
+    }
+
 }

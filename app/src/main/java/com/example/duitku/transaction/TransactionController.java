@@ -58,7 +58,12 @@ public class TransactionController {
     }
 
     public int deleteTransaction(long id){
+        Transaction transaction = getTransactionById(id);
+
+        new WalletController(context).updateWalletFromDeletedTransaction(transaction);
+
         int rowsDeleted = context.getContentResolver().delete(ContentUris.withAppendedId(TransactionEntry.CONTENT_URI, id), null, null);
+
         return rowsDeleted;
     }
 
