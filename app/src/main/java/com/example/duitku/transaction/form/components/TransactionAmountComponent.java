@@ -1,4 +1,4 @@
-package com.example.duitku.budget.form.components;
+package com.example.duitku.transaction.form.components;
 
 import android.content.Context;
 import android.text.Editable;
@@ -11,7 +11,7 @@ import com.example.duitku.R;
 import com.google.android.material.textfield.TextInputEditText;
 import com.google.android.material.textfield.TextInputLayout;
 
-public class BudgetAmountComponent extends View {
+public class TransactionAmountComponent extends View {
 
     private TextInputLayout amountLayout;
     private TextInputEditText amountField;
@@ -21,33 +21,33 @@ public class BudgetAmountComponent extends View {
 
     private double amount = 0;
 
-    public BudgetAmountComponent(Context context, View rootView, Object activity) {
+    public TransactionAmountComponent(Context context, View rootView, Object activity) {
         super(context);
 
         this.rootView = rootView;
-        if (activity instanceof AppCompatActivity) {
+        if (activity instanceof AppCompatActivity){
             this.activity = (AppCompatActivity) activity;
         }
 
         setUpUI();
     }
 
-    private void setUpUI() {
+    private void setUpUI(){
         initialize();
         setUpComponents();
     }
 
-    private void initialize() {
-        if (rootView == null) {
-            amountLayout = activity.findViewById(R.id.budget_amount_textinputlayout);
-            amountField = activity.findViewById(R.id.budget_amount_field);
+    private void initialize(){
+        if (rootView == null){
+            amountLayout = activity.findViewById(R.id.transaction_amount_textinputlayout);
+            amountField = activity.findViewById(R.id.transaction_amount_edittext);
         } else {
-            amountLayout = rootView.findViewById(R.id.budget_amount_textinputlayout);
-            amountField = rootView.findViewById(R.id.budget_amount_field);
+            amountLayout = rootView.findViewById(R.id.transaction_amount_textinputlayout);
+            amountField = rootView.findViewById(R.id.transaction_amount_edittext);
         }
     }
 
-    private void setUpComponents() {
+    private void setUpComponents(){
         amountField.addTextChangedListener(new TextWatcher() {
             @Override
             public void beforeTextChanged(CharSequence charSequence, int i, int i1, int i2) {
@@ -61,7 +61,7 @@ public class BudgetAmountComponent extends View {
 
             @Override
             public void afterTextChanged(Editable editable) {
-                if (editable.toString().length() > 9) {
+                if (editable.toString().length() > 9){
                     amountLayout.setError("Amount too much");
                 } else {
                     amountLayout.setErrorEnabled(false);
@@ -70,17 +70,17 @@ public class BudgetAmountComponent extends View {
         });
     }
 
-    public boolean validateInput() {
+    public boolean validateInput(){
         String amountString = amountField.getText().toString().trim();
 
-        if (amountString.equals("")) {
+        if (amountString.equals("")){
             amountLayout.setError("Amount can't be empty");
             return false;
         } else {
             amount = Double.parseDouble(amountString);
         }
 
-        if (amount <= 0) {
+        if (amount <= 0){
             amountLayout.setError("Amount not allowed");
             return false;
         }
@@ -88,13 +88,12 @@ public class BudgetAmountComponent extends View {
         return !(amount > 999999999);
     }
 
-    public double getAmount() {
+    public double getAmount(){
         return amount;
     }
 
-    public void setAmount(double amount) {
+    public void setAmount(double amount){
         this.amount = amount;
         amountField.setText(Double.toString(amount));
     }
-
 }

@@ -21,10 +21,7 @@ import com.google.android.material.floatingactionbutton.FloatingActionButton;
 
 public class MainActivityView implements UIView {
 
-    private AppCompatActivity activity;
-
-    private BottomNavigationView bottomNavBar;
-    private FloatingActionButton addTransactionFab;
+    private final AppCompatActivity activity;
 
     public MainActivityView(AppCompatActivity activity){
         this.activity = activity;
@@ -38,8 +35,9 @@ public class MainActivityView implements UIView {
     }
 
     private void setUpBottomNavBar(){
-        bottomNavBar = activity.findViewById(R.id.main_bottomnavbar);
+        final BottomNavigationView bottomNavBar = activity.findViewById(R.id.main_bottomnavbar);
         bottomNavBar.getMenu().getItem(2).setEnabled(false); // yang di tengah2 gabisa diklik
+
         bottomNavBar.setOnNavigationItemSelectedListener(new BottomNavigationView.OnNavigationItemSelectedListener() {
             @Override
             public boolean onNavigationItemSelected(@NonNull MenuItem menuItem) {
@@ -70,7 +68,7 @@ public class MainActivityView implements UIView {
     }
 
     private void setUpFloatingActionButton(){
-        addTransactionFab = activity.findViewById(R.id.main_add_fab);
+        FloatingActionButton addTransactionFab = activity.findViewById(R.id.main_add_fab);
         addTransactionFab.setOnClickListener(new View.OnClickListener() {
 
             @Override
@@ -84,7 +82,7 @@ public class MainActivityView implements UIView {
 
     @Override
     public View getView() {
-        return null;
+        return activity.findViewById(R.id.main_coordlayout);
     }
 
 }

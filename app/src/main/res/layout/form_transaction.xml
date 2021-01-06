@@ -2,6 +2,7 @@
 <androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:id="@+id/form_transaction_constraintlayout"
     xmlns:app="http://schemas.android.com/apk/res-auto">
 
     <com.google.android.material.textfield.TextInputLayout
@@ -123,7 +124,7 @@
     </androidx.constraintlayout.widget.ConstraintLayout>
 
     <TextView
-        android:id="@+id/transasction_category_error_textview"
+        android:id="@+id/transaction_category_error_textview"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginStart="72dp"
@@ -143,7 +144,7 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.0"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/transasction_category_error_textview">
+        app:layout_constraintTop_toBottomOf="@+id/transaction_category_error_textview">
 
         <ImageView
             android:id="@+id/transaction_wallet_image"
@@ -171,7 +172,7 @@
     </androidx.constraintlayout.widget.ConstraintLayout>
 
     <TextView
-        android:id="@+id/transasction_wallet_error_textview"
+        android:id="@+id/transaction_wallet_error_textview"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginStart="72dp"
@@ -190,7 +191,7 @@
         android:background="@drawable/selector_constraintlayout"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/transasction_wallet_error_textview">
+        app:layout_constraintTop_toBottomOf="@+id/transaction_wallet_error_textview">
 
         <ImageView
             android:id="@+id/transaction_walletdest_imageview"

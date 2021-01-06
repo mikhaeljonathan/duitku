@@ -1,6 +1,7 @@
 package com.example.duitku.transaction.add;
 
 import android.view.View;
+import android.view.ViewGroup;
 import android.widget.ImageButton;
 
 import androidx.appcompat.app.AppCompatActivity;
@@ -13,12 +14,10 @@ import com.google.android.material.tabs.TabLayout;
 
 public class AddTransactionActivityView implements UIView {
 
-    private TabLayout tabLayout;
     private ViewPager viewPager;
-    private ImageButton backBtn;
     private AddTransactionViewPagerAdapter adapter;
 
-    private AppCompatActivity activity;
+    private final AppCompatActivity activity;
 
     public AddTransactionActivityView(AppCompatActivity activity){
         this.activity = activity;
@@ -47,12 +46,12 @@ public class AddTransactionActivityView implements UIView {
     }
 
     private void setUpTabLayout(){
-        tabLayout = activity.findViewById(R.id.add_transaction_tablayout);
+        TabLayout tabLayout = activity.findViewById(R.id.add_transaction_tablayout);
         tabLayout.setupWithViewPager(viewPager);
     }
 
     private void setUpButtons(){
-        backBtn = activity.findViewById(R.id.add_transaction_back_btn);
+        ImageButton backBtn = activity.findViewById(R.id.add_transaction_back_btn);
         backBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -63,6 +62,7 @@ public class AddTransactionActivityView implements UIView {
 
     @Override
     public View getView() {
-        return null;
+        return activity.getLayoutInflater().inflate(R.layout.activity_add_transaction,
+                (ViewGroup) activity.findViewById(R.id.add_transaction_constraintlayout));
     }
 }

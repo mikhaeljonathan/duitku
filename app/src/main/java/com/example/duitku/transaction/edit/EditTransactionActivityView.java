@@ -177,7 +177,7 @@ public class EditTransactionActivityView implements UIView {
     private void setUpCategoryPicker(){
         categoryConstraintLayout = activity.findViewById(R.id.transaction_category_constraintlayout);
         categoryTextView = activity.findViewById(R.id.transaction_category_textview);
-        categoryErrorTextView = activity.findViewById(R.id.transasction_category_error_textview);
+        categoryErrorTextView = activity.findViewById(R.id.transaction_category_error_textview);
         categoryErrorTextView.setVisibility(View.GONE);
 
         // if transfer transaction
@@ -216,7 +216,7 @@ public class EditTransactionActivityView implements UIView {
     private void setUpWalletPicker(){
         walletConstraintLayout = activity.findViewById(R.id.transaction_wallet_constraintlayout);
         walletTextView = activity.findViewById(R.id.transaction_wallet_textview);
-        walletErrorTextView = activity.findViewById(R.id.transasction_wallet_error_textview);
+        walletErrorTextView = activity.findViewById(R.id.transaction_wallet_error_textview);
         walletErrorTextView.setVisibility(View.GONE);
 
         final WalletController walletController = new WalletController(activity);

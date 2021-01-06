@@ -13,7 +13,7 @@ import com.example.duitku.interfaces.UIView;
 
 public class AddTransactionFragment extends Fragment {
 
-    private String type;
+    private final String type;
 
     public AddTransactionFragment(String type){
         this.type = type;

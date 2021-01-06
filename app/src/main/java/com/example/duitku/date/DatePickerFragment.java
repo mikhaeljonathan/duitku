@@ -15,8 +15,8 @@ import java.util.Date;
 
 public class DatePickerFragment extends DialogFragment {
 
-    private Date date;
-    private DatePickerDialog.OnDateSetListener listener;
+    private final Date date;
+    private final DatePickerDialog.OnDateSetListener listener;
 
     public DatePickerFragment(Date date, DatePickerDialog.OnDateSetListener listener){
         this.date = date;
@@ -35,7 +35,6 @@ public class DatePickerFragment extends DialogFragment {
         int month = calendar.get(Calendar.MONTH);
         int day = calendar.get(Calendar.DAY_OF_MONTH);
 
-        DatePickerDialog datePickerDialog = new DatePickerDialog(getActivity(), R.style.datepicker, listener, year, month, day);
-        return datePickerDialog;
+        return new DatePickerDialog(getActivity(), R.style.datepicker, listener, year, month, day);
     }
 }
