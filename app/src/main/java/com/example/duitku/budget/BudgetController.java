@@ -65,8 +65,8 @@ public class BudgetController {
         return rowsUpdated;
     }
 
-    public int deleteBudget(long id){
-        int rowsDeleted = context.getContentResolver().delete(ContentUris.withAppendedId(BudgetEntry.CONTENT_URI, id), null, null);
+    public int deleteBudget(Budget budget){
+        int rowsDeleted = context.getContentResolver().delete(ContentUris.withAppendedId(BudgetEntry.CONTENT_URI, budget.getId()), null, null);
         return rowsDeleted;
     }
 
