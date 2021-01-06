@@ -12,7 +12,7 @@ import com.example.duitku.database.DuitkuContract.CategoryEntry;
 
 public class CategoryController {
 
-    private Context context;
+    private final Context context;
 
     public CategoryController (Context context){
         this.context = context;
@@ -21,20 +21,17 @@ public class CategoryController {
     // basic operations
     public Uri addCategory(Category category){
         ContentValues values = convertCategoryToContentValues(category);
-        Uri uri = context.getContentResolver().insert(CategoryEntry.CONTENT_URI, values);
-        return uri;
+        return context.getContentResolver().insert(CategoryEntry.CONTENT_URI, values);
     }
 
     public int updateCategory(Category category){
         ContentValues values = convertCategoryToContentValues(category);
         Uri uri = ContentUris.withAppendedId(CategoryEntry.CONTENT_URI, category.getId());
-        int rowsUpdated = context.getContentResolver().update(uri, values, null, null);
-        return rowsUpdated;
+        return context.getContentResolver().update(uri, values, null, null);
     }
 
     public int deleteCategory(long id){
-        int rowsDeleted = context.getContentResolver().delete(ContentUris.withAppendedId(CategoryEntry.CONTENT_URI, id), null, null);
-        return rowsDeleted;
+        return context.getContentResolver().delete(ContentUris.withAppendedId(CategoryEntry.CONTENT_URI, id), null, null);
     }
 
     // get category
@@ -59,15 +56,15 @@ public class CategoryController {
         if (temp.moveToFirst()){
             ret = new Category(temp.getLong(temp.getColumnIndex(CategoryEntry.COLUMN_ID)), temp.getString(temp.getColumnIndex(CategoryEntry.COLUMN_NAME)), temp.getString(temp.getColumnIndex(CategoryEntry.COLUMN_TYPE)));
         }
+        temp.close();
 
         return ret;
     }
 
     public String[] getFullProjection(){
-        String[] projection = new String[]{CategoryEntry.COLUMN_ID,
+        return new String[]{CategoryEntry.COLUMN_ID,
                 CategoryEntry.COLUMN_NAME,
                 CategoryEntry.COLUMN_TYPE};
-        return projection;
     }
 
     // converting
@@ -80,8 +77,7 @@ public class CategoryController {
         String name = data.getString(nameColumnIndex);
         String type = data.getString(typeColumnIndex);
 
-        Category ret = new Category(id, name, type);
-        return ret;
+        return new Category(id, name, type);
     }
 
     private ContentValues convertCategoryToContentValues(Category category){

@@ -14,7 +14,7 @@ import com.example.duitku.budget.Budget;
 import com.example.duitku.budget.BudgetController;
 import com.example.duitku.category.Category;
 import com.example.duitku.category.CategoryController;
-import com.example.duitku.category.PickCategoryDialog;
+import com.example.duitku.category.pick.PickCategoryDialog;
 import com.example.duitku.database.DuitkuContract;
 
 public class BudgetCategoryComponent extends View {

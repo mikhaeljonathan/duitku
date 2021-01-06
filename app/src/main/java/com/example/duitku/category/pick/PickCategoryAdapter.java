@@ -1,4 +1,4 @@
-package com.example.duitku.category;
+package com.example.duitku.category.pick;
 
 import android.content.Context;
 import android.database.Cursor;
@@ -9,13 +9,14 @@ import android.widget.CursorAdapter;
 import android.widget.TextView;
 
 import com.example.duitku.R;
-import com.example.duitku.database.DuitkuContract;
+import com.example.duitku.category.Category;
+import com.example.duitku.category.CategoryController;
 
-public class ViewCategoryAdapter extends CursorAdapter {
+public class PickCategoryAdapter extends CursorAdapter {
 
-    private CategoryController categoryController;
+    private final CategoryController categoryController;
 
-    public ViewCategoryAdapter(Context context, Cursor c) {
+    public PickCategoryAdapter(Context context, Cursor c) {
         super(context, c, 0);
         categoryController = new CategoryController(context);
     }

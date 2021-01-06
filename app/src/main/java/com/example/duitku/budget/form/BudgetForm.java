@@ -24,27 +24,24 @@ public class BudgetForm extends View {
     private BudgetPeriodComponent periodComponent;
     private BudgetDateComponent dateComponent;
 
-    private final Context context;
     private final View rootView;
     private final Object activity;
 
     public BudgetForm(Context context, View rootView, Object activity) {
         super(context);
-        this.context = context;
         this.rootView = rootView;
         this.activity = activity;
-        setUpUI();
     }
 
-    private void setUpUI(){
+    public void setUpUI(){
         setUpFields();
     }
 
     private void setUpFields(){
-        categoryComponent = new BudgetCategoryComponent(context, rootView, activity);
-        amountComponent = new BudgetAmountComponent(context, rootView, activity);
-        periodComponent = new BudgetPeriodComponent(context, rootView, activity);
-        dateComponent = new BudgetDateComponent(context, rootView, activity);
+        categoryComponent = new BudgetCategoryComponent(getContext(), rootView, activity);
+        amountComponent = new BudgetAmountComponent(getContext(), rootView, activity);
+        periodComponent = new BudgetPeriodComponent(getContext(), rootView, activity);
+        dateComponent = new BudgetDateComponent(getContext(), rootView, activity);
         setUpCustomDateCheckBox();
     }
 

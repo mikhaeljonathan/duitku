@@ -159,6 +159,11 @@ public class DuitkuProvider extends ContentProvider {
                 selectionArgs = new String[] {String.valueOf(ContentUris.parseId(uri))};
                 rowsDeleted = db.delete(BudgetEntry.TABLE_NAME, selection, selectionArgs);
                 break;
+            case CATEGORY_ID:
+                selection = CategoryEntry._ID + " = ?";
+                selectionArgs = new String[] {String.valueOf(ContentUris.parseId(uri))};
+                rowsDeleted = db.delete(CategoryEntry.TABLE_NAME, selection, selectionArgs);
+                break;
             default:
                 throw new IllegalArgumentException("Deletion is not supported for " + uri);
         }
@@ -191,6 +196,11 @@ public class DuitkuProvider extends ContentProvider {
                 selection = BudgetEntry._ID + " = ?";
                 selectionArgs = new String[] {String.valueOf(ContentUris.parseId(uri))};
                 rowsUpdated = db.update(BudgetEntry.TABLE_NAME, contentValues, selection, selectionArgs);
+                break;
+            case CATEGORY_ID:
+                selection = CategoryEntry._ID + " = ?";
+                selectionArgs = new String[] {String.valueOf(ContentUris.parseId(uri))};
+                rowsUpdated = db.update(CategoryEntry.TABLE_NAME, contentValues, selection, selectionArgs);
                 break;
             default:
                 throw new IllegalArgumentException("Update is not supported for " + uri);

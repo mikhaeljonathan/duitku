@@ -19,7 +19,7 @@ import androidx.fragment.app.Fragment;
 import com.example.duitku.R;
 import com.example.duitku.category.Category;
 import com.example.duitku.category.CategoryController;
-import com.example.duitku.category.PickCategoryDialog;
+import com.example.duitku.category.pick.PickCategoryDialog;
 import com.example.duitku.database.DuitkuContract.CategoryEntry;
 import com.example.duitku.date.DatePickerFragment;
 import com.example.duitku.interfaces.UIView;

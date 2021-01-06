@@ -53,16 +53,21 @@ public class AddBudgetDialog extends AppCompatDialogFragment {
         view = inflater.inflate(R.layout.dialog_add,
                 (ViewGroup) getActivity().findViewById(R.id.dialog_add_constraintlayout));
 
-        TextView titleTV = view.findViewById(R.id.dialog_add_title);
-        titleTV.setText("Add Budget");
+        setUpTitle();
 
         LinearLayout budgetFormContainer = view.findViewById(R.id.dialog_add_form);
         budgetFormContainer.addView(inflater.inflate(R.layout.form_budget,
                 (ViewGroup) getActivity().findViewById(R.id.form_budget_constraintlayout)));
     }
 
+    private void setUpTitle(){
+        TextView titleTV = view.findViewById(R.id.dialog_add_title);
+        titleTV.setText("Add Budget");
+    }
+
     private void setUpForm(){
         budgetForm = new BudgetForm(getActivity(), view, this);
+        budgetForm.setUpUI();
     }
 
     private void setUpButtons(){

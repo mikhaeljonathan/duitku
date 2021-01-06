@@ -61,6 +61,7 @@ public class EditBudgetActivityView implements UIView {
 
     private void setUpForm(){
         budgetForm = new BudgetForm(activity, null, activity);
+        budgetForm.setUpUI();
         budgetForm.setAmount(budget.getAmount());
         budgetForm.setStartDate(budget.getStartDate());
         budgetForm.setEndDate(budget.getEndDate());

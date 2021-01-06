@@ -36,13 +36,11 @@ public class BudgetFragment extends Fragment implements LoaderManager.LoaderCall
     @NonNull
     @Override
     public Loader<Cursor> onCreateLoader(int id, @Nullable Bundle args) {
-        switch (id){
-            case BUDGET_LOADER:
-                String[] projection = new BudgetController(getActivity()).getFullProjection();
-                return new CursorLoader(getActivity(), BudgetEntry.CONTENT_URI, projection,null,null,null);
-            default:
-                throw new IllegalStateException("Unknown Loader");
+        if (id == BUDGET_LOADER) {
+            String[] projection = new BudgetController(getActivity()).getFullProjection();
+            return new CursorLoader(getActivity(), BudgetEntry.CONTENT_URI, projection, null, null, null);
         }
+        throw new IllegalStateException("Unknown Loader");
     }
 
     @Override

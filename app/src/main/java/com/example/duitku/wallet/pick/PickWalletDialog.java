@@ -68,7 +68,7 @@ public class PickWalletDialog extends AppCompatDialogFragment implements LoaderM
     }
 
     private void setUpListView(View view){
-        pickWalletListView = view.findViewById(R.id.pick_wallet_listview);
+        pickWalletListView = view.findViewById(R.id.dialog_pick_listview);
         pickWalletListView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> adapterView, View view, int position, long id) {
