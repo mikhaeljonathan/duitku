@@ -4,7 +4,7 @@ import java.util.Date;
 
 public class Budget {
 
-    private long id;
+    private final long id;
     private double amount;
     private double used;
     private Date startDate;

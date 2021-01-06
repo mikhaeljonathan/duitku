@@ -8,14 +8,12 @@ import androidx.fragment.app.Fragment;
 import androidx.viewpager.widget.ViewPager;
 
 import com.example.duitku.R;
-import com.example.duitku.budget.BudgetFragment;
+import com.example.duitku.budget.fragment.BudgetFragment;
 import com.example.duitku.interfaces.UIView;
 import com.example.duitku.transaction.daily.DailyTransactionFragment;
 import com.example.duitku.transaction.monthly.MonthlyTransactionFragment;
 import com.example.duitku.transaction.weekly.WeeklyTransactionFragment;
 import com.example.duitku.wallet.WalletFragment;
-
-import java.util.ArrayList;
 
 public class TransactionFragmentView implements UIView {
 

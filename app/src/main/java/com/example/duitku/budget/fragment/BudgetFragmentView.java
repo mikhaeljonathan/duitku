@@ -1,4 +1,4 @@
-package com.example.duitku.budget;
+package com.example.duitku.budget.fragment;
 
 import android.content.Intent;
 import android.view.LayoutInflater;
@@ -19,17 +19,16 @@ import com.example.duitku.budget.add.AddBudgetDialog;
 import com.example.duitku.budget.view.ViewBudgetActivity;
 import com.example.duitku.interfaces.UIView;
 
-
 public class BudgetFragmentView implements UIView {
 
     private ListView listView;
     private BudgetAdapter adapter;
     private View header;
 
-    private LayoutInflater inflater;
-    private ViewGroup container;
+    private final LayoutInflater inflater;
+    private final ViewGroup container;
     private View view;
-    private Fragment fragment;
+    private final Fragment fragment;
 
     public BudgetFragmentView(LayoutInflater inflater, ViewGroup container, Fragment fragment){
         this.inflater = inflater;
@@ -40,13 +39,46 @@ public class BudgetFragmentView implements UIView {
     @Override
     public void setUpUI() {
         this.view = inflater.inflate(R.layout.fragment_transaction_viewpager, container, false);
-        setUpListView();
         setUpHeader();
-        setUpAdapter();
+        setUpListView();
     }
 
     public BudgetAdapter getAdapter(){
         return adapter;
+    }
+
+    private void setUpHeader(){
+        header = inflater.inflate(R.layout.fragment_transaction_header, container, false);
+
+        setUpTitle();
+        setUpAddBtn();
+
+        hideView();
+    }
+
+    private void setUpTitle(){
+        TextView titleTextView = header.findViewById(R.id.transaction_header_title_textview);
+        titleTextView.setText("Budget");
+    }
+
+    private void setUpAddBtn(){
+        ImageView addButton = header.findViewById(R.id.transaction_header_add_btn);
+        addButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                addBudget();
+            }
+        });
+    }
+
+    private void hideView(){
+        Button periodButton = header.findViewById(R.id.transaction_header_period_btn);
+        TextView totalWalletTextView = header.findViewById(R.id.transaction_header_totalwallet_textview);
+        ConstraintLayout summaryContainer = header.findViewById(R.id.transaction_header_summary_container);
+
+        periodButton.setVisibility(View.GONE);
+        totalWalletTextView.setVisibility(View.GONE);
+        summaryContainer.setVisibility(View.GONE);
     }
 
     private void setUpListView(){
@@ -60,30 +92,8 @@ public class BudgetFragmentView implements UIView {
                 viewBudget(id);
             }
         });
-    }
-
-    private void setUpHeader(){
-        header = inflater.inflate(R.layout.fragment_transaction_header, container, false);
-
-        TextView titleTextView = header.findViewById(R.id.transaction_header_title_textview);
-        ImageView addButton = header.findViewById(R.id.transaction_header_add_btn);
-        Button periodButton = header.findViewById(R.id.transaction_header_period_btn);
-        TextView totalWalletTextView = header.findViewById(R.id.transaction_header_totalwallet_textview);
-        ConstraintLayout summaryContainer = header.findViewById(R.id.transaction_header_summary_container);
-
-        titleTextView.setText("Budget");
-        periodButton.setVisibility(View.GONE);
-        totalWalletTextView.setVisibility(View.GONE);
-        summaryContainer.setVisibility(View.GONE);
-
-        addButton.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                addBudget();
-            }
-        });
-
         listView.addHeaderView(header, null, false);
+        setUpAdapter();
     }
 
     private void setUpAdapter(){

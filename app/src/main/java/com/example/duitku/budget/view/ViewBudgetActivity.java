@@ -14,10 +14,7 @@ import java.util.List;
 public class ViewBudgetActivity extends AppCompatActivity {
 
     private ViewBudgetActivityView viewBudgetActivityView;
-    private TransactionController transactionController = new TransactionController(this);
-    private BudgetController budgetController = new BudgetController(this);
 
-    private Budget budget;
     private long budgetId;
 
     @Override
@@ -25,7 +22,6 @@ public class ViewBudgetActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
 
         budgetId = getIntent().getLongExtra("ID", -1);
-
         viewBudgetActivityView = new ViewBudgetActivityView(budgetId, this);
     }
 
@@ -33,12 +29,12 @@ public class ViewBudgetActivity extends AppCompatActivity {
     protected void onResume() {
         super.onResume();
 
-        budget = budgetController.getBudgetById(budgetId);
-        if (budget == null){
+        Budget budget = new BudgetController(this).getBudgetById(budgetId);
+        if (budget == null) {
             finish();
             return;
         }
-        List<Transaction> transactionList = transactionController.getTransactionsByBudget(budget);
+        List<Transaction> transactionList = new TransactionController(this).getTransactionsByBudget(budget);
         viewBudgetActivityView.setTransactionList(transactionList);
         viewBudgetActivityView.setUpUI();
     }

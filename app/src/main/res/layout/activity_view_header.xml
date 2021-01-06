@@ -1,16 +1,17 @@
 <?xml version="1.0" encoding="utf-8"?>
 <androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    android:layout_width="match_parent"
-    android:layout_height="match_parent"
     xmlns:app="http://schemas.android.com/apk/res-auto"
-    xmlns:tools="http://schemas.android.com/tools">
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/activity_view_constraintlayout"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
 
     <TextView
         android:id="@+id/view_header_title"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginTop="16dp"
         android:layout_marginLeft="16dp"
+        android:layout_marginTop="16dp"
         android:textColor="@color/textLight"
         android:textSize="30sp"
         android:textStyle="bold"
@@ -65,12 +66,12 @@
         android:layout_width="0dp"
         android:layout_height="20dp"
         android:layout_marginStart="32dp"
-        android:layout_marginEnd="32dp"
         android:layout_marginTop="32dp"
+        android:layout_marginEnd="32dp"
         android:progressDrawable="@drawable/progress_bar"
-        app:layout_constraintTop_toBottomOf="@id/view_header_subsubtitle"
+        app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"/>
+        app:layout_constraintTop_toBottomOf="@id/view_header_subsubtitle" />
 
     <androidx.constraintlayout.widget.Barrier
         android:id="@+id/view_header_barrier"
@@ -85,8 +86,8 @@
         android:id="@+id/view_header_used_textview"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:textColor="@color/textLight"
         android:layout_marginTop="8dp"
+        android:textColor="@color/textLight"
         app:layout_constraintStart_toStartOf="@+id/view_header_progressbar"
         app:layout_constraintTop_toBottomOf="@+id/view_header_progressbar"
         tools:text="700000" />
@@ -95,8 +96,8 @@
         android:id="@+id/view_header_max_textview"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:textColor="@color/textLight"
         android:layout_marginTop="8dp"
+        android:textColor="@color/textLight"
         app:layout_constraintEnd_toEndOf="@+id/view_header_progressbar"
         app:layout_constraintTop_toBottomOf="@+id/view_header_progressbar"
         tools:text="1000000" />

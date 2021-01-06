@@ -93,4 +93,8 @@ public class Utility {
         return calendar.getTime();
     }
 
+    public static int getQuarter(int month){
+        return month / 4 + 1;
+    }
+
 }

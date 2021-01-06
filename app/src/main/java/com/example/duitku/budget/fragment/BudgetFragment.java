@@ -1,4 +1,4 @@
-package com.example.duitku.budget;
+package com.example.duitku.budget.fragment;
 
 import android.database.Cursor;
 import android.os.Bundle;
@@ -13,11 +13,11 @@ import androidx.loader.app.LoaderManager;
 import androidx.loader.content.CursorLoader;
 import androidx.loader.content.Loader;
 
+import com.example.duitku.budget.BudgetController;
 import com.example.duitku.database.DuitkuContract.BudgetEntry;
 
 public class BudgetFragment extends Fragment implements LoaderManager.LoaderCallbacks<Cursor> {
 
-    private BudgetController budgetController = new BudgetController(getActivity());
     private BudgetFragmentView budgetFragmentView;
 
     private final int BUDGET_LOADER = 0;
@@ -38,7 +38,7 @@ public class BudgetFragment extends Fragment implements LoaderManager.LoaderCall
     public Loader<Cursor> onCreateLoader(int id, @Nullable Bundle args) {
         switch (id){
             case BUDGET_LOADER:
-                String[] projection = budgetController.getFullProjection();
+                String[] projection = new BudgetController(getActivity()).getFullProjection();
                 return new CursorLoader(getActivity(), BudgetEntry.CONTENT_URI, projection,null,null,null);
             default:
                 throw new IllegalStateException("Unknown Loader");
