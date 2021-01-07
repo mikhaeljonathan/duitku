@@ -2,6 +2,7 @@ package com.example.duitku.transaction.category;
 
 import android.graphics.Paint;
 import android.view.View;
+import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.Button;
 import android.widget.ImageButton;
@@ -28,10 +29,10 @@ public class ViewCategoryTransactionActivityView implements UIView {
 
     private View header;
 
-    private CategoryTransaction categoryTransaction;
-    private Category category;
+    private final CategoryTransaction categoryTransaction;
+    private final Category category;
 
-    private AppCompatActivity activity;
+    private final AppCompatActivity activity;
 
     public ViewCategoryTransactionActivityView(CategoryTransaction categoryTransaction, AppCompatActivity activity){
         this.categoryTransaction = categoryTransaction;
@@ -41,16 +42,70 @@ public class ViewCategoryTransactionActivityView implements UIView {
 
     @Override
     public void setUpUI() {
+        setUpViews();
+        setUpComponents();
+        setUpButtons();
+    }
+
+    private void setUpViews(){
         activity.setContentView(R.layout.activity_view);
-        TextView textView = activity.findViewById(R.id.view_title_textview);
-        textView.setText("View Category Transaction");
+
+        TextView titleTV = activity.findViewById(R.id.view_title_textview);
+        titleTV.setText("View Category Transaction");
+
         ImageView editBtn = activity.findViewById(R.id.view_edit_btn);
         editBtn.setVisibility(View.GONE);
+    }
 
-        setUpListView();
+    private void setUpComponents(){
         setUpHeader();
-        setUpButtons();
-        setUpAdapter();
+        setUpListView();
+    }
+
+    private void setUpHeader(){
+        header = activity.getLayoutInflater().inflate(R.layout.activity_view_header,
+                (ViewGroup) activity.findViewById(R.id.activity_view_constraintlayout));
+
+        setUpName();
+        setUpAmount();
+        setUpPeriod();
+        setUpTransactionTextView();
+
+        hideView();
+    }
+
+    private void setUpName(){
+        TextView nameTextView = header.findViewById(R.id.view_header_title);
+        nameTextView.setText(category.getName());
+    }
+
+    private void setUpAmount(){
+        TextView amountTextView = header.findViewById(R.id.view_header_subtitle);
+        amountTextView.setText(Double.toString(categoryTransaction.getAmount()));
+    }
+
+    private void setUpPeriod(){
+        TextView periodTextView = header.findViewById(R.id.view_header_subsubtitle);
+        periodTextView.setText("dari sini sampe sini");
+    }
+
+    private void setUpTransactionTextView(){
+        TextView transactionTextView = header.findViewById(R.id.view_header_transaction_textview);
+        transactionTextView.setPaintFlags(transactionTextView.getPaintFlags()| Paint.UNDERLINE_TEXT_FLAG); //underline
+    }
+
+    private void hideView(){
+        ProgressBar progressBar = header.findViewById(R.id.view_header_progressbar);
+        progressBar.setVisibility(View.GONE);
+
+        TextView usedTextView = header.findViewById(R.id.view_header_used_textview);
+        usedTextView.setVisibility(View.GONE);
+
+        TextView amountTextView = header.findViewById(R.id.view_header_max_textview);
+        amountTextView.setVisibility(View.GONE);
+
+        Button periodBtn = header.findViewById(R.id.view_header_period_btn);
+        periodBtn.setVisibility(View.GONE);
     }
 
     private void setUpListView(){
@@ -62,6 +117,13 @@ public class ViewCategoryTransactionActivityView implements UIView {
                 viewTransaction(transaction.getId());
             }
         });
+        listView.addHeaderView(header, null, false);
+        setUpAdapter();
+    }
+
+    private void setUpAdapter(){
+        adapter = new TransactionAdapter(activity, categoryTransaction.getTransactions(), null);
+        listView.setAdapter(adapter);
     }
 
     private void viewTransaction(long id){
@@ -69,37 +131,12 @@ public class ViewCategoryTransactionActivityView implements UIView {
         viewTransactionDialog.show(activity.getSupportFragmentManager(), "View Transaction Dialog");
     }
 
-    private void setUpHeader(){
-        header = activity.getLayoutInflater().inflate(R.layout.activity_view_header, null);
-
-        TextView nameTextView = header.findViewById(R.id.view_header_title);
-        TextView amountTextView = header.findViewById(R.id.view_header_subtitle);
-        TextView periodTextView = header.findViewById(R.id.view_header_subsubtitle);
-        TextView transactionTextView = header.findViewById(R.id.view_header_transaction_textview);
-
-        nameTextView.setText(category.getName());
-        amountTextView.setText(Double.toString(categoryTransaction.getAmount()));
-        periodTextView.setText("dari sini sampe sini");
-        transactionTextView.setPaintFlags(transactionTextView.getPaintFlags()| Paint.UNDERLINE_TEXT_FLAG); //underline
-
-        hideView();
-
-        listView.addHeaderView(header, null, false);
-    }
-
-    private void hideView(){
-        ProgressBar progressBar = header.findViewById(R.id.view_header_progressbar);
-        TextView usedTextView = header.findViewById(R.id.view_header_used_textview);
-        TextView amountTextView = header.findViewById(R.id.view_header_max_textview);
-        Button periodBtn = header.findViewById(R.id.view_header_period_btn);
-
-        progressBar.setVisibility(View.GONE);
-        usedTextView.setVisibility(View.GONE);
-        amountTextView.setVisibility(View.GONE);
-        periodBtn.setVisibility(View.GONE);
-    }
 
     private void setUpButtons(){
+        setUpBackBtn();
+    }
+
+    private void setUpBackBtn(){
         ImageButton backBtn = activity.findViewById(R.id.view_back_btn);
         backBtn.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -109,13 +146,8 @@ public class ViewCategoryTransactionActivityView implements UIView {
         });
     }
 
-    private void setUpAdapter(){
-        adapter = new TransactionAdapter(activity, categoryTransaction.getTransactions(), null);
-        listView.setAdapter(adapter);
-    }
-
     @Override
     public View getView() {
-        return null;
+        return activity.findViewById(R.id.view_constraintlayout);
     }
 }

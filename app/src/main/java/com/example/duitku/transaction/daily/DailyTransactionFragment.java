@@ -18,7 +18,6 @@ import com.example.duitku.category.CategoryController;
 import com.example.duitku.transaction.TransactionController;
 import com.example.duitku.database.DuitkuContract.CategoryEntry;
 import com.example.duitku.database.DuitkuContract.TransactionEntry;
-import com.example.duitku.date.MonthYearPickerDialog;
 import com.example.duitku.category.Category;
 import com.example.duitku.transaction.Transaction;
 
@@ -29,11 +28,12 @@ import java.util.Comparator;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
+import java.util.Objects;
 
 public class DailyTransactionFragment extends Fragment implements LoaderManager.LoaderCallbacks<Cursor>, MonthYearPickerDialog.PickMonthYearListener {
 
-    private int month;
-    private int year;
+    private int month = Calendar.getInstance().get(Calendar.MONTH);
+    private int year = Calendar.getInstance().get(Calendar.YEAR);
 
     private List<DailyTransaction> dailyTransactionList = new ArrayList<>();
     private HashMap<DailyTransaction, List<Transaction>> dailyTransactionListHashMap = new HashMap<>();
@@ -49,11 +49,6 @@ public class DailyTransactionFragment extends Fragment implements LoaderManager.
     @Nullable
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
-        // get current date
-        Calendar calendar = Calendar.getInstance();
-        month = calendar.get(Calendar.MONTH);
-        year = calendar.get(Calendar.YEAR);
-
         // setup the UI
         dailyTransactionFragmentView = new DailyTransactionFragmentView(inflater, container, this);
         dailyTransactionFragmentView.setUpUI();
@@ -70,15 +65,13 @@ public class DailyTransactionFragment extends Fragment implements LoaderManager.
     @NonNull
     @Override
     public Loader onCreateLoader(int id, @Nullable Bundle args) {
-        switch (id){
-            case TRANSACTION_LOADER_DAILY:
-                String[] projection = transactionController.getFullProjection();
-                String selection = TransactionEntry.COLUMN_DATE + " LIKE ?";
-                String[] selectionArgs = new String[]{"%/" + String.format("%02d", month + 1) + "/" + year};
-                return new CursorLoader(getActivity(), TransactionEntry.CONTENT_URI, projection, selection, selectionArgs, null);
-            default:
-                throw new IllegalStateException("Unknown Loader");
+        if (id == TRANSACTION_LOADER_DAILY) {
+            String[] projection = transactionController.getFullProjection();
+            String selection = TransactionEntry.COLUMN_DATE + " LIKE ?";
+            String[] selectionArgs = new String[]{"%/" + String.format("%02d", month + 1) + "/" + year};
+            return new CursorLoader(Objects.requireNonNull(getActivity()), TransactionEntry.CONTENT_URI, projection, selection, selectionArgs, null);
         }
+        throw new IllegalStateException("Unknown Loader");
     }
 
     @Override

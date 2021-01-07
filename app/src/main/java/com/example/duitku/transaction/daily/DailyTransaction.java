@@ -2,10 +2,10 @@ package com.example.duitku.transaction.daily;
 
 public class DailyTransaction {
 
-    private int date;
-    private String day;
-    private double income;
-    private double expense;
+    private final int date;
+    private final String day;
+    private final double income;
+    private final double expense;
 
     public DailyTransaction(int date, String day, double income, double expense){
         this.date = date;

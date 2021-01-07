@@ -13,12 +13,10 @@ import android.widget.TextView;
 import androidx.appcompat.app.AppCompatDialogFragment;
 
 import com.example.duitku.R;
-import com.example.duitku.date.MonthYearPickerDialog;
 import com.example.duitku.main.Utility;
 import com.example.duitku.transaction.Transaction;
 import com.example.duitku.transaction.TransactionAdapter;
 import com.example.duitku.interfaces.UIView;
-import com.example.duitku.transaction.TransactionController;
 import com.example.duitku.transaction.view.ViewTransactionDialog;
 import com.example.duitku.wallet.Wallet;
 import com.example.duitku.wallet.WalletController;
