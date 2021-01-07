@@ -35,12 +35,12 @@ public class DailyTransactionFragment extends Fragment implements LoaderManager.
     private int month = Calendar.getInstance().get(Calendar.MONTH);
     private int year = Calendar.getInstance().get(Calendar.YEAR);
 
-    private List<DailyTransaction> dailyTransactionList = new ArrayList<>();
-    private HashMap<DailyTransaction, List<Transaction>> dailyTransactionListHashMap = new HashMap<>();
+    private final List<DailyTransaction> dailyTransactionList = new ArrayList<>();
+    private final HashMap<DailyTransaction, List<Transaction>> dailyTransactionListHashMap = new HashMap<>();
     private double totalIncome;
     private double totalExpense;
 
-    private TransactionController transactionController = new TransactionController(getActivity());
+    private final TransactionController transactionController = new TransactionController(getActivity());
 
     private DailyTransactionFragmentView dailyTransactionFragmentView;
 

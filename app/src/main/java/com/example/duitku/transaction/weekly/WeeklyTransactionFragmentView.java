@@ -15,8 +15,6 @@ import android.widget.ImageView;
 import android.widget.ListView;
 import android.widget.TextView;
 
-import androidx.appcompat.app.AppCompatDialogFragment;
-
 import com.example.duitku.R;
 import com.example.duitku.main.Utility;
 import com.example.duitku.transaction.category.CategoryTransaction;
@@ -37,10 +35,10 @@ public class WeeklyTransactionFragmentView implements UIView {
     private TextView totalGlobalIncomeTextView;
     private TextView totalGlobalExpenseTextView;
 
-    private LayoutInflater inflater;
-    private ViewGroup container;
+    private final LayoutInflater inflater;
+    private final ViewGroup container;
     private View view;
-    private WeeklyTransactionFragment fragment;
+    private final WeeklyTransactionFragment fragment;
 
     public WeeklyTransactionFragmentView(LayoutInflater inflater, ViewGroup container, WeeklyTransactionFragment fragment){
         this.inflater = inflater;
@@ -51,9 +49,49 @@ public class WeeklyTransactionFragmentView implements UIView {
     @Override
     public void setUpUI() {
         this.view = inflater.inflate(R.layout.fragment_transaction_viewpager, container, false);
-        setUpExpandableListView();
         setUpHeader();
-        setUpPeriodButton();
+        setUpExpandableListView();
+    }
+
+    private void setUpHeader(){
+        header = inflater.inflate(R.layout.fragment_transaction_header, container, false);
+
+        TextView titleTextView = header.findViewById(R.id.transaction_header_title_textview);
+        TextView totalWalletTextView = header.findViewById(R.id.transaction_header_totalwallet_textview);
+        ImageView addButton = header.findViewById(R.id.transaction_header_add_btn);
+
+        titleTextView.setText("Weekly Transaction");
+        totalWalletTextView.setVisibility(View.GONE);
+        addButton.setVisibility(View.GONE);
+
+        totalAmountTextView = header.findViewById(R.id.transaction_header_amount_textview);
+        totalGlobalIncomeTextView = header.findViewById(R.id.transaction_header_income_amount_textview);
+        totalGlobalExpenseTextView = header.findViewById(R.id.transaction_header_expense_amount_textview);
+
+        periodButton = header.findViewById(R.id.transaction_header_period_btn);
+    }
+
+    private void setUpExpandableListView(){
+        ListView listView = view.findViewById(R.id.fragment_transaction_viewpager_listview);
+        listView.setVisibility(View.GONE);
+
+        expandableListView = view.findViewById(R.id.fragment_transaction_viewpager_expandablelistview);
+        expandableListView.setOnChildClickListener(new ExpandableListView.OnChildClickListener() {
+            @Override
+            public boolean onChildClick(ExpandableListView expandableListView, View view, int i, int i1, long l) {
+                CategoryTransaction categoryTransaction = (CategoryTransaction) adapter.getChild(i, i1);
+                viewCategoryTransaction(categoryTransaction);
+                return true;
+            }
+        });
+
+        expandableListView.addHeaderView(header, null, false);
+    }
+
+    private void viewCategoryTransaction(CategoryTransaction categoryTransaction){
+        Intent viewCategoryTransactionIntent = new Intent(fragment.getActivity(), ViewCategoryTransactionActivity.class);
+        viewCategoryTransactionIntent.putExtra("CategoryTransaction", categoryTransaction);
+        fragment.getActivity().startActivity(viewCategoryTransactionIntent);
     }
 
     public void updatePeriodButton(final int month, final int year){
@@ -75,56 +113,14 @@ public class WeeklyTransactionFragmentView implements UIView {
     }
 
     public void updateSummary(double totalGlobalIncome, double totalGlobalExpense){
-        totalAmountTextView.setText((totalGlobalIncome - totalGlobalExpense) + "");
-        totalGlobalIncomeTextView.setText(totalGlobalIncome + "");
-        totalGlobalExpenseTextView.setText(totalGlobalExpense + "");
+        totalAmountTextView.setText(Double.toString(totalGlobalIncome - totalGlobalExpense));
+        totalGlobalIncomeTextView.setText(Double.toString(totalGlobalIncome));
+        totalGlobalExpenseTextView.setText(Double.toString(totalGlobalExpense));
     }
 
     public void fillListView(List<WeeklyTransaction> weeklyTransactionList, HashMap<WeeklyTransaction, List<CategoryTransaction>> categoryTransactionListHashMap, Context context){
         adapter = new WeeklyExpandableAdapter(weeklyTransactionList, categoryTransactionListHashMap, context);
         expandableListView.setAdapter(adapter);
-    }
-
-    private void setUpExpandableListView(){
-        ListView listView = view.findViewById(R.id.fragment_transaction_viewpager_listview);
-        listView.setVisibility(View.GONE);
-        expandableListView = view.findViewById(R.id.fragment_transaction_viewpager_expandablelistview);
-        expandableListView.setOnChildClickListener(new ExpandableListView.OnChildClickListener() {
-            @Override
-            public boolean onChildClick(ExpandableListView expandableListView, View view, int i, int i1, long l) {
-                CategoryTransaction categoryTransaction = (CategoryTransaction) adapter.getChild(i, i1);
-                viewCategoryTransaction(categoryTransaction);
-                return true;
-            }
-        });
-    }
-
-    private void setUpHeader(){
-        header = inflater.inflate(R.layout.fragment_transaction_header, container, false);
-
-        TextView titleTextView = header.findViewById(R.id.transaction_header_title_textview);
-        TextView totalWalletTextView = header.findViewById(R.id.transaction_header_totalwallet_textview);
-        ImageView addButton = header.findViewById(R.id.transaction_header_add_btn);
-
-        titleTextView.setText("Weekly Transaction");
-        totalWalletTextView.setVisibility(View.GONE);
-        addButton.setVisibility(View.GONE);
-
-        totalAmountTextView = header.findViewById(R.id.transaction_header_amount_textview);
-        totalGlobalIncomeTextView = header.findViewById(R.id.transaction_header_income_amount_textview);
-        totalGlobalExpenseTextView = header.findViewById(R.id.transaction_header_expense_amount_textview);
-
-        expandableListView.addHeaderView(header, null, false);
-    }
-
-    private void setUpPeriodButton(){
-        periodButton = header.findViewById(R.id.transaction_header_period_btn);
-    }
-
-    private void viewCategoryTransaction(CategoryTransaction categoryTransaction){
-        Intent viewCategoryTransactionIntent = new Intent(fragment.getActivity(), ViewCategoryTransactionActivity.class);
-        viewCategoryTransactionIntent.putExtra("CategoryTransaction", categoryTransaction);
-        fragment.getActivity().startActivity(viewCategoryTransactionIntent);
     }
 
     @Override

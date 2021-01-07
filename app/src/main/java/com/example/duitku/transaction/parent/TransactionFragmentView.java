@@ -17,12 +17,10 @@ import com.example.duitku.wallet.WalletFragment;
 
 public class TransactionFragmentView implements UIView {
 
-    private ViewPager viewPager;
-
-    private LayoutInflater inflater;
-    private ViewGroup container;
+    private final LayoutInflater inflater;
+    private final ViewGroup container;
     private View view;
-    private Fragment fragment;
+    private final Fragment fragment;
 
     public TransactionFragmentView(LayoutInflater inflater, ViewGroup container, Fragment fragment){
         this.inflater = inflater;
@@ -37,7 +35,7 @@ public class TransactionFragmentView implements UIView {
     }
 
     private void setUpViewPager(){
-        viewPager = view.findViewById(R.id.fragment_transaction_viewpager);
+        ViewPager viewPager = view.findViewById(R.id.fragment_transaction_viewpager);
 
         TransactionViewPagerAdapter adapter = new TransactionViewPagerAdapter(fragment.getChildFragmentManager());
 

@@ -17,9 +17,9 @@ import java.util.List;
 
 public class WeeklyExpandableAdapter extends BaseExpandableListAdapter {
 
-    private List<WeeklyTransaction> weeklyTransactionList;
-    private HashMap<WeeklyTransaction, List<CategoryTransaction>> categoryTransactionListHashMap;
-    private Context context;
+    private final List<WeeklyTransaction> weeklyTransactionList;
+    private final HashMap<WeeklyTransaction, List<CategoryTransaction>> categoryTransactionListHashMap;
+    private final Context context;
 
     public WeeklyExpandableAdapter(List<WeeklyTransaction> weeklyTransactionList,
                                    HashMap<WeeklyTransaction, List<CategoryTransaction>> categoryTransactionListHashMap,
@@ -78,10 +78,10 @@ public class WeeklyExpandableAdapter extends BaseExpandableListAdapter {
         intervalsTextView.setText(weeklyTransaction.getIntervals());
 
         TextView incomeTextView = view.findViewById(R.id.item_list_transaction_weekly_income_textview);
-        incomeTextView.setText(weeklyTransaction.getIncome() + "");
+        incomeTextView.setText(Double.toString(weeklyTransaction.getIncome()));
 
         TextView expenseTextView = view.findViewById(R.id.item_list_transaction_weekly_expense_textview);
-        expenseTextView.setText(weeklyTransaction.getExpense() + "");
+        expenseTextView.setText(Double.toString(weeklyTransaction.getExpense()));
 
         return view;
     }

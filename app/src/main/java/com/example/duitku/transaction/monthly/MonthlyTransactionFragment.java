@@ -29,17 +29,17 @@ import java.util.List;
 
 public class MonthlyTransactionFragment extends Fragment implements LoaderManager.LoaderCallbacks<Cursor> {
 
-    private int year;
+    private int year = Calendar.getInstance().get(Calendar.YEAR);
 
-    private List<MonthlyTransaction> monthlyTransactionList = new ArrayList<>();
-    private HashMap<MonthlyTransaction, List<CategoryTransaction>> categoryTransactionListHashMap = new HashMap<>();
-    private HashMap<Long, CategoryTransaction> categoryTransactionHashMap = new HashMap<>();
+    private final List<MonthlyTransaction> monthlyTransactionList = new ArrayList<>();
+    private final HashMap<MonthlyTransaction, List<CategoryTransaction>> categoryTransactionListHashMap = new HashMap<>();
+    private final HashMap<Long, CategoryTransaction> categoryTransactionHashMap = new HashMap<>();
     private double totalIncome;
     private double totalExpense;
     private double totalGlobalIncome;
     private double totalGlobalExpense;
 
-    private TransactionController transactionController = new TransactionController(getActivity());
+    private final TransactionController transactionController = new TransactionController(getActivity());
 
     private MonthlyTransactionFragmentView monthlyTransactionFragmentView;
 
@@ -48,10 +48,6 @@ public class MonthlyTransactionFragment extends Fragment implements LoaderManage
     @Nullable
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
-        // get current year
-        Calendar calendar = Calendar.getInstance();
-        year = calendar.get(Calendar.YEAR);
-
         // setup the UI
         monthlyTransactionFragmentView = new MonthlyTransactionFragmentView(inflater, container, this);
         monthlyTransactionFragmentView.setUpUI();
