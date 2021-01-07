@@ -64,16 +64,14 @@ public class MonthlyTransactionFragment extends Fragment implements LoaderManage
     @NonNull
     @Override
     public Loader<Cursor> onCreateLoader(int id, @Nullable Bundle args) {
-        switch (id) {
-            case TRANSACTION_LOADER_MONTHLY:
-                String[] projection = transactionController.getFullProjection();
-                // yang transfer ga termasuk
-                String selection = DuitkuContract.TransactionEntry.COLUMN_DATE + " LIKE ? AND " + DuitkuContract.TransactionEntry.COLUMN_CATEGORY_ID + " > 0";
-                String[] selectionArgs = new String[]{"%/%/" + year};
-                return new CursorLoader(getContext(), DuitkuContract.TransactionEntry.CONTENT_URI, projection, selection, selectionArgs, null);
-            default:
-                throw new IllegalStateException("Unknown Loader");
+        if (id == TRANSACTION_LOADER_MONTHLY) {
+            String[] projection = transactionController.getFullProjection();
+            // yang transfer ga termasuk
+            String selection = DuitkuContract.TransactionEntry.COLUMN_DATE + " LIKE ? AND " + DuitkuContract.TransactionEntry.COLUMN_CATEGORY_ID + " > 0";
+            String[] selectionArgs = new String[]{"%/%/" + year};
+            return new CursorLoader(getContext(), DuitkuContract.TransactionEntry.CONTENT_URI, projection, selection, selectionArgs, null);
         }
+        throw new IllegalStateException("Unknown Loader");
     }
 
     @Override

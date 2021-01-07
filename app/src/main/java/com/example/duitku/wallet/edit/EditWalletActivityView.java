@@ -1,165 +1,83 @@
 package com.example.duitku.wallet.edit;
 
-import android.content.ContentUris;
-import android.content.Context;
 import android.content.DialogInterface;
-import android.text.Editable;
-import android.text.TextWatcher;
-import android.view.LayoutInflater;
 import android.view.View;
+import android.view.ViewGroup;
 import android.widget.Button;
-import android.widget.FrameLayout;
 import android.widget.ImageButton;
+import android.widget.LinearLayout;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
-import androidx.constraintlayout.widget.ConstraintLayout;
 
 import com.example.duitku.R;
-import com.example.duitku.category.CategoryController;
 import com.example.duitku.transaction.TransactionController;
-import com.example.duitku.database.DuitkuContract;
-import com.example.duitku.category.Category;
-import com.example.duitku.transaction.Transaction;
 import com.example.duitku.interfaces.UIView;
 import com.example.duitku.wallet.Wallet;
 import com.example.duitku.wallet.WalletController;
-import com.google.android.material.textfield.TextInputEditText;
-import com.google.android.material.textfield.TextInputLayout;
-
-import java.util.Calendar;
-import java.util.Date;
+import com.example.duitku.wallet.form.WalletForm;
 
 public class EditWalletActivityView implements UIView {
 
-    private TextInputLayout nameLayout;
-    private TextInputLayout amountLayout;
-    private TextInputLayout descLayout;
-    private TextInputEditText nameField;
-    private TextInputEditText amountField;
-    private TextInputEditText descField;
+    private WalletForm walletForm;
+    private Button deleteBtn;
 
-    private String name;
-    private double amount;
-    private String desc;
+    private final AppCompatActivity activity;
 
-    private WalletController walletController;
-    private CategoryController categoryController;
-    private TransactionController transactionController;
+    private final WalletController walletController;
 
-    private long id;
-    private Wallet wallet;
-    private AppCompatActivity activity;
+    private final Wallet wallet;
 
     public EditWalletActivityView(long id, AppCompatActivity activity){
-        this.id = id;
         this.activity = activity;
+
         walletController = new WalletController(activity);
-        categoryController = new CategoryController(activity);
-        transactionController = new TransactionController(activity);
+        this.wallet = walletController.getWalletById(id);
     }
 
     @Override
     public void setUpUI() {
-        activity.setContentView(R.layout.activity_edit_wallet);
-
-        wallet = walletController.getWalletById(id);
-        setUpField();
-        setUpButton();
+        setUpViews();
+        setUpForm();
+        setUpButtons();
     }
 
-    private void setUpField(){
-        // initialize the views
-        nameLayout = activity.findViewById(R.id.wallet_name_textinputlayout);
-        amountLayout = activity.findViewById(R.id.wallet_amount_textinputlayout);
-        descLayout = activity.findViewById(R.id.wallet_desc_textinputlayout);
-        nameField = activity.findViewById(R.id.wallet_name_field);
-        amountField = activity.findViewById(R.id.wallet_amount_field);
-        descField = activity.findViewById(R.id.wallet_desc_field);
+    private void setUpViews(){
+        activity.setContentView(R.layout.activity_edit);
 
-        // set textChangedListener
-        nameField.addTextChangedListener(new TextWatcher() {
-            @Override
-            public void beforeTextChanged(CharSequence charSequence, int i, int i1, int i2) {
+        TextView titleTV = activity.findViewById(R.id.activity_edit_title);
+        titleTV.setText("Edit Wallet");
 
-            }
+        LinearLayout walletFormContainer = activity.findViewById(R.id.activity_edit_form);
+        walletFormContainer.addView(activity.getLayoutInflater().inflate(R.layout.form_wallet,
+                (ViewGroup) activity.findViewById(R.id.form_wallet_constraintlayout)));
 
-            @Override
-            public void onTextChanged(CharSequence charSequence, int i, int i1, int i2) {
-
-            }
-
-            @Override
-            public void afterTextChanged(Editable editable) {
-                if (editable.toString().length() > 20){
-                    nameLayout.setError("Wallet name max 20 characters");
-                } else {
-                    nameLayout.setErrorEnabled(false);
-                }
-            }
-        });
-        amountField.addTextChangedListener(new TextWatcher() {
-            @Override
-            public void beforeTextChanged(CharSequence charSequence, int i, int i1, int i2) {
-
-            }
-
-            @Override
-            public void onTextChanged(CharSequence charSequence, int i, int i1, int i2) {
-
-            }
-
-            @Override
-            public void afterTextChanged(Editable editable) {
-                if (editable.toString().length() > 9){
-                    amountLayout.setError("Amount too much");
-                } else {
-                    amountLayout.setErrorEnabled(false);
-                }
-            }
-        });
-        descField.addTextChangedListener(new TextWatcher() {
-            @Override
-            public void beforeTextChanged(CharSequence charSequence, int i, int i1, int i2) {
-
-            }
-
-            @Override
-            public void onTextChanged(CharSequence charSequence, int i, int i1, int i2) {
-
-            }
-
-            @Override
-            public void afterTextChanged(Editable editable) {
-                if (editable.toString().length() > 50){
-                    descLayout.setError("Description max 50 characters");
-                } else {
-                    descLayout.setErrorEnabled(false);
-                }
-            }
-        });
-
-        nameField.setText(wallet.getName());
-        amountField.setText(wallet.getAmount() + "");
-        descField.setText(wallet.getDescription());
+        deleteBtn = activity.findViewById(R.id.activity_edit_delete);
+        deleteBtn.setText("Delete Wallet");
     }
 
-    private void setUpButton(){
-        ImageButton backBtn = activity.findViewById(R.id.edit_wallet_back_btn);
+    private void setUpForm(){
+        walletForm = new WalletForm(activity, null, activity);
+        walletForm.setUpUI();
+        walletForm.setName(wallet.getName());
+        walletForm.setAmount(wallet.getAmount());
+        walletForm.setDesc(wallet.getDescription());
+    }
+
+    private void setUpButtons(){
+        setUpSaveButton();
+        setUpDeleteButton();
+        setUpBackButton();
+    }
+
+    private void setUpSaveButton(){
         Button saveBtn = activity.findViewById(R.id.wallet_save_btn);
-        Button deleteBtn = activity.findViewById(R.id.edit_wallet_delete_btn);
-
-        backBtn.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                activity.finish();
-            }
-        });
         saveBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                if (!validateInput()) return;
+                if (!walletForm.validateInput()) return;
                 int rowsUpdated = updateWallet();
                 if (rowsUpdated == 0){
                     Toast.makeText(activity, "Error editing wallet", Toast.LENGTH_SHORT).show();
@@ -169,6 +87,27 @@ public class EditWalletActivityView implements UIView {
                 activity.finish();
             }
         });
+    }
+
+    private int updateWallet(){
+        double amountBefore = wallet.getAmount();
+
+        String name = walletForm.getName();
+        double amount = walletForm.getAmount();
+        String desc = walletForm.getDesc();
+
+        wallet.setName(name);
+        wallet.setAmount(amount);
+        wallet.setDescription(desc);
+
+        if (amountBefore != wallet.getAmount()) {
+            new TransactionController(activity).addTransactionFromUpdatedWallet(amountBefore, wallet);
+        }
+
+        return walletController.updateWallet(wallet);
+    }
+
+    private void setUpDeleteButton(){
         deleteBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -199,7 +138,7 @@ public class EditWalletActivityView implements UIView {
     }
 
     private void deleteWallet(){
-        int rowsDeleted = walletController.deleteWallet(id);
+        int rowsDeleted = walletController.deleteWallet(wallet);
         if (rowsDeleted == 0){
             Toast.makeText(activity, "Error deleting wallet", Toast.LENGTH_SHORT).show();
         } else {
@@ -208,59 +147,19 @@ public class EditWalletActivityView implements UIView {
         activity.finish();
     }
 
-    private boolean validateInput(){
-        // Wallet name
-        name = nameField.getText().toString().trim();
-        if (name.equals("")){
-            nameLayout.setError("Wallet name can't be empty");
-            return false;
-        }
-        if (!wallet.getName().equalsIgnoreCase(name)){
-            Wallet wallet = walletController.getWalletByName(name);
-            if (wallet != null){
-                nameLayout.setError("There is a wallet with this name");
-                return false;
+    private void setUpBackButton(){
+        ImageButton backBtn = activity.findViewById(R.id.activity_edit_back_btn);
+        backBtn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                activity.finish();
             }
-        }
-
-        // Wallet amount
-        String amountString = amountField.getText().toString().trim();
-        if (amountString.equals("")){
-            amount = 0;
-        } else {
-            amount = Double.parseDouble(amountString);
-        }
-        if (amount > 999999999){
-            return false;
-        }
-
-        // Wallet description
-        desc = descField.getText().toString().trim();
-        if (desc.length() > 50){
-            return false;
-        }
-
-        return true;
-    }
-
-    private int updateWallet(){
-        double amountBefore = wallet.getAmount();
-
-        wallet.setName(name);
-        wallet.setAmount(amount);
-        wallet.setDescription(desc);
-
-        if (amountBefore != wallet.getAmount()) {
-            transactionController.addTransactionFromUpdatedWallet(amountBefore, wallet);
-        }
-
-        int rowsUpdated = walletController.updateWallet(wallet);
-        return rowsUpdated;
+        });
     }
 
     @Override
     public View getView() {
-        return null;
+        return activity.findViewById(R.id.activity_edit_constraintlayout);
     }
 
 }

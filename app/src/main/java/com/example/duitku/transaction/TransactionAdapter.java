@@ -1,12 +1,10 @@
 package com.example.duitku.transaction;
 
 import android.content.Context;
-import android.database.Cursor;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
-import android.widget.CursorAdapter;
 import android.widget.ImageView;
 import android.widget.TextView;
 
@@ -14,29 +12,26 @@ import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 
 import com.example.duitku.R;
-import com.example.duitku.category.CategoryController;
-import com.example.duitku.transaction.TransactionController;
-import com.example.duitku.wallet.WalletController;
-import com.example.duitku.database.DuitkuContract;
 import com.example.duitku.category.Category;
-import com.example.duitku.transaction.Transaction;
+import com.example.duitku.category.CategoryController;
+import com.example.duitku.database.DuitkuContract;
 import com.example.duitku.wallet.Wallet;
+import com.example.duitku.wallet.WalletController;
 
-import java.util.ArrayList;
 import java.util.List;
 
 public class TransactionAdapter extends ArrayAdapter<Transaction> {
 
-    private List<Transaction> transactions;
+    private final List<Transaction> transactions;
 
     private Transaction transaction;
     private Category category;
     private Wallet wallet;
 
-    private Long walletId;
+    private final Long walletId;
 
-    private WalletController walletController;
-    private CategoryController categoryController;
+    private final WalletController walletController;
+    private final CategoryController categoryController;
 
     public TransactionAdapter(Context context, List<Transaction> transactions, Long walletId) {
         super(context, 0, transactions);
@@ -71,10 +66,6 @@ public class TransactionAdapter extends ArrayAdapter<Transaction> {
         return view;
     }
 
-    public Transaction getTransaction(int position) {
-        return transactions.get(position);
-    }
-
     private void setUpIcon(View view){
         ImageView categoryImageView = view.findViewById(R.id.item_list_transaction_categorytype_icon);
 
@@ -100,34 +91,27 @@ public class TransactionAdapter extends ArrayAdapter<Transaction> {
         walletDestTextView.setVisibility(View.GONE);
 
         if (walletId != null){ // View Wallet
-
             if (category == null) { // transfer
-
                 if (wallet.getId() == walletId){ // the wallet source is same with current wallet
                     Wallet wallet = walletController.getWalletById(transaction.getWalletDestId());
                     headerTextView.setText("Transferred to Wallet " + wallet.getName());
                     return;
                 }
-
                 // the wallet dest is same with current wallet
                 Wallet wallet = walletController.getWalletById(transaction.getWalletId());
                 headerTextView.setText("Transferred from Wallet " + wallet.getName());
                 return;
-
             }
-
             // expense or transfer
             headerTextView.setText(category.getName());
             return;
-
-        } else {
-
-            // View category transaction
-            headerTextView.setText(wallet.getName());
-
         }
+        // View category transaction
+        headerTextView.setText(wallet.getName());
+    }
 
-
+    public Transaction getTransaction(int position) {
+        return transactions.get(position);
     }
 
 }

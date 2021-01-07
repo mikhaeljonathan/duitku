@@ -27,7 +27,7 @@ import java.util.Map;
 
 public class TransactionController {
 
-    private Context context;
+    private final Context context;
 
     public TransactionController(Context context){
         this.context = context;
@@ -60,9 +60,7 @@ public class TransactionController {
     public int deleteTransaction(Transaction transaction){
         new WalletController(context).updateWalletFromDeletedTransaction(transaction);
 
-        int rowsDeleted = context.getContentResolver().delete(ContentUris.withAppendedId(TransactionEntry.CONTENT_URI, transaction.getId()), null, null);
-
-        return rowsDeleted;
+        return context.getContentResolver().delete(ContentUris.withAppendedId(TransactionEntry.CONTENT_URI, transaction.getId()), null, null);
     }
 
     // get transaction
@@ -91,7 +89,7 @@ public class TransactionController {
             String type = budget.getType();
             if (type.equals(BudgetEntry.TYPE_3MONTH)){
 
-                int quarter = curMonth / 4 + 2; // value dari 1 sampe 4
+                int quarter = Utility.getQuarter(curMonth);
                 monthLowerBound = 3 * (quarter - 1) + 1;
                 monthUpperBound = 3 * quarter;
 
@@ -115,8 +113,7 @@ public class TransactionController {
                 "%/%/" + curYear};
         Cursor data = context.getContentResolver().query(TransactionEntry.CONTENT_URI, projection, selection, selectionArgs, null);
 
-        List<Transaction> ret = convertCursorToListOfTransaction(data);
-        return ret;
+        return convertCursorToListOfTransaction(data);
     }
 
     private List<Transaction> getTransactionsByBudgetCustomDate(Budget budget){
@@ -132,19 +129,17 @@ public class TransactionController {
         String[] selectionArgs = new String[]{Long.toString(budget.getCategoryId()), dateLowerBound, dateUpperBound};
         Cursor data = context.getContentResolver().query(TransactionEntry.CONTENT_URI, projection, selection, selectionArgs, null);
 
-        List<Transaction> ret = convertCursorToListOfTransaction(data);
-        return ret;
+        return convertCursorToListOfTransaction(data);
     }
 
     public String[] getFullProjection(){
-        String[] projection = new String[]{TransactionEntry.COLUMN_ID,
+        return new String[]{TransactionEntry.COLUMN_ID,
                 TransactionEntry.COLUMN_WALLET_ID,
                 TransactionEntry.COLUMN_WALLET_DEST_ID,
                 TransactionEntry.COLUMN_CATEGORY_ID,
                 TransactionEntry.COLUMN_DESC,
                 TransactionEntry.COLUMN_DATE,
                 TransactionEntry.COLUMN_AMOUNT};
-        return projection;
     }
 
     // converting
@@ -173,8 +168,7 @@ public class TransactionController {
             categoryId = -1;
         }
 
-        Transaction ret = new Transaction(transactionId, walletId, walletDestId, categoryId, desc, date, amount);
-        return ret;
+        return new Transaction(transactionId, walletId, walletDestId, categoryId, desc, date, amount);
     }
 
     private ContentValues convertTransactionToContentValues(Transaction transaction){
@@ -220,8 +214,7 @@ public class TransactionController {
     public int deleteAllTransactionWithWalletId(long walletId){
         String selection = TransactionEntry.COLUMN_WALLET_ID + " = ? OR " + TransactionEntry.COLUMN_WALLET_DEST_ID + " = ?";
         String[] selectionArgs = new String[]{Long.toString(walletId), Long.toString(walletId)};
-        int rowsDeleted = context.getContentResolver().delete(TransactionEntry.CONTENT_URI, selection, selectionArgs);
-        return rowsDeleted;
+        return context.getContentResolver().delete(TransactionEntry.CONTENT_URI, selection, selectionArgs);
     }
 
     public Uri addTransactionFromInitialWallet(long walletId, Wallet wallet){
@@ -238,8 +231,7 @@ public class TransactionController {
         double amount = Math.abs(wallet.getAmount());
         Transaction transaction = new Transaction(-1, walletId, walletDestId, categoryId, desc, date, amount);
 
-        Uri uri = addTransaction(transaction);
-        return uri;
+        return addTransaction(transaction);
     }
 
     public Uri addTransactionFromUpdatedWallet(double amountBefore, Wallet wallet){
@@ -259,8 +251,7 @@ public class TransactionController {
         double amount = Math.abs(amountBefore - wallet.getAmount());
         Transaction transaction = new Transaction(-1, walletId, walletDestId, categoryId, desc, date, amount);
 
-        Uri uri = addTransaction(transaction);
-        return uri;
+        return addTransaction(transaction);
     }
 
 }

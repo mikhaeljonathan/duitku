@@ -61,7 +61,6 @@ public class PickCategoryDialog extends AppCompatDialogFragment implements Loade
     private void setUpUI(){
         setUpViews();
         setUpGridView();
-        setUpAdapter();
         setUpButtons();
     }
 
@@ -104,10 +103,14 @@ public class PickCategoryDialog extends AppCompatDialogFragment implements Loade
         addCategoryBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                AddCategoryDialog addCategoryDialog = new AddCategoryDialog(categoryType);
-                addCategoryDialog.show(getFragmentManager(), "Add Category Dialog");
+                addCategory();
             }
         });
+    }
+
+    private void addCategory(){
+        AddCategoryDialog addCategoryDialog = new AddCategoryDialog(categoryType);
+        addCategoryDialog.show(getFragmentManager(), "Add Category Dialog");
     }
 
     @NonNull

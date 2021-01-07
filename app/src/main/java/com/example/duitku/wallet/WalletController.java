@@ -43,9 +43,9 @@ public class WalletController {
         return rowsUpdated;
     }
 
-    public int deleteWallet(long id){
-        int rowsDeleted = context.getContentResolver().delete(ContentUris.withAppendedId(WalletEntry.CONTENT_URI, id), null, null);
-        new TransactionController(context).deleteAllTransactionWithWalletId(id);
+    public int deleteWallet(Wallet wallet){
+        int rowsDeleted = context.getContentResolver().delete(ContentUris.withAppendedId(WalletEntry.CONTENT_URI, wallet.getId()), null, null);
+        new TransactionController(context).deleteAllTransactionWithWalletId(wallet.getId());
         return rowsDeleted;
     }
 
