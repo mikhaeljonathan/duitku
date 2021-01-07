@@ -1,18 +1,21 @@
 package com.example.duitku.transaction.monthly;
 
+import android.app.AlertDialog;
+import android.app.DatePickerDialog;
 import android.content.Context;
 import android.content.Intent;
+import android.content.res.Resources;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
+import android.widget.DatePicker;
 import android.widget.ExpandableListView;
 import android.widget.ImageView;
 import android.widget.ListView;
 import android.widget.TextView;
 
 import com.example.duitku.R;
-import com.example.duitku.date.YearPickerDialog;
 import com.example.duitku.transaction.category.CategoryTransaction;
 import com.example.duitku.interfaces.UIView;
 import com.example.duitku.transaction.category.ViewCategoryTransactionActivity;
@@ -55,8 +58,16 @@ public class MonthlyTransactionFragmentView implements UIView {
         periodButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                YearPickerDialog yearPickerDialog = new YearPickerDialog(fragment, year);
-                yearPickerDialog.show(fragment.getFragmentManager(), "Year Picker Dialog");
+                DatePickerDialog datePickerDialog = new DatePickerDialog(fragment.getActivity(), AlertDialog.THEME_HOLO_DARK,
+                        new DatePickerDialog.OnDateSetListener() {
+                            @Override
+                            public void onDateSet(DatePicker datePicker, int year, int month, int day) {
+                                fragment.pickYear(year);
+                            }
+                        }, year, 1, 1);
+                datePickerDialog.getDatePicker().findViewById(Resources.getSystem().getIdentifier("day", "id", "android")).setVisibility(View.GONE);
+                datePickerDialog.getDatePicker().findViewById(Resources.getSystem().getIdentifier("month", "id", "android")).setVisibility(View.GONE);
+                datePickerDialog.show();
             }
         });
     }

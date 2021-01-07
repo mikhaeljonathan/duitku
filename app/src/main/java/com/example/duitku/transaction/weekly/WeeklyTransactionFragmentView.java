@@ -1,11 +1,15 @@
 package com.example.duitku.transaction.weekly;
 
+import android.app.AlertDialog;
+import android.app.DatePickerDialog;
 import android.content.Context;
 import android.content.Intent;
+import android.content.res.Resources;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
+import android.widget.DatePicker;
 import android.widget.ExpandableListView;
 import android.widget.ImageView;
 import android.widget.ListView;
@@ -57,8 +61,15 @@ public class WeeklyTransactionFragmentView implements UIView {
         periodButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                AppCompatDialogFragment monthYearPickerDialog = new MonthYearPickerDialog(fragment, month, year);
-                monthYearPickerDialog.show(fragment.getFragmentManager(), "Month Year Picker Dialog");
+                DatePickerDialog datePickerDialog = new DatePickerDialog(fragment.getActivity(), AlertDialog.THEME_HOLO_DARK,
+                        new DatePickerDialog.OnDateSetListener() {
+                            @Override
+                            public void onDateSet(DatePicker datePicker, int year, int month, int day) {
+                                fragment.pickMonthYear(month, year);
+                            }
+                        }, year, month, 1);
+                datePickerDialog.getDatePicker().findViewById(Resources.getSystem().getIdentifier("day", "id", "android")).setVisibility(View.GONE);
+                datePickerDialog.show();
             }
         });
     }

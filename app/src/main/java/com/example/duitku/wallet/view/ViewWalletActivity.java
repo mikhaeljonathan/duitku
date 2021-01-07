@@ -15,7 +15,7 @@ import com.example.duitku.database.DuitkuContract.TransactionEntry;
 
 import java.util.Calendar;
 
-public class ViewWalletActivity extends AppCompatActivity implements LoaderManager.LoaderCallbacks<Cursor>, MonthYearPickerDialog.PickMonthYearListener {
+public class ViewWalletActivity extends AppCompatActivity implements LoaderManager.LoaderCallbacks<Cursor> {
 
     private int month;
     private int year;
@@ -73,7 +73,6 @@ public class ViewWalletActivity extends AppCompatActivity implements LoaderManag
 
     }
 
-    @Override
     public void pickMonthYear(int month, int year) {
         this.month = month;
         this.year = year;

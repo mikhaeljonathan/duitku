@@ -30,11 +30,11 @@ public class TransactionForm extends View {
         this.type = type;
     }
 
-    public void setUpUI(){
+    public void setUpUI() {
         setUpFields();
     }
 
-    private void setUpFields(){
+    private void setUpFields() {
         amountComponent = new TransactionAmountComponent(getContext(), rootView, activity);
         descriptionComponent = new TransactionDescriptionComponent(getContext(), rootView, activity);
         dateComponent = new TransactionDateComponent(getContext(), rootView, activity);
@@ -42,35 +42,55 @@ public class TransactionForm extends View {
         walletComponent = new TransactionWalletComponent(getContext(), rootView, activity, type);
     }
 
-    public boolean validateInput(){
+    public boolean validateInput() {
         if (!amountComponent.validateInput()) return false;
         if (!descriptionComponent.validateInput()) return false;
         if (!categoryComponent.validateInput()) return false;
         return walletComponent.validateInput();
     }
 
-    public double getAmount(){
+    public double getAmount() {
         return amountComponent.getAmount();
     }
 
-    public String getDesc(){
+    public String getDesc() {
         return descriptionComponent.getDesc();
     }
 
-    public Date getDate(){
+    public Date getDate() {
         return dateComponent.getDate();
     }
 
-    public long getCategoryId(){
+    public long getCategoryId() {
         return categoryComponent.getCategoryId();
     }
 
-    public long getWalletId(){
+    public long getWalletId() {
         return walletComponent.getWalletId();
     }
 
-    public long getWalletDestId(){
+    public long getWalletDestId() {
         return walletComponent.getWalletDestId();
+    }
+
+    public void setAmount(double amount) {
+        amountComponent.setAmount(amount);
+    }
+
+    public void setDesc(String desc) {
+        descriptionComponent.setDesc(desc);
+    }
+
+    public void setCategoryId(long categoryId) {
+        categoryComponent.setCategoryId(categoryId);
+    }
+
+    public void setWalletId(long walletId) {
+        walletComponent.setWalletId(walletId);
+    }
+
+    public void setWalletDestId(long walletDestId) {
+        walletComponent.setWalletDestId(walletDestId);
     }
 
 }

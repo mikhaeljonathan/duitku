@@ -1,10 +1,14 @@
 package com.example.duitku.wallet.view;
 
+import android.app.AlertDialog;
+import android.app.DatePickerDialog;
 import android.content.Intent;
+import android.content.res.Resources;
 import android.graphics.Paint;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.Button;
+import android.widget.DatePicker;
 import android.widget.ImageButton;
 import android.widget.ListView;
 import android.widget.ProgressBar;
@@ -67,8 +71,15 @@ public class ViewWalletActivityView implements UIView {
         periodButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                AppCompatDialogFragment monthYearPickerDialog = new MonthYearPickerDialog(activity, month, year);
-                monthYearPickerDialog.show(activity.getSupportFragmentManager(), "Month Year Picker Dialog");
+                DatePickerDialog datePickerDialog = new DatePickerDialog(activity, AlertDialog.THEME_HOLO_DARK,
+                        new DatePickerDialog.OnDateSetListener() {
+                            @Override
+                            public void onDateSet(DatePicker datePicker, int year, int month, int day) {
+                                activity.pickMonthYear(month, year);
+                            }
+                        }, year, month, 1);
+                datePickerDialog.getDatePicker().findViewById(Resources.getSystem().getIdentifier("day", "id", "android")).setVisibility(View.GONE);
+                datePickerDialog.show();
             }
         });
     }

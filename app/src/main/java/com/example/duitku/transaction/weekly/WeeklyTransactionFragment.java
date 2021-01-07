@@ -28,7 +28,7 @@ import java.util.Comparator;
 import java.util.HashMap;
 import java.util.List;
 
-public class WeeklyTransactionFragment extends Fragment implements LoaderManager.LoaderCallbacks<Cursor>, MonthYearPickerDialog.PickMonthYearListener {
+public class WeeklyTransactionFragment extends Fragment implements LoaderManager.LoaderCallbacks<Cursor> {
 
     private int month;
     private int year;
@@ -172,7 +172,6 @@ public class WeeklyTransactionFragment extends Fragment implements LoaderManager
 
     }
 
-    @Override
     public void pickMonthYear(int month, int year) {
         this.month = month;
         this.year = year;

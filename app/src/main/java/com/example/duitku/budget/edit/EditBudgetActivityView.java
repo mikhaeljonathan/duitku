@@ -49,7 +49,7 @@ public class EditBudgetActivityView implements UIView {
         activity.setContentView(R.layout.activity_edit);
 
         TextView titleTV = activity.findViewById(R.id.activity_edit_title);
-        titleTV.setText("Add Budget");
+        titleTV.setText("Edit Budget");
 
         LinearLayout budgetFormContainer = activity.findViewById(R.id.activity_edit_form);
         budgetFormContainer.addView(activity.getLayoutInflater().inflate(R.layout.form_budget,

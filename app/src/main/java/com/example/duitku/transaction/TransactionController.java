@@ -57,12 +57,10 @@ public class TransactionController {
         return rowsUpdated;
     }
 
-    public int deleteTransaction(long id){
-        Transaction transaction = getTransactionById(id);
-
+    public int deleteTransaction(Transaction transaction){
         new WalletController(context).updateWalletFromDeletedTransaction(transaction);
 
-        int rowsDeleted = context.getContentResolver().delete(ContentUris.withAppendedId(TransactionEntry.CONTENT_URI, id), null, null);
+        int rowsDeleted = context.getContentResolver().delete(ContentUris.withAppendedId(TransactionEntry.CONTENT_URI, transaction.getId()), null, null);
 
         return rowsDeleted;
     }

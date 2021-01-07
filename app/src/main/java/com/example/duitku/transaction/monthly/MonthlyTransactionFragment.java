@@ -16,7 +16,6 @@ import androidx.loader.content.Loader;
 import com.example.duitku.category.CategoryController;
 import com.example.duitku.transaction.TransactionController;
 import com.example.duitku.database.DuitkuContract;
-import com.example.duitku.date.YearPickerDialog;
 import com.example.duitku.category.Category;
 import com.example.duitku.transaction.category.CategoryTransaction;
 import com.example.duitku.transaction.Transaction;
@@ -28,7 +27,7 @@ import java.util.Comparator;
 import java.util.HashMap;
 import java.util.List;
 
-public class MonthlyTransactionFragment extends Fragment implements LoaderManager.LoaderCallbacks<Cursor>, YearPickerDialog.PickYearListener {
+public class MonthlyTransactionFragment extends Fragment implements LoaderManager.LoaderCallbacks<Cursor> {
 
     private int year;
 
@@ -169,7 +168,6 @@ public class MonthlyTransactionFragment extends Fragment implements LoaderManage
 
     }
 
-    @Override
     public void pickYear(int year) {
         this.year = year;
         monthlyTransactionFragmentView.updatePeriodButton(year);

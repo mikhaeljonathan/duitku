@@ -30,7 +30,6 @@ public class TransactionCategoryComponent extends View {
 
     private final CategoryController categoryController;
 
-    private long categoryIdBefore = -1;
     private long categoryId = -1;
 
     public TransactionCategoryComponent(Context context, View rootView, Object activity, String type) {
@@ -80,7 +79,7 @@ public class TransactionCategoryComponent extends View {
             public void pickCategory(long id) {
                 Category category = categoryController.getCategoryById(id);
                 categoryTextView.setText(category.getName());
-                categoryTextView.setTextColor(fragment.getResources().getColor(android.R.color.white));
+                changeTextViewToWhite();
                 categoryId = id;
             }
         };
@@ -99,8 +98,16 @@ public class TransactionCategoryComponent extends View {
         });
     }
 
+    private void changeTextViewToWhite(){
+        if (fragment == null){
+            categoryTextView.setTextColor(activity.getResources().getColor(android.R.color.white));
+        } else {
+            categoryTextView.setTextColor(fragment.getResources().getColor(android.R.color.white));
+        }
+    }
+
     public boolean validateInput(){
-        if (categoryId == -1){
+        if (!type.equals(CategoryEntry.TYPE_TRANSFER) && categoryId == -1){
             errorCategoryTextView.setText("Category has to be chosen");
             errorCategoryTextView.setVisibility(View.VISIBLE);
             return false;
@@ -116,10 +123,11 @@ public class TransactionCategoryComponent extends View {
     }
 
     public void setCategoryId(long categoryId){
-        this.categoryIdBefore = categoryId;
         this.categoryId = categoryId;
         Category category = categoryController.getCategoryById(categoryId);
+        if (category == null) return;
+
         categoryTextView.setText(category.getName());
-        categoryTextView.setTextColor(fragment.getResources().getColor(android.R.color.white));
+        changeTextViewToWhite();
     }
 }

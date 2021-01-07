@@ -30,7 +30,7 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Objects;
 
-public class DailyTransactionFragment extends Fragment implements LoaderManager.LoaderCallbacks<Cursor>, MonthYearPickerDialog.PickMonthYearListener {
+public class DailyTransactionFragment extends Fragment implements LoaderManager.LoaderCallbacks<Cursor> {
 
     private int month = Calendar.getInstance().get(Calendar.MONTH);
     private int year = Calendar.getInstance().get(Calendar.YEAR);
@@ -152,7 +152,6 @@ public class DailyTransactionFragment extends Fragment implements LoaderManager.
 
     }
 
-    @Override
     public void pickMonthYear(int month, int year) {
         this.month = month;
         this.year = year;

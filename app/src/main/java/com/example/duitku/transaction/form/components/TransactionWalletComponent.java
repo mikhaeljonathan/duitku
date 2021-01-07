@@ -7,6 +7,7 @@ import android.widget.TextView;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.constraintlayout.widget.ConstraintLayout;
 import androidx.fragment.app.Fragment;
+import androidx.fragment.app.FragmentManager;
 
 import com.example.duitku.R;
 import com.example.duitku.database.DuitkuContract.CategoryEntry;
@@ -92,7 +93,7 @@ public class TransactionWalletComponent extends View {
             public void pickWallet(long id) {
                 Wallet wallet = walletController.getWalletById(id);
                 walletTextView.setText(wallet.getName());
-                walletTextView.setTextColor(fragment.getResources().getColor(android.R.color.white));
+                changeTextViewToWhite(walletTextView);
                 walletId = id;
             }
         };
@@ -100,7 +101,13 @@ public class TransactionWalletComponent extends View {
             @Override
             public void onClick(View view) {
                 PickWalletDialog pickWalletDialog = new PickWalletDialog(pickWalletListener);
-                pickWalletDialog.show(fragment.getFragmentManager(), "Pick Wallet Dialog");
+                FragmentManager fm;
+                if (activity == null){
+                    fm = fragment.getFragmentManager();
+                } else {
+                    fm = activity.getSupportFragmentManager();
+                }
+                pickWalletDialog.show(fm, "Pick Wallet Dialog");
             }
         });
     }
@@ -111,7 +118,7 @@ public class TransactionWalletComponent extends View {
             public void pickWallet(long id) {
                 Wallet wallet = walletController.getWalletById(id);
                 walletDestTextView.setText(wallet.getName());
-                walletDestTextView.setTextColor(fragment.getResources().getColor(android.R.color.white));
+                changeTextViewToWhite(walletDestTextView);
                 walletDestId = id;
             }
         };
@@ -119,9 +126,23 @@ public class TransactionWalletComponent extends View {
             @Override
             public void onClick(View view) {
                 PickWalletDialog pickWalletDialog = new PickWalletDialog(pickWalletListener);
-                pickWalletDialog.show(fragment.getFragmentManager(), "Pick Wallet Dialog");
+                FragmentManager fm;
+                if (activity == null){
+                    fm = fragment.getFragmentManager();
+                } else {
+                    fm = activity.getSupportFragmentManager();
+                }
+                pickWalletDialog.show(fm, "Pick Wallet Dest Dialog");
             }
         });
+    }
+
+    private void changeTextViewToWhite(TextView view){
+        if (fragment == null){
+            view.setTextColor(activity.getResources().getColor(android.R.color.white));
+        } else {
+            view.setTextColor(fragment.getResources().getColor(android.R.color.white));
+        }
     }
 
     public boolean validateInput(){
@@ -159,6 +180,22 @@ public class TransactionWalletComponent extends View {
 
     public long getWalletDestId(){
         return walletDestId;
+    }
+
+    public void setWalletId(long id){
+        Wallet wallet = walletController.getWalletById(id);
+        walletTextView.setText(wallet.getName());
+        changeTextViewToWhite(walletTextView);
+        walletId = id;
+    }
+
+    public void setWalletDestId(long id){
+        Wallet wallet = walletController.getWalletById(id);
+        if (wallet == null) return;
+
+        walletDestTextView.setText(wallet.getName());
+        changeTextViewToWhite(walletDestTextView);
+        walletDestId = id;
     }
 
 

@@ -49,8 +49,13 @@ public class TransactionDateComponent extends View {
     }
 
     private void initialize(){
-        dateConstraintLayout = rootView.findViewById(R.id.transaction_date_constraintlayout);
-        dateTextView = rootView.findViewById(R.id.transaction_date_textview);
+        if (rootView == null){
+            dateConstraintLayout = activity.findViewById(R.id.transaction_date_constraintlayout);
+            dateTextView = activity.findViewById(R.id.transaction_date_textview);
+        } else {
+            dateConstraintLayout = rootView.findViewById(R.id.transaction_date_constraintlayout);
+            dateTextView = rootView.findViewById(R.id.transaction_date_textview);
+        }
     }
 
     private void setUpComponents(){
