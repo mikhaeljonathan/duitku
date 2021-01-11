@@ -6,7 +6,10 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.BaseExpandableListAdapter;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
 import android.widget.TextView;
+
+import androidx.constraintlayout.widget.ConstraintLayout;
 
 import com.example.duitku.R;
 import com.example.duitku.category.CategoryController;
@@ -76,6 +79,10 @@ public class DailyExpandableAdapter extends BaseExpandableListAdapter {
             view = LayoutInflater.from(context).inflate(R.layout.item_list_transaction_daily, viewGroup, false);
         }
 
+        View hidden = view.findViewById(R.id.view_hidden2);
+        ConstraintLayout cl = view.findViewById(R.id.item_list_transaction_daily_constraintlayout);
+        ImageView image =  view.findViewById(R.id.arrow_expandable);
+
         TextView dateTextView = view.findViewById(R.id.item_list_transaction_daily_date_textview);
         dateTextView.setText(Integer.toString(dailyTransaction.getDate()));
 
@@ -88,6 +95,21 @@ public class DailyExpandableAdapter extends BaseExpandableListAdapter {
         TextView expenseTextView = view.findViewById(R.id.item_list_transaction_daily_expense_textview);
         expenseTextView.setText(Double.toString(dailyTransaction.getExpense()));
 
+        if(!b) {
+            image.setImageResource(R.drawable.arrow_up);
+            cl.setBackgroundResource(R.drawable.custom_shape);
+            hidden.setVisibility(View.VISIBLE);
+        }else {
+            image.setImageResource(R.drawable.arrow_down);
+            cl.setBackgroundResource(R.drawable.custom_shape_top_rounded);
+            hidden.setVisibility(View.GONE);
+        }
+
+        // handle grup terakhir supaya gakeluar hidden view nya
+        if(i == (dailyTransactionList.size()-1)){
+            hidden.setVisibility(View.GONE);
+        }
+
         return view;
     }
 
@@ -97,6 +119,9 @@ public class DailyExpandableAdapter extends BaseExpandableListAdapter {
         if (view == null){
             view = LayoutInflater.from(context).inflate(R.layout.item_list_transaction, viewGroup, false);
         }
+
+        ConstraintLayout cl = view.findViewById(R.id.item_list_transaction_constraintlayout);
+        View hidden = view.findViewById(R.id.hidden_view1);
 
         // get the category
         CategoryController categoryController = new CategoryController(context);
@@ -110,6 +135,15 @@ public class DailyExpandableAdapter extends BaseExpandableListAdapter {
 
         TextView amountTextView = view.findViewById(R.id.item_list_transaction_amount_textview);
         amountTextView.setText(Double.toString(transaction.getAmount()));
+
+        if(b){
+            cl.setBackgroundResource(R.drawable.custom_shape_bottom_rounded);
+            hidden.setBackgroundResource(R.color.colorPrimary);
+        }else{
+            cl.setBackgroundResource(R.color.colorPrimaryDark);
+            hidden.setBackgroundResource(R.color.colorPrimaryDark);
+        }
+        hidden.setVisibility(View.VISIBLE);
 
         return view;
     }

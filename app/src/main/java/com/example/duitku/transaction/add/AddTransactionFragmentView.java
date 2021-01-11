@@ -291,7 +291,7 @@ public class AddTransactionFragmentView implements UIView {
         }
 
         // description
-        String desc = descField.getText().toString().trim();
+        desc = descField.getText().toString().trim();
         if (desc.length() > 50){
             return false;
         }
