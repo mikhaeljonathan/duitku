@@ -6,6 +6,8 @@ import android.content.Context;
 import android.database.Cursor;
 import android.net.Uri;
 
+import com.example.duitku.budget.Budget;
+import com.example.duitku.budget.BudgetController;
 import com.example.duitku.category.Category;
 import com.example.duitku.category.CategoryController;
 import com.example.duitku.database.DuitkuContract.CategoryEntry;
@@ -41,9 +43,9 @@ public class WalletController {
         return rowsUpdated;
     }
 
-    public int deleteWallet(long id){
-        int rowsDeleted = context.getContentResolver().delete(ContentUris.withAppendedId(WalletEntry.CONTENT_URI, id), null, null);
-        new TransactionController(context).deleteAllTransactionWithWalletId(id);
+    public int deleteWallet(Wallet wallet){
+        int rowsDeleted = context.getContentResolver().delete(ContentUris.withAppendedId(WalletEntry.CONTENT_URI, wallet.getId()), null, null);
+        new TransactionController(context).deleteAllTransactionWithWalletId(wallet.getId());
         return rowsDeleted;
     }
 
@@ -113,7 +115,7 @@ public class WalletController {
     }
 
     // operations from other entity's operation
-    public int updateWalletFromTransaction(Transaction transaction){
+    public int updateWalletFromInitialTransaction(Transaction transaction){
         Category category = new CategoryController(context).getCategoryById(transaction.getCategoryId());
         Wallet wallet = getWalletById(transaction.getWalletId());
         Wallet walletDest = getWalletById(transaction.getWalletDestId());
@@ -130,6 +132,80 @@ public class WalletController {
         int rowsUpdated = updateWallet(wallet);
         if (walletDest != null) updateWallet(walletDest);
         return rowsUpdated;
+    }
+
+    public void updateWalletFromUpdatedTransaction(Transaction transactionBefore, Transaction transactionAfter){
+
+        Category category = new CategoryController(context).getCategoryById(transactionBefore.getCategoryId());
+
+        if (category == null){ // Transfer
+
+            // if wallet source changed
+            if (transactionBefore.getWalletId() != transactionAfter.getWalletId()){
+
+                updateWalletAmount(transactionBefore.getWalletId(), transactionBefore.getAmount());
+                updateWalletAmount(transactionAfter.getWalletId(), -transactionAfter.getAmount());
+
+            } else if (transactionBefore.getAmount() != transactionAfter.getAmount()){ // wallet source not changed but amount changed
+                updateWalletAmount(transactionAfter.getWalletId(), transactionBefore.getAmount() - transactionAfter.getAmount());
+            }
+
+            // wallet destination changed
+            if (transactionBefore.getWalletDestId() != transactionAfter.getWalletDestId()){
+
+                updateWalletAmount(transactionBefore.getWalletDestId(), -transactionBefore.getAmount());
+                updateWalletAmount(transactionAfter.getWalletDestId(), transactionAfter.getAmount());
+
+            } else if (transactionBefore.getAmount() != transactionAfter.getAmount()){ // wallet dest not changed but amount changed
+                updateWalletAmount(transactionAfter.getWalletDestId(), -transactionBefore.getAmount() + transactionAfter.getAmount());
+            }
+
+        } else if (category.getType().equals(CategoryEntry.TYPE_EXPENSE)){ // Expense
+
+            if (transactionBefore.getWalletId() != transactionAfter.getWalletId()){
+
+                updateWalletAmount(transactionBefore.getWalletId(), transactionBefore.getAmount());
+                updateWalletAmount(transactionAfter.getWalletId(), -transactionAfter.getAmount());
+
+            } else if (transactionBefore.getAmount() != transactionAfter.getAmount()){ // wallet source not changed but amount changed
+                updateWalletAmount(transactionAfter.getWalletId(), transactionBefore.getAmount() - transactionAfter.getAmount());
+            }
+
+        } else { // Income
+
+            if (transactionBefore.getWalletId() != transactionAfter.getWalletId()){
+
+                updateWalletAmount(transactionBefore.getWalletId(), -transactionBefore.getAmount());
+                updateWalletAmount(transactionAfter.getWalletId(), transactionAfter.getAmount());
+
+            } else if (transactionBefore.getAmount() != transactionAfter.getAmount()){ // wallet source not changed but amount changed
+                updateWalletAmount(transactionAfter.getWalletId(), -transactionBefore.getAmount() + transactionAfter.getAmount());
+            }
+
+        }
+
+
+    }
+
+    private void updateWalletAmount(long walletId, double amount){
+        Wallet wallet = getWalletById(walletId);
+        wallet.setAmount(wallet.getAmount() + amount);
+        updateWallet(wallet);
+    }
+
+    public void updateWalletFromDeletedTransaction(Transaction transaction){
+        Category category = new CategoryController(context).getCategoryById(transaction.getCategoryId());
+
+        if (category == null) {
+
+            updateWalletAmount(transaction.getWalletId(), transaction.getAmount());
+            updateWalletAmount(transaction.getWalletDestId(), -transaction.getAmount());
+
+        } else if (category.equals(CategoryEntry.TYPE_EXPENSE)){
+            updateWalletAmount(transaction.getWalletId(), transaction.getAmount());
+        } else {
+            updateWalletAmount(transaction.getWalletId(), -transaction.getAmount());
+        }
     }
 
 }

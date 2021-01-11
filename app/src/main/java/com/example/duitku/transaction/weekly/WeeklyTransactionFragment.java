@@ -17,7 +17,6 @@ import com.example.duitku.category.CategoryController;
 import com.example.duitku.transaction.TransactionController;
 import com.example.duitku.database.DuitkuContract.CategoryEntry;
 import com.example.duitku.database.DuitkuContract.TransactionEntry;
-import com.example.duitku.date.MonthYearPickerDialog;
 import com.example.duitku.category.Category;
 import com.example.duitku.transaction.category.CategoryTransaction;
 import com.example.duitku.transaction.Transaction;
@@ -29,20 +28,20 @@ import java.util.Comparator;
 import java.util.HashMap;
 import java.util.List;
 
-public class WeeklyTransactionFragment extends Fragment implements LoaderManager.LoaderCallbacks<Cursor>, MonthYearPickerDialog.PickMonthYearListener {
+public class WeeklyTransactionFragment extends Fragment implements LoaderManager.LoaderCallbacks<Cursor> {
 
-    private int month;
-    private int year;
+    private int month = Calendar.getInstance().get(Calendar.MONTH);
+    private int year = Calendar.getInstance().get(Calendar.YEAR);
 
-    private List<WeeklyTransaction> weeklyTransactionList = new ArrayList<>();
-    private HashMap<WeeklyTransaction, List<CategoryTransaction>> categoryTransactionListHashMap = new HashMap<>();
-    private HashMap<Long, CategoryTransaction> categoryTransactionHashMap = new HashMap<>();
+    private final List<WeeklyTransaction> weeklyTransactionList = new ArrayList<>();
+    private final HashMap<WeeklyTransaction, List<CategoryTransaction>> categoryTransactionListHashMap = new HashMap<>();
+    private final HashMap<Long, CategoryTransaction> categoryTransactionHashMap = new HashMap<>();
     private double totalIncome;
     private double totalExpense;
     private double totalGlobalIncome;
     private double totalGlobalExpense;
 
-    private TransactionController transactionController = new TransactionController(getActivity());
+    private final TransactionController transactionController = new TransactionController(getActivity());
 
     private WeeklyTransactionFragmentView weeklyTransactionFragmentView;
 
@@ -51,11 +50,6 @@ public class WeeklyTransactionFragment extends Fragment implements LoaderManager
     @Nullable
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
-        // get current month and year
-        Calendar calendar = Calendar.getInstance();
-        month = calendar.get(Calendar.MONTH);
-        year = calendar.get(Calendar.YEAR);
-
         // setup the UI
         weeklyTransactionFragmentView = new WeeklyTransactionFragmentView(inflater, container, this);
         weeklyTransactionFragmentView.setUpUI();
@@ -72,16 +66,14 @@ public class WeeklyTransactionFragment extends Fragment implements LoaderManager
     @NonNull
     @Override
     public Loader<Cursor> onCreateLoader(int id, @Nullable Bundle args) {
-        switch (id){
-            case TRANSACTION_LOADER_WEEKLY:
-                String[] projection = transactionController.getFullProjection();
-                // yang transfer ga termasuk
-                String selection = TransactionEntry.COLUMN_DATE + " LIKE ? AND " + TransactionEntry.COLUMN_CATEGORY_ID + " > 0";
-                String[] selectionArgs = new String[]{"%/" + String.format("%02d", month + 1) + "/" + year};
-                return new CursorLoader(getContext(), TransactionEntry.CONTENT_URI, projection, selection, selectionArgs, null);
-            default:
-                throw new IllegalStateException("Unknown Loader");
+        if (id == TRANSACTION_LOADER_WEEKLY) {
+            String[] projection = transactionController.getFullProjection();
+            // yang transfer ga termasuk
+            String selection = TransactionEntry.COLUMN_DATE + " LIKE ? AND " + TransactionEntry.COLUMN_CATEGORY_ID + " > 0";
+            String[] selectionArgs = new String[]{"%/" + String.format("%02d", month + 1) + "/" + year};
+            return new CursorLoader(getContext(), TransactionEntry.CONTENT_URI, projection, selection, selectionArgs, null);
         }
+        throw new IllegalStateException("Unknown Loader");
     }
 
     @Override
@@ -173,7 +165,6 @@ public class WeeklyTransactionFragment extends Fragment implements LoaderManager
 
     }
 
-    @Override
     public void pickMonthYear(int month, int year) {
         this.month = month;
         this.year = year;

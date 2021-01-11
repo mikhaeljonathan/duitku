@@ -16,6 +16,8 @@ import androidx.fragment.app.Fragment;
 
 import com.example.duitku.R;
 import com.example.duitku.interfaces.UIView;
+import com.example.duitku.wallet.add.AddWalletDialog;
+import com.example.duitku.wallet.view.ViewWalletActivity;
 
 public class WalletFragmentView implements UIView {
 

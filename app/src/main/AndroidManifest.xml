@@ -9,13 +9,15 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
-        <activity android:name=".transaction.category.ViewCategoryTransactionActivity"></activity>
-        <activity android:name=".transaction.EditTransactionActivity" />
+        <activity android:name=".budget.edit.EditBudgetActivity"></activity>
+        <activity android:name=".budget.view.ViewBudgetActivity" />
+        <activity android:name=".transaction.category.ViewCategoryTransactionActivity" />
+        <activity android:name=".transaction.edit.EditTransactionActivity" />
         <activity
-            android:name=".wallet.EditWalletActivity"
+            android:name=".wallet.edit.EditWalletActivity"
             android:screenOrientation="portrait" />
         <activity
-            android:name=".wallet.ViewWalletActivity"
+            android:name=".wallet.view.ViewWalletActivity"
             android:screenOrientation="portrait" />
         <activity
             android:name=".transaction.add.AddTransactionActivity"

@@ -23,4 +23,5 @@ public class Category {
     public String getType() {
         return type;
     }
+
 }

@@ -16,7 +16,6 @@ import com.example.duitku.category.CategoryController;
 import com.example.duitku.wallet.WalletController;
 import com.example.duitku.database.DuitkuContract.CategoryEntry;
 import com.example.duitku.category.Category;
-import com.example.duitku.transaction.daily.DailyTransaction;
 import com.example.duitku.transaction.Transaction;
 import com.example.duitku.wallet.Wallet;
 
@@ -25,9 +24,9 @@ import java.util.List;
 
 public class DailyExpandableAdapter extends BaseExpandableListAdapter {
 
-    private List<DailyTransaction> dailyTransactionList;
-    private HashMap<DailyTransaction, List<Transaction>> dailyTransactionListHashMap;
-    private Context context;
+    private final List<DailyTransaction> dailyTransactionList;
+    private final HashMap<DailyTransaction, List<Transaction>> dailyTransactionListHashMap;
+    private final Context context;
 
     public DailyExpandableAdapter(List<DailyTransaction> dailyTransactionList,
                                   HashMap<DailyTransaction, List<Transaction>> dailyTransactionListHashMap,

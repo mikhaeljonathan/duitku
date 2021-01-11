@@ -7,15 +7,16 @@ import android.database.Cursor;
 import android.net.Uri;
 
 import com.example.duitku.budget.Budget;
+import com.example.duitku.budget.BudgetController;
 import com.example.duitku.category.Category;
 import com.example.duitku.category.CategoryController;
 import com.example.duitku.transaction.category.CategoryTransaction;
-import com.example.duitku.database.DuitkuContract;
 import com.example.duitku.database.DuitkuContract.BudgetEntry;
 import com.example.duitku.database.DuitkuContract.TransactionEntry;
 import com.example.duitku.database.DuitkuContract.CategoryEntry;
 import com.example.duitku.main.Utility;
 import com.example.duitku.wallet.Wallet;
+import com.example.duitku.wallet.WalletController;
 
 import java.util.ArrayList;
 import java.util.Calendar;
@@ -26,7 +27,7 @@ import java.util.Map;
 
 public class TransactionController {
 
-    private Context context;
+    private final Context context;
 
     public TransactionController(Context context){
         this.context = context;
@@ -36,19 +37,30 @@ public class TransactionController {
     public Uri addTransaction(Transaction transaction){
         ContentValues values = convertTransactionToContentValues(transaction);
         Uri uri = context.getContentResolver().insert(TransactionEntry.CONTENT_URI, values);
+
+        Category category = new CategoryController(context).getCategoryById(transaction.getCategoryId());
+        if (category != null && category.getType().equals(CategoryEntry.TYPE_EXPENSE)){ //budget pasti expense
+            new BudgetController(context).updateBudgetFromInitialTransaction(transaction);
+        }
+
         return uri;
     }
 
-    public int updateTransaction(Transaction transaction){
-        ContentValues values = convertTransactionToContentValues(transaction);
-        Uri uri = ContentUris.withAppendedId(TransactionEntry.CONTENT_URI, transaction.getId());
+    public int updateTransaction(Transaction transactionBefore, Transaction transactionAfter){
+        ContentValues values = convertTransactionToContentValues(transactionAfter);
+        Uri uri = ContentUris.withAppendedId(TransactionEntry.CONTENT_URI, transactionAfter.getId());
         int rowsUpdated = context.getContentResolver().update(uri, values, null, null);
+
+        new WalletController(context).updateWalletFromUpdatedTransaction(transactionBefore, transactionAfter);
+        new BudgetController(context).updateBudgetFromUpdatedTransaction(transactionBefore, transactionAfter);
+
         return rowsUpdated;
     }
 
-    public int deleteTransaction(long id){
-        int rowsDeleted = context.getContentResolver().delete(ContentUris.withAppendedId(TransactionEntry.CONTENT_URI, id), null, null);
-        return rowsDeleted;
+    public int deleteTransaction(Transaction transaction){
+        new WalletController(context).updateWalletFromDeletedTransaction(transaction);
+
+        return context.getContentResolver().delete(ContentUris.withAppendedId(TransactionEntry.CONTENT_URI, transaction.getId()), null, null);
     }
 
     // get transaction
@@ -77,7 +89,7 @@ public class TransactionController {
             String type = budget.getType();
             if (type.equals(BudgetEntry.TYPE_3MONTH)){
 
-                int quarter = curMonth / 4 + 2; // value dari 1 sampe 4
+                int quarter = Utility.getQuarter(curMonth);
                 monthLowerBound = 3 * (quarter - 1) + 1;
                 monthUpperBound = 3 * quarter;
 
@@ -101,8 +113,7 @@ public class TransactionController {
                 "%/%/" + curYear};
         Cursor data = context.getContentResolver().query(TransactionEntry.CONTENT_URI, projection, selection, selectionArgs, null);
 
-        List<Transaction> ret = convertCursorToListOfTransaction(data);
-        return ret;
+        return convertCursorToListOfTransaction(data);
     }
 
     private List<Transaction> getTransactionsByBudgetCustomDate(Budget budget){
@@ -118,19 +129,17 @@ public class TransactionController {
         String[] selectionArgs = new String[]{Long.toString(budget.getCategoryId()), dateLowerBound, dateUpperBound};
         Cursor data = context.getContentResolver().query(TransactionEntry.CONTENT_URI, projection, selection, selectionArgs, null);
 
-        List<Transaction> ret = convertCursorToListOfTransaction(data);
-        return ret;
+        return convertCursorToListOfTransaction(data);
     }
 
     public String[] getFullProjection(){
-        String[] projection = new String[]{TransactionEntry.COLUMN_ID,
+        return new String[]{TransactionEntry.COLUMN_ID,
                 TransactionEntry.COLUMN_WALLET_ID,
                 TransactionEntry.COLUMN_WALLET_DEST_ID,
                 TransactionEntry.COLUMN_CATEGORY_ID,
                 TransactionEntry.COLUMN_DESC,
                 TransactionEntry.COLUMN_DATE,
                 TransactionEntry.COLUMN_AMOUNT};
-        return projection;
     }
 
     // converting
@@ -151,8 +160,15 @@ public class TransactionController {
         Date date = Utility.parseDate(data.getString(dateColumnIndex));
         double amount= data.getDouble(amountColumnIndex);
 
-        Transaction ret = new Transaction(transactionId, walletId, walletDestId, categoryId, desc, date, amount);
-        return ret;
+        if (walletDestId == 0){
+            walletDestId = -1;
+        }
+
+        if (categoryId == 0){
+            categoryId = -1;
+        }
+
+        return new Transaction(transactionId, walletId, walletDestId, categoryId, desc, date, amount);
     }
 
     private ContentValues convertTransactionToContentValues(Transaction transaction){
@@ -198,8 +214,7 @@ public class TransactionController {
     public int deleteAllTransactionWithWalletId(long walletId){
         String selection = TransactionEntry.COLUMN_WALLET_ID + " = ? OR " + TransactionEntry.COLUMN_WALLET_DEST_ID + " = ?";
         String[] selectionArgs = new String[]{Long.toString(walletId), Long.toString(walletId)};
-        int rowsDeleted = context.getContentResolver().delete(TransactionEntry.CONTENT_URI, selection, selectionArgs);
-        return rowsDeleted;
+        return context.getContentResolver().delete(TransactionEntry.CONTENT_URI, selection, selectionArgs);
     }
 
     public Uri addTransactionFromInitialWallet(long walletId, Wallet wallet){
@@ -213,20 +228,19 @@ public class TransactionController {
         long categoryId = category.getId();
         String desc = "Initial Balance for Wallet " + wallet.getName();
         Date date = calendar.getTime();
-        double amount = wallet.getAmount();
+        double amount = Math.abs(wallet.getAmount());
         Transaction transaction = new Transaction(-1, walletId, walletDestId, categoryId, desc, date, amount);
 
-        Uri uri = addTransaction(transaction);
-        return uri;
+        return addTransaction(transaction);
     }
 
     public Uri addTransactionFromUpdatedWallet(double amountBefore, Wallet wallet){
         Calendar calendar = Calendar.getInstance();
         Category category;
         if (amountBefore < wallet.getAmount()){
-            category = new CategoryController(context).getCategoryByNameAndType(DuitkuContract.CategoryEntry.DEFAULT_CATEGORY_NAME, DuitkuContract.CategoryEntry.TYPE_INCOME);
+            category = new CategoryController(context).getCategoryByNameAndType(CategoryEntry.DEFAULT_CATEGORY_NAME, CategoryEntry.TYPE_INCOME);
         } else {
-            category = new CategoryController(context).getCategoryByNameAndType(DuitkuContract.CategoryEntry.DEFAULT_CATEGORY_NAME, DuitkuContract.CategoryEntry.TYPE_EXPENSE);
+            category = new CategoryController(context).getCategoryByNameAndType(CategoryEntry.DEFAULT_CATEGORY_NAME, CategoryEntry.TYPE_EXPENSE);
         }
 
         long walletId = wallet.getId();
@@ -237,8 +251,7 @@ public class TransactionController {
         double amount = Math.abs(amountBefore - wallet.getAmount());
         Transaction transaction = new Transaction(-1, walletId, walletDestId, categoryId, desc, date, amount);
 
-        Uri uri = addTransaction(transaction);
-        return uri;
+        return addTransaction(transaction);
     }
 
 }

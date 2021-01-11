@@ -8,23 +8,19 @@ import androidx.fragment.app.Fragment;
 import androidx.viewpager.widget.ViewPager;
 
 import com.example.duitku.R;
-import com.example.duitku.budget.BudgetFragment;
+import com.example.duitku.budget.fragment.BudgetFragment;
 import com.example.duitku.interfaces.UIView;
 import com.example.duitku.transaction.daily.DailyTransactionFragment;
 import com.example.duitku.transaction.monthly.MonthlyTransactionFragment;
 import com.example.duitku.transaction.weekly.WeeklyTransactionFragment;
 import com.example.duitku.wallet.WalletFragment;
 
-import java.util.ArrayList;
-
 public class TransactionFragmentView implements UIView {
 
-    private ViewPager viewPager;
-
-    private LayoutInflater inflater;
-    private ViewGroup container;
+    private final LayoutInflater inflater;
+    private final ViewGroup container;
     private View view;
-    private Fragment fragment;
+    private final Fragment fragment;
 
     public TransactionFragmentView(LayoutInflater inflater, ViewGroup container, Fragment fragment){
         this.inflater = inflater;
@@ -39,7 +35,7 @@ public class TransactionFragmentView implements UIView {
     }
 
     private void setUpViewPager(){
-        viewPager = view.findViewById(R.id.fragment_transaction_viewpager);
+        ViewPager viewPager = view.findViewById(R.id.fragment_transaction_viewpager);
 
         TransactionViewPagerAdapter adapter = new TransactionViewPagerAdapter(fragment.getChildFragmentManager());
 

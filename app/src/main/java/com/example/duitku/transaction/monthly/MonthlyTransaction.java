@@ -2,9 +2,9 @@ package com.example.duitku.transaction.monthly;
 
 public class MonthlyTransaction {
 
-    private int month;
-    private double income;
-    private double expense;
+    private final int month;
+    private final double income;
+    private final double expense;
 
     public MonthlyTransaction(int month, double income, double expense){
         this.month = month;

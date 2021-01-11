@@ -49,7 +49,7 @@ public class Utility {
     public static String convertDateToFullString(Date date){
         String ret = DateFormat.getDateInstance(DateFormat.FULL).format(date);
         String[] components = ret.split(", ");
-        ret = components[0] + "\n" + components[1];
+        ret = components[0] + "\n" + components[1] + ", " + components[2];
 
         Calendar calendar = Calendar.getInstance();
         int curYear = calendar.get(Calendar.YEAR);
@@ -91,6 +91,10 @@ public class Utility {
         calendar.set(Calendar.MONTH, month);
         calendar.set(Calendar.DAY_OF_MONTH, dayOfMonth);
         return calendar.getTime();
+    }
+
+    public static int getQuarter(int month){
+        return month / 4 + 1;
     }
 
 }

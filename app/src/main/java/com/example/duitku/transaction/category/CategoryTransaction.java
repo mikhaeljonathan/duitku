@@ -8,8 +8,8 @@ import java.util.List;
 
 public class CategoryTransaction implements Serializable { // serializable biar bisa dipass ke activity
 
-    private List<Transaction> transactions;
-    private long categoryId;
+    private final List<Transaction> transactions;
+    private final long categoryId;
     private double amount;
 
     public CategoryTransaction(long categoryId, double amount){

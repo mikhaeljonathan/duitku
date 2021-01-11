@@ -2,10 +2,10 @@ package com.example.duitku.transaction.weekly;
 
 public class WeeklyTransaction {
 
-    private int week;
-    private String intervals;
-    private double income;
-    private double expense;
+    private final int week;
+    private final String intervals;
+    private final double income;
+    private final double expense;
 
     public WeeklyTransaction(int week, String intervals, double income, double expense){
         this.week = week;

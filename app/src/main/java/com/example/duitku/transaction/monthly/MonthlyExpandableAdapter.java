@@ -18,9 +18,9 @@ import java.util.List;
 
 public class MonthlyExpandableAdapter extends BaseExpandableListAdapter {
 
-    private List<MonthlyTransaction> monthlyTransactionList;
-    private HashMap<MonthlyTransaction, List<CategoryTransaction>> categoryTransactionListHashMap;
-    private Context context;
+    private final List<MonthlyTransaction> monthlyTransactionList;
+    private final HashMap<MonthlyTransaction, List<CategoryTransaction>> categoryTransactionListHashMap;
+    private final Context context;
 
     public MonthlyExpandableAdapter(List<MonthlyTransaction> monthlyTransactionList,
                                     HashMap<MonthlyTransaction, List<CategoryTransaction>> categoryTransactionListHashMap,

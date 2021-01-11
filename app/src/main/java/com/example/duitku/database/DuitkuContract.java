@@ -83,7 +83,6 @@ public class DuitkuContract {
         public static final String COLUMN_DESC = "transaction_desc";
         public static final String COLUMN_DATE = "transaction_date";
         public static final String COLUMN_AMOUNT = "transaction_amount";
-
     }
 
 }
