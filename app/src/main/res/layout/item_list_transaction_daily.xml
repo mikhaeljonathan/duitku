@@ -6,88 +6,112 @@
 balikin ExpandableListView yang sebelumnya rtl biar panahnya
 bisa di kanan-->
 
-<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
-    android:id="@+id/item_list_transaction_daily_constraintlayout"
     android:layout_width="match_parent"
-    android:layout_height="88dp"
-    android:layoutDirection="ltr">
+    android:layout_height="match_parent"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:orientation="vertical">
 
-    <TextView
-        android:id="@+id/item_list_transaction_daily_date_textview"
-        android:layout_width="wrap_content"
-        android:layout_height="0dp"
-        android:layout_marginStart="16dp"
-        android:layout_marginTop="16dp"
-        android:layout_marginBottom="16dp"
-        android:gravity="center_vertical"
-        android:textColor="@color/textLight"
-        android:textSize="30sp"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        tools:text="16" />
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:id="@+id/item_list_transaction_daily_constraintlayout"
+        android:layout_width="match_parent"
+        android:layout_height="65dp"
+        android:layoutDirection="ltr">
 
-    <TextView
-        android:id="@+id/item_list_transaction_daily_day_textview"
-        android:layout_width="wrap_content"
-        android:layout_height="0dp"
-        android:layout_marginStart="16dp"
-        android:layout_marginTop="16dp"
-        android:layout_marginBottom="16dp"
-        android:gravity="center_vertical"
-        android:text="TextView"
-        android:textColor="@color/textDark"
-        android:textSize="24sp"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintStart_toEndOf="@+id/item_list_transaction_daily_date_textview"
-        app:layout_constraintTop_toTopOf="parent"
-        tools:text="Fri" />
+        <TextView
+            android:id="@+id/item_list_transaction_daily_date_textview"
+            android:layout_width="wrap_content"
+            android:layout_height="0dp"
+            android:layout_marginStart="10dp"
+            android:layout_marginTop="10dp"
+            android:layout_marginBottom="10dp"
+            android:gravity="center_vertical"
+            android:textColor="@color/textLight"
+            android:textSize="20sp"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            tools:text="16" />
 
-    <TextView
-        android:id="@+id/item_list_transaction_daily_income_textview"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginEnd="24dp"
-        android:textColor="@color/green"
-        android:textSize="14sp"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toStartOf="@+id/item_list_transaction_daily_expense_icon"
-        app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.507"
-        tools:text="Rp 5.000.000" />
+        <TextView
+            android:id="@+id/item_list_transaction_daily_day_textview"
+            android:layout_width="wrap_content"
+            android:layout_height="0dp"
+            android:layout_marginStart="10dp"
+            android:layout_marginTop="10dp"
+            android:layout_marginBottom="10dp"
+            android:gravity="center_vertical"
+            android:text="TextView"
+            android:textColor="@color/textDark"
+            android:textSize="16sp"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintStart_toEndOf="@+id/item_list_transaction_daily_date_textview"
+            app:layout_constraintTop_toTopOf="parent"
+            tools:text="Fri" />
 
-    <TextView
-        android:id="@+id/item_list_transaction_daily_expense_textview"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginEnd="36dp"
-        android:textColor="@color/red"
-        android:textSize="14sp"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        tools:text="Rp 500.000" />
+        <TextView
+            android:id="@+id/item_list_transaction_daily_income_textview"
+            android:layout_width="0dp"
+            android:layout_height="15dp"
+            android:layout_marginEnd="24dp"
+            android:textColor="@color/green"
+            android:textSize="12sp"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toStartOf="@+id/item_list_transaction_daily_expense_icon"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintVertical_bias="0.507"
+            tools:text="Rp 5.000.000" />
 
-    <ImageView
-        android:id="@+id/item_list_transaction_daily_expense_icon"
-        android:layout_width="wrap_content"
-        android:layout_height="24dp"
-        android:layout_marginEnd="8dp"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toStartOf="@+id/item_list_transaction_daily_expense_textview"
-        app:layout_constraintTop_toTopOf="parent"
-        app:srcCompat="@drawable/icon_expense" />
+        <TextView
+            android:id="@+id/item_list_transaction_daily_expense_textview"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginEnd="40dp"
+            android:textColor="@color/red"
+            android:textSize="12sp"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toStartOf="@id/arrow_expandable"
+            app:layout_constraintTop_toTopOf="parent"
+            tools:text="Rp 500.000" />
 
-    <ImageView
-        android:id="@+id/item_list_transaction_daily_income_icon"
-        android:layout_width="wrap_content"
-        android:layout_height="24dp"
-        android:layout_marginEnd="8dp"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toStartOf="@+id/item_list_transaction_daily_income_textview"
-        app:layout_constraintTop_toTopOf="parent"
-        app:srcCompat="@drawable/icon_income" />
+        <ImageView
+            android:id="@+id/item_list_transaction_daily_expense_icon"
+            android:layout_width="wrap_content"
+            android:layout_height="20dp"
+            android:layout_marginEnd="8dp"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toStartOf="@+id/item_list_transaction_daily_expense_textview"
+            app:layout_constraintTop_toTopOf="parent"
+            app:srcCompat="@drawable/icon_expense" />
 
-</androidx.constraintlayout.widget.ConstraintLayout>
+        <ImageView
+            android:id="@+id/item_list_transaction_daily_income_icon"
+            android:layout_width="wrap_content"
+            android:layout_height="20dp"
+            android:layout_marginEnd="8dp"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toStartOf="@+id/item_list_transaction_daily_income_textview"
+            app:layout_constraintTop_toTopOf="parent"
+            app:srcCompat="@drawable/icon_income" />
+
+        <ImageView
+            android:id="@+id/arrow_expandable"
+            android:layout_width="10dp"
+            android:layout_height="10dp"
+            android:layout_marginEnd="15dp"
+            android:gravity="end"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            app:srcCompat="@android:drawable/arrow_down_float" />
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+
+    <View
+        android:id="@+id/view_hidden2"
+        android:layout_width="match_parent"
+        android:layout_height="10dp"
+        android:background="@color/colorPrimary" />
+
+</LinearLayout>
