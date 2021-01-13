@@ -71,6 +71,11 @@ public class BudgetFragmentView implements UIView {
         });
     }
 
+    private void addBudget(){
+        AddBudgetDialog addBudgetDialog = new AddBudgetDialog();
+        addBudgetDialog.show(fragment.getFragmentManager(), "Add Budget Dialog");
+    }
+
     private void hideView(){
         Button periodButton = header.findViewById(R.id.transaction_header_period_btn);
         TextView totalWalletTextView = header.findViewById(R.id.transaction_header_totalwallet_textview);
@@ -96,20 +101,15 @@ public class BudgetFragmentView implements UIView {
         setUpAdapter();
     }
 
-    private void setUpAdapter(){
-        adapter = new BudgetAdapter(fragment.getActivity(), null);
-        listView.setAdapter(adapter);
-    }
-
     private void viewBudget(long id){
         Intent viewBudgetIntent = new Intent(fragment.getActivity(), ViewBudgetActivity.class);
         viewBudgetIntent.putExtra("ID", id);
         fragment.getActivity().startActivity(viewBudgetIntent);
     }
 
-    private void addBudget(){
-        AddBudgetDialog addBudgetDialog = new AddBudgetDialog();
-        addBudgetDialog.show(fragment.getFragmentManager(), "Add Budget Dialog");
+    private void setUpAdapter(){
+        adapter = new BudgetAdapter(fragment.getActivity(), null);
+        listView.setAdapter(adapter);
     }
 
     @Override

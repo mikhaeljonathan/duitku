@@ -1,4 +1,4 @@
-package com.example.duitku.wallet;
+package com.example.duitku.wallet.fragment;
 
 import android.content.Intent;
 import android.view.LayoutInflater;
@@ -40,9 +40,8 @@ public class WalletFragmentView implements UIView {
     @Override
     public void setUpUI() {
         this.view = inflater.inflate(R.layout.fragment_transaction_viewpager, container, false);
-        setUpListView();
         setUpHeader();
-        setUpAdapter();
+        setUpListView();
     }
 
     public void updateTotalWalletTextView(double amount){
@@ -51,6 +50,44 @@ public class WalletFragmentView implements UIView {
 
     public WalletAdapter getAdapter(){
         return adapter;
+    }
+
+    private void setUpHeader(){
+        header = inflater.inflate(R.layout.fragment_transaction_header, container, false);
+        totalWalletTextView = header.findViewById(R.id.transaction_header_totalwallet_textview);
+
+        setUpTitle();
+        setUpAddBtn();
+
+        hideView();
+    }
+
+    private void setUpTitle(){
+        TextView titleTextView = header.findViewById(R.id.transaction_header_title_textview);
+        titleTextView.setText("Wallet");
+    }
+
+    private void setUpAddBtn(){
+        ImageView addButton = header.findViewById(R.id.transaction_header_add_btn);
+        addButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                addWallet();
+            }
+        });
+    }
+
+    private void addWallet(){
+        AddWalletDialog addWalletDialog = new AddWalletDialog();
+        addWalletDialog.show(fragment.getFragmentManager(), "Add Wallet Dialog");
+    }
+
+    private void hideView(){
+        Button periodButton = header.findViewById(R.id.transaction_header_period_btn);
+        ConstraintLayout summaryContainer = header.findViewById(R.id.transaction_header_summary_container);
+
+        periodButton.setVisibility(View.GONE);
+        summaryContainer.setVisibility(View.GONE);
     }
 
     private void setUpListView(){
@@ -64,34 +101,8 @@ public class WalletFragmentView implements UIView {
                 viewWallet(id);
             }
         });
-    }
-
-    private void setUpHeader(){
-        header = inflater.inflate(R.layout.fragment_transaction_header, container, false);
-
-        TextView titleTextView = header.findViewById(R.id.transaction_header_title_textview);
-        ImageView addButton = header.findViewById(R.id.transaction_header_add_btn);
-        Button periodButton = header.findViewById(R.id.transaction_header_period_btn);
-        totalWalletTextView = header.findViewById(R.id.transaction_header_totalwallet_textview);
-        ConstraintLayout summaryContainer = header.findViewById(R.id.transaction_header_summary_container);
-
-        titleTextView.setText("Wallet");
-        periodButton.setVisibility(View.GONE);
-        summaryContainer.setVisibility(View.GONE);
-
-        addButton.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                addWallet();
-            }
-        });
-
         listView.addHeaderView(header, null, false);
-    }
-
-    private void setUpAdapter(){
-        adapter = new WalletAdapter(fragment.getActivity(), null);
-        listView.setAdapter(adapter);
+        setUpAdapter();
     }
 
     private void viewWallet(long id){
@@ -100,9 +111,9 @@ public class WalletFragmentView implements UIView {
         fragment.getActivity().startActivity(viewWalletIntent);
     }
 
-    private void addWallet(){
-        AddWalletDialog addWalletDialog = new AddWalletDialog();
-        addWalletDialog.show(fragment.getFragmentManager(), "Add Wallet Dialog");
+    private void setUpAdapter(){
+        adapter = new WalletAdapter(fragment.getActivity(), null);
+        listView.setAdapter(adapter);
     }
 
     @Override

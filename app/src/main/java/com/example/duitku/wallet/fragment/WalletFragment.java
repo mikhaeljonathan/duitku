@@ -1,6 +1,7 @@
-package com.example.duitku.wallet;
+package com.example.duitku.wallet.fragment;
 
 import com.example.duitku.database.DuitkuContract.WalletEntry;
+import com.example.duitku.wallet.WalletController;
 
 import android.database.Cursor;
 import android.os.Bundle;
@@ -17,7 +18,7 @@ import androidx.loader.content.Loader;
 
 public class WalletFragment extends Fragment implements LoaderManager.LoaderCallbacks<Cursor> {
 
-    private WalletController walletController = new WalletController(getActivity());
+    private final WalletController walletController = new WalletController(getActivity());
     private WalletFragmentView walletFragmentView;
 
     private final int WALLET_LOADER = 0;
@@ -36,13 +37,11 @@ public class WalletFragment extends Fragment implements LoaderManager.LoaderCall
     @NonNull
     @Override
     public Loader<Cursor> onCreateLoader(int id, @Nullable Bundle args) {
-        switch(id){
-            case WALLET_LOADER:
-                String[] projection = walletController.getFullProjection();
-                return new CursorLoader(getActivity(), WalletEntry.CONTENT_URI, projection,null,null,null);
-            default:
-                throw new IllegalStateException("Unknown Loader");
+        if (id == WALLET_LOADER) {
+            String[] projection = walletController.getFullProjection();
+            return new CursorLoader(getActivity(), WalletEntry.CONTENT_URI, projection, null, null, null);
         }
+        throw new IllegalStateException("Unknown Loader");
     }
 
     @Override

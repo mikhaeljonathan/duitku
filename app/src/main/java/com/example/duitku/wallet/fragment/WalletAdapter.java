@@ -1,4 +1,4 @@
-package com.example.duitku.wallet;
+package com.example.duitku.wallet.fragment;
 
 import android.content.Context;
 import android.database.Cursor;
@@ -9,6 +9,8 @@ import android.widget.CursorAdapter;
 import android.widget.TextView;
 
 import com.example.duitku.R;
+import com.example.duitku.wallet.Wallet;
+import com.example.duitku.wallet.WalletController;
 
 public class WalletAdapter extends CursorAdapter {
 

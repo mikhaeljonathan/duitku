@@ -17,7 +17,7 @@ import com.example.duitku.transaction.TransactionController;
 
 public class WalletController {
 
-    private Context context;
+    private final Context context;
 
     public WalletController(Context context){
         this.context = context;
@@ -39,8 +39,7 @@ public class WalletController {
     public int updateWallet(Wallet wallet){
         ContentValues values = convertWalletToContentValues(wallet);
         Uri uri = ContentUris.withAppendedId(WalletEntry.CONTENT_URI, wallet.getId());
-        int rowsUpdated = context.getContentResolver().update(uri, values, null, null);
-        return rowsUpdated;
+        return context.getContentResolver().update(uri, values, null, null);
     }
 
     public int deleteWallet(Wallet wallet){
@@ -83,11 +82,10 @@ public class WalletController {
     }
 
     public String[] getFullProjection(){
-        String[] projection = new String[]{WalletEntry.COLUMN_ID,
+        return new String[]{WalletEntry.COLUMN_ID,
                 WalletEntry.COLUMN_NAME,
                 WalletEntry.COLUMN_AMOUNT,
                 WalletEntry.COLUMN_DESC};
-        return projection;
     }
 
     // converting
@@ -102,8 +100,7 @@ public class WalletController {
         double amount = data.getDouble(amountColumnIndex);
         String desc = data.getString(descColumnIndex);
 
-        Wallet ret = new Wallet(id, name, amount, desc);
-        return ret;
+        return new Wallet(id, name, amount, desc);
     }
 
     private ContentValues convertWalletToContentValues(Wallet wallet){
@@ -184,7 +181,6 @@ public class WalletController {
 
         }
 
-
     }
 
     private void updateWalletAmount(long walletId, double amount){
@@ -201,7 +197,7 @@ public class WalletController {
             updateWalletAmount(transaction.getWalletId(), transaction.getAmount());
             updateWalletAmount(transaction.getWalletDestId(), -transaction.getAmount());
 
-        } else if (category.equals(CategoryEntry.TYPE_EXPENSE)){
+        } else if (category.getType().equals(CategoryEntry.TYPE_EXPENSE)){
             updateWalletAmount(transaction.getWalletId(), transaction.getAmount());
         } else {
             updateWalletAmount(transaction.getWalletId(), -transaction.getAmount());

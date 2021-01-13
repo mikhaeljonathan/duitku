@@ -22,7 +22,7 @@ import androidx.loader.content.Loader;
 
 import com.example.duitku.R;
 import com.example.duitku.database.DuitkuContract.WalletEntry;
-import com.example.duitku.wallet.WalletAdapter;
+import com.example.duitku.wallet.fragment.WalletAdapter;
 import com.example.duitku.wallet.WalletController;
 import com.example.duitku.wallet.add.AddWalletDialog;
 
