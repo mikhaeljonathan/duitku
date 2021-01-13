@@ -6,6 +6,7 @@ import android.content.Intent;
 import android.content.res.Resources;
 import android.graphics.Paint;
 import android.view.View;
+import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.Button;
 import android.widget.DatePicker;
@@ -30,22 +31,23 @@ import java.util.List;
 
 public class ViewWalletActivityView implements UIView {
 
+    private Button periodButton;
+
     private ListView listView;
     private TransactionAdapter adapter;
 
-    private Button periodButton;
-
-    private WalletController walletController;
-
-    private long id;
-    private Wallet wallet;
-    private ViewWalletActivity activity;
+    private final Wallet wallet;
+    private final ViewWalletActivity activity;
     private View header;
 
     public ViewWalletActivityView(long id, ViewWalletActivity activity){
-        this.id = id;
+        this.wallet = new WalletController(activity).getWalletById(id);
         this.activity = activity;
-        walletController = new WalletController(activity);
+    }
+
+    public void setUpAdapter(List<Transaction> transactions){
+        adapter = new TransactionAdapter(activity, transactions, wallet.getId());
+        listView.setAdapter(adapter);
     }
 
     @Override
@@ -54,16 +56,102 @@ public class ViewWalletActivityView implements UIView {
         TextView textView = activity.findViewById(R.id.view_title_textview);
         textView.setText("View Wallet");
 
-        wallet = walletController.getWalletById(id);
-        if (wallet == null) { // kalau di delete lgsg finish activity
-            activity.finish();
-            return;
-        }
-
-        setUpListView();
         setUpHeader();
+        setUpListView();
         setUpButtons();
-        setUpPeriodButton();
+    }
+
+    private void setUpHeader(){
+        header = activity.getLayoutInflater().inflate(R.layout.activity_view_header,
+                (ViewGroup) activity.findViewById(R.id.activity_view_constraintlayout));
+
+        setUpWalletName();
+        setUpAmount();
+        setUpDesc();
+        setUpTransactionTextView();
+        hideView();
+
+        periodButton = header.findViewById(R.id.view_header_period_btn);
+    }
+
+    private void setUpWalletName(){
+        TextView nameTextView = header.findViewById(R.id.view_header_title);
+        nameTextView.setText(wallet.getName());
+    }
+
+    private void setUpAmount(){
+        TextView amountTextView = header.findViewById(R.id.view_header_subtitle);
+        amountTextView.setText(Double.toString(wallet.getAmount()));
+    }
+
+    private void setUpDesc(){
+        TextView descTextView = header.findViewById(R.id.view_header_subsubtitle);
+        String desc = wallet.getDescription();
+        if (desc.equals("")){
+            descTextView.setVisibility(View.GONE);
+        } else {
+            descTextView.setText(wallet.getDescription());
+        }
+    }
+
+    private void setUpListView(){
+        listView = activity.findViewById(R.id.view_listview);
+        listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+            @Override
+            public void onItemClick(AdapterView<?> adapterView, View view, int i, long id) {
+                Transaction transaction = adapter.getTransaction(i - 1);
+                viewTransaction(transaction.getId());
+            }
+        });
+        listView.addHeaderView(header, null, false);
+    }
+
+    private void viewTransaction(long id){
+        ViewTransactionDialog viewTransactionDialog = new ViewTransactionDialog(id);
+        viewTransactionDialog.show(activity.getSupportFragmentManager(), "View Transaction Dialog");
+    }
+
+    private void setUpTransactionTextView(){
+        TextView transactionTextView = header.findViewById(R.id.view_header_transaction_textview);
+        transactionTextView.setPaintFlags(transactionTextView.getPaintFlags()|Paint.UNDERLINE_TEXT_FLAG); //underline
+    }
+
+    private void hideView(){
+        ProgressBar progressBar = header.findViewById(R.id.view_header_progressbar);
+        progressBar.setVisibility(View.GONE);
+
+        TextView usedTextView = header.findViewById(R.id.view_header_used_textview);
+        usedTextView.setVisibility(View.GONE);
+
+        TextView amountTextView = header.findViewById(R.id.view_header_max_textview);
+        amountTextView.setVisibility(View.GONE);
+    }
+
+    private void setUpButtons(){
+        setUpBackBtn();
+        setUpEditBtn();
+    }
+
+    private void setUpBackBtn(){
+        ImageButton backBtn = activity.findViewById(R.id.view_back_btn);
+        backBtn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                activity.finish();
+            }
+        });
+    }
+
+    private void setUpEditBtn(){
+        ImageButton editBtn = activity.findViewById(R.id.view_edit_btn);
+        editBtn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Intent editWalletIntent = new Intent(activity, EditWalletActivity.class);
+                editWalletIntent.putExtra("ID", wallet.getId());
+                activity.startActivity(editWalletIntent);
+            }
+        });
     }
 
     public void updatePeriodButton(final int month, final int year){
@@ -84,87 +172,8 @@ public class ViewWalletActivityView implements UIView {
         });
     }
 
-    private void setUpListView(){
-        listView = activity.findViewById(R.id.view_listview);
-        listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
-            @Override
-            public void onItemClick(AdapterView<?> adapterView, View view, int i, long id) {
-                Transaction transaction = adapter.getTransaction(i - 1);
-                viewTransaction(transaction.getId());
-            }
-        });
-    }
-
-    private void setUpHeader(){
-        header = activity.getLayoutInflater().inflate(R.layout.activity_view_header, null);
-
-        TextView nameTextView = header.findViewById(R.id.view_header_title);
-        TextView amountTextView = header.findViewById(R.id.view_header_subtitle);
-        TextView descTextView = header.findViewById(R.id.view_header_subsubtitle);
-        TextView transactionTextView = header.findViewById(R.id.view_header_transaction_textview);
-
-        nameTextView.setText(wallet.getName());
-        amountTextView.setText(wallet.getAmount() + "");
-        String desc = wallet.getDescription();
-        if (desc.equals("")){
-            descTextView.setVisibility(View.GONE);
-        } else {
-            descTextView.setText(wallet.getDescription());
-        }
-        transactionTextView.setPaintFlags(transactionTextView.getPaintFlags()|Paint.UNDERLINE_TEXT_FLAG); //underline
-
-        hideView();
-
-        listView.addHeaderView(header, null, false);
-    }
-
-    private void hideView(){
-        ProgressBar progressBar = header.findViewById(R.id.view_header_progressbar);
-        TextView usedTextView = header.findViewById(R.id.view_header_used_textview);
-        TextView amountTextView = header.findViewById(R.id.view_header_max_textview);
-
-        progressBar.setVisibility(View.GONE);
-        usedTextView.setVisibility(View.GONE);
-        amountTextView.setVisibility(View.GONE);
-    }
-
-    private void setUpButtons(){
-        ImageButton backBtn = activity.findViewById(R.id.view_back_btn);
-        ImageButton editBtn = activity.findViewById(R.id.view_edit_btn);
-
-        backBtn.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                activity.finish();
-            }
-        });
-
-        editBtn.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                Intent editWalletIntent = new Intent(activity, EditWalletActivity.class);
-                editWalletIntent.putExtra("ID", id);
-                activity.startActivity(editWalletIntent);
-            }
-        });
-    }
-
-    public void setUpAdapter(List<Transaction> transactions){
-        adapter = new TransactionAdapter(activity, transactions, id);
-        listView.setAdapter(adapter);
-    }
-
-    private void setUpPeriodButton(){
-        periodButton = header.findViewById(R.id.view_header_period_btn);
-    }
-
-    private void viewTransaction(long id){
-        ViewTransactionDialog viewTransactionDialog = new ViewTransactionDialog(id);
-        viewTransactionDialog.show(activity.getSupportFragmentManager(), "View Transaction Dialog");
-    }
-
     @Override
     public View getView() {
-        return null;
+        return activity.findViewById(R.id.activity_view_constraintlayout);
     }
 }

@@ -163,6 +163,6 @@ public class ViewBudgetActivityView implements UIView {
 
     @Override
     public View getView() {
-        return null;
+        return activity.findViewById(R.id.activity_view_constraintlayout);
     }
 }

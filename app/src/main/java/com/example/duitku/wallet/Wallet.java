@@ -2,7 +2,7 @@ package com.example.duitku.wallet;
 
 public class Wallet {
 
-    private long id;
+    private final long id;
     private String name;
     private double amount;
     private String description;

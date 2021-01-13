@@ -12,7 +12,7 @@ import com.example.duitku.R;
 
 public class WalletAdapter extends CursorAdapter {
 
-    private WalletController walletController;
+    private final WalletController walletController;
 
     public WalletAdapter(Context context, Cursor c) {
         super(context, c, 0);
@@ -35,7 +35,7 @@ public class WalletAdapter extends CursorAdapter {
         TextView walletAmountTextView = view.findViewById(R.id.item_list_wallet_amount_textview);
 
         walletNameTextView.setText(name);
-        walletAmountTextView.setText(amount + "");
+        walletAmountTextView.setText(Double.toString(amount));
     }
 
 }

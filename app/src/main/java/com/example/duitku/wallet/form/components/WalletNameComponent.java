@@ -94,6 +94,7 @@ public class WalletNameComponent extends View {
     }
 
     public void setName(String name){
+        this.nameBefore = name;
         this.name = name;
         nameField.setText(name);
     }
