@@ -1,4 +1,4 @@
-package com.example.duitku.transaction.parent;
+package com.example.duitku.transaction.fragment;
 
 import android.view.LayoutInflater;
 import android.view.View;

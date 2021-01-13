@@ -1,4 +1,4 @@
-package com.example.duitku.transaction.parent;
+package com.example.duitku.transaction.fragment;
 
 import androidx.annotation.NonNull;
 import androidx.fragment.app.Fragment;

@@ -1,4 +1,4 @@
-package com.example.duitku.transaction.parent;
+package com.example.duitku.report.fragment;
 
 import android.os.Bundle;
 import android.view.LayoutInflater;
@@ -11,14 +11,14 @@ import androidx.fragment.app.Fragment;
 
 import com.example.duitku.interfaces.UIView;
 
-public class TransactionFragment extends Fragment {
+public class ReportFragment extends Fragment {
 
     @Nullable
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
-        UIView transactionFragmentView = new TransactionFragmentView(inflater, container, this);
-        transactionFragmentView.setUpUI();
-        return transactionFragmentView.getView();
+        UIView reportFragmentView = new ReportFragmentView(inflater, container, this);
+        reportFragmentView.setUpUI();
+        return reportFragmentView.getView();
     }
 
 }

@@ -1,6 +1,5 @@
 package com.example.duitku.main;
 
-import android.accounts.Account;
 import android.content.Intent;
 import android.view.MenuItem;
 import android.view.View;
@@ -12,10 +11,10 @@ import androidx.fragment.app.Fragment;
 import com.example.duitku.R;
 import com.example.duitku.account.AccountFragment;
 import com.example.duitku.article.ArticleFragment;
-import com.example.duitku.report.ReportFragment;
+import com.example.duitku.report.fragment.ReportFragment;
 import com.example.duitku.transaction.add.AddTransactionActivity;
 import com.example.duitku.interfaces.UIView;
-import com.example.duitku.transaction.parent.TransactionFragment;
+import com.example.duitku.transaction.fragment.TransactionFragment;
 import com.google.android.material.bottomnavigation.BottomNavigationView;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 
