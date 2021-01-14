@@ -9,12 +9,12 @@ import androidx.fragment.app.FragmentPagerAdapter;
 import java.util.ArrayList;
 import java.util.List;
 
-public class ReportAdapter extends FragmentPagerAdapter {
+public class ReportPagerAdapter extends FragmentPagerAdapter {
 
     private final List<Fragment> fragmentList = new ArrayList<>();
     private final List<String> fragmentTitleList = new ArrayList<>();
 
-    public ReportAdapter(@NonNull FragmentManager fm) {
+    public ReportPagerAdapter(@NonNull FragmentManager fm) {
         super(fm, (BEHAVIOR_RESUME_ONLY_CURRENT_FRAGMENT));
     }
 

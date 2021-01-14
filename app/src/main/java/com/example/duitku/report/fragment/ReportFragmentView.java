@@ -8,9 +8,9 @@ import androidx.fragment.app.Fragment;
 import androidx.viewpager.widget.ViewPager;
 
 import com.example.duitku.R;
+import com.example.duitku.database.DuitkuContract.CategoryEntry;
 import com.example.duitku.interfaces.UIView;
-import com.example.duitku.report.ReportExpenseFragment;
-import com.example.duitku.report.ReportIncomeFragment;
+import com.example.duitku.report.ReportContentFragment;
 import com.google.android.material.tabs.TabLayout;
 
 public class ReportFragmentView implements UIView {
@@ -35,10 +35,10 @@ public class ReportFragmentView implements UIView {
     private void setUpViewPager(){
         ViewPager viewPager = view.findViewById(R.id.report_viewPager);
 
-        ReportAdapter adapter = new ReportAdapter(fragment.getChildFragmentManager());
+        ReportPagerAdapter adapter = new ReportPagerAdapter(fragment.getChildFragmentManager());
 
-        adapter.addFrag(new ReportIncomeFragment(), "Income");
-        adapter.addFrag(new ReportExpenseFragment(), "Expense");
+        adapter.addFrag(new ReportContentFragment(CategoryEntry.TYPE_INCOME), "Income");
+        adapter.addFrag(new ReportContentFragment(CategoryEntry.TYPE_EXPENSE), "Expense");
 
         viewPager.setAdapter(adapter);
         setUpTabLayout(viewPager);
