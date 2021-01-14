@@ -75,6 +75,7 @@ public class BudgetCategoryComponent extends View {
             public void pickCategory(long id) {
                 Category category = categoryController.getCategoryById(id);
                 categoryTextView.setText(category.getName());
+                changeTextViewToWhite();
                 categoryId = id;
             }
         };
@@ -92,6 +93,14 @@ public class BudgetCategoryComponent extends View {
                 pickCategoryDialog.show(fm, "View Categories Dialog");
             }
         });
+    }
+
+    private void changeTextViewToWhite(){
+        if (fragment == null){
+            categoryTextView.setTextColor(activity.getResources().getColor(android.R.color.white));
+        } else {
+            categoryTextView.setTextColor(fragment.getResources().getColor(android.R.color.white));
+        }
     }
 
     public boolean validateInput(){
@@ -124,6 +133,7 @@ public class BudgetCategoryComponent extends View {
         this.categoryId = categoryId;
         Category category = categoryController.getCategoryById(categoryId);
         categoryTextView.setText(category.getName());
+        changeTextViewToWhite();
     }
 
 }

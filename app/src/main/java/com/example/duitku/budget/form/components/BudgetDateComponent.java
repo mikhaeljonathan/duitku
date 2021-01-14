@@ -86,6 +86,7 @@ public class BudgetDateComponent extends View {
             public void onDateSet(DatePicker datePicker, int year, int month, int dayOfMonth) {
                 Date date = Utility.convertElementsToDate(year, month, dayOfMonth);
                 startDateTextView.setText(Utility.convertDateToFullString(date));
+                changeStartDateToWhite();
                 startDate = date;
             }
         };
@@ -110,6 +111,7 @@ public class BudgetDateComponent extends View {
             public void onDateSet(DatePicker datePicker, int year, int month, int dayOfMonth) {
                 Date date = Utility.convertElementsToDate(year, month, dayOfMonth);
                 endDateTextView.setText(Utility.convertDateToFullString(date));
+                changeEndDateToWhite();
                 endDate = date;
             }
         };
@@ -126,6 +128,22 @@ public class BudgetDateComponent extends View {
                 datePicker.show(fm, "End Date Picker Dialog");
             }
         });
+    }
+
+    private void changeStartDateToWhite(){
+        if (fragment == null){
+            startDateTextView.setTextColor(activity.getResources().getColor(android.R.color.white));
+        } else {
+            startDateTextView.setTextColor(fragment.getResources().getColor(android.R.color.white));
+        }
+    }
+
+    private void changeEndDateToWhite(){
+        if (fragment == null){
+            endDateTextView.setTextColor(activity.getResources().getColor(android.R.color.white));
+        } else {
+            endDateTextView.setTextColor(fragment.getResources().getColor(android.R.color.white));
+        }
     }
 
     public void setVisibility(int view){
@@ -173,6 +191,7 @@ public class BudgetDateComponent extends View {
         if (startDate != null){
             startDateTextView.setText(Utility.convertDateToFullString(date));
         }
+        changeStartDateToWhite();
     }
 
     public void setEndDate(Date date){
@@ -180,6 +199,7 @@ public class BudgetDateComponent extends View {
         if (endDate != null){
             endDateTextView.setText(Utility.convertDateToFullString(date));
         }
+        changeEndDateToWhite();
     }
 
 }

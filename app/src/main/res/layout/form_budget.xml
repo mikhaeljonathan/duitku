@@ -33,7 +33,7 @@
             android:layout_height="wrap_content"
             android:layout_marginStart="32dp"
             android:text="Select Category"
-            android:textColor="@color/textLight"
+            android:textColor="@android:color/darker_gray"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintStart_toEndOf="@+id/budget_category_imageview"
             app:layout_constraintTop_toTopOf="parent" />
@@ -148,7 +148,7 @@
             android:layout_height="wrap_content"
             android:layout_marginStart="32dp"
             android:text="Select Start Date"
-            android:textColor="@color/textLight"
+            android:textColor="@android:color/darker_gray"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintStart_toEndOf="@+id/budget_startdate_imageview"
             app:layout_constraintTop_toTopOf="parent" />
@@ -195,7 +195,7 @@
             android:layout_height="wrap_content"
             android:layout_marginStart="32dp"
             android:text="Select End Date"
-            android:textColor="@color/textLight"
+            android:textColor="@android:color/darker_gray"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintStart_toEndOf="@+id/budget_enddate_imageview"
             app:layout_constraintTop_toTopOf="parent" />
