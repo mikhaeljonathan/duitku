@@ -8,6 +8,7 @@ import android.net.Uri;
 
 import com.example.duitku.database.DuitkuContract.BudgetEntry;
 import com.example.duitku.main.Utility;
+import com.example.duitku.notification.NotificationController;
 import com.example.duitku.transaction.Transaction;
 import com.example.duitku.transaction.TransactionController;
 
@@ -43,6 +44,9 @@ public class BudgetController {
 
     public int updateBudget(Budget budget) {
         initialUsed(budget);
+
+        createNotification(budget);
+
         ContentValues values = convertBudgetToContentValues(budget);
         Uri uri = ContentUris.withAppendedId(BudgetEntry.CONTENT_URI, budget.getId());
         return context.getContentResolver().update(uri, values, null, null);
@@ -57,6 +61,12 @@ public class BudgetController {
         }
 
         budget.setUsed(used);
+    }
+
+    private void createNotification(Budget budget){
+        if (budget.getUsed() > budget.getAmount()){
+            new NotificationController(context).sendOnChannelBudgetOverflow(budget);
+        }
     }
 
     public int deleteBudget(Budget budget) {
@@ -188,50 +198,21 @@ public class BudgetController {
         Budget budget = getBudgetByCategoryId(transaction.getCategoryId());
         if (budget == null) return;
 
-        budget.setUsed(budget.getUsed() + transaction.getAmount());
-
         updateBudget(budget);
     }
 
     public void updateBudgetFromUpdatedTransaction(Transaction transactionBefore, Transaction transactionAfter) {
-        Budget budget = getBudgetByTransaction(transactionBefore);
+        Budget budgetBefore = getBudgetByTransaction(transactionBefore);
+        Budget budgetAfter = getBudgetByTransaction(transactionAfter);
 
-        // categoryny berubah otomatis budget jg berubah
-        if (transactionBefore.getCategoryId() != transactionAfter.getCategoryId()) {
-            if (budget != null) {
-                budget.setUsed(budget.getUsed() - transactionBefore.getAmount());
-                updateBudget(budget);
-            }
-
-            Budget budgetAfter = getBudgetByTransaction(transactionAfter);
-            if (budgetAfter != null) {
-                budgetAfter.setUsed(budgetAfter.getUsed() + transactionAfter.getAmount());
-                updateBudget(budgetAfter);
-            }
-
-        } else { // dalam category yg sama
-
-            // ada pergantian fase budget
-            Budget budgetAfter = getBudgetByTransaction(transactionAfter);
-
-            // budget lama ada tapi budget baru gaada
-            if (budget != null && budgetAfter == null) {
-                budget.setUsed(budget.getUsed() - transactionBefore.getAmount());
-                updateBudget(budget);
-            }
-
-            // budget baru ada tapi budget lama gaada
-            if (budgetAfter != null && budget == null) {
-                budgetAfter.setUsed(budgetAfter.getUsed() + transactionAfter.getAmount());
-                updateBudget(budgetAfter);
-            }
-
-            // budget lama sama bru sama2 ada, cuma beda di amountnya doang
-            if (budget != null && budgetAfter != null) {
-                budget.setUsed(budget.getUsed() - transactionBefore.getAmount() + transactionAfter.getAmount());
-                updateBudget(budget);
-            }
+        if (budgetBefore != null){
+            updateBudget(budgetBefore);
         }
+
+        if (budgetAfter != null){
+            updateBudget(budgetAfter);
+        }
+
     }
 
 }

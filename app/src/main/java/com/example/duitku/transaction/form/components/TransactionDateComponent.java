@@ -85,4 +85,9 @@ public class TransactionDateComponent extends View {
         return date;
     }
 
+    public void setDate(Date date){
+        this.date = date;
+        dateTextView.setText(Utility.convertDateToFullString(date));
+    }
+
 }

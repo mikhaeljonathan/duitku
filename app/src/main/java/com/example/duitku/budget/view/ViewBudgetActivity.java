@@ -8,6 +8,7 @@ import com.example.duitku.transaction.Transaction;
 import com.example.duitku.transaction.TransactionController;
 
 import android.os.Bundle;
+import android.util.Log;
 
 import java.util.List;
 
@@ -28,6 +29,7 @@ public class ViewBudgetActivity extends AppCompatActivity {
     @Override
     protected void onResume() {
         super.onResume();
+        Log.v("HAHA", "HEHE2");
 
         Budget budget = new BudgetController(this).getBudgetById(budgetId);
         if (budget == null) {
@@ -35,6 +37,7 @@ public class ViewBudgetActivity extends AppCompatActivity {
             return;
         }
 
+        Log.v("HAHA", "HEHE");
         List<Transaction> transactionList = new TransactionController(this).getTransactionsByBudget(budget);
         viewBudgetActivityView.setTransactionList(transactionList);
         viewBudgetActivityView.setUpUI();

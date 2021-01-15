@@ -76,6 +76,7 @@ public class EditTransactionActivityView implements UIView {
         transactionForm.setUpUI();
         transactionForm.setAmount(transaction.getAmount());
         transactionForm.setDesc(transaction.getDesc());
+        transactionForm.setDate(transaction.getDate());
         transactionForm.setCategoryId(transaction.getCategoryId());
         transactionForm.setWalletId(transaction.getWalletId());
         transactionForm.setWalletDestId(transaction.getWalletDestId());

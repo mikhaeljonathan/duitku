@@ -81,6 +81,10 @@ public class TransactionForm extends View {
         descriptionComponent.setDesc(desc);
     }
 
+    public void setDate(Date date){
+        dateComponent.setDate(date);
+    }
+
     public void setCategoryId(long categoryId) {
         categoryComponent.setCategoryId(categoryId);
     }
