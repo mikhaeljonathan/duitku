@@ -59,6 +59,7 @@ public class TransactionController {
 
     public int deleteTransaction(Transaction transaction){
         new WalletController(context).updateWalletFromDeletedTransaction(transaction);
+        new BudgetController(context).updateBudgetFromDeletedTransaction(transaction);
 
         return context.getContentResolver().delete(ContentUris.withAppendedId(TransactionEntry.CONTENT_URI, transaction.getId()), null, null);
     }
@@ -252,6 +253,21 @@ public class TransactionController {
         Transaction transaction = new Transaction(-1, walletId, walletDestId, categoryId, desc, date, amount);
 
         return addTransaction(transaction);
+    }
+
+    public CategoryTransaction recalculateCategoryTransaction(CategoryTransaction categoryTransaction){
+        List<Transaction> temp = new ArrayList<>(categoryTransaction.getTransactions());
+
+        categoryTransaction.getTransactions().clear();
+        categoryTransaction.setAmount(0);
+
+        for (Transaction transaction: temp){
+            Transaction temp2 = getTransactionById(transaction.getId());
+            if (temp2 == null) continue;
+            categoryTransaction.addTransaction(temp2);
+        }
+
+        return categoryTransaction;
     }
 
 }

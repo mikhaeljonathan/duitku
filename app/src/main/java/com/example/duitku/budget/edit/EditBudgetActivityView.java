@@ -112,7 +112,7 @@ public class EditBudgetActivityView implements UIView {
         }
         budget.setCategoryId(categoryId);
 
-        return budgetController.updateBudget(budget);
+        return budgetController.updateAndRestartBudget(budget);
     }
 
     private void setUpDeleteButton(){

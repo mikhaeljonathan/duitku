@@ -29,7 +29,6 @@ public class ViewBudgetActivity extends AppCompatActivity {
     @Override
     protected void onResume() {
         super.onResume();
-        Log.v("HAHA", "HEHE2");
 
         Budget budget = new BudgetController(this).getBudgetById(budgetId);
         if (budget == null) {
@@ -37,10 +36,13 @@ public class ViewBudgetActivity extends AppCompatActivity {
             return;
         }
 
-        Log.v("HAHA", "HEHE");
         List<Transaction> transactionList = new TransactionController(this).getTransactionsByBudget(budget);
         viewBudgetActivityView.setTransactionList(transactionList);
         viewBudgetActivityView.setUpUI();
+    }
+
+    public void refreshUI(){
+
     }
 
 }

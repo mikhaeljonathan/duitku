@@ -1,6 +1,7 @@
 package com.example.duitku.transaction.category;
 
 import android.graphics.Paint;
+import android.util.Log;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
@@ -29,12 +30,12 @@ public class ViewCategoryTransactionActivityView implements UIView {
 
     private View header;
 
-    private final CategoryTransaction categoryTransaction;
+    private CategoryTransaction categoryTransaction;
     private final Category category;
 
-    private final AppCompatActivity activity;
+    private final ViewCategoryTransactionActivity activity;
 
-    public ViewCategoryTransactionActivityView(CategoryTransaction categoryTransaction, AppCompatActivity activity){
+    public ViewCategoryTransactionActivityView(CategoryTransaction categoryTransaction, ViewCategoryTransactionActivity activity){
         this.categoryTransaction = categoryTransaction;
         this.activity = activity;
         this.category = new CategoryController(activity).getCategoryById(categoryTransaction.getCategoryId());
@@ -42,6 +43,7 @@ public class ViewCategoryTransactionActivityView implements UIView {
 
     @Override
     public void setUpUI() {
+        this.categoryTransaction = new TransactionController(activity).recalculateCategoryTransaction(categoryTransaction);
         setUpViews();
         setUpComponents();
         setUpButtons();

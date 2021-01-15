@@ -43,13 +43,16 @@ public class BudgetController {
     }
 
     public int updateBudget(Budget budget) {
-        initialUsed(budget);
-
-        createNotification(budget);
-
         ContentValues values = convertBudgetToContentValues(budget);
         Uri uri = ContentUris.withAppendedId(BudgetEntry.CONTENT_URI, budget.getId());
         return context.getContentResolver().update(uri, values, null, null);
+    }
+
+    public int updateAndRestartBudget(Budget budget){
+        initialUsed(budget);
+        createNotification(budget);
+
+        return updateBudget(budget);
     }
 
     private void initialUsed(Budget budget) {
@@ -198,7 +201,7 @@ public class BudgetController {
         Budget budget = getBudgetByCategoryId(transaction.getCategoryId());
         if (budget == null) return;
 
-        updateBudget(budget);
+        updateAndRestartBudget(budget);
     }
 
     public void updateBudgetFromUpdatedTransaction(Transaction transactionBefore, Transaction transactionAfter) {
@@ -206,13 +209,21 @@ public class BudgetController {
         Budget budgetAfter = getBudgetByTransaction(transactionAfter);
 
         if (budgetBefore != null){
-            updateBudget(budgetBefore);
+            updateAndRestartBudget(budgetBefore);
         }
 
         if (budgetAfter != null){
-            updateBudget(budgetAfter);
+            updateAndRestartBudget(budgetAfter);
         }
+    }
 
+    public void updateBudgetFromDeletedTransaction(Transaction transaction){
+        Budget budget = getBudgetByCategoryId(transaction.getCategoryId());
+        if (budget == null) return;
+
+        budget.setUsed(budget.getUsed() - transaction.getAmount());
+
+        updateBudget(budget);
     }
 
 }

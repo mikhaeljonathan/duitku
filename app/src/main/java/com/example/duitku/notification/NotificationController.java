@@ -87,7 +87,7 @@ public class NotificationController {
         double delta = budget.getUsed() - budget.getAmount();
 
         Notification notification = new NotificationCompat.Builder(context, CHANNEL_ID)
-                .setSmallIcon(R.drawable.icon_down)
+                .setSmallIcon(R.drawable.icon_logo)
                 .setContentTitle("Budget Overflow")
                 .setContentText("Budget " + category.getName() + "\nOverspent " + delta)
                 .setPriority(NotificationCompat.PRIORITY_HIGH)

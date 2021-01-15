@@ -38,4 +38,8 @@ public class CategoryTransaction implements Serializable { // serializable biar 
     public List<Transaction> getTransactions (){
         return transactions;
     }
+
+    public void setAmount(double amount){
+        this.amount = amount;
+    }
 }

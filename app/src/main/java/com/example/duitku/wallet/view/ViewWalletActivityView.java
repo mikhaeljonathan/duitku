@@ -5,6 +5,7 @@ import android.app.DatePickerDialog;
 import android.content.Intent;
 import android.content.res.Resources;
 import android.graphics.Paint;
+import android.util.Log;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
@@ -36,7 +37,7 @@ public class ViewWalletActivityView implements UIView {
     private ListView listView;
     private TransactionAdapter adapter;
 
-    private final Wallet wallet;
+    private Wallet wallet;
     private final ViewWalletActivity activity;
     private View header;
 
@@ -52,6 +53,7 @@ public class ViewWalletActivityView implements UIView {
 
     @Override
     public void setUpUI() {
+        wallet = new WalletController(activity).getWalletById(wallet.getId());
         activity.setContentView(R.layout.activity_view);
         TextView textView = activity.findViewById(R.id.view_title_textview);
         textView.setText("View Wallet");

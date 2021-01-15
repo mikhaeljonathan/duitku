@@ -23,6 +23,7 @@ import com.example.duitku.transaction.Transaction;
 import com.example.duitku.transaction.TransactionAdapter;
 import com.example.duitku.transaction.view.ViewTransactionDialog;
 
+import java.util.HashMap;
 import java.util.List;
 
 public class ViewBudgetActivityView implements UIView {
@@ -32,11 +33,11 @@ public class ViewBudgetActivityView implements UIView {
     private ListView listView;
     private TransactionAdapter adapter;
 
-    private final Budget budget;
-    private final AppCompatActivity activity;
+    private Budget budget;
+    private final ViewBudgetActivity activity;
     private View header;
 
-    public ViewBudgetActivityView(long id, AppCompatActivity activity){
+    public ViewBudgetActivityView(long id, ViewBudgetActivity activity){
         this.budget = new BudgetController(activity).getBudgetById(id);
         this.activity = activity;
     }
@@ -47,6 +48,7 @@ public class ViewBudgetActivityView implements UIView {
 
     @Override
     public void setUpUI() {
+        budget = new BudgetController(activity).getBudgetById(budget.getId());
         activity.setContentView(R.layout.activity_view);
         TextView textView = activity.findViewById(R.id.view_title_textview);
         textView.setText("View Budget");

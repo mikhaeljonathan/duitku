@@ -8,6 +8,8 @@ import android.os.Bundle;
 
 public class ViewCategoryTransactionActivity extends AppCompatActivity {
 
+    private UIView viewCategoryTransactionActivityView;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -15,8 +17,13 @@ public class ViewCategoryTransactionActivity extends AppCompatActivity {
         CategoryTransaction categoryTransaction = (CategoryTransaction) getIntent().getSerializableExtra("CategoryTransaction");
 
         assert categoryTransaction != null;
-        UIView viewCategoryTransactionActivityView = new ViewCategoryTransactionActivityView(categoryTransaction, this);
+        viewCategoryTransactionActivityView = new ViewCategoryTransactionActivityView(categoryTransaction, this);
         viewCategoryTransactionActivityView.setUpUI();
     }
 
+    @Override
+    protected void onResume() {
+        super.onResume();
+        viewCategoryTransactionActivityView.setUpUI();
+    }
 }

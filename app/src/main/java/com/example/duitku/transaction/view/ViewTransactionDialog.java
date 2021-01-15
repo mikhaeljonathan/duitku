@@ -2,6 +2,7 @@ package com.example.duitku.transaction.view;
 
 import android.app.AlertDialog;
 import android.app.Dialog;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
@@ -16,6 +17,7 @@ import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatDialogFragment;
 
 import com.example.duitku.R;
+import com.example.duitku.budget.view.ViewBudgetActivity;
 import com.example.duitku.category.Category;
 import com.example.duitku.category.CategoryController;
 import com.example.duitku.database.DuitkuContract.CategoryEntry;
@@ -32,6 +34,8 @@ public class ViewTransactionDialog extends AppCompatDialogFragment {
     private Transaction transaction;
     private Category category;
     private String categoryType;
+
+    private Dialog dialog;
 
     private View view;
 
@@ -54,7 +58,7 @@ public class ViewTransactionDialog extends AppCompatDialogFragment {
 
         builder.setView(view);
 
-        Dialog dialog = builder.create();
+        dialog = builder.create();
         dialog.getWindow().setBackgroundDrawableResource(R.color.colorPrimary); //biar bg gelap
         return dialog;
     }
