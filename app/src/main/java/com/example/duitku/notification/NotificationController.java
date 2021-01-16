@@ -21,6 +21,7 @@ import com.example.duitku.budget.view.ViewBudgetActivity;
 import com.example.duitku.budget.view.ViewBudgetActivityView;
 import com.example.duitku.category.Category;
 import com.example.duitku.category.CategoryController;
+import com.example.duitku.main.MainActivity;
 
 import static com.example.duitku.main.App.CHANNEL_ID;
 
@@ -80,8 +81,9 @@ public class NotificationController {
 
     private void sendNotification(Budget budget){
         Intent activityIntent = new Intent(context, ViewBudgetActivity.class);
+        activityIntent.putExtra("ID", budget.getId());
         PendingIntent contentIntent = PendingIntent.getActivity(context,
-                0, activityIntent, 0);
+                0, activityIntent, PendingIntent.FLAG_UPDATE_CURRENT);
 
         Category category = new CategoryController(context).getCategoryById(budget.getCategoryId());
         double delta = budget.getUsed() - budget.getAmount();

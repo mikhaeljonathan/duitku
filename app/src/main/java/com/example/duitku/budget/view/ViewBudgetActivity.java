@@ -41,8 +41,4 @@ public class ViewBudgetActivity extends AppCompatActivity {
         viewBudgetActivityView.setUpUI();
     }
 
-    public void refreshUI(){
-
-    }
-
 }
