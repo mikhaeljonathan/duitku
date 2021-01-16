@@ -3,31 +3,25 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
-    android:layout_height="match_parent">
-
-    <!--TabLayout ini buat daily, weekly, monthly, sama others
-    di TransactionFragment-->
+    android:layout_height="match_parent"
+    android:background="@color/colorPrimary"
+    tools:context=".search.SearchActivity">
 
     <com.google.android.material.appbar.AppBarLayout
-        android:id="@+id/fragment_transaction_appbar"
+        android:id="@+id/activity_search_appbar"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent">
 
-        <!--ConstraintLayout di sini sebagai container
-        buat 2 view doang (toolbar + datepicker)-->
         <androidx.constraintlayout.widget.ConstraintLayout
-            android:id="@+id/fragment_transaction_constraintlayout2"
+            android:id="@+id/activity_search_constraintlayout2"
             android:layout_width="match_parent"
             android:layout_height="match_parent">
 
-            <!--Toolbar ini yang nanti bakal di-inflate
-            di MainActivity.java-->
-
             <androidx.appcompat.widget.Toolbar
-                android:id="@+id/fragment_transaction_toolbar"
+                android:id="@+id/activity_search_toolbar"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:background="?attr/colorPrimaryDark"
@@ -38,8 +32,18 @@
                 app:layout_constraintTop_toTopOf="parent"
                 app:titleTextColor="#FFFFFF" />
 
-            <Button
-                android:id="@+id/fragment_transaction_search_btn"
+            <ImageView
+                android:id="@+id/activity_search_back_btn"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="16dp"
+                android:src="@drawable/icon_arrow_back"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent" />
+
+            <EditText
+                android:id="@+id/activity_search_search_edittext"
                 android:layout_width="0dp"
                 android:layout_height="0dp"
                 android:layout_margin="10dp"
@@ -47,33 +51,26 @@
                 android:hint="Search transaction by description..."
                 android:padding="8dp"
                 android:textSize="14sp"
-                android:gravity="left"
+                android:inputType="textPersonName"
                 android:textColorHint="@android:color/darker_gray"
+                android:textColor="@android:color/white"
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintStart_toEndOf="@id/activity_search_back_btn"
                 app:layout_constraintTop_toTopOf="parent" />
-
-            <!--Ini sebenernya datepicker, bukan button
-            button cuma sementara-->
 
         </androidx.constraintlayout.widget.ConstraintLayout>
 
     </com.google.android.material.appbar.AppBarLayout>
 
-    <androidx.viewpager.widget.ViewPager
-        android:id="@+id/fragment_transaction_viewpager"
+    <ListView
+        android:id="@+id/activity_search_listview"
         android:layout_width="0dp"
         android:layout_height="0dp"
-        android:layout_marginStart="10dp"
-        android:layout_marginEnd="10dp"
-        android:layout_marginBottom="78dp"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
+        android:layout_margin="10dp"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/fragment_transaction_appbar" >
-
-    </androidx.viewpager.widget.ViewPager>
-
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/activity_search_appbar"
+        app:layout_constraintBottom_toBottomOf="parent" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>
