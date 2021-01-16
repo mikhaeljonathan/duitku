@@ -1,25 +1,12 @@
 package com.example.duitku.main;
 
 import androidx.appcompat.app.AppCompatActivity;
-import androidx.appcompat.view.menu.MenuView;
-
-import android.content.ClipData;
 import android.os.Bundle;
-import android.view.Menu;
-import android.view.MenuItem;
-import android.view.View;
-import android.widget.TextView;
-import android.widget.Toast;
 
 import com.example.duitku.R;
 import com.example.duitku.interfaces.UIView;
 import com.github.florent37.tutoshowcase.TutoShowcase;
-import com.google.android.material.bottomnavigation.BottomNavigationItemView;
-import com.google.android.material.bottomnavigation.BottomNavigationMenuView;
-import com.google.android.material.bottomnavigation.BottomNavigationView;
-import com.google.android.material.floatingactionbutton.FloatingActionButton;
 
-import java.util.Random;
 import java.util.UUID;
 
 import uk.co.deanwild.materialshowcaseview.MaterialShowcaseSequence;

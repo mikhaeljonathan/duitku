@@ -10,11 +10,16 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
-        <activity android:name=".search.SearchActivity"></activity>
-        <activity android:name=".budget.edit.EditBudgetActivity" />
-        <activity android:name=".budget.view.ViewBudgetActivity" />
-        <activity android:name=".transaction.category.ViewCategoryTransactionActivity" />
-        <activity android:name=".transaction.edit.EditTransactionActivity" />
+        <activity android:name=".search.SearchActivity"
+            android:screenOrientation="portrait"></activity>
+        <activity android:name=".budget.edit.EditBudgetActivity"
+            android:screenOrientation="portrait"/>
+        <activity android:name=".budget.view.ViewBudgetActivity"
+            android:screenOrientation="portrait"/>
+        <activity android:name=".transaction.category.ViewCategoryTransactionActivity"
+            android:screenOrientation="portrait"/>
+        <activity android:name=".transaction.edit.EditTransactionActivity"
+            android:screenOrientation="portrait"/>
         <activity
             android:name=".wallet.edit.EditWalletActivity"
             android:screenOrientation="portrait" />
