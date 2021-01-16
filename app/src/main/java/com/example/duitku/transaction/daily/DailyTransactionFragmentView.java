@@ -31,6 +31,7 @@ public class DailyTransactionFragmentView implements UIView {
     private DailyExpandableAdapter adapter;
     private Button periodButton;
     private View header;
+    private View emptyView = null;
 
     private final LayoutInflater inflater;
     private final ViewGroup container;
@@ -111,6 +112,16 @@ public class DailyTransactionFragmentView implements UIView {
     public void fillListView(List<DailyTransaction> dailyTransactionList, HashMap<DailyTransaction, List<Transaction>> dailyTransactionListHashMap, Context context){
         adapter = new DailyExpandableAdapter(dailyTransactionList, dailyTransactionListHashMap, context);
         expandableListView.setAdapter(adapter);
+
+        if (emptyView == null){
+            emptyView = inflater.inflate(R.layout.empty_view_transaction, container, false);
+        }
+
+        if (adapter.getGroupCount() == 0){
+            expandableListView.addFooterView(emptyView, null, false);
+        } else {
+            expandableListView.removeFooterView(emptyView);
+        }
     }
 
     @Override

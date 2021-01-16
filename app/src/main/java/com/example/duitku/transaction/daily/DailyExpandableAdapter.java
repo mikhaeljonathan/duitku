@@ -6,7 +6,6 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.BaseExpandableListAdapter;
 import android.widget.ImageView;
-import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import androidx.constraintlayout.widget.ConstraintLayout;
@@ -95,11 +94,11 @@ public class DailyExpandableAdapter extends BaseExpandableListAdapter {
         expenseTextView.setText(Double.toString(dailyTransaction.getExpense()));
 
         if(!b) {
-            image.setImageResource(R.drawable.arrow_up);
+            image.setImageResource(R.drawable.icon_arrow_up);
             cl.setBackgroundResource(R.drawable.custom_shape);
             hidden.setVisibility(View.VISIBLE);
         }else {
-            image.setImageResource(R.drawable.arrow_down);
+            image.setImageResource(R.drawable.icon_arrow_down);
             cl.setBackgroundResource(R.drawable.custom_shape_top_rounded);
             hidden.setVisibility(View.GONE);
         }
