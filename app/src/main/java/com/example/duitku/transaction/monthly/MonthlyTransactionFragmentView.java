@@ -15,6 +15,8 @@ import android.widget.ImageView;
 import android.widget.ListView;
 import android.widget.TextView;
 
+import androidx.constraintlayout.widget.ConstraintLayout;
+
 import com.example.duitku.R;
 import com.example.duitku.transaction.category.CategoryTransaction;
 import com.example.duitku.interfaces.UIView;
@@ -29,7 +31,9 @@ public class MonthlyTransactionFragmentView implements UIView {
     private MonthlyExpandableAdapter adapter;
     private Button periodButton;
     private View header;
+    private View emptyView;
 
+    private ConstraintLayout summaryContainer;
     private TextView totalAmountTextView;
     private TextView totalGlobalIncomeTextView;
     private TextView totalGlobalExpenseTextView;
@@ -55,6 +59,7 @@ public class MonthlyTransactionFragmentView implements UIView {
     private void setUpHeader(){
         header = inflater.inflate(R.layout.fragment_transaction_header, container, false);
 
+        summaryContainer = header.findViewById(R.id.transaction_header_summary_container);
         TextView titleTextView = header.findViewById(R.id.transaction_header_title_textview);
         TextView totalWalletTextView = header.findViewById(R.id.transaction_header_totalwallet_textview);
         ImageView addButton = header.findViewById(R.id.transaction_header_add_btn);
@@ -85,6 +90,9 @@ public class MonthlyTransactionFragmentView implements UIView {
         });
 
         expandableListView.addHeaderView(header, null, false);
+
+        emptyView = inflater.inflate(R.layout.empty_view_transaction, null, false);
+        expandableListView.addFooterView(emptyView, null, false);
     }
 
     private void viewCategoryTransaction(CategoryTransaction categoryTransaction){
@@ -121,6 +129,14 @@ public class MonthlyTransactionFragmentView implements UIView {
     public void fillListView(List<MonthlyTransaction> monthlyTransactionList, HashMap<MonthlyTransaction, List<CategoryTransaction>> categoryTransactionListHashMap, Context context){
         adapter = new MonthlyExpandableAdapter(monthlyTransactionList, categoryTransactionListHashMap, context);
         expandableListView.setAdapter(adapter);
+
+        if (adapter.getGroupCount() == 0){
+            summaryContainer.setVisibility(View.GONE);
+            emptyView.setVisibility(View.VISIBLE);
+        } else {
+            summaryContainer.setVisibility(View.VISIBLE);
+            emptyView.setVisibility(View.GONE);
+        }
     }
 
     @Override

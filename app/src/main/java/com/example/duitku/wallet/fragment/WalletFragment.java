@@ -52,7 +52,7 @@ public class WalletFragment extends Fragment implements LoaderManager.LoaderCall
 
     @Override
     public void onLoaderReset(@NonNull Loader<Cursor> loader) {
-        walletFragmentView.getAdapter().swapCursor(null);
+        walletFragmentView.swapCursor(null);
     }
 
 }

@@ -1,6 +1,7 @@
 package com.example.duitku.budget.fragment;
 
 import android.content.Intent;
+import android.database.Cursor;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -24,6 +25,7 @@ public class BudgetFragmentView implements UIView {
     private ListView listView;
     private BudgetAdapter adapter;
     private View header;
+    private View emptyView;
 
     private final LayoutInflater inflater;
     private final ViewGroup container;
@@ -98,6 +100,10 @@ public class BudgetFragmentView implements UIView {
             }
         });
         listView.addHeaderView(header, null, false);
+
+        emptyView = inflater.inflate(R.layout.empty_view_budget, null, false);
+        listView.addFooterView(emptyView, null, false);
+
         setUpAdapter();
     }
 
@@ -110,6 +116,17 @@ public class BudgetFragmentView implements UIView {
     private void setUpAdapter(){
         adapter = new BudgetAdapter(fragment.getActivity(), null);
         listView.setAdapter(adapter);
+    }
+
+    public void swapCursor(Cursor data){
+        if (data != null){
+            if (!data.moveToFirst()){
+                emptyView.setVisibility(View.VISIBLE);
+            } else {
+                emptyView.setVisibility(View.GONE);
+            }
+        }
+        adapter.swapCursor(data);
     }
 
     @Override

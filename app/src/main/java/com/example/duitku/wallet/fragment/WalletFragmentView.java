@@ -27,7 +27,7 @@ public class WalletFragmentView implements UIView {
     private WalletAdapter adapter;
     private TextView totalWalletTextView;
     private View header;
-    private View emptyView = null;
+    private View emptyView;
 
     private LayoutInflater inflater;
     private ViewGroup container;
@@ -125,13 +125,11 @@ public class WalletFragmentView implements UIView {
 
     public void swapCursor(Cursor data){
         if (data != null){
-
             if (!data.moveToFirst()){
                 emptyView.setVisibility(View.VISIBLE);
             } else {
                 emptyView.setVisibility(View.GONE);
             }
-
         }
         adapter.swapCursor(data);
     }

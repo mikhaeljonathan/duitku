@@ -45,12 +45,12 @@ public class BudgetFragment extends Fragment implements LoaderManager.LoaderCall
 
     @Override
     public void onLoadFinished(@NonNull Loader<Cursor> loader, Cursor data) {
-        budgetFragmentView.getAdapter().swapCursor(data);
+        budgetFragmentView.swapCursor(data);
     }
 
     @Override
     public void onLoaderReset(@NonNull Loader<Cursor> loader) {
-        budgetFragmentView.getAdapter().swapCursor(null);
+        budgetFragmentView.swapCursor(null);
     }
 
 }

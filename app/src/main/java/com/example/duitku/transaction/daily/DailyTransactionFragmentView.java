@@ -32,7 +32,7 @@ public class DailyTransactionFragmentView implements UIView {
     private DailyExpandableAdapter adapter;
     private Button periodButton;
     private View header;
-    private View emptyView = null;
+    private View emptyView;
 
     private final LayoutInflater inflater;
     private final ViewGroup container;
