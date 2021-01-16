@@ -4,6 +4,7 @@ import android.app.AlertDialog;
 import android.app.DatePickerDialog;
 import android.content.Context;
 import android.content.res.Resources;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -84,6 +85,9 @@ public class DailyTransactionFragmentView implements UIView {
         });
 
         expandableListView.addHeaderView(header, null, false);
+
+        emptyView = inflater.inflate(R.layout.empty_view_transaction, null, false);
+        expandableListView.addFooterView(emptyView, null, false);
     }
 
     private void viewTransaction(long id){
@@ -113,14 +117,10 @@ public class DailyTransactionFragmentView implements UIView {
         adapter = new DailyExpandableAdapter(dailyTransactionList, dailyTransactionListHashMap, context);
         expandableListView.setAdapter(adapter);
 
-        if (emptyView == null){
-            emptyView = inflater.inflate(R.layout.empty_view_transaction, container, false);
-        }
-
         if (adapter.getGroupCount() == 0){
-            expandableListView.addFooterView(emptyView, null, false);
+            emptyView.setVisibility(View.VISIBLE);
         } else {
-            expandableListView.removeFooterView(emptyView);
+            emptyView.setVisibility(View.GONE);
         }
     }
 

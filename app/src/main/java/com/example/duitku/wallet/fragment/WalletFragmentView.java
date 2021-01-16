@@ -1,6 +1,8 @@
 package com.example.duitku.wallet.fragment;
 
 import android.content.Intent;
+import android.database.Cursor;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -25,6 +27,7 @@ public class WalletFragmentView implements UIView {
     private WalletAdapter adapter;
     private TextView totalWalletTextView;
     private View header;
+    private View emptyView = null;
 
     private LayoutInflater inflater;
     private ViewGroup container;
@@ -102,6 +105,10 @@ public class WalletFragmentView implements UIView {
             }
         });
         listView.addHeaderView(header, null, false);
+
+        emptyView = inflater.inflate(R.layout.empty_view_wallet, null, false);
+        listView.addFooterView(emptyView, null, false);
+
         setUpAdapter();
     }
 
@@ -114,6 +121,19 @@ public class WalletFragmentView implements UIView {
     private void setUpAdapter(){
         adapter = new WalletAdapter(fragment.getActivity(), null);
         listView.setAdapter(adapter);
+    }
+
+    public void swapCursor(Cursor data){
+        if (data != null){
+
+            if (!data.moveToFirst()){
+                emptyView.setVisibility(View.VISIBLE);
+            } else {
+                emptyView.setVisibility(View.GONE);
+            }
+
+        }
+        adapter.swapCursor(data);
     }
 
     @Override

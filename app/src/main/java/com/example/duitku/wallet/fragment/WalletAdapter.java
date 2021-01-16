@@ -8,6 +8,8 @@ import android.view.ViewGroup;
 import android.widget.CursorAdapter;
 import android.widget.TextView;
 
+import androidx.constraintlayout.widget.ConstraintLayout;
+
 import com.example.duitku.R;
 import com.example.duitku.wallet.Wallet;
 import com.example.duitku.wallet.WalletController;
@@ -15,6 +17,7 @@ import com.example.duitku.wallet.WalletController;
 public class WalletAdapter extends CursorAdapter {
 
     private final WalletController walletController;
+    private Cursor cursor;
 
     public WalletAdapter(Context context, Cursor c) {
         super(context, c, 0);
@@ -28,6 +31,7 @@ public class WalletAdapter extends CursorAdapter {
 
     @Override
     public void bindView(View view, Context context, Cursor cursor) {
+        this.cursor = cursor;
         Wallet wallet = walletController.convertCursorToWallet(cursor);
 
         String name = wallet.getName();
