@@ -24,6 +24,7 @@ import com.example.duitku.interfaces.UIView;
 import com.example.duitku.main.Utility;
 import com.example.duitku.transaction.Transaction;
 import com.example.duitku.transaction.category.CategoryTransaction;
+import com.example.duitku.transaction.view.ViewTransactionDialog;
 import com.example.duitku.transaction.weekly.WeeklyExpandableAdapter;
 import com.example.duitku.transaction.weekly.WeeklyTransaction;
 import com.github.mikephil.charting.charts.PieChart;
@@ -40,13 +41,17 @@ public class ReportContentFragmentView implements UIView {
 
     private View header;
     private Button periodButton;
-    private ArrayList<PieEntry> pieEntries = new ArrayList<>();
-    private ReportExpandableAdapter adapter;
-    private ExpandableListView expandableListView;
+    private View emptyView;
 
     private final LayoutInflater inflater;
     private final ViewGroup container;
     private View view;
+
+    private ArrayList<PieEntry> pieEntries = new ArrayList<>();
+    private ReportExpandableAdapter adapter;
+    private ExpandableListView expandableListView;
+    private PieChart pieChart;
+
     private final ReportContentFragment fragment;
     private final String type;
 
@@ -83,7 +88,7 @@ public class ReportContentFragmentView implements UIView {
     }
 
     private void setUpPieChart(){
-        PieChart pieChart = header.findViewById(R.id.report_piechart);
+        pieChart = header.findViewById(R.id.report_piechart);
 
         PieDataSet pieDataSet = new PieDataSet(pieEntries, "Income");
         pieDataSet.setColors(ColorTemplate.PASTEL_COLORS);
@@ -102,14 +107,24 @@ public class ReportContentFragmentView implements UIView {
 
     private void setUpListView(){
         expandableListView = view.findViewById(R.id.content_report_expandablelistview);
-        expandableListView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+        expandableListView.setOnChildClickListener(new ExpandableListView.OnChildClickListener() {
             @Override
-            public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
-
+            public boolean onChildClick(ExpandableListView expandableListView, View view, int i, int i1, long l) {
+                Transaction transaction = (Transaction) adapter.getChild(i, i1);
+                viewTransaction(transaction.getId());
+                return true;
             }
         });
 
         expandableListView.addHeaderView(header, null, false);
+
+        emptyView = inflater.inflate(R.layout.empty_view_transaction, null, false);
+        expandableListView.addFooterView(emptyView, null, false);
+    }
+
+    private void viewTransaction(long id){
+        ViewTransactionDialog viewTransactionDialog = new ViewTransactionDialog(id);
+        viewTransactionDialog.show(fragment.getFragmentManager(), "View Transaction Dialog");
     }
 
     public void updatePeriodButton(final int month, final int year){
@@ -138,6 +153,14 @@ public class ReportContentFragmentView implements UIView {
             Category category = new CategoryController(context).getCategoryById(report.getCategoryId());
             float percentage = (float) report.getPercentage();
             pieEntries.add(new PieEntry(percentage, category.getName()));
+        }
+
+        if (adapter.getGroupCount() == 0){
+            pieChart.setVisibility(View.GONE);
+            emptyView.setVisibility(View.VISIBLE);
+        } else {
+            pieChart.setVisibility(View.VISIBLE);
+            emptyView.setVisibility(View.GONE);
         }
 
     }
