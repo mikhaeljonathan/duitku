@@ -1,8 +1,10 @@
 package com.example.duitku.main;
 
+import android.app.Activity;
 import android.content.Intent;
 import android.view.MenuItem;
 import android.view.View;
+import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
@@ -15,8 +17,13 @@ import com.example.duitku.report.fragment.ReportFragment;
 import com.example.duitku.transaction.add.AddTransactionActivity;
 import com.example.duitku.interfaces.UIView;
 import com.example.duitku.transaction.fragment.TransactionFragment;
+import com.github.florent37.tutoshowcase.TutoShowcase;
+import com.google.android.material.bottomnavigation.BottomNavigationItemView;
 import com.google.android.material.bottomnavigation.BottomNavigationView;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
+
+import uk.co.deanwild.materialshowcaseview.MaterialShowcaseSequence;
+import uk.co.deanwild.materialshowcaseview.ShowcaseConfig;
 
 public class MainActivityView implements UIView {
 
@@ -78,6 +85,7 @@ public class MainActivityView implements UIView {
 
         });
     }
+
 
     @Override
     public View getView() {
