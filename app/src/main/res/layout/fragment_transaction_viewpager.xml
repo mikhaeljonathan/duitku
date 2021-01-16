@@ -16,9 +16,7 @@
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintTop_toTopOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintEnd_toEndOf="parent">
-
-    </ListView>
+        app:layout_constraintEnd_toEndOf="parent"/>
 
     <ExpandableListView
         android:id="@+id/fragment_transaction_viewpager_expandablelistview"
