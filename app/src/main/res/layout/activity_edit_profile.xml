@@ -5,10 +5,10 @@
     android:background="@color/colorPrimary"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".account.AddFeedbackActivity">
+    tools:context=".account.EditProfileActivity">
 
     <androidx.appcompat.widget.Toolbar
-        android:id="@+id/add_feedback_toolbar"
+        android:id="@+id/edit_profile_toolbar"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:background="@color/colorPrimaryDark"
@@ -19,54 +19,57 @@
         app:layout_constraintTop_toTopOf="parent" />
 
     <TextView
-        android:id="@+id/add_feedback_title"
+        android:id="@+id/edit_profile_title"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginStart="16dp"
-        android:text="Add Feedback"
+        android:text="Edit Profile"
         android:textColor="@color/textLight"
         android:textSize="18sp"
-        app:layout_constraintBottom_toBottomOf="@+id/add_feedback_toolbar"
-        app:layout_constraintStart_toEndOf="@+id/add_feedback_back_btn"
-        app:layout_constraintTop_toTopOf="@+id/add_feedback_toolbar" />
+        app:layout_constraintBottom_toBottomOf="@id/edit_profile_toolbar"
+        app:layout_constraintStart_toEndOf="@+id/edit_profile_back_btn"
+        app:layout_constraintTop_toTopOf="@id/edit_profile_toolbar" />
 
     <ImageButton
-        android:id="@+id/add_feedback_back_btn"
+        android:id="@+id/edit_profile_back_btn"
         android:layout_width="48dp"
         android:layout_height="48dp"
         android:background="@null"
-        app:layout_constraintBottom_toBottomOf="@+id/add_feedback_toolbar"
+        app:layout_constraintBottom_toBottomOf="@id/edit_profile_toolbar"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="@+id/add_feedback_toolbar"
+        app:layout_constraintTop_toTopOf="@id/edit_profile_toolbar"
         app:srcCompat="@drawable/icon_arrow_back" />
 
-    <EditText
-        android:id="@+id/editTextTextMultiLine"
+    <com.google.android.material.textfield.TextInputLayout
+        android:id="@+id/profile_name_textinputlayout"
+        style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
         android:layout_width="0dp"
-        android:layout_height="0dp"
-        android:layout_marginStart="32dp"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="16dp"
         android:layout_marginTop="32dp"
-        android:layout_marginEnd="32dp"
-        android:layout_marginBottom="128dp"
-        android:ems="10"
-        android:textColor="@android:color/white"
-        android:padding="32dp"
-        android:gravity="start|top"
-        android:inputType="textMultiLine"
-        android:background="@color/colorPrimaryDark"
-        app:layout_constraintBottom_toBottomOf="parent"
+        android:layout_marginEnd="16dp"
+        android:textColorHint="@android:color/darker_gray"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/add_feedback_toolbar" />
+        app:layout_constraintTop_toBottomOf="@id/edit_profile_toolbar" >
+
+        <com.google.android.material.textfield.TextInputEditText
+            android:id="@+id/profile_name_edittext"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:hint="Profile Name"
+            android:textColor="@android:color/white" />
+
+    </com.google.android.material.textfield.TextInputLayout>
 
     <Button
-        android:id="@+id/add_feedback_save_btn"
+        android:id="@+id/edit_profile_save_btn"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginEnd="32dp"
-        android:layout_marginBottom="32dp"
-        android:text="Send"
-        app:layout_constraintBottom_toBottomOf="parent"
+        android:layout_marginTop="32dp"
+        android:text="Save"
+        app:layout_constraintTop_toBottomOf="@id/profile_name_textinputlayout"
         app:layout_constraintEnd_toEndOf="parent" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>
