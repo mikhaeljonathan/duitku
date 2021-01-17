@@ -1,11 +1,15 @@
 package com.example.duitku.transaction.weekly;
 
 import android.content.Context;
+import android.media.Image;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.BaseExpandableListAdapter;
+import android.widget.ImageView;
 import android.widget.TextView;
+
+import androidx.constraintlayout.widget.ConstraintLayout;
 
 import com.example.duitku.R;
 import com.example.duitku.category.CategoryController;
@@ -71,6 +75,11 @@ public class WeeklyExpandableAdapter extends BaseExpandableListAdapter {
             view = LayoutInflater.from(context).inflate(R.layout.item_list_transaction_weekly, viewGroup, false);
         }
 
+        ConstraintLayout cl = view.findViewById(R.id.item_list_transaction_weekly_constraintlayout);
+        View hidden = view.findViewById(R.id.hidden_view_weekly);
+
+        ImageView image = view.findViewById(R.id.arrow_expandable_weekly);
+
         TextView weekTextView = view.findViewById(R.id.item_list_transaction_weekly_week_textview);
         weekTextView.setText("Week " + weeklyTransaction.getWeek());
 
@@ -83,6 +92,21 @@ public class WeeklyExpandableAdapter extends BaseExpandableListAdapter {
         TextView expenseTextView = view.findViewById(R.id.item_list_transaction_weekly_expense_textview);
         expenseTextView.setText(Double.toString(weeklyTransaction.getExpense()));
 
+
+        if(!b) {
+            image.setImageResource(R.drawable.icon_arrow_up);
+            cl.setBackgroundResource(R.drawable.custom_shape);
+            hidden.setVisibility(View.VISIBLE);
+        }else {
+            image.setImageResource(R.drawable.icon_arrow_down);
+            cl.setBackgroundResource(R.drawable.custom_shape_top_rounded);
+            hidden.setVisibility(View.GONE);
+        }
+
+        // handle grup terakhir supaya gakeluar hidden view nya
+        if(i == (weeklyTransactionList.size()-1)){
+            hidden.setVisibility(View.GONE);
+        }
         return view;
     }
 
@@ -92,6 +116,9 @@ public class WeeklyExpandableAdapter extends BaseExpandableListAdapter {
         if (view == null){
             view = LayoutInflater.from(context).inflate(R.layout.item_list_transaction_category, viewGroup, false);
         }
+
+        ConstraintLayout cl = view.findViewById(R.id.item_list_transaction_category_constraintlayout);
+        View hidden = view.findViewById(R.id.hidden_view_category);
 
         TextView categoryNameTextView = view.findViewById(R.id.item_list_transaction_category_name_textview);
         CategoryController categoryController = new CategoryController(context);
@@ -103,6 +130,15 @@ public class WeeklyExpandableAdapter extends BaseExpandableListAdapter {
 
         TextView amountTextView = view.findViewById(R.id.item_list_transaction_category_amount_textview);
         amountTextView.setText(Double.toString(categoryTransaction.getAmount()));
+
+        if(b){
+            cl.setBackgroundResource(R.drawable.custom_shape_bottom_rounded);
+            hidden.setBackgroundResource(R.color.colorPrimary);
+        }else{
+            cl.setBackgroundResource(R.color.colorPrimaryDark);
+            hidden.setBackgroundResource(R.color.colorPrimaryDark);
+        }
+        hidden.setVisibility(View.VISIBLE);
 
         return view;
     }
