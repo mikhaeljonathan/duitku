@@ -20,7 +20,7 @@ public class MainActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         UIView mainActivityView = new MainActivityView(this);
         mainActivityView.setUpUI();
-        setUpShowCase();
+//        setUpShowCase();
     }
 
     private void setUpShowCase(){
@@ -62,7 +62,7 @@ public class MainActivity extends AppCompatActivity {
         TutoShowcase.from(this)
                 .setContentView(R.layout.showcase_swipeable)
                 .setFitsSystemWindows(true)
-                .on(R.id.textView)
+                .on(R.id.account_name_textview)
                 .displaySwipableLeft()
                 .delayed(1000)
                 .animated(true)

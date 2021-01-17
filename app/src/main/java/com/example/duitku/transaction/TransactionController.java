@@ -215,6 +215,14 @@ public class TransactionController {
     public int deleteAllTransactionWithWalletId(long walletId){
         String selection = TransactionEntry.COLUMN_WALLET_ID + " = ? OR " + TransactionEntry.COLUMN_WALLET_DEST_ID + " = ?";
         String[] selectionArgs = new String[]{Long.toString(walletId), Long.toString(walletId)};
+
+        Cursor data = context.getContentResolver().query(TransactionEntry.CONTENT_URI, getFullProjection(), selection, selectionArgs, null);
+        List<Transaction> transactions = convertCursorToListOfTransaction(data);
+
+        for (Transaction transaction: transactions){
+            new BudgetController(context).updateBudgetFromDeletedTransaction(transaction);
+        }
+
         return context.getContentResolver().delete(TransactionEntry.CONTENT_URI, selection, selectionArgs);
     }
 

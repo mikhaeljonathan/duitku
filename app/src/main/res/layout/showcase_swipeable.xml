@@ -62,7 +62,7 @@
                 android:orientation="vertical">
 
                 <TextView
-                    android:id="@+id/textView"
+                    android:id="@+id/account_name_textview"
                     android:layout_width="300dp"
                     android:layout_height="wrap_content"
                     android:layout_marginStart="50dp"
