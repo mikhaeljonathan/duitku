@@ -3,6 +3,7 @@ package com.example.duitku.user;
 import android.content.ContentValues;
 import android.content.Context;
 import android.database.Cursor;
+import android.util.Log;
 
 import com.example.duitku.database.DuitkuContract.UserEntry;
 

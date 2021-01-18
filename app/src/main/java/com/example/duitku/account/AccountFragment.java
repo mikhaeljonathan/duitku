@@ -7,6 +7,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
+import android.widget.TextView;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
@@ -22,7 +23,7 @@ import com.example.duitku.user.UserController;
 public class AccountFragment extends Fragment {
 
     private View view;
-    private UserController userController;
+    private User user;
 
     private Button passcodeBtn;
 
@@ -30,8 +31,9 @@ public class AccountFragment extends Fragment {
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         view = inflater.inflate(R.layout.fragment_account, container, false);
-        userController = new UserController(getActivity());
+        user = new UserController(getActivity()).getUser();
 
+        setUpBanner();
         setUpButtons();
 
         return view;
@@ -40,7 +42,17 @@ public class AccountFragment extends Fragment {
     @Override
     public void onResume() {
         super.onResume();
+        user = new UserController(getActivity()).getUser();
+
         setUpPasscodeBtn();
+    }
+
+    private void setUpBanner() {
+        TextView nameTV = view.findViewById(R.id.account_name_textview);
+        nameTV.setText(user.getName());
+
+        TextView emailTV = view.findViewById(R.id.account_email_textview);
+        emailTV.setText(user.getEmail());
     }
 
     private void setUpButtons(){
@@ -64,7 +76,6 @@ public class AccountFragment extends Fragment {
     private void setUpPasscodeBtn(){
         passcodeBtn = view.findViewById(R.id.account_set_passcode_btn);
 
-        User user = userController.getUser();
         final String passcode = user.getPasscode();
 
         if (passcode != null){
@@ -110,8 +121,6 @@ public class AccountFragment extends Fragment {
     }
 
     private void removePasscode(){
-        User user = userController.getUser();
-
         user.setPasscode(null);
         new UserController(getActivity()).updateUser(user);
         setUpPasscodeBtn();
