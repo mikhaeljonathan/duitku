@@ -15,7 +15,7 @@ public class DuitkuDbHelper extends SQLiteOpenHelper {
 
     private static final String DATABASE_NAME = "duitku.db";
 
-    private static final int DATABASE_VERSION = 3;
+    private static final int DATABASE_VERSION = 4;
 
     public DuitkuDbHelper(Context context) {
         super(context, DATABASE_NAME, null, DATABASE_VERSION);
@@ -58,13 +58,20 @@ public class DuitkuDbHelper extends SQLiteOpenHelper {
                 "FOREIGN KEY (" + TransactionEntry.COLUMN_WALLET_ID + ") REFERENCES " + WalletEntry.TABLE_NAME + "(" + WalletEntry.COLUMN_ID + "), " +
                 "FOREIGN KEY (" + TransactionEntry.COLUMN_CATEGORY_ID + ") REFERENCES " + CategoryEntry.TABLE_NAME + "(" + CategoryEntry.COLUMN_ID + "))";
 
-        final String CREATE_USER_TABLE = "CREATE TABLE " + UserEntry.TABLE_NAME + " (";
+        final String CREATE_USER_TABLE = "CREATE TABLE " + UserEntry.TABLE_NAME + " (" +
+                UserEntry.COLUMN_ID + " TEXT PRIMARY KEY, " +
+                UserEntry.COLUMN_USER_NAME + " TEXT NOT NULL, " +
+                UserEntry.COLUMN_USER_EMAIL + " TEXT NOT NULL, " +
+                UserEntry.COLUMN_USER_STATUS + " TEXT NOT NULL CHECK(" + UserEntry.COLUMN_USER_STATUS + " IN ('" + UserEntry.TYPE_REGULAR + "', '" + UserEntry.TYPE_PREMIUM + "')), " +
+                UserEntry.COLUMN_USER_FIRST_TIME + " TEXT NOT NULL CHECK(" + UserEntry.COLUMN_USER_FIRST_TIME + " IN ('" + UserEntry.TYPE_FIRST_TIME + "', '" + UserEntry.TYPE_NOT_FIRST_TIME + "')), " +
+                UserEntry.COLUMN_USER_PASSCODE + " TEXT)";
 
         // execute di database nya
         sqLiteDatabase.execSQL(CREATE_WALLET_TABLE);
         sqLiteDatabase.execSQL(CREATE_CATEGORY_TABLE);
         sqLiteDatabase.execSQL(CREATE_BUDGET_TABLE);
         sqLiteDatabase.execSQL(CREATE_TRANSACTION_TABLE);
+        sqLiteDatabase.execSQL(CREATE_USER_TABLE);
 
         addDefaultCategory(sqLiteDatabase);
     }

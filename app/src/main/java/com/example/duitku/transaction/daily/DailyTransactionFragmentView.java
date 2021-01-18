@@ -4,7 +4,6 @@ import android.app.AlertDialog;
 import android.app.DatePickerDialog;
 import android.content.Context;
 import android.content.res.Resources;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -33,6 +32,7 @@ public class DailyTransactionFragmentView implements UIView {
     private Button periodButton;
     private View header;
     private View emptyView;
+    private ImageView imageEmptyView;
 
     private final LayoutInflater inflater;
     private final ViewGroup container;
@@ -50,6 +50,7 @@ public class DailyTransactionFragmentView implements UIView {
         this.view = inflater.inflate(R.layout.fragment_transaction_viewpager, container, false);
         setUpHeader();
         setUpExpandableListView();
+        setUpEmptyView();
     }
 
     private void setUpHeader(){
@@ -85,8 +86,17 @@ public class DailyTransactionFragmentView implements UIView {
         });
 
         expandableListView.addHeaderView(header, null, false);
+    }
 
-        emptyView = inflater.inflate(R.layout.empty_view_transaction, null, false);
+    private void setUpEmptyView(){
+        emptyView = inflater.inflate(R.layout.empty_view, null, false);
+
+        imageEmptyView = emptyView.findViewById(R.id.empty_view_imageview);
+        imageEmptyView.setImageResource(R.drawable.empty_transaction);
+
+        TextView textView = emptyView.findViewById(R.id.empty_view_textview);
+        textView.setText("There is no transaction\nTry adding a new one");
+
         expandableListView.addFooterView(emptyView, null, false);
     }
 
@@ -118,8 +128,10 @@ public class DailyTransactionFragmentView implements UIView {
         expandableListView.setAdapter(adapter);
 
         if (adapter.getGroupCount() == 0){
+            imageEmptyView.setVisibility(View.VISIBLE);
             emptyView.setVisibility(View.VISIBLE);
         } else {
+            imageEmptyView.setVisibility(View.GONE);
             emptyView.setVisibility(View.GONE);
         }
     }

@@ -13,7 +13,7 @@
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
         <activity android:name=".account.UpgradePremiumActivity"></activity>
-        <activity android:name=".account.PasscodeActivity" />
+        <activity android:name=".passcode.PasscodeActivity" />
         <activity android:name=".account.EditProfileActivity" />
         <activity android:name=".account.AddFeedbackActivity" />
         <activity

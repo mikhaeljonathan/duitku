@@ -33,6 +33,7 @@ public class WeeklyTransactionFragmentView implements UIView {
     private Button periodButton;
     private View header;
     private View emptyView;
+    private ImageView imageEmptyView;
 
     private ConstraintLayout summaryContainer;
     private TextView totalAmountTextView;
@@ -55,6 +56,7 @@ public class WeeklyTransactionFragmentView implements UIView {
         this.view = inflater.inflate(R.layout.fragment_transaction_viewpager, container, false);
         setUpHeader();
         setUpExpandableListView();
+        setUpEmptyView();
     }
 
     private void setUpHeader(){
@@ -91,8 +93,17 @@ public class WeeklyTransactionFragmentView implements UIView {
         });
 
         expandableListView.addHeaderView(header, null, false);
+    }
 
-        emptyView = inflater.inflate(R.layout.empty_view_transaction, null, false);
+    private void setUpEmptyView(){
+        emptyView = inflater.inflate(R.layout.empty_view, null, false);
+
+        imageEmptyView = emptyView.findViewById(R.id.empty_view_imageview);
+        imageEmptyView.setImageResource(R.drawable.empty_transaction);
+
+        TextView textView = emptyView.findViewById(R.id.empty_view_textview);
+        textView.setText("There is no transaction\nTry adding a new one");
+
         expandableListView.addFooterView(emptyView, null, false);
     }
 
@@ -132,9 +143,11 @@ public class WeeklyTransactionFragmentView implements UIView {
 
         if (adapter.getGroupCount() == 0){
             summaryContainer.setVisibility(View.GONE);
+            imageEmptyView.setVisibility(View.VISIBLE);
             emptyView.setVisibility(View.VISIBLE);
         } else {
             summaryContainer.setVisibility(View.VISIBLE);
+            imageEmptyView.setVisibility(View.GONE);
             emptyView.setVisibility(View.GONE);
         }
     }

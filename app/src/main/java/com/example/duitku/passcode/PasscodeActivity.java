@@ -1,4 +1,4 @@
-package com.example.duitku.account;
+package com.example.duitku.passcode;
 
 import androidx.appcompat.app.AppCompatActivity;
 
@@ -107,8 +107,10 @@ public class PasscodeActivity extends AppCompatActivity {
         backBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                passcode.deleteCharAt(passcode.length() - 1);
-                changeToDark();
+                if (passcode.length() > 0){
+                    passcode.deleteCharAt(passcode.length() - 1);
+                    changeToDark();
+                }
             }
         });
     }

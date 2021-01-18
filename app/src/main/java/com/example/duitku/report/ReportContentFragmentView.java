@@ -8,13 +8,11 @@ import android.graphics.Color;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.AdapterView;
 import android.widget.Button;
 import android.widget.DatePicker;
 import android.widget.ExpandableListView;
+import android.widget.ImageView;
 import android.widget.TextView;
-
-import androidx.fragment.app.Fragment;
 
 import com.example.duitku.R;
 import com.example.duitku.category.Category;
@@ -23,10 +21,7 @@ import com.example.duitku.database.DuitkuContract.CategoryEntry;
 import com.example.duitku.interfaces.UIView;
 import com.example.duitku.main.Utility;
 import com.example.duitku.transaction.Transaction;
-import com.example.duitku.transaction.category.CategoryTransaction;
 import com.example.duitku.transaction.view.ViewTransactionDialog;
-import com.example.duitku.transaction.weekly.WeeklyExpandableAdapter;
-import com.example.duitku.transaction.weekly.WeeklyTransaction;
 import com.github.mikephil.charting.charts.PieChart;
 import com.github.mikephil.charting.data.PieData;
 import com.github.mikephil.charting.data.PieDataSet;
@@ -42,6 +37,7 @@ public class ReportContentFragmentView implements UIView {
     private View header;
     private Button periodButton;
     private View emptyView;
+    private ImageView imageEmptyView;
 
     private final LayoutInflater inflater;
     private final ViewGroup container;
@@ -67,6 +63,7 @@ public class ReportContentFragmentView implements UIView {
         this.view = inflater.inflate(R.layout.fragment_content_report, container, false);
         setUpHeader();
         setUpListView();
+        setUpEmptyView();
     }
 
     private void setUpHeader(){
@@ -117,8 +114,17 @@ public class ReportContentFragmentView implements UIView {
         });
 
         expandableListView.addHeaderView(header, null, false);
+    }
 
-        emptyView = inflater.inflate(R.layout.empty_view_transaction, null, false);
+    private void setUpEmptyView(){
+        emptyView = inflater.inflate(R.layout.empty_view, null, false);
+
+        imageEmptyView = emptyView.findViewById(R.id.empty_view_imageview);
+        imageEmptyView.setImageResource(R.drawable.empty_transaction);
+
+        TextView textView = emptyView.findViewById(R.id.empty_view_textview);
+        textView.setText("There is no transaction\nTry adding a new one");
+
         expandableListView.addFooterView(emptyView, null, false);
     }
 
@@ -157,9 +163,11 @@ public class ReportContentFragmentView implements UIView {
 
         if (adapter.getGroupCount() == 0){
             pieChart.setVisibility(View.GONE);
+            imageEmptyView.setVisibility(View.VISIBLE);
             emptyView.setVisibility(View.VISIBLE);
         } else {
             pieChart.setVisibility(View.VISIBLE);
+            imageEmptyView.setVisibility(View.GONE);
             emptyView.setVisibility(View.GONE);
         }
 

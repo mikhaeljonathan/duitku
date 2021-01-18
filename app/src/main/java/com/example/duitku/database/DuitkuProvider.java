@@ -4,6 +4,8 @@ import com.example.duitku.database.DuitkuContract.WalletEntry;
 import com.example.duitku.database.DuitkuContract.BudgetEntry;
 import com.example.duitku.database.DuitkuContract.TransactionEntry;
 import com.example.duitku.database.DuitkuContract.CategoryEntry;
+import com.example.duitku.database.DuitkuContract.UserEntry;
+
 
 import android.content.ContentProvider;
 import android.content.ContentUris;
@@ -12,7 +14,6 @@ import android.content.UriMatcher;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.net.Uri;
-import android.util.Log;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
@@ -27,18 +28,20 @@ public class DuitkuProvider extends ContentProvider {
     private static final int BUDGET_ID = 301;
     private static final int TRANSACTION = 400;
     private static final int TRANSACTION_ID = 401;
+    private static final int USER = 500;
 
-    private static final UriMatcher mUriMatcher = new UriMatcher(UriMatcher.NO_MATCH);
+    private static final UriMatcher uriMatcher = new UriMatcher(UriMatcher.NO_MATCH);
     // biar bisa diexecute scr global, ga di dalem method manapun
     static{
-        mUriMatcher.addURI(DuitkuContract.CONTENT_AUTHORITY, DuitkuContract.PATH_WALLET, WALLET);
-        mUriMatcher.addURI(DuitkuContract.CONTENT_AUTHORITY, DuitkuContract.PATH_WALLET + "/#", WALLET_ID);
-        mUriMatcher.addURI(DuitkuContract.CONTENT_AUTHORITY, DuitkuContract.PATH_CATEGORY, CATEGORY);
-        mUriMatcher.addURI(DuitkuContract.CONTENT_AUTHORITY, DuitkuContract.PATH_CATEGORY + "/#", CATEGORY_ID);
-        mUriMatcher.addURI(DuitkuContract.CONTENT_AUTHORITY, DuitkuContract.PATH_BUDGET, BUDGET);
-        mUriMatcher.addURI(DuitkuContract.CONTENT_AUTHORITY, DuitkuContract.PATH_BUDGET + "/#", BUDGET_ID);
-        mUriMatcher.addURI(DuitkuContract.CONTENT_AUTHORITY, DuitkuContract.PATH_TRANSACTION, TRANSACTION);
-        mUriMatcher.addURI(DuitkuContract.CONTENT_AUTHORITY, DuitkuContract.PATH_TRANSACTION + "/#", TRANSACTION_ID);
+        uriMatcher.addURI(DuitkuContract.CONTENT_AUTHORITY, DuitkuContract.PATH_WALLET, WALLET);
+        uriMatcher.addURI(DuitkuContract.CONTENT_AUTHORITY, DuitkuContract.PATH_WALLET + "/#", WALLET_ID);
+        uriMatcher.addURI(DuitkuContract.CONTENT_AUTHORITY, DuitkuContract.PATH_CATEGORY, CATEGORY);
+        uriMatcher.addURI(DuitkuContract.CONTENT_AUTHORITY, DuitkuContract.PATH_CATEGORY + "/#", CATEGORY_ID);
+        uriMatcher.addURI(DuitkuContract.CONTENT_AUTHORITY, DuitkuContract.PATH_BUDGET, BUDGET);
+        uriMatcher.addURI(DuitkuContract.CONTENT_AUTHORITY, DuitkuContract.PATH_BUDGET + "/#", BUDGET_ID);
+        uriMatcher.addURI(DuitkuContract.CONTENT_AUTHORITY, DuitkuContract.PATH_TRANSACTION, TRANSACTION);
+        uriMatcher.addURI(DuitkuContract.CONTENT_AUTHORITY, DuitkuContract.PATH_TRANSACTION + "/#", TRANSACTION_ID);
+        uriMatcher.addURI(DuitkuContract.CONTENT_AUTHORITY, DuitkuContract.PATH_USER, USER);
     }
 
     private DuitkuDbHelper duitkuDbHelper;
@@ -56,7 +59,7 @@ public class DuitkuProvider extends ContentProvider {
 
         Cursor cursor;
 
-        int match = mUriMatcher.match(uri);
+        int match = uriMatcher.match(uri);
         switch(match){
             case WALLET:
                 cursor = db.query(WalletEntry.TABLE_NAME, projection, selection, selectionArgs, null, null, sortOrder);
@@ -90,6 +93,9 @@ public class DuitkuProvider extends ContentProvider {
                 selectionArgs = new String[] { String.valueOf(ContentUris.parseId(uri)) };
                 cursor = db.query(TransactionEntry.TABLE_NAME, projection, selection, selectionArgs, null, null, sortOrder);
                 break;
+            case USER:
+                cursor = db.query(UserEntry.TABLE_NAME, projection, selection, selectionArgs, null, null, sortOrder);
+                break;
             default:
                 throw new IllegalArgumentException("Cannot query unknown URI " + uri);
         }
@@ -107,7 +113,7 @@ public class DuitkuProvider extends ContentProvider {
 
         long id;
 
-        int match = mUriMatcher.match(uri);
+        int match = uriMatcher.match(uri);
         switch (match){
             case WALLET:
                 id = db.insert(WalletEntry.TABLE_NAME, null, contentValues);
@@ -120,6 +126,9 @@ public class DuitkuProvider extends ContentProvider {
                 break;
             case TRANSACTION:
                 id = db.insert(TransactionEntry.TABLE_NAME, null, contentValues);
+                break;
+            case USER:
+                id = db.insert(UserEntry.TABLE_NAME, null, contentValues);
                 break;
             default:
                 throw new IllegalArgumentException("Insertion is not supported for " + uri);
@@ -139,7 +148,7 @@ public class DuitkuProvider extends ContentProvider {
 
         int rowsDeleted;
 
-        int match = mUriMatcher.match(uri);
+        int match = uriMatcher.match(uri);
         switch (match){
             case TRANSACTION:
                 rowsDeleted = db.delete(TransactionEntry.TABLE_NAME, selection, selectionArgs);
@@ -164,6 +173,9 @@ public class DuitkuProvider extends ContentProvider {
                 selectionArgs = new String[] {String.valueOf(ContentUris.parseId(uri))};
                 rowsDeleted = db.delete(CategoryEntry.TABLE_NAME, selection, selectionArgs);
                 break;
+            case USER:
+                rowsDeleted = db.delete(UserEntry.TABLE_NAME, null, null);
+                break;
             default:
                 throw new IllegalArgumentException("Deletion is not supported for " + uri);
         }
@@ -180,7 +192,7 @@ public class DuitkuProvider extends ContentProvider {
 
         int rowsUpdated;
 
-        int match = mUriMatcher.match(uri);
+        int match = uriMatcher.match(uri);
         switch (match){
             case TRANSACTION_ID:
                 selection = TransactionEntry._ID + " = ?";
@@ -201,6 +213,9 @@ public class DuitkuProvider extends ContentProvider {
                 selection = CategoryEntry._ID + " = ?";
                 selectionArgs = new String[] {String.valueOf(ContentUris.parseId(uri))};
                 rowsUpdated = db.update(CategoryEntry.TABLE_NAME, contentValues, selection, selectionArgs);
+                break;
+            case USER:
+                rowsUpdated = db.update(UserEntry.TABLE_NAME, contentValues, null, null);
                 break;
             default:
                 throw new IllegalArgumentException("Update is not supported for " + uri);
