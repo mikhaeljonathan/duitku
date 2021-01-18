@@ -3,6 +3,7 @@
     package="com.example.duitku">
 
     <uses-permission android:name="android.permission.VIBRATE" />
+
     <application
         android:name=".main.App"
         android:allowBackup="true"
@@ -11,7 +12,8 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
-        <activity android:name=".account.PasscodeActivity"></activity>
+        <activity android:name=".account.UpgradePremiumActivity"></activity>
+        <activity android:name=".account.PasscodeActivity" />
         <activity android:name=".account.EditProfileActivity" />
         <activity android:name=".account.AddFeedbackActivity" />
         <activity

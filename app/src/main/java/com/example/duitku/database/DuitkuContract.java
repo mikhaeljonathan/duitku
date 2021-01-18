@@ -12,6 +12,7 @@ public class DuitkuContract {
     public static final String PATH_TRANSACTION = "transaction";
     public static final String PATH_CATEGORY = "category";
     public static final String PATH_BUDGET = "budget";
+    public static final String PATH_USER = "user";
 
     public static final class WalletEntry implements BaseColumns {
         public static final Uri CONTENT_URI =
@@ -70,7 +71,6 @@ public class DuitkuContract {
     }
 
     public static final class TransactionEntry implements BaseColumns {
-
         public static final Uri CONTENT_URI =
                 BASE_CONTENT_URI.buildUpon().appendPath(PATH_TRANSACTION).build();
 
@@ -83,6 +83,20 @@ public class DuitkuContract {
         public static final String COLUMN_DESC = "transaction_desc";
         public static final String COLUMN_DATE = "transaction_date";
         public static final String COLUMN_AMOUNT = "transaction_amount";
+    }
+
+    public static final class UserEntry implements BaseColumns {
+        public static final Uri CONTENT_URI =
+                BASE_CONTENT_URI.buildUpon().appendPath(PATH_USER).build();
+
+        public static final String TABLE_NAME = "user";
+
+        public static final String COLUMN_ID = BaseColumns._ID;
+        public static final String COLUMN_USER_NAME = "user_name";
+        public static final String COLUMN_USER_EMAIL = "user_email";
+        public static final String COLUMN_USER_STATUS = "user_status";
+        public static final String COLUMN_USER_FIRST_TIME= "user_first_time";
+        public static final String COLUMN_USER_PASSCODE = "user_passcode";
     }
 
 }

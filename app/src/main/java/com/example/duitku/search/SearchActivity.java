@@ -24,6 +24,8 @@ import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.ListView;
 
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Objects;
 
 public class SearchActivity extends AppCompatActivity implements LoaderManager.LoaderCallbacks<Cursor> {
@@ -103,7 +105,12 @@ public class SearchActivity extends AppCompatActivity implements LoaderManager.L
         if (id == SEARCH_LOADER) {
             String[] projection = transactionController.getFullProjection();
             String selection = TransactionEntry.COLUMN_DESC + " LIKE ? COLLATE NOCASE";
-            String[] selectionArgs = new String[]{"%" + pattern + "%"};
+            String[] selectionArgs;
+            if (pattern.length() > 0){
+                selectionArgs = new String[]{"%" + pattern + "%"};
+            } else { // kalau kosong gausa tampilin apapun, jadi pilih regex yang ga mungkin match dengan apapun
+                selectionArgs = new String[]{"%" + "\b" + "%"};
+            }
             return new CursorLoader(this, TransactionEntry.CONTENT_URI, projection, selection, selectionArgs, null);
         }
         throw new IllegalStateException("Unknown Loader");

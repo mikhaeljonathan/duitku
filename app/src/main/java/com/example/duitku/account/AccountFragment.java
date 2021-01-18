@@ -28,7 +28,9 @@ public class AccountFragment extends Fragment {
     private void setUpButtons(){
         setUpEditProfileButton();
         setUpSetPasscodeButton();
+        setUpUpgradePremiumButton();
         setUpAddFeedbackButton();
+        setUpSignOutButton();
     }
 
     private void setUpEditProfileButton(){
@@ -54,6 +56,17 @@ public class AccountFragment extends Fragment {
         });
     }
 
+    private void setUpUpgradePremiumButton(){
+        Button upgradePremiumBtn = view.findViewById(R.id.account_upgrade_premium_btn);
+        upgradePremiumBtn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Intent upgradePremiumIntent = new Intent(getActivity(), UpgradePremiumActivity.class);
+                startActivity(upgradePremiumIntent);
+            }
+        });
+    }
+
     private void setUpAddFeedbackButton(){
         Button addFeedbackBtn = view.findViewById(R.id.account_add_feedback_btn);
         addFeedbackBtn.setOnClickListener(new View.OnClickListener() {
@@ -63,6 +76,10 @@ public class AccountFragment extends Fragment {
                 startActivity(addFeedbackIntent);
             }
         });
+    }
+
+    private void setUpSignOutButton(){
+
     }
 
 }

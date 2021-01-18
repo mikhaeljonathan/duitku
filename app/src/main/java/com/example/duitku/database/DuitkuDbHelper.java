@@ -4,6 +4,7 @@ import com.example.duitku.database.DuitkuContract.WalletEntry;
 import com.example.duitku.database.DuitkuContract.BudgetEntry;
 import com.example.duitku.database.DuitkuContract.TransactionEntry;
 import com.example.duitku.database.DuitkuContract.CategoryEntry;
+import com.example.duitku.database.DuitkuContract.UserEntry;
 
 import android.content.ContentValues;
 import android.content.Context;
@@ -56,6 +57,8 @@ public class DuitkuDbHelper extends SQLiteOpenHelper {
                 TransactionEntry.COLUMN_CATEGORY_ID + " INTEGER, " +
                 "FOREIGN KEY (" + TransactionEntry.COLUMN_WALLET_ID + ") REFERENCES " + WalletEntry.TABLE_NAME + "(" + WalletEntry.COLUMN_ID + "), " +
                 "FOREIGN KEY (" + TransactionEntry.COLUMN_CATEGORY_ID + ") REFERENCES " + CategoryEntry.TABLE_NAME + "(" + CategoryEntry.COLUMN_ID + "))";
+
+        final String CREATE_USER_TABLE = "CREATE TABLE " + UserEntry.TABLE_NAME + " (";
 
         // execute di database nya
         sqLiteDatabase.execSQL(CREATE_WALLET_TABLE);

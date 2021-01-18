@@ -12,6 +12,7 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.example.duitku.R;
+import com.example.duitku.user.UserController;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -128,27 +129,35 @@ public class PasscodeActivity extends AppCompatActivity {
     private void takeAction(){
         if (flag.equals("SET")){
             finish();
-            Intent confirmPasscodeIntent = new Intent(this, PasscodeActivity.class);
-            confirmPasscodeIntent.putExtra("Flag", "CONFIRM");
-            confirmPasscodeIntent.putExtra("Passcode", passcode.toString());
-            startActivity(confirmPasscodeIntent);
+            openConfirmActivity();
         } else if (flag.equals("CONFIRM")){
             String passcodeConfirm = getIntent().getStringExtra("Passcode");
             if (passcodeConfirm.equals(passcode.toString())){
                 finish();
-
+                new UserController(this).setPasscode(passcode.toString());
             } else {
-                titleTV.setText("Passcode doesn't match");
-                passcode.delete(0, passcode.length());
-                for (int i = 1; i <= 4; i++){
-                    hm.get(i).setImageResource(R.drawable.icon_circle_dark);
-                }
-                Vibrator v = (Vibrator) getSystemService(Context.VIBRATOR_SERVICE);
-                assert v != null;
-                v.vibrate(300);
+                falseConfirm();
             }
         } else {
 
         }
+    }
+
+    private void openConfirmActivity(){
+        Intent confirmPasscodeIntent = new Intent(this, PasscodeActivity.class);
+        confirmPasscodeIntent.putExtra("Flag", "CONFIRM");
+        confirmPasscodeIntent.putExtra("Passcode", passcode.toString());
+        startActivity(confirmPasscodeIntent);
+    }
+
+    private void falseConfirm(){
+        titleTV.setText("Passcode doesn't match");
+        passcode.delete(0, passcode.length());
+        for (int i = 1; i <= 4; i++){
+            hm.get(i).setImageResource(R.drawable.icon_circle_dark);
+        }
+        Vibrator v = (Vibrator) getSystemService(Context.VIBRATOR_SERVICE);
+        assert v != null;
+        v.vibrate(300);
     }
 }
