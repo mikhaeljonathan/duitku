@@ -54,8 +54,8 @@ melayang gitu-->
             android:id="@+id/main_bottomnavbar"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            app:itemIconTint="@drawable/bottomnav_foreground"
-            app:itemTextColor="@drawable/bottomnav_foreground"
+            app:itemIconTint="@drawable/custom_bottomnav_foreground"
+            app:itemTextColor="@drawable/custom_bottomnav_foreground"
             app:labelVisibilityMode="labeled"
             app:menu="@menu/main_bottom_nav_bar_menu" />
 
