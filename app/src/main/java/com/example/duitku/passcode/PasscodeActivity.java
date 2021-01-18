@@ -1,5 +1,6 @@
 package com.example.duitku.passcode;
 
+import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 
 import android.content.Context;
@@ -12,6 +13,7 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.example.duitku.R;
+import com.example.duitku.user.User;
 import com.example.duitku.user.UserController;
 
 import java.util.ArrayList;
@@ -136,12 +138,22 @@ public class PasscodeActivity extends AppCompatActivity {
             String passcodeConfirm = getIntent().getStringExtra("Passcode");
             if (passcodeConfirm.equals(passcode.toString())){
                 finish();
-                new UserController(this).setPasscode(passcode.toString());
+
+                UserController userController = new UserController(this);
+                User user = userController.getUser();
+                user.setPasscode(passcode.toString());
+                userController.updateUser(user);
+
             } else {
-                falseConfirm();
+                errorState("Passcode doesn't match");
             }
         } else {
-
+            String userPasscode = new UserController(this).getUser().getPasscode();
+            if (userPasscode.equals(passcode.toString())){
+                finish();
+            } else {
+                errorState("Invalid Passcode");
+            }
         }
     }
 
@@ -152,8 +164,8 @@ public class PasscodeActivity extends AppCompatActivity {
         startActivity(confirmPasscodeIntent);
     }
 
-    private void falseConfirm(){
-        titleTV.setText("Passcode doesn't match");
+    private void errorState(String message){
+        titleTV.setText(message);
         passcode.delete(0, passcode.length());
         for (int i = 1; i <= 4; i++){
             hm.get(i).setImageResource(R.drawable.icon_circle_dark);
@@ -162,4 +174,13 @@ public class PasscodeActivity extends AppCompatActivity {
         assert v != null;
         v.vibrate(300);
     }
+
+    @Override
+    public void onBackPressed() {
+        if (flag.equals("INPUT")){
+            finishAffinity();
+        }
+        super.onBackPressed();
+    }
+
 }

@@ -19,11 +19,8 @@ public class UserController {
         context.getContentResolver().insert(UserEntry.CONTENT_URI, values);
     }
 
-    public void setPasscode(String passcode){
-        User user = getUser();
-        user.setPasscode(passcode);
+    public void updateUser(User user){
         ContentValues values = convertUserToContentValues(user);
-
         context.getContentResolver().update(UserEntry.CONTENT_URI, values, null, null);
     }
 

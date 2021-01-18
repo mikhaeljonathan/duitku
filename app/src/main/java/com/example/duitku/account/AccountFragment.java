@@ -1,5 +1,6 @@
 package com.example.duitku.account;
 
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
 import android.view.LayoutInflater;
@@ -9,27 +10,41 @@ import android.widget.Button;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
+import androidx.appcompat.app.AlertDialog;
 import androidx.fragment.app.Fragment;
 
 import com.example.duitku.R;
 import com.example.duitku.passcode.PasscodeActivity;
 import com.example.duitku.user.EditProfileActivity;
+import com.example.duitku.user.User;
+import com.example.duitku.user.UserController;
 
 public class AccountFragment extends Fragment {
 
     private View view;
+    private UserController userController;
+
+    private Button passcodeBtn;
 
     @Nullable
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         view = inflater.inflate(R.layout.fragment_account, container, false);
+        userController = new UserController(getActivity());
+
         setUpButtons();
+
         return view;
+    }
+
+    @Override
+    public void onResume() {
+        super.onResume();
+        setUpPasscodeBtn();
     }
 
     private void setUpButtons(){
         setUpEditProfileButton();
-        setUpSetPasscodeButton();
         setUpUpgradePremiumButton();
         setUpAddFeedbackButton();
         setUpSignOutButton();
@@ -46,16 +61,60 @@ public class AccountFragment extends Fragment {
         });
     }
 
-    private void setUpSetPasscodeButton(){
-        Button setPasscodeBtn = view.findViewById(R.id.account_set_passcode_btn);
-        setPasscodeBtn.setOnClickListener(new View.OnClickListener() {
+    private void setUpPasscodeBtn(){
+        passcodeBtn = view.findViewById(R.id.account_set_passcode_btn);
+
+        User user = userController.getUser();
+        final String passcode = user.getPasscode();
+
+        if (passcode != null){
+            passcodeBtn.setText("Remove Passcode");
+        } else {
+            passcodeBtn.setText("Set Passcode");
+        }
+
+        passcodeBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Intent setPasscodeIntent = new Intent(getActivity(), PasscodeActivity.class);
-                setPasscodeIntent.putExtra("Flag", "SET");
-                startActivity(setPasscodeIntent);
+                if (passcode != null){
+                    showRemoveConfirmationDialog();
+                } else {
+                    Intent setPasscodeIntent = new Intent(getActivity(), PasscodeActivity.class);
+                    setPasscodeIntent.putExtra("Flag", "SET");
+                    startActivity(setPasscodeIntent);
+                }
             }
         });
+
+    }
+
+    private void showRemoveConfirmationDialog(){
+        AlertDialog.Builder alertDialogBuilder = new AlertDialog.Builder(getActivity(), R.style.AlertDialogCustom);
+        alertDialogBuilder.setTitle("Remove Passcode Confirmation");
+        alertDialogBuilder.setMessage("Are you sure to remove the passcode?")
+                .setPositiveButton("Yes", new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialogInterface, int i) {
+                        removePasscode();
+                    }
+                })
+                .setNegativeButton("No", new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialogInterface, int i) {
+
+                    }
+                });
+        AlertDialog alertDialog = alertDialogBuilder.create();
+        alertDialog.getWindow().setBackgroundDrawableResource(R.color.colorPrimary); //biar bg gelap
+        alertDialog.show();
+    }
+
+    private void removePasscode(){
+        User user = userController.getUser();
+
+        user.setPasscode(null);
+        new UserController(getActivity()).updateUser(user);
+        setUpPasscodeBtn();
     }
 
     private void setUpUpgradePremiumButton(){

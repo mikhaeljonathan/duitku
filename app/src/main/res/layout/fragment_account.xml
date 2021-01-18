@@ -81,7 +81,7 @@
         android:background="@drawable/selector_picker_background"
         android:gravity="left|center_vertical"
         android:paddingLeft="16dp"
-        android:text="Set Passcode"
+        tools:text="Set Passcode"
         android:textColor="@color/textDark"
         android:textStyle="bold"
         app:layout_constraintEnd_toEndOf="parent"

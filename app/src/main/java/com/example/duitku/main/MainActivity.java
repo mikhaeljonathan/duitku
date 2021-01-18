@@ -4,10 +4,12 @@ import androidx.appcompat.app.AppCompatActivity;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.util.Log;
 
 import com.example.duitku.R;
 import com.example.duitku.database.DuitkuContract.UserEntry;
 import com.example.duitku.interfaces.UIView;
+import com.example.duitku.passcode.PasscodeActivity;
 import com.example.duitku.user.AddProfileActivity;
 import com.example.duitku.user.User;
 import com.example.duitku.user.UserController;
@@ -27,7 +29,12 @@ public class MainActivity extends AppCompatActivity {
         UIView mainActivityView = new MainActivityView(this);
         mainActivityView.setUpUI();
 
-        User user = new UserController(this).getUser();
+        checkUser();
+    }
+
+    private void checkUser(){
+        UserController userController = new UserController(this);
+        User user = userController.getUser();
         if (user == null){
             Intent addProfileIntent = new Intent(this, AddProfileActivity.class);
             startActivity(addProfileIntent);
@@ -35,7 +42,16 @@ public class MainActivity extends AppCompatActivity {
 
         user = new UserController(this).getUser();
         if (user.getFirstTime().equals(UserEntry.TYPE_FIRST_TIME)){
-//        setUpShowCase();
+            setUpShowCase();
+            user.setFirstTime(UserEntry.TYPE_NOT_FIRST_TIME);
+            userController.updateUser(user);
+        }
+
+        String passcode = user.getPasscode();
+        if (passcode != null){
+            Intent insertPasscodeIntent = new Intent(this, PasscodeActivity.class);
+            insertPasscodeIntent.putExtra("Flag", "INPUT");
+            startActivity(insertPasscodeIntent);
         }
     }
 
