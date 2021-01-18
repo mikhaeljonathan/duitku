@@ -5,7 +5,7 @@
     android:id="@+id/content_report_constraintlayout"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".report.ReportIncomeFragment">
+    tools:context=".report.ReportContentFragmentView">
 
     <ExpandableListView
         android:id="@+id/content_report_expandablelistview"
