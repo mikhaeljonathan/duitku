@@ -8,66 +8,68 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:orientation="vertical">
 
-<androidx.constraintlayout.widget.ConstraintLayout
-    xmlns:app="http://schemas.android.com/apk/res-auto"
-    xmlns:tools="http://schemas.android.com/tools"
-    android:id="@+id/item_list_transaction_monthly_constraintlayout"
-    android:layout_width="match_parent"
-    android:layout_height="88dp"
-    android:layoutDirection="ltr">
-
-    <TextView
-        android:id="@+id/item_list_transaction_monthly_name_textview"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:id="@+id/item_list_transaction_monthly_constraintlayout"
+        android:layout_width="match_parent"
+        android:layout_height="88dp"
         android:layout_marginStart="16dp"
-        android:textColor="@color/textDark"
-        android:textSize="24sp"
-        android:textStyle="bold"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        tools:text="Jan" />
+        android:layout_marginEnd="16dp"
+        android:layoutDirection="ltr">
 
-    <TextView
-        android:id="@+id/item_list_transaction_monthly_income_textview"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginEnd="32dp"
-        android:textColor="@color/green"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toStartOf="@+id/item_list_transaction_monthly_expense_textview"
-        app:layout_constraintTop_toTopOf="parent"
-        tools:text="Rp 10.000.000" />
+        <TextView
+            android:id="@+id/item_list_transaction_monthly_name_textview"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="16dp"
+            android:textColor="@color/textDark"
+            android:textSize="24sp"
+            android:textStyle="bold"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            tools:text="Jan" />
 
-    <TextView
-        android:id="@+id/item_list_transaction_monthly_expense_textview"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginEnd="32dp"
-        android:textColor="@color/red"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        tools:text="Rp 5.000.000" />
+        <TextView
+            android:id="@+id/item_list_transaction_monthly_income_textview"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginEnd="32dp"
+            android:textColor="@color/green"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toStartOf="@+id/item_list_transaction_monthly_expense_textview"
+            app:layout_constraintTop_toTopOf="parent"
+            tools:text="Rp 10.000.000" />
 
-    <ImageView
-        android:id="@+id/arrow_expandable_monthly"
-        android:layout_width="10dp"
-        android:layout_height="10dp"
-        android:layout_marginEnd="15dp"
-        android:gravity="end"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        app:srcCompat="@android:drawable/arrow_down_float" />
+        <TextView
+            android:id="@+id/item_list_transaction_monthly_expense_textview"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginEnd="32dp"
+            android:textColor="@color/red"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            tools:text="Rp 5.000.000" />
 
-</androidx.constraintlayout.widget.ConstraintLayout>
+        <ImageView
+            android:id="@+id/arrow_expandable_monthly"
+            android:layout_width="10dp"
+            android:layout_height="10dp"
+            android:layout_marginEnd="15dp"
+            android:gravity="end"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            app:srcCompat="@android:drawable/arrow_down_float" />
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
 <View
 android:id="@+id/hidden_view_monthly"
 android:layout_width="match_parent"
 android:layout_height="10dp"
-android:background="@color/colorPrimary" />
+android:background="@color/colorPrimary"
+    android:layout_marginStart="16dp"
+    android:layout_marginEnd="16dp"/>
 
 </LinearLayout>
 

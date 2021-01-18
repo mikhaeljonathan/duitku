@@ -14,7 +14,9 @@
     android:id="@+id/item_list_transaction_weekly_constraintlayout"
     android:layout_width="match_parent"
     android:layout_height="88dp"
-    android:layoutDirection="ltr">
+    android:layoutDirection="ltr"
+        android:layout_marginStart="16dp"
+        android:layout_marginEnd="16dp">
 
     <TextView
         android:id="@+id/item_list_transaction_weekly_week_textview"
@@ -83,6 +85,8 @@
         android:id="@+id/hidden_view_weekly"
         android:layout_width="match_parent"
         android:layout_height="10dp"
-        android:background="@color/colorPrimary" />
+        android:background="@color/colorPrimary"
+        android:layout_marginStart="16dp"
+        android:layout_marginEnd="16dp"/>
 
 </LinearLayout>

@@ -119,7 +119,7 @@ public class DailyExpandableAdapter extends BaseExpandableListAdapter {
         }
 
         ConstraintLayout cl = view.findViewById(R.id.item_list_transaction_constraintlayout);
-        View hidden = view.findViewById(R.id.hidden_view1);
+        View hidden = view.findViewById(R.id.hidden_view_transaction);
 
         // get the category
         CategoryController categoryController = new CategoryController(context);
