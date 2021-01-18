@@ -89,4 +89,9 @@ public class AddProfileActivity extends AppCompatActivity {
 
         new UserController(this).addUser(user);
     }
+
+    @Override
+    public void onBackPressed() {
+        finishAffinity();
+    }
 }
