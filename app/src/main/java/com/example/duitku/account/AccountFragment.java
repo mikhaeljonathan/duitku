@@ -6,23 +6,46 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
+import android.widget.TextView;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
 
 import com.example.duitku.R;
+import com.google.firebase.auth.FirebaseAuth;
 
 public class AccountFragment extends Fragment {
 
+    private String displayName = "default";
+    private String email = "default@domain.com";
+
+    private FirebaseAuth mAuth;
     private View view;
 
     @Nullable
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         view = inflater.inflate(R.layout.fragment_account, container, false);
+        getCurrentUser();
         setUpButtons();
+        setUpDisplayNameEmail();
         return view;
+    }
+
+    private void setUpDisplayNameEmail(){
+        TextView txt_displayName = view.findViewById(R.id.account_name_textview);
+        TextView txt_email = view.findViewById(R.id.account_email_textview);
+        txt_displayName.setText(displayName);
+        txt_email.setText(email);
+    }
+
+    private void getCurrentUser(){
+        mAuth = FirebaseAuth.getInstance();
+        if (mAuth != null) {
+            displayName = mAuth.getCurrentUser().getDisplayName();
+            email = mAuth.getCurrentUser().getEmail();
+        }
     }
 
     private void setUpButtons(){
