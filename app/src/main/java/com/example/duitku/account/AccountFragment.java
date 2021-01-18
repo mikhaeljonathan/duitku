@@ -1,5 +1,6 @@
 package com.example.duitku.account;
 
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
 import android.view.LayoutInflater;
@@ -10,47 +11,52 @@ import android.widget.TextView;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
+import androidx.appcompat.app.AlertDialog;
 import androidx.fragment.app.Fragment;
 
 import com.example.duitku.R;
-import com.google.firebase.auth.FirebaseAuth;
+import com.example.duitku.passcode.PasscodeActivity;
+import com.example.duitku.user.EditProfileActivity;
+import com.example.duitku.user.User;
+import com.example.duitku.user.UserController;
 
 public class AccountFragment extends Fragment {
 
-    private String displayName = "default";
-    private String email = "default@domain.com";
-
-    private FirebaseAuth mAuth;
     private View view;
+    private User user;
+
+    private Button passcodeBtn;
 
     @Nullable
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         view = inflater.inflate(R.layout.fragment_account, container, false);
-        getCurrentUser();
+        user = new UserController(getActivity()).getUser();
+
+        setUpBanner();
         setUpButtons();
-        setUpDisplayNameEmail();
+
         return view;
     }
 
-    private void setUpDisplayNameEmail(){
-        TextView txt_displayName = view.findViewById(R.id.account_name_textview);
-        TextView txt_email = view.findViewById(R.id.account_email_textview);
-        txt_displayName.setText(displayName);
-        txt_email.setText(email);
+    @Override
+    public void onResume() {
+        super.onResume();
+        user = new UserController(getActivity()).getUser();
+
+        setUpPasscodeBtn();
     }
 
-    private void getCurrentUser(){
-        mAuth = FirebaseAuth.getInstance();
-        if (mAuth != null) {
-            displayName = mAuth.getCurrentUser().getDisplayName();
-            email = mAuth.getCurrentUser().getEmail();
-        }
+    private void setUpBanner() {
+        TextView nameTV = view.findViewById(R.id.account_name_textview);
+        nameTV.setText(user.getName());
+
+        TextView emailTV = view.findViewById(R.id.account_email_textview);
+        emailTV.setText(user.getEmail());
     }
 
     private void setUpButtons(){
         setUpEditProfileButton();
-        setUpSetPasscodeButton();
         setUpUpgradePremiumButton();
         setUpAddFeedbackButton();
         setUpSignOutButton();
@@ -67,16 +73,57 @@ public class AccountFragment extends Fragment {
         });
     }
 
-    private void setUpSetPasscodeButton(){
-        Button setPasscodeBtn = view.findViewById(R.id.account_set_passcode_btn);
-        setPasscodeBtn.setOnClickListener(new View.OnClickListener() {
+    private void setUpPasscodeBtn(){
+        passcodeBtn = view.findViewById(R.id.account_set_passcode_btn);
+
+        final String passcode = user.getPasscode();
+
+        if (passcode != null){
+            passcodeBtn.setText("Remove Passcode");
+        } else {
+            passcodeBtn.setText("Set Passcode");
+        }
+
+        passcodeBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Intent setPasscodeIntent = new Intent(getActivity(), PasscodeActivity.class);
-                setPasscodeIntent.putExtra("Flag", "SET");
-                startActivity(setPasscodeIntent);
+                if (passcode != null){
+                    showRemoveConfirmationDialog();
+                } else {
+                    Intent setPasscodeIntent = new Intent(getActivity(), PasscodeActivity.class);
+                    setPasscodeIntent.putExtra("Flag", "SET");
+                    startActivity(setPasscodeIntent);
+                }
             }
         });
+
+    }
+
+    private void showRemoveConfirmationDialog(){
+        AlertDialog.Builder alertDialogBuilder = new AlertDialog.Builder(getActivity(), R.style.AlertDialogCustom);
+        alertDialogBuilder.setTitle("Remove Passcode Confirmation");
+        alertDialogBuilder.setMessage("Are you sure to remove the passcode?")
+                .setPositiveButton("Yes", new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialogInterface, int i) {
+                        removePasscode();
+                    }
+                })
+                .setNegativeButton("No", new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialogInterface, int i) {
+
+                    }
+                });
+        AlertDialog alertDialog = alertDialogBuilder.create();
+        alertDialog.getWindow().setBackgroundDrawableResource(R.color.colorPrimary); //biar bg gelap
+        alertDialog.show();
+    }
+
+    private void removePasscode(){
+        user.setPasscode(null);
+        new UserController(getActivity()).updateUser(user);
+        setUpPasscodeBtn();
     }
 
     private void setUpUpgradePremiumButton(){

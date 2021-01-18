@@ -28,6 +28,7 @@ public class WalletFragmentView implements UIView {
     private TextView totalWalletTextView;
     private View header;
     private View emptyView;
+    private ImageView imageEmptyView;
 
     private LayoutInflater inflater;
     private ViewGroup container;
@@ -45,6 +46,7 @@ public class WalletFragmentView implements UIView {
         this.view = inflater.inflate(R.layout.fragment_transaction_viewpager, container, false);
         setUpHeader();
         setUpListView();
+        setUpEmptyView();
     }
 
     public void updateTotalWalletTextView(double amount){
@@ -106,9 +108,6 @@ public class WalletFragmentView implements UIView {
         });
         listView.addHeaderView(header, null, false);
 
-        emptyView = inflater.inflate(R.layout.empty_view_wallet, null, false);
-        listView.addFooterView(emptyView, null, false);
-
         setUpAdapter();
     }
 
@@ -123,11 +122,25 @@ public class WalletFragmentView implements UIView {
         listView.setAdapter(adapter);
     }
 
+    private void setUpEmptyView(){
+        emptyView = inflater.inflate(R.layout.empty_view, null, false);
+
+        imageEmptyView = emptyView.findViewById(R.id.empty_view_imageview);
+        imageEmptyView.setImageResource(R.drawable.empty_wallet);
+
+        TextView textView = emptyView.findViewById(R.id.empty_view_textview);
+        textView.setText("There is no wallet\nTry adding a new one");
+
+        listView.addFooterView(emptyView, null, false);
+    }
+
     public void swapCursor(Cursor data){
         if (data != null){
             if (!data.moveToFirst()){
+                imageEmptyView.setVisibility(View.VISIBLE);
                 emptyView.setVisibility(View.VISIBLE);
             } else {
+                imageEmptyView.setVisibility(View.GONE);
                 emptyView.setVisibility(View.GONE);
             }
         }

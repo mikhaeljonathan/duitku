@@ -2,18 +2,24 @@ package com.example.duitku.user;
 
 public class User {
 
+    private String id;
     private String name;
     private String email;
     private String status;
     private String firstTime;
     private String passcode;
 
-    public User(String name, String email, String status, String firstTime, String passcode) {
+    public User(String id, String name, String email, String status, String firstTime, String passcode) {
+        this.id = id;
         this.name = name;
         this.email = email;
         this.status = status;
         this.firstTime = firstTime;
         this.passcode = passcode;
+    }
+
+    public String getId(){
+        return id;
     }
 
     public String getName() {

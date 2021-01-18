@@ -1,10 +1,17 @@
 package com.example.duitku.main;
 
 import androidx.appcompat.app.AppCompatActivity;
+
+import android.content.Intent;
 import android.os.Bundle;
 
 import com.example.duitku.R;
+import com.example.duitku.database.DuitkuContract.UserEntry;
 import com.example.duitku.interfaces.UIView;
+import com.example.duitku.passcode.PasscodeActivity;
+import com.example.duitku.user.AddProfileActivity;
+import com.example.duitku.user.User;
+import com.example.duitku.user.UserController;
 import com.github.florent37.tutoshowcase.TutoShowcase;
 
 import java.util.UUID;
@@ -15,12 +22,50 @@ import uk.co.deanwild.materialshowcaseview.ShowcaseConfig;
 
 public class MainActivity extends AppCompatActivity {
 
+    private User user;
+    private UserController userController;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         UIView mainActivityView = new MainActivityView(this);
         mainActivityView.setUpUI();
-//        setUpShowCase();
+
+        userController = new UserController(this);
+        user = userController.getUser();
+
+        if (user != null && user.getPasscode() != null){
+            launchPasscode();
+        }
+
+    }
+
+    @Override
+    protected void onResume() {
+        super.onResume();
+        user = userController.getUser();
+
+        if (user == null){
+            addProfile();
+            return;
+        }
+
+        if (user.getFirstTime().equals(UserEntry.TYPE_FIRST_TIME)){
+            setUpShowCase();
+        }
+    }
+
+    private void addProfile(){
+        if (user == null){
+            Intent addProfileIntent = new Intent(this, AddProfileActivity.class);
+            startActivity(addProfileIntent);
+        }
+    }
+
+    private void launchPasscode(){
+        Intent insertPasscodeIntent = new Intent(this, PasscodeActivity.class);
+        insertPasscodeIntent.putExtra("Flag", "INPUT");
+        startActivity(insertPasscodeIntent);
     }
 
     private void setUpShowCase(){
@@ -67,6 +112,12 @@ public class MainActivity extends AppCompatActivity {
                 .delayed(1000)
                 .animated(true)
                 .show();
+        updateUserNotFirstTime();
+    }
+
+    private void updateUserNotFirstTime(){
+        user.setFirstTime(UserEntry.TYPE_NOT_FIRST_TIME);
+        userController.updateUser(user);
     }
 
 }

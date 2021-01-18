@@ -97,6 +97,14 @@ public class DuitkuContract {
         public static final String COLUMN_USER_STATUS = "user_status";
         public static final String COLUMN_USER_FIRST_TIME= "user_first_time";
         public static final String COLUMN_USER_PASSCODE = "user_passcode";
+
+        //tipe2 status
+        public static final String TYPE_REGULAR = "REGULAR";
+        public static final String TYPE_PREMIUM = "PREMIUM";
+
+        //tipe2 first time
+        public static final String TYPE_FIRST_TIME = "YES";
+        public static final String TYPE_NOT_FIRST_TIME = "NO";
     }
 
 }

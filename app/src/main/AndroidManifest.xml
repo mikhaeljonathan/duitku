@@ -12,18 +12,10 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
-        <activity
-            android:name=".view.Login"
-            android:screenOrientation="portrait">
-            <intent-filter>
-                <action android:name="android.intent.action.MAIN" />
-
-                <category android:name="android.intent.category.LAUNCHER" />
-            </intent-filter>
-        </activity>
-        <activity android:name=".account.UpgradePremiumActivity"></activity>
-        <activity android:name=".account.PasscodeActivity" />
-        <activity android:name=".account.EditProfileActivity" />
+        <activity android:name=".user.AddProfileActivity"></activity>
+        <activity android:name=".account.UpgradePremiumActivity" />
+        <activity android:name=".passcode.PasscodeActivity" />
+        <activity android:name=".user.EditProfileActivity" />
         <activity android:name=".account.AddFeedbackActivity" />
         <activity
             android:name=".search.SearchActivity"
@@ -53,6 +45,11 @@
             android:name=".main.MainActivity"
             android:configChanges="orientation"
             android:screenOrientation="portrait">
+            <intent-filter>
+                <action android:name="android.intent.action.MAIN" />
+
+                <category android:name="android.intent.category.LAUNCHER" />
+            </intent-filter>
         </activity>
 
         <provider

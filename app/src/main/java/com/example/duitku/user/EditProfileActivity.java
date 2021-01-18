@@ -1,4 +1,4 @@
-package com.example.duitku.account;
+package com.example.duitku.user;
 
 import androidx.appcompat.app.AppCompatActivity;
 import com.example.duitku.R;
@@ -10,6 +10,6 @@ public class EditProfileActivity extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_edit_profile);
+        setContentView(R.layout.activity_profile);
     }
 }

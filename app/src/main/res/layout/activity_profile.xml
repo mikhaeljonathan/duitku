@@ -5,10 +5,10 @@
     android:background="@color/colorPrimary"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".account.EditProfileActivity">
+    tools:context=".user.EditProfileActivity">
 
     <androidx.appcompat.widget.Toolbar
-        android:id="@+id/edit_profile_toolbar"
+        android:id="@+id/profile_toolbar"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:background="@color/colorPrimaryDark"
@@ -19,25 +19,25 @@
         app:layout_constraintTop_toTopOf="parent" />
 
     <TextView
-        android:id="@+id/edit_profile_title"
+        android:id="@+id/profile_title"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginStart="16dp"
-        android:text="Edit Profile"
+        tools:text="Edit Profile"
         android:textColor="@color/textLight"
         android:textSize="18sp"
-        app:layout_constraintBottom_toBottomOf="@id/edit_profile_toolbar"
+        app:layout_constraintBottom_toBottomOf="@id/profile_toolbar"
         app:layout_constraintStart_toEndOf="@+id/edit_profile_back_btn"
-        app:layout_constraintTop_toTopOf="@id/edit_profile_toolbar" />
+        app:layout_constraintTop_toTopOf="@id/profile_toolbar" />
 
     <ImageButton
         android:id="@+id/edit_profile_back_btn"
         android:layout_width="48dp"
         android:layout_height="48dp"
         android:background="@null"
-        app:layout_constraintBottom_toBottomOf="@id/edit_profile_toolbar"
+        app:layout_constraintBottom_toBottomOf="@id/profile_toolbar"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="@id/edit_profile_toolbar"
+        app:layout_constraintTop_toTopOf="@id/profile_toolbar"
         app:srcCompat="@drawable/icon_arrow_back" />
 
     <com.google.android.material.textfield.TextInputLayout
@@ -51,7 +51,7 @@
         android:textColorHint="@android:color/darker_gray"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/edit_profile_toolbar" >
+        app:layout_constraintTop_toBottomOf="@id/profile_toolbar" >
 
         <com.google.android.material.textfield.TextInputEditText
             android:id="@+id/profile_name_edittext"
@@ -63,7 +63,7 @@
     </com.google.android.material.textfield.TextInputLayout>
 
     <Button
-        android:id="@+id/edit_profile_save_btn"
+        android:id="@+id/profile_save_btn"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginEnd="32dp"
