@@ -1,0 +1,39 @@
+{
+  "project_info": {
+    "project_number": "459026263328",
+    "project_id": "duitku-mm",
+    "storage_bucket": "duitku-mm.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:459026263328:android:ec751641130bebb2743b45",
+        "android_client_info": {
+          "package_name": "com.example.duitku"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "459026263328-5hmu1kgp7pdb32mdbkmer1tkt8ema7v9.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyCLKZ07PyxrOIwZeSfQPAouJdWVvmXiy1w"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "459026263328-5hmu1kgp7pdb32mdbkmer1tkt8ema7v9.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
