@@ -8,6 +8,8 @@ import android.widget.BaseExpandableListAdapter;
 import android.widget.ImageView;
 import android.widget.TextView;
 
+import androidx.constraintlayout.widget.ConstraintLayout;
+
 import com.example.duitku.R;
 import com.example.duitku.category.Category;
 import com.example.duitku.category.CategoryController;
@@ -79,6 +81,10 @@ public class ReportExpandableAdapter extends BaseExpandableListAdapter {
             view = LayoutInflater.from(context).inflate(R.layout.item_list_report, viewGroup, false);
         }
 
+        View hidden = view.findViewById(R.id.hidden_view_report);
+        ConstraintLayout cl = view.findViewById(R.id.item_list_report_constraintlayout);
+        ImageView image =  view.findViewById(R.id.arrow_expandable_report);
+
         TextView categoryName = view.findViewById(R.id.item_list_report_name);
         Category category = new CategoryController(context).getCategoryById(report.getCategoryId());
         categoryName.setText(category.getName());
@@ -88,6 +94,21 @@ public class ReportExpandableAdapter extends BaseExpandableListAdapter {
 
         TextView percentage = view.findViewById(R.id.item_list_report_percentage);
         percentage.setText(Double.toString(report.getPercentage()));
+
+        if(!b) {
+            image.setImageResource(R.drawable.icon_arrow_up);
+            cl.setBackgroundResource(R.drawable.custom_shape);
+            hidden.setVisibility(View.VISIBLE);
+        }else {
+            image.setImageResource(R.drawable.icon_arrow_down);
+            cl.setBackgroundResource(R.drawable.custom_shape_top_rounded);
+            hidden.setVisibility(View.GONE);
+        }
+
+        // handle grup terakhir supaya gakeluar hidden view nya
+        if(i == (reportList.size()-1)){
+            hidden.setVisibility(View.GONE);
+        }
 
         return view;
     }
@@ -100,6 +121,9 @@ public class ReportExpandableAdapter extends BaseExpandableListAdapter {
             view = LayoutInflater.from(context).inflate(R.layout.item_list_transaction, viewGroup, false);
         }
 
+        ConstraintLayout cl = view.findViewById(R.id.item_list_transaction_constraintlayout);
+        View hidden = view.findViewById(R.id.hidden_view_transaction);
+
         setUpIcon(view);
         setUpHeader(view, transaction);
 
@@ -108,6 +132,15 @@ public class ReportExpandableAdapter extends BaseExpandableListAdapter {
 
         TextView amountTextView = view.findViewById(R.id.item_list_transaction_amount_textview);
         amountTextView.setText(Double.toString(transaction.getAmount()));
+
+        if(b){
+            cl.setBackgroundResource(R.drawable.custom_shape_bottom_rounded);
+            hidden.setBackgroundResource(R.color.colorPrimary);
+        }else{
+            cl.setBackgroundResource(R.color.colorPrimaryDark);
+            hidden.setBackgroundResource(R.color.colorPrimaryDark);
+        }
+        hidden.setVisibility(View.VISIBLE);
 
         return view;
     }

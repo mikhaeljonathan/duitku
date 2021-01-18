@@ -37,11 +37,14 @@ public class WalletAdapter extends CursorAdapter {
         String name = wallet.getName();
         double amount = wallet.getAmount();
 
+        ConstraintLayout cl = view.findViewById(R.id.item_list_wallet_constraintlayout);
         TextView walletNameTextView = view.findViewById(R.id.item_list_wallet_name_textview);
         TextView walletAmountTextView = view.findViewById(R.id.item_list_wallet_amount_textview);
 
         walletNameTextView.setText(name);
         walletAmountTextView.setText(Double.toString(amount));
+
+        cl.setBackgroundResource(R.drawable.custom_shape);
     }
 
 }

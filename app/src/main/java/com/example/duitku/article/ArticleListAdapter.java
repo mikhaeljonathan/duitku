@@ -7,6 +7,8 @@ import android.view.ViewGroup;
 import android.widget.BaseAdapter;
 import android.widget.TextView;
 
+import androidx.constraintlayout.widget.ConstraintLayout;
+
 import com.example.duitku.R;
 
 import java.util.ArrayList;
@@ -40,8 +42,10 @@ public class ArticleListAdapter extends BaseAdapter {
     @Override
     public View getView(int i, View view, ViewGroup viewGroup) {
         view = inflter.inflate(R.layout.item_list_article, null);
+
         TextView title = (TextView) view.findViewById(R.id.article_Title);
         title.setText(listArticle.get(i).getTitle());
+
         return view;
     }
 
