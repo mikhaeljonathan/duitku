@@ -7,16 +7,18 @@ balikin ExpandableListView yang sebelumnya rtl biar panahnya
 bisa di kanan-->
 
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
     android:orientation="vertical">
 
     <androidx.constraintlayout.widget.ConstraintLayout
         android:id="@+id/item_list_transaction_daily_constraintlayout"
         android:layout_width="match_parent"
         android:layout_height="65dp"
+        android:layout_marginStart="16dp"
+        android:layout_marginEnd="16dp"
         android:layoutDirection="ltr">
 
         <TextView
@@ -112,6 +114,8 @@ bisa di kanan-->
         android:id="@+id/view_hidden2"
         android:layout_width="match_parent"
         android:layout_height="10dp"
+        android:layout_marginStart="16dp"
+        android:layout_marginEnd="16dp"
         android:background="@color/colorPrimary" />
 
 </LinearLayout>

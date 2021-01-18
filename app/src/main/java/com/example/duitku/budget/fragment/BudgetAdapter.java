@@ -10,6 +10,8 @@ import android.widget.CursorAdapter;
 import android.widget.ProgressBar;
 import android.widget.TextView;
 
+import androidx.constraintlayout.widget.ConstraintLayout;
+
 import com.example.duitku.R;
 import com.example.duitku.budget.Budget;
 import com.example.duitku.budget.BudgetController;
@@ -37,12 +39,16 @@ public class BudgetAdapter extends CursorAdapter {
 
     @Override
     public void bindView(View view, Context context, Cursor cursor) {
+
+        ConstraintLayout cl = view.findViewById(R.id.item_list_budget_constraintlayout);
         budget = new BudgetController(context).convertCursorToBudget(cursor);
         category = new CategoryController(context).getCategoryById(budget.getCategoryId());
 
         setUpName(view);
         setUpUntilDate(view);
         setUpProgressBar(view);
+
+        cl.setBackgroundResource(R.drawable.custom_shape);
     }
 
     private void setUpName(View view){
