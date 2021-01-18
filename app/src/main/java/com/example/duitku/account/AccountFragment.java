@@ -26,7 +26,30 @@ public class AccountFragment extends Fragment {
     }
 
     private void setUpButtons(){
+        setUpEditProfileButton();
+        setUpSetPasscodeButton();
         setUpAddFeedbackButton();
+    }
+
+    private void setUpEditProfileButton(){
+        Button editProfileBtn = view.findViewById(R.id.account_edit_profile_btn);
+        editProfileBtn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Intent editProfileIntent = new Intent(getActivity(), EditProfileActivity.class);
+                startActivity(editProfileIntent);
+            }
+        });
+    }
+
+    private void setUpSetPasscodeButton(){
+        Button setPasscodeBtn = view.findViewById(R.id.account_set_passcode_btn);
+        setPasscodeBtn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+
+            }
+        });
     }
 
     private void setUpAddFeedbackButton(){
