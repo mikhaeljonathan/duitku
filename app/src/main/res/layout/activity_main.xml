@@ -6,7 +6,7 @@ melayang gitu-->
     android:id="@+id/main_coordlayout"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".view.MainActivity">
+    tools:context=".main.MainActivity">
 
     <androidx.constraintlayout.widget.ConstraintLayout
         android:id="@+id/main_constraintlayout1"
@@ -14,61 +14,19 @@ melayang gitu-->
         android:layout_height="match_parent">
 
         <!--di dalem app bar ada toolbar, gatau deh knp-->
-        <com.google.android.material.appbar.AppBarLayout
-            android:id="@+id/main_appbar"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent">
-
-            <!--ConstraintLayout di sini sebagai container
-            buat 2 view doang (toolbar + datepicker)-->
-            <androidx.constraintlayout.widget.ConstraintLayout
-                android:id="@+id/main_constraintlayout2"
-                android:layout_width="match_parent"
-                android:layout_height="match_parent">
-
-                <!--Toolbar ini yang nanti bakal di-inflate
-                di MainActivity.java-->
-                <androidx.appcompat.widget.Toolbar
-                    android:id="@+id/main_toolbar"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:background="?attr/colorPrimary"
-                    android:minHeight="?attr/actionBarSize"
-                    android:theme="?attr/actionBarTheme"
-                    app:layout_constraintEnd_toEndOf="parent"
-                    app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toTopOf="parent"
-                    app:titleTextColor="#FFFFFF" />
-
-                <!--Ini sebenernya datepicker, bukan button
-                button cuma sementara-->
-                <Button
-                    android:id="@+id/main_datepicker_btn"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_marginStart="16dp"
-                    android:text="Oct 2020"
-                    app:layout_constraintBottom_toBottomOf="parent"
-                    app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toTopOf="parent" />
-
-            </androidx.constraintlayout.widget.ConstraintLayout>
-
-        </com.google.android.material.appbar.AppBarLayout>
 
         <!--FrameLayout ini sebagai placeholder buat fragment-->
         <FrameLayout
             android:id="@+id/main_container"
             android:layout_width="0dp"
             android:layout_height="0dp"
-            android:background="#1F2028"
+            android:background="@color/colorPrimary"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHorizontal_bias="1.0"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/main_appbar">
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintVertical_bias="1.0">
 
         </FrameLayout>
 
@@ -86,7 +44,7 @@ melayang gitu-->
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_gravity="bottom"
-        android:backgroundTint="@color/colorPrimary">
+        android:backgroundTint="@color/colorPrimaryDark">
 
         <!--BottomAppBar cuma kulitnya,
         BottomNavBar ini isi menu2 nya-->
@@ -96,8 +54,8 @@ melayang gitu-->
             android:id="@+id/main_bottomnavbar"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            app:itemIconTint="@drawable/bottomnav_foreground"
-            app:itemTextColor="@drawable/bottomnav_foreground"
+            app:itemIconTint="@drawable/custom_bottomnav_foreground"
+            app:itemTextColor="@drawable/custom_bottomnav_foreground"
             app:labelVisibilityMode="labeled"
             app:menu="@menu/main_bottom_nav_bar_menu" />
 

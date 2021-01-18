@@ -1,0 +1,138 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/view_transaction_constraintlayout"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+    <TextView
+        android:id="@+id/view_transaction_date_textview"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="16dp"
+        android:layout_marginTop="16dp"
+        tools:text="25 Dec 2020"
+        android:textColor="@android:color/white"
+        android:textSize="30sp"
+        android:textStyle="bold"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <ImageView
+        android:id="@+id/view_transaction_edit_btn"
+        android:layout_width="30dp"
+        android:layout_height="30dp"
+        android:layout_marginTop="16dp"
+        android:layout_marginEnd="16dp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:srcCompat="@drawable/icon_edit" />
+
+    <ImageView
+        android:id="@+id/view_transaction_categorytype_icon"
+        android:layout_width="24dp"
+        android:layout_height="24dp"
+        android:layout_marginStart="16dp"
+        android:layout_marginTop="48dp"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/view_transaction_date_textview"
+        app:srcCompat="@drawable/icon_transfer" />
+
+    <TextView
+        android:id="@+id/view_transaction_amount_textview"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="16dp"
+        android:textColor="@android:color/white"
+        android:textSize="20sp"
+        app:layout_constraintBottom_toBottomOf="@+id/view_transaction_categorytype_icon"
+        app:layout_constraintStart_toEndOf="@+id/view_transaction_categorytype_icon"
+        app:layout_constraintTop_toTopOf="@+id/view_transaction_categorytype_icon"
+        tools:text="300.000" />
+
+    <ImageView
+        android:id="@+id/view_transaction_category_imageview"
+        android:layout_width="24dp"
+        android:layout_height="24dp"
+        android:layout_marginStart="16dp"
+        android:layout_marginTop="32dp"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/view_transaction_categorytype_icon"
+        app:srcCompat="@drawable/icon_report" />
+
+    <TextView
+        android:id="@+id/view_transaction_category_textview"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="16dp"
+        android:textColor="@android:color/white"
+        android:textSize="20sp"
+        app:layout_constraintBottom_toBottomOf="@+id/view_transaction_category_imageview"
+        app:layout_constraintStart_toEndOf="@+id/view_transaction_category_imageview"
+        app:layout_constraintTop_toTopOf="@+id/view_transaction_category_imageview"
+        tools:text="Others" />
+
+    <ImageView
+        android:id="@+id/view_transaction_wallet_imageview"
+        android:layout_width="24dp"
+        android:layout_height="24dp"
+        android:layout_marginStart="16dp"
+        android:layout_marginTop="32dp"
+        android:layout_marginBottom="32dp"
+        app:layout_constraintBottom_toTopOf="@id/view_transaction_walletdest_imageview"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/view_transaction_category_imageview"
+        app:srcCompat="@drawable/icon_transaction" />
+
+    <TextView
+        android:id="@+id/view_transaction_wallet_textview"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="16dp"
+        android:textColor="@android:color/white"
+        android:textSize="20sp"
+        app:layout_constraintBottom_toBottomOf="@+id/view_transaction_wallet_imageview"
+        app:layout_constraintStart_toEndOf="@+id/view_transaction_wallet_imageview"
+        app:layout_constraintTop_toTopOf="@+id/view_transaction_wallet_imageview"
+        tools:text="m-BCA" />
+
+    <ImageView
+        android:id="@+id/view_transaction_walletdest_imageview"
+        android:layout_width="24dp"
+        android:layout_height="24dp"
+        android:layout_marginStart="16dp"
+        android:layout_marginBottom="32dp"
+        app:layout_constraintBottom_toTopOf="@id/view_transaction_desc_textview"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/view_transaction_wallet_imageview"
+        app:srcCompat="@drawable/icon_transaction" />
+
+    <TextView
+        android:id="@+id/view_transaction_walletdest_textview"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="16dp"
+        android:textColor="@android:color/white"
+        android:textSize="20sp"
+        app:layout_constraintBottom_toBottomOf="@+id/view_transaction_walletdest_imageview"
+        app:layout_constraintStart_toEndOf="@+id/view_transaction_walletdest_imageview"
+        app:layout_constraintTop_toTopOf="@+id/view_transaction_walletdest_imageview"
+        tools:text="OVO" />
+
+    <TextView
+        android:id="@+id/view_transaction_desc_textview"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="16dp"
+        android:layout_marginBottom="32dp"
+        android:text="Top up OVO"
+        android:textColor="@android:color/darker_gray"
+        android:textSize="18sp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/view_transaction_walletdest_imageview" />
+
+
+</androidx.constraintlayout.widget.ConstraintLayout>

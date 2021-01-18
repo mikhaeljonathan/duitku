@@ -1,0 +1,146 @@
+package com.example.duitku.report;
+
+import android.database.Cursor;
+import android.net.TrafficStats;
+import android.os.Bundle;
+import android.util.Log;
+import android.view.LayoutInflater;
+import android.view.View;
+import android.view.ViewGroup;
+
+import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
+import androidx.fragment.app.Fragment;
+import androidx.loader.app.LoaderManager;
+import androidx.loader.content.CursorLoader;
+import androidx.loader.content.Loader;
+
+import com.example.duitku.category.Category;
+import com.example.duitku.category.CategoryController;
+import com.example.duitku.database.DuitkuContract;
+import com.example.duitku.transaction.Transaction;
+import com.example.duitku.transaction.TransactionController;
+import com.example.duitku.transaction.category.CategoryTransaction;
+
+import java.util.ArrayList;
+import java.util.Calendar;
+import java.util.HashMap;
+import java.util.Iterator;
+import java.util.List;
+import java.util.Map;
+
+public class ReportContentFragment extends Fragment implements LoaderManager.LoaderCallbacks<Cursor> {
+
+    private final List<Report> reportList = new ArrayList<>();
+    private final HashMap<Report, List<Transaction>> reportHashMap = new HashMap<>();
+    private final HashMap<Long, List<Transaction>> categoryHashMap = new HashMap<>();
+
+    private int month = Calendar.getInstance().get(Calendar.MONTH);
+    private int year = Calendar.getInstance().get(Calendar.YEAR);
+
+    private final TransactionController transactionController = new TransactionController(getActivity());
+
+    private ReportContentFragmentView reportContentFragmentView;
+    private final String type;
+
+    private final int REPORT_LOADER = 0;
+
+    public ReportContentFragment(String type){
+        this.type = type;
+    }
+
+    @Override
+    public View onCreateView(@NonNull LayoutInflater inflater, ViewGroup container,
+                             Bundle savedInstanceState) {
+        reportContentFragmentView = new ReportContentFragmentView(inflater, container, this, type);
+        reportContentFragmentView.setUpUI();
+        reportContentFragmentView.updatePeriodButton(month, year);
+
+        LoaderManager.getInstance(this).restartLoader(REPORT_LOADER, null, this);
+        LoaderManager.getInstance(this).initLoader(REPORT_LOADER, null, this);
+
+        return reportContentFragmentView.getView();
+    }
+
+    @NonNull
+    @Override
+    public Loader<Cursor> onCreateLoader(int id, @Nullable Bundle args) {
+        if (id == REPORT_LOADER){
+            String[] projection = transactionController.getFullProjection();
+            // yang transfer ga termasuk
+            String selection = DuitkuContract.TransactionEntry.COLUMN_DATE + " LIKE ? AND " + DuitkuContract.TransactionEntry.COLUMN_CATEGORY_ID + " > 0";
+            String[] selectionArgs = new String[]{"%/" + String.format("%02d", month + 1) + "/" + year};
+            return new CursorLoader(getContext(), DuitkuContract.TransactionEntry.CONTENT_URI, projection, selection, selectionArgs, null);
+        }
+        throw new IllegalStateException("Unknown Loader");
+    }
+
+    @Override
+    public void onLoadFinished(@NonNull Loader<Cursor> loader, Cursor data) {
+        List<Transaction> allTransactions = transactionController.convertCursorToListOfTransaction(data);
+        setUpListAndHashMap(allTransactions);
+        reportContentFragmentView.fillListView(reportList, reportHashMap, getActivity());
+    }
+
+    private void setUpListAndHashMap(List<Transaction> allTransactions){
+        // initialize variabel2 penting
+        reportList.clear();
+        reportHashMap.clear();
+        categoryHashMap.clear();
+
+        if (allTransactions.isEmpty()) return;
+        double total = 0;
+
+        // traverse through list
+        for (Transaction curTransaction: allTransactions){
+            long categoryId = curTransaction.getCategoryId();
+
+            Category category = new CategoryController(getActivity()).getCategoryById(categoryId);
+            if (category == null) continue;
+            if (!category.getType().equals(type)) continue;
+
+            if (categoryHashMap.get(categoryId) == null){
+                List<Transaction> transactions = new ArrayList<>();
+                transactions.add(curTransaction);
+                categoryHashMap.put(categoryId, transactions);
+            } else {
+                categoryHashMap.get(categoryId).add(curTransaction);
+            }
+            total += curTransaction.getAmount();
+        }
+
+        addToReportHashMap(total);
+    }
+
+    private void addToReportHashMap(double totalGlobal){
+        Iterator hm = categoryHashMap.entrySet().iterator();
+
+        while(hm.hasNext()){
+            Map.Entry element = (Map.Entry) hm.next();
+            List<Transaction> transactions = (List<Transaction>) element.getValue();
+            double totalTransaction = 0;
+            for (Transaction transaction: transactions){
+                totalTransaction += transaction.getAmount();
+            }
+
+            double percentage = totalTransaction / totalGlobal * 100.0;
+
+            Report report = new Report(transactions.get(0).getCategoryId(), totalTransaction, percentage);
+            reportHashMap.put(report, transactions);
+            reportList.add(report);
+        }
+    }
+
+    @Override
+    public void onLoaderReset(@NonNull Loader<Cursor> loader) {
+
+    }
+
+    public void pickMonthYear(int month, int year) {
+        this.month = month;
+        this.year = year;
+        reportContentFragmentView.updatePeriodButton(month, year);
+        LoaderManager.getInstance(this).restartLoader(REPORT_LOADER, null, this);
+    }
+
+}

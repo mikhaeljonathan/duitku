@@ -1,33 +1,41 @@
 {
   "project_info": {
-    "project_number": "459026263328",
-    "project_id": "duitku-mm",
-    "storage_bucket": "duitku-mm.appspot.com"
+    "project_number": "696959365573",
+    "project_id": "duitku-b1282",
+    "storage_bucket": "duitku-b1282.appspot.com"
   },
   "client": [
     {
       "client_info": {
-        "mobilesdk_app_id": "1:459026263328:android:ec751641130bebb2743b45",
+        "mobilesdk_app_id": "1:696959365573:android:f9c47b3c83bfc162915bac",
         "android_client_info": {
           "package_name": "com.example.duitku"
         }
       },
       "oauth_client": [
         {
-          "client_id": "459026263328-5hmu1kgp7pdb32mdbkmer1tkt8ema7v9.apps.googleusercontent.com",
+          "client_id": "696959365573-nniqj0pp8odgvkrkgb7fdk655vspbup9.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.example.duitku",
+            "certificate_hash": "3375aaef9dd752be7f76474cfce2bff1eaf100c5"
+          }
+        },
+        {
+          "client_id": "696959365573-dqvpf09vd334lcvketjbaenhbl7kui5k.apps.googleusercontent.com",
           "client_type": 3
         }
       ],
       "api_key": [
         {
-          "current_key": "AIzaSyCLKZ07PyxrOIwZeSfQPAouJdWVvmXiy1w"
+          "current_key": "AIzaSyAt3IzesqwFQkmS8dBPAz8PKAjHK_xJiiw"
         }
       ],
       "services": {
         "appinvite_service": {
           "other_platform_oauth_client": [
             {
-              "client_id": "459026263328-5hmu1kgp7pdb32mdbkmer1tkt8ema7v9.apps.googleusercontent.com",
+              "client_id": "696959365573-dqvpf09vd334lcvketjbaenhbl7kui5k.apps.googleusercontent.com",
               "client_type": 3
             }
           ]

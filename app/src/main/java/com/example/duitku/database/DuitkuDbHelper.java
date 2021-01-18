@@ -4,21 +4,18 @@ import com.example.duitku.database.DuitkuContract.WalletEntry;
 import com.example.duitku.database.DuitkuContract.BudgetEntry;
 import com.example.duitku.database.DuitkuContract.TransactionEntry;
 import com.example.duitku.database.DuitkuContract.CategoryEntry;
+import com.example.duitku.database.DuitkuContract.UserEntry;
 
+import android.content.ContentValues;
 import android.content.Context;
 import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteOpenHelper;
 
 public class DuitkuDbHelper extends SQLiteOpenHelper {
 
-    // Ini class buat bikin database SQLite nya
-    // class ini harus subclass dari SQLiteOpenHelper
-
-    // Ini nama database nya
     private static final String DATABASE_NAME = "duitku.db";
 
-    // Ini versi database nya
-    private static final int DATABASE_VERSION = 1;
+    private static final int DATABASE_VERSION = 3;
 
     public DuitkuDbHelper(Context context) {
         super(context, DATABASE_NAME, null, DATABASE_VERSION);
@@ -29,7 +26,6 @@ public class DuitkuDbHelper extends SQLiteOpenHelper {
     public void onCreate(SQLiteDatabase sqLiteDatabase) {
 
         // Wallet sama category dlu yang dibuat karena ga mengandung FK
-
         final String CREATE_WALLET_TABLE = "CREATE TABLE " + WalletEntry.TABLE_NAME + " (" +
                 WalletEntry.COLUMN_ID + " INTEGER PRIMARY KEY AUTOINCREMENT, " +
                 WalletEntry.COLUMN_NAME + " TEXT NOT NULL, " +
@@ -43,10 +39,11 @@ public class DuitkuDbHelper extends SQLiteOpenHelper {
 
         final String CREATE_BUDGET_TABLE = "CREATE TABLE " + BudgetEntry.TABLE_NAME + " (" +
                 BudgetEntry.COLUMN_ID + " INTEGER PRIMARY KEY AUTOINCREMENT, " +
-                BudgetEntry.COLUMN_STARTDATE + " TEXT NOT NULL, " +
+                BudgetEntry.COLUMN_STARTDATE + " TEXT, " +
                 BudgetEntry.COLUMN_ENDDATE + " TEXT, " +
-                BudgetEntry.COLUMN_AMOUNT + " DOUBLE NOT NULL DEFAULT 0, " +
-                BudgetEntry.COLUMN_RECURRING + " TEXT NOT NULL CHECK(" + BudgetEntry.COLUMN_RECURRING + " IN ('" + BudgetEntry.RECURRING_YES + "', '" + BudgetEntry.RECURRING_NO + "')), "+
+                BudgetEntry.COLUMN_AMOUNT + " DOUBLE NOT NULL, " +
+                BudgetEntry.COLUMN_USED + " DOUBLE NOT NULL DEFAULT 0, " +
+                BudgetEntry.COLUMN_TYPE + " TEXT CHECK(" + BudgetEntry.COLUMN_TYPE + " IN ('" + BudgetEntry.TYPE_MONTH + "', '" + BudgetEntry.TYPE_3MONTH + "', '" + BudgetEntry.TYPE_YEAR + "')), "+
                 BudgetEntry.COLUMN_CATEGORY_ID + " INTEGER, " +
                 "FOREIGN KEY (" + BudgetEntry.COLUMN_CATEGORY_ID + ") REFERENCES " + CategoryEntry.TABLE_NAME + "(" + CategoryEntry.COLUMN_ID + "))";
 
@@ -56,10 +53,12 @@ public class DuitkuDbHelper extends SQLiteOpenHelper {
                 TransactionEntry.COLUMN_DATE + " TEXT NOT NULL CHECK(" + TransactionEntry.COLUMN_DATE + " LIKE '%/%/%'), " +
                 TransactionEntry.COLUMN_AMOUNT + " DOUBLE NOT NULL DEFAULT 0, " +
                 TransactionEntry.COLUMN_WALLET_ID + " INTEGER, " +
-                TransactionEntry.COLUMN_WALLETDEST_ID + " INTEGER, " +
+                TransactionEntry.COLUMN_WALLET_DEST_ID + " INTEGER, " +
                 TransactionEntry.COLUMN_CATEGORY_ID + " INTEGER, " +
                 "FOREIGN KEY (" + TransactionEntry.COLUMN_WALLET_ID + ") REFERENCES " + WalletEntry.TABLE_NAME + "(" + WalletEntry.COLUMN_ID + "), " +
                 "FOREIGN KEY (" + TransactionEntry.COLUMN_CATEGORY_ID + ") REFERENCES " + CategoryEntry.TABLE_NAME + "(" + CategoryEntry.COLUMN_ID + "))";
+
+        final String CREATE_USER_TABLE = "CREATE TABLE " + UserEntry.TABLE_NAME + " (";
 
         // execute di database nya
         sqLiteDatabase.execSQL(CREATE_WALLET_TABLE);
@@ -67,18 +66,29 @@ public class DuitkuDbHelper extends SQLiteOpenHelper {
         sqLiteDatabase.execSQL(CREATE_BUDGET_TABLE);
         sqLiteDatabase.execSQL(CREATE_TRANSACTION_TABLE);
 
+        addDefaultCategory(sqLiteDatabase);
+    }
+
+    private void addDefaultCategory(SQLiteDatabase sqLiteDatabase){
+        ContentValues cv = new ContentValues();
+        cv.put(CategoryEntry.COLUMN_NAME, CategoryEntry.DEFAULT_CATEGORY_NAME);
+        cv.put(CategoryEntry.COLUMN_TYPE, CategoryEntry.TYPE_INCOME);
+        sqLiteDatabase.insert(CategoryEntry.TABLE_NAME, null, cv);
+
+        cv = new ContentValues();
+        cv.put(CategoryEntry.COLUMN_NAME, CategoryEntry.DEFAULT_CATEGORY_NAME);
+        cv.put(CategoryEntry.COLUMN_TYPE, CategoryEntry.TYPE_EXPENSE);
+        sqLiteDatabase.insert(CategoryEntry.TABLE_NAME, null, cv);
     }
 
     // di execute kalo versinya ganti
     @Override
     public void onUpgrade(SQLiteDatabase sqLiteDatabase, int oldVersion, int newVersion) {
-
         sqLiteDatabase.execSQL("DROP TABLE IF EXISTS " + WalletEntry.TABLE_NAME);
         sqLiteDatabase.execSQL("DROP TABLE IF EXISTS " + BudgetEntry.TABLE_NAME);
         sqLiteDatabase.execSQL("DROP TABLE IF EXISTS " + TransactionEntry.TABLE_NAME);
         sqLiteDatabase.execSQL("DROP TABLE IF EXISTS " + CategoryEntry.TABLE_NAME);
         onCreate(sqLiteDatabase);
-
     }
 
 }

@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/fragment_transaction_viewpager_constraintlayout"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+    <!--ExpandableListView seperti ListView yang bisa di-expand
+    layoutDirection rtl supaya panah nya ada di kanan-->
+
+    <ListView
+        android:id="@+id/fragment_transaction_viewpager_listview"
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        android:divider="@color/colorPrimary"
+        android:dividerHeight="10dp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <ExpandableListView
+        android:id="@+id/fragment_transaction_viewpager_expandablelistview"
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        android:divider="@null"
+        android:groupIndicator="@null"
+        android:transcriptMode="alwaysScroll"
+        android:transitionGroup="true"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+</androidx.constraintlayout.widget.ConstraintLayout>

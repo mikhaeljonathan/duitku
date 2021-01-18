@@ -5,14 +5,14 @@
     android:id="@+id/add_transaction_constraintlayout"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="#1F2028"
-    tools:context=".view.AddTransactionActivity">
+    android:background="@color/colorPrimary"
+    tools:context=".transaction.add.AddTransactionActivity">
 
     <androidx.appcompat.widget.Toolbar
         android:id="@+id/add_transaction_toolbar"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
-        android:background="?attr/colorPrimary"
+        android:background="?attr/colorPrimaryDark"
         android:minHeight="?attr/actionBarSize"
         android:theme="?attr/actionBarTheme"
         app:layout_constraintEnd_toEndOf="parent"
@@ -35,7 +35,7 @@
         android:layout_height="wrap_content"
         android:layout_marginStart="16dp"
         android:text="Add Transaction"
-        android:textColor="@android:color/white"
+        android:textColor="@color/textLight"
         android:textSize="18sp"
         app:layout_constraintBottom_toBottomOf="@+id/add_transaction_toolbar"
         app:layout_constraintStart_toEndOf="@+id/add_transaction_back_btn"
@@ -43,8 +43,9 @@
 
     <com.google.android.material.tabs.TabLayout
         android:id="@+id/add_transaction_tablayout"
-        android:layout_width="409dp"
+        android:layout_width="0dp"
         android:layout_height="wrap_content"
+        android:background="@color/colorPrimaryDark"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/add_transaction_toolbar"

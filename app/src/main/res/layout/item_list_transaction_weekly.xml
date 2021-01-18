@@ -1,34 +1,59 @@
 <?xml version="1.0" encoding="utf-8"?>
 
 <!--Penjelasannya kurang lebih sama kayak item_list_transaction_daily-->
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:orientation="vertical">
 
-<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    <androidx.constraintlayout.widget.ConstraintLayout
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/item_list_transaction_weekly_constraintlayout"
     android:layout_width="match_parent"
     android:layout_height="88dp"
-    android:layoutDirection="ltr">
+    android:layoutDirection="ltr"
+        android:layout_marginStart="16dp"
+        android:layout_marginEnd="16dp">
+
+    <TextView
+        android:id="@+id/item_list_transaction_weekly_week_textview"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="16dp"
+        android:textColor="@color/textLight"
+        android:textSize="18sp"
+        android:textStyle="bold"
+        app:layout_constraintBottom_toTopOf="@+id/item_list_transaction_weekly_intervals_textview"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_chainStyle="packed"
+        tools:text="Week 1" />
 
     <TextView
         android:id="@+id/item_list_transaction_weekly_intervals_textview"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginStart="16dp"
-        android:textColor="@android:color/white"
+        android:layout_marginTop="8dp"
+        android:textColor="@color/textDark"
+        android:textSize="14sp"
+        android:textStyle="bold"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        tools:text="12.10.2020 -\n18.10.2020" />
+        app:layout_constraintTop_toBottomOf="@+id/item_list_transaction_weekly_week_textview"
+        tools:text="12 Oct - 18 Oct" />
 
     <TextView
         android:id="@+id/item_list_transaction_weekly_income_textview"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginStart="64dp"
-        android:textColor="@android:color/holo_green_dark"
+        android:layout_marginEnd="16dp"
+        android:textColor="@color/green"
         app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintStart_toEndOf="@+id/item_list_transaction_weekly_intervals_textview"
+        app:layout_constraintEnd_toStartOf="@+id/item_list_transaction_weekly_expense_textview"
         app:layout_constraintTop_toTopOf="parent"
         tools:text="Rp 7.000.000" />
 
@@ -36,10 +61,32 @@
         android:id="@+id/item_list_transaction_weekly_expense_textview"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginStart="32dp"
-        android:textColor="@android:color/holo_red_dark"
+        android:layout_marginEnd="36dp"
+        android:textColor="@color/red"
         app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintStart_toEndOf="@+id/item_list_transaction_weekly_income_textview"
+        app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintTop_toTopOf="parent"
         tools:text=" 1.500.000" />
+
+        <ImageView
+            android:id="@+id/arrow_expandable_weekly"
+            android:layout_width="10dp"
+            android:layout_height="10dp"
+            android:layout_marginEnd="15dp"
+            android:gravity="end"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            app:srcCompat="@android:drawable/arrow_down_float" />
+
 </androidx.constraintlayout.widget.ConstraintLayout>
+
+    <View
+        android:id="@+id/hidden_view_weekly"
+        android:layout_width="match_parent"
+        android:layout_height="10dp"
+        android:background="@color/colorPrimary"
+        android:layout_marginStart="16dp"
+        android:layout_marginEnd="16dp"/>
+
+</LinearLayout>
