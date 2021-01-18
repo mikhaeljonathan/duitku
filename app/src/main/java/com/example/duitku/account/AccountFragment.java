@@ -47,7 +47,9 @@ public class AccountFragment extends Fragment {
         setPasscodeBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-
+                Intent setPasscodeIntent = new Intent(getActivity(), PasscodeActivity.class);
+                setPasscodeIntent.putExtra("Flag", "SET");
+                startActivity(setPasscodeIntent);
             }
         });
     }
