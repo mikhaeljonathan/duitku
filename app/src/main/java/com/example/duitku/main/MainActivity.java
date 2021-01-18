@@ -1,10 +1,16 @@
 package com.example.duitku.main;
 
 import androidx.appcompat.app.AppCompatActivity;
+
+import android.content.Intent;
 import android.os.Bundle;
 
 import com.example.duitku.R;
+import com.example.duitku.database.DuitkuContract.UserEntry;
 import com.example.duitku.interfaces.UIView;
+import com.example.duitku.user.AddProfileActivity;
+import com.example.duitku.user.User;
+import com.example.duitku.user.UserController;
 import com.github.florent37.tutoshowcase.TutoShowcase;
 
 import java.util.UUID;
@@ -20,7 +26,17 @@ public class MainActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         UIView mainActivityView = new MainActivityView(this);
         mainActivityView.setUpUI();
+
+        User user = new UserController(this).getUser();
+        if (user == null){
+            Intent addProfileIntent = new Intent(this, AddProfileActivity.class);
+            startActivity(addProfileIntent);
+        }
+
+        user = new UserController(this).getUser();
+        if (user.getFirstTime().equals(UserEntry.TYPE_FIRST_TIME)){
 //        setUpShowCase();
+        }
     }
 
     private void setUpShowCase(){

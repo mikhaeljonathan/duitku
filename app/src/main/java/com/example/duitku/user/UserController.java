@@ -14,6 +14,11 @@ public class UserController {
         this.context = context;
     }
 
+    public void addUser(User user){
+        ContentValues values = convertUserToContentValues(user);
+        context.getContentResolver().insert(UserEntry.CONTENT_URI, values);
+    }
+
     public void setPasscode(String passcode){
         User user = getUser();
         user.setPasscode(passcode);

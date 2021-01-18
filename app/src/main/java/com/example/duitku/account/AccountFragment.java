@@ -13,6 +13,7 @@ import androidx.fragment.app.Fragment;
 
 import com.example.duitku.R;
 import com.example.duitku.passcode.PasscodeActivity;
+import com.example.duitku.user.EditProfileActivity;
 
 public class AccountFragment extends Fragment {
 
