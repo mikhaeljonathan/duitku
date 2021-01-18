@@ -39,7 +39,11 @@ public class BudgetController {
     public Uri addBudget(Budget budget) {
         initialUsed(budget);
         ContentValues values = convertBudgetToContentValues(budget);
-        return context.getContentResolver().insert(BudgetEntry.CONTENT_URI, values);
+        Uri uri = context.getContentResolver().insert(BudgetEntry.CONTENT_URI, values);
+
+        budget.setId(ContentUris.parseId(uri));
+        createNotification(budget);
+        return uri;
     }
 
     public int updateBudget(Budget budget) {

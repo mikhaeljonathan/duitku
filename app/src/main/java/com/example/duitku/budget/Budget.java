@@ -4,7 +4,7 @@ import java.util.Date;
 
 public class Budget {
 
-    private final long id;
+    private long id;
     private double amount;
     private double used;
     private Date startDate;
@@ -20,6 +20,10 @@ public class Budget {
         this.endDate = endDate;
         this.type = type;
         this.categoryId = categoryId;
+    }
+
+    public void setId(long id){
+        this.id = id;
     }
 
     public long getId() {return id;}
