@@ -8,22 +8,19 @@ import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
 import android.widget.Button;
-import android.widget.Toast;
 
 import com.example.duitku.R;
 import com.example.duitku.database.DuitkuContract;
-import com.example.duitku.user.AddProfileActivity;
 import com.example.duitku.user.User;
 import com.example.duitku.user.UserController;
 import com.google.android.gms.auth.api.signin.GoogleSignIn;
-import com.google.android.gms.auth.api.signin.GoogleSignInAccount;
 import com.google.android.gms.auth.api.signin.GoogleSignInApi;
+import com.google.android.gms.auth.api.signin.GoogleSignInAccount;
 import com.google.android.gms.auth.api.signin.GoogleSignInClient;
 import com.google.android.gms.auth.api.signin.GoogleSignInOptions;
 import com.google.android.gms.common.api.ApiException;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
-import com.google.android.material.snackbar.Snackbar;
 import com.google.firebase.auth.AuthCredential;
 import com.google.firebase.auth.AuthResult;
 import com.google.firebase.auth.FirebaseAuth;
@@ -76,7 +73,6 @@ public class GetStarted extends AppCompatActivity {
 
         if (mAuth.getCurrentUser() != null) {
             createNewLocalUser();
-            this.finish();
         }
     }
 
@@ -90,7 +86,7 @@ public class GetStarted extends AppCompatActivity {
                 DuitkuContract.UserEntry.TYPE_FIRST_TIME, null);
 
         new UserController(this).addUser(user);
-        this.finish();
+        finish();
     }
 
     @Override
@@ -100,7 +96,6 @@ public class GetStarted extends AppCompatActivity {
         // Result returned from launching the Intent from GoogleSignInApi.getSignInIntent(...);
         if (requestCode == RC_SIGN_IN) {
             Task<GoogleSignInAccount> task = GoogleSignIn.getSignedInAccountFromIntent(data);
-            Exception exception = task.getException();
 
             if (task.isSuccessful()) {
                 try {
@@ -115,7 +110,7 @@ public class GetStarted extends AppCompatActivity {
                 }
 
             } else {
-                Log.w(TAG, "Google sign in failed", exception);
+                Log.w(TAG, "Google sign in failed", task.getException());
             }
         }
     }

@@ -13,11 +13,9 @@
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
         <activity android:name=".firebase.GetStarted"></activity>
-        <activity android:name=".welcome.Welcome"/>
-        <activity android:name=".user.AddProfileActivity" />
+        <activity android:name=".welcome.WelcomeActivity"/>
         <activity android:name=".account.UpgradePremiumActivity" />
         <activity android:name=".passcode.PasscodeActivity" />
-        <activity android:name=".user.EditProfileActivity" />
         <activity android:name=".account.AddFeedbackActivity" />
         <activity
             android:name=".search.SearchActivity"

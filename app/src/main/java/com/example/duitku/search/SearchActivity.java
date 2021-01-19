@@ -62,7 +62,6 @@ public class SearchActivity extends AppCompatActivity implements LoaderManager.L
 
     private void setUpSearchEditText(){
         EditText searchField = findViewById(R.id.activity_search_search_edittext);
-        searchField.setFocusable(true);
         searchField.requestFocus();
         searchField.addTextChangedListener(new TextWatcher() {
             @Override

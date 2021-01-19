@@ -16,7 +16,6 @@ import androidx.fragment.app.Fragment;
 
 import com.example.duitku.R;
 import com.example.duitku.passcode.PasscodeActivity;
-import com.example.duitku.user.EditProfileActivity;
 import com.example.duitku.user.User;
 import com.example.duitku.user.UserController;
 
@@ -56,21 +55,9 @@ public class AccountFragment extends Fragment {
     }
 
     private void setUpButtons(){
-        setUpEditProfileButton();
         setUpUpgradePremiumButton();
         setUpAddFeedbackButton();
         setUpSignOutButton();
-    }
-
-    private void setUpEditProfileButton(){
-        Button editProfileBtn = view.findViewById(R.id.account_edit_profile_btn);
-        editProfileBtn.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                Intent editProfileIntent = new Intent(getActivity(), EditProfileActivity.class);
-                startActivity(editProfileIntent);
-            }
-        });
     }
 
     private void setUpPasscodeBtn(){

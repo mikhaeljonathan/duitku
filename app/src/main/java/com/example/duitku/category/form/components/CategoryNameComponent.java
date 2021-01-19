@@ -52,6 +52,7 @@ public class CategoryNameComponent extends View {
     }
 
     private void setUpComponents(){
+        nameField.requestFocus();
         nameField.addTextChangedListener(new TextWatcher() {
             @Override
             public void beforeTextChanged(CharSequence charSequence, int i, int i1, int i2) {

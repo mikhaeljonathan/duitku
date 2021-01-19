@@ -48,6 +48,7 @@ public class TransactionAmountComponent extends View {
     }
 
     private void setUpComponents(){
+        amountField.requestFocus();
         amountField.addTextChangedListener(new TextWatcher() {
             @Override
             public void beforeTextChanged(CharSequence charSequence, int i, int i1, int i2) {

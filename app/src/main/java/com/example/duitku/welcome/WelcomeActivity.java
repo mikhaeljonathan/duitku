@@ -14,7 +14,7 @@ import android.widget.TextView;
 import com.example.duitku.R;
 import com.example.duitku.firebase.GetStarted;
 
-public class Welcome extends AppCompatActivity {
+public class WelcomeActivity extends AppCompatActivity {
 
     private ViewPager mSlideViewPager;
     private LinearLayout mDotLayout;
@@ -28,10 +28,10 @@ public class Welcome extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_welcome);
 
-        mSlideViewPager = (ViewPager) findViewById(R.id.slideViewPager);
-        mDotLayout = (LinearLayout) findViewById(R.id.mdotslayout);
+        mSlideViewPager = findViewById(R.id.slideViewPager);
+        mDotLayout = findViewById(R.id.mdotslayout);
 
-        mNextBtn = (Button) findViewById(R.id.nextbtn);
+        mNextBtn = findViewById(R.id.nextbtn);
 
         sliderAdapter = new SliderAdapter(this);
         mSlideViewPager.setAdapter(sliderAdapter);
