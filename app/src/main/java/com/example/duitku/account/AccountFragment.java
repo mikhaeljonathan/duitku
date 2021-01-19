@@ -7,6 +7,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
+import android.widget.ImageView;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
@@ -15,6 +16,7 @@ import androidx.appcompat.app.AlertDialog;
 import androidx.fragment.app.Fragment;
 
 import com.example.duitku.R;
+import com.example.duitku.database.DuitkuContract.UserEntry;
 import com.example.duitku.passcode.PasscodeActivity;
 import com.example.duitku.user.User;
 import com.example.duitku.user.UserController;
@@ -32,7 +34,6 @@ public class AccountFragment extends Fragment {
         view = inflater.inflate(R.layout.fragment_account, container, false);
         user = new UserController(getActivity()).getUser();
 
-        setUpBanner();
         setUpButtons();
 
         return view;
@@ -43,6 +44,7 @@ public class AccountFragment extends Fragment {
         super.onResume();
         user = new UserController(getActivity()).getUser();
 
+        setUpBanner();
         setUpPasscodeBtn();
     }
 
@@ -52,6 +54,13 @@ public class AccountFragment extends Fragment {
 
         TextView emailTV = view.findViewById(R.id.account_email_textview);
         emailTV.setText(user.getEmail());
+
+        ImageView premiumImageView = view.findViewById(R.id.account_premium_imageview);
+        if (user.getStatus().equals(UserEntry.TYPE_REGULAR)){
+            premiumImageView.setVisibility(View.GONE);
+        } else {
+            premiumImageView.setVisibility(View.VISIBLE);
+        }
     }
 
     private void setUpButtons(){
