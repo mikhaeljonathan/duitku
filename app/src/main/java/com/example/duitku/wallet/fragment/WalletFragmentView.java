@@ -21,6 +21,8 @@ import com.example.duitku.interfaces.UIView;
 import com.example.duitku.wallet.add.AddWalletDialog;
 import com.example.duitku.wallet.view.ViewWalletActivity;
 
+import java.text.DecimalFormat;
+
 public class WalletFragmentView implements UIView {
 
     private ListView listView;
@@ -48,7 +50,7 @@ public class WalletFragmentView implements UIView {
     }
 
     public void updateTotalWalletTextView(double amount){
-        totalWalletTextView.setText("Total amount:   " + amount);
+        totalWalletTextView.setText("Total amount:   " + new DecimalFormat("###,###").format(amount));
     }
 
     public WalletAdapter getAdapter(){

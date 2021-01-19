@@ -20,6 +20,7 @@ import com.example.duitku.category.CategoryController;
 import com.example.duitku.database.DuitkuContract.BudgetEntry;
 import com.example.duitku.main.Utility;
 
+import java.text.DecimalFormat;
 import java.util.Calendar;
 import java.util.Date;
 
@@ -72,8 +73,8 @@ public class BudgetAdapter extends CursorAdapter {
         TextView usedTextView = view.findViewById(R.id.item_list_budget_used_textview);
         TextView amountTextView = view.findViewById(R.id.item_list_budget_amount_textview);
 
-        usedTextView.setText(Double.toString(used));
-        amountTextView.setText(Double.toString(amount));
+        usedTextView.setText(new DecimalFormat("###,###").format(used));
+        amountTextView.setText(new DecimalFormat("###,###").format(amount));
     }
 
     private String getUntilDate(Budget budget){

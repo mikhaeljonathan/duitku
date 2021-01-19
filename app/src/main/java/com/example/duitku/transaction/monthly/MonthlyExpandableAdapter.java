@@ -16,6 +16,7 @@ import com.example.duitku.category.CategoryController;
 import com.example.duitku.category.Category;
 import com.example.duitku.transaction.category.CategoryTransaction;
 
+import java.text.DecimalFormat;
 import java.util.HashMap;
 import java.util.List;
 
@@ -83,10 +84,10 @@ public class MonthlyExpandableAdapter extends BaseExpandableListAdapter {
         monthName.setText(Utility.monthsNameShort[monthlyTransaction.getMonth()]);
 
         TextView income = view.findViewById(R.id.item_list_transaction_monthly_income_textview);
-        income.setText(monthlyTransaction.getIncome() + "");
+        income.setText(new DecimalFormat("###,###").format(monthlyTransaction.getIncome()));
 
         TextView expense = view.findViewById(R.id.item_list_transaction_monthly_expense_textview);
-        expense.setText(monthlyTransaction.getExpense() + "");
+        expense.setText(new DecimalFormat("###,###").format(monthlyTransaction.getExpense()));
 
         if(!b) {
             image.setImageResource(R.drawable.icon_arrow_up);
@@ -125,7 +126,7 @@ public class MonthlyExpandableAdapter extends BaseExpandableListAdapter {
         transactionCountTextView.setText("There are " + categoryTransaction.getTransactions().size() + " transaction(s)");
 
         TextView amountTextView = view.findViewById(R.id.item_list_transaction_category_amount_textview);
-        amountTextView.setText(Double.toString(categoryTransaction.getAmount()));
+        amountTextView.setText(new DecimalFormat("###,###").format(categoryTransaction.getAmount()));
 
         if(b){
             cl.setBackgroundResource(R.drawable.custom_shape_bottom_rounded);

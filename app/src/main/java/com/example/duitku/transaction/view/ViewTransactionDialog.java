@@ -28,6 +28,8 @@ import com.example.duitku.transaction.edit.EditTransactionActivity;
 import com.example.duitku.wallet.Wallet;
 import com.example.duitku.wallet.WalletController;
 
+import java.text.DecimalFormat;
+
 public class ViewTransactionDialog extends AppCompatDialogFragment {
 
     private final long transactionId;
@@ -111,7 +113,7 @@ public class ViewTransactionDialog extends AppCompatDialogFragment {
         }
 
         TextView amountTextView = view.findViewById(R.id.view_transaction_amount_textview);
-        amountTextView.setText(Double.toString(transaction.getAmount()));
+        amountTextView.setText(new DecimalFormat("###,###").format(transaction.getAmount()));
     }
 
     private void setUpCategory(){

@@ -28,6 +28,7 @@ import com.example.duitku.wallet.Wallet;
 import com.example.duitku.wallet.WalletController;
 import com.example.duitku.wallet.edit.EditWalletActivity;
 
+import java.text.DecimalFormat;
 import java.util.List;
 
 public class ViewWalletActivityView implements UIView {
@@ -83,7 +84,7 @@ public class ViewWalletActivityView implements UIView {
 
     private void setUpAmount(){
         TextView amountTextView = header.findViewById(R.id.view_header_subtitle);
-        amountTextView.setText(Double.toString(wallet.getAmount()));
+        amountTextView.setText(new DecimalFormat("###,###").format(wallet.getAmount()));
     }
 
     private void setUpDesc(){

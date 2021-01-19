@@ -22,6 +22,7 @@ import com.example.duitku.transaction.category.CategoryTransaction;
 import com.example.duitku.interfaces.UIView;
 import com.example.duitku.transaction.category.ViewCategoryTransactionActivity;
 
+import java.text.DecimalFormat;
 import java.util.HashMap;
 import java.util.List;
 
@@ -121,9 +122,9 @@ public class MonthlyTransactionFragmentView implements UIView {
     }
 
     public void updateSummary(double totalGlobalIncome, double totalGlobalExpense){
-        totalAmountTextView.setText(Double.toString(totalGlobalIncome - totalGlobalExpense));
-        totalGlobalIncomeTextView.setText(Double.toString(totalGlobalIncome));
-        totalGlobalExpenseTextView.setText(Double.toString(totalGlobalExpense));
+        totalAmountTextView.setText(new DecimalFormat("###,###").format(totalGlobalIncome-totalGlobalExpense));
+        totalGlobalIncomeTextView.setText(new DecimalFormat("###,###").format(totalGlobalIncome));
+        totalGlobalExpenseTextView.setText(new DecimalFormat("###,###").format(totalGlobalExpense));
     }
 
     public void fillListView(List<MonthlyTransaction> monthlyTransactionList, HashMap<MonthlyTransaction, List<CategoryTransaction>> categoryTransactionListHashMap, Context context){

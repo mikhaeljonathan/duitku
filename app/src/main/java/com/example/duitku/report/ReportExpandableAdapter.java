@@ -18,6 +18,7 @@ import com.example.duitku.transaction.Transaction;
 import com.example.duitku.wallet.Wallet;
 import com.example.duitku.wallet.WalletController;
 
+import java.text.DecimalFormat;
 import java.util.HashMap;
 import java.util.List;
 
@@ -90,10 +91,10 @@ public class ReportExpandableAdapter extends BaseExpandableListAdapter {
         categoryName.setText(category.getName());
 
         TextView amount = view.findViewById(R.id.item_list_report_total);
-        amount.setText(Double.toString(report.getAmount()));
+        amount.setText(new DecimalFormat("###,###").format(report.getAmount()));
 
         TextView percentage = view.findViewById(R.id.item_list_report_percentage);
-        percentage.setText(Double.toString(report.getPercentage()));
+        percentage.setText(String.format("%.2f", report.getPercentage()) + "%");
 
         if(!b) {
             image.setImageResource(R.drawable.icon_arrow_up);
@@ -131,7 +132,7 @@ public class ReportExpandableAdapter extends BaseExpandableListAdapter {
         descTextView.setText(transaction.getDesc());
 
         TextView amountTextView = view.findViewById(R.id.item_list_transaction_amount_textview);
-        amountTextView.setText(Double.toString(transaction.getAmount()));
+        amountTextView.setText(new DecimalFormat("###,###").format(transaction.getAmount()));
 
         if(b){
             cl.setBackgroundResource(R.drawable.custom_shape_bottom_rounded);

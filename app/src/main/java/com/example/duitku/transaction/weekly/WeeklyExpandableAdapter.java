@@ -16,6 +16,7 @@ import com.example.duitku.category.CategoryController;
 import com.example.duitku.category.Category;
 import com.example.duitku.transaction.category.CategoryTransaction;
 
+import java.text.DecimalFormat;
 import java.util.HashMap;
 import java.util.List;
 
@@ -87,10 +88,10 @@ public class WeeklyExpandableAdapter extends BaseExpandableListAdapter {
         intervalsTextView.setText(weeklyTransaction.getIntervals());
 
         TextView incomeTextView = view.findViewById(R.id.item_list_transaction_weekly_income_textview);
-        incomeTextView.setText(Double.toString(weeklyTransaction.getIncome()));
+        incomeTextView.setText(new DecimalFormat("###,###").format(weeklyTransaction.getIncome()));
 
         TextView expenseTextView = view.findViewById(R.id.item_list_transaction_weekly_expense_textview);
-        expenseTextView.setText(Double.toString(weeklyTransaction.getExpense()));
+        expenseTextView.setText(new DecimalFormat("###,###").format(weeklyTransaction.getExpense()));
 
 
         if(!b) {
@@ -129,7 +130,7 @@ public class WeeklyExpandableAdapter extends BaseExpandableListAdapter {
         transactionCountTextView.setText("There are " + categoryTransaction.getTransactions().size() + " transaction(s)");
 
         TextView amountTextView = view.findViewById(R.id.item_list_transaction_category_amount_textview);
-        amountTextView.setText(Double.toString(categoryTransaction.getAmount()));
+        amountTextView.setText(new DecimalFormat("###,###").format(categoryTransaction.getAmount()));
 
         if(b){
             cl.setBackgroundResource(R.drawable.custom_shape_bottom_rounded);

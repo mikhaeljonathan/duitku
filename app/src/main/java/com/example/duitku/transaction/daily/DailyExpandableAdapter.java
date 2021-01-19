@@ -18,6 +18,7 @@ import com.example.duitku.category.Category;
 import com.example.duitku.transaction.Transaction;
 import com.example.duitku.wallet.Wallet;
 
+import java.text.DecimalFormat;
 import java.util.HashMap;
 import java.util.List;
 
@@ -88,10 +89,10 @@ public class DailyExpandableAdapter extends BaseExpandableListAdapter {
         dayTextView.setText(dailyTransaction.getDay());
 
         TextView incomeTextView = view.findViewById(R.id.item_list_transaction_daily_income_textview);
-        incomeTextView.setText(Double.toString(dailyTransaction.getIncome()));
+        incomeTextView.setText(new DecimalFormat("###,###").format(dailyTransaction.getIncome()));
 
         TextView expenseTextView = view.findViewById(R.id.item_list_transaction_daily_expense_textview);
-        expenseTextView.setText(Double.toString(dailyTransaction.getExpense()));
+        expenseTextView.setText(new DecimalFormat("###,###").format(dailyTransaction.getExpense()));new DecimalFormat("#0,000.00");
 
         if(!b) {
             image.setImageResource(R.drawable.icon_arrow_up);
@@ -132,7 +133,7 @@ public class DailyExpandableAdapter extends BaseExpandableListAdapter {
         descTextView.setText(transaction.getDesc());
 
         TextView amountTextView = view.findViewById(R.id.item_list_transaction_amount_textview);
-        amountTextView.setText(Double.toString(transaction.getAmount()));
+        amountTextView.setText(new DecimalFormat("###,###").format(transaction.getAmount()));
 
         if(b){
             cl.setBackgroundResource(R.drawable.custom_shape_bottom_rounded);
