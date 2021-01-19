@@ -11,6 +11,8 @@ import com.example.duitku.R;
 import com.google.android.material.textfield.TextInputEditText;
 import com.google.android.material.textfield.TextInputLayout;
 
+import java.text.DecimalFormat;
+
 public class WalletAmountComponent extends View {
 
     private TextInputLayout amountLayout;
@@ -87,6 +89,6 @@ public class WalletAmountComponent extends View {
 
     public void setAmount(double amount){
         this.amount = amount;
-        amountField.setText(Double.toString(amount));
+        amountField.setText(new DecimalFormat("#").format(amount));
     }
 }
