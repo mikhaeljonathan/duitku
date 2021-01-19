@@ -23,6 +23,7 @@ import com.example.duitku.transaction.Transaction;
 import com.example.duitku.transaction.TransactionAdapter;
 import com.example.duitku.transaction.view.ViewTransactionDialog;
 
+import java.text.DecimalFormat;
 import java.util.HashMap;
 import java.util.List;
 
@@ -78,7 +79,7 @@ public class ViewBudgetActivityView implements UIView {
 
     private void setUpAmount(){
         TextView amountTextView = header.findViewById(R.id.view_header_subtitle);
-        amountTextView.setText(Double.toString(budget.getAmount()));
+        amountTextView.setText(new DecimalFormat("###,###").format(budget.getAmount()));
     }
 
     private void setUpPeriod(){
@@ -98,8 +99,8 @@ public class ViewBudgetActivityView implements UIView {
         progressBar.setMax((int)amount);
         progressBar.setProgress((int)used);
 
-        maxTextView.setText(Double.toString(amount));
-        usedTextView.setText(Double.toString(used));
+        maxTextView.setText(new DecimalFormat("###,###").format(amount));
+        usedTextView.setText(new DecimalFormat("###,###").format(used));
     }
 
     private void setUpTransactionTextView(){

@@ -14,6 +14,8 @@ import com.example.duitku.R;
 import com.example.duitku.wallet.Wallet;
 import com.example.duitku.wallet.WalletController;
 
+import java.text.DecimalFormat;
+
 public class WalletAdapter extends CursorAdapter {
 
     private final WalletController walletController;
@@ -42,7 +44,7 @@ public class WalletAdapter extends CursorAdapter {
         TextView walletAmountTextView = view.findViewById(R.id.item_list_wallet_amount_textview);
 
         walletNameTextView.setText(name);
-        walletAmountTextView.setText(Double.toString(amount));
+        walletAmountTextView.setText(new DecimalFormat("###,###").format(amount));
 
         cl.setBackgroundResource(R.drawable.custom_shape);
     }

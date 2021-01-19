@@ -18,6 +18,7 @@ import com.example.duitku.database.DuitkuContract;
 import com.example.duitku.wallet.Wallet;
 import com.example.duitku.wallet.WalletController;
 
+import java.text.DecimalFormat;
 import java.util.List;
 
 public class TransactionAdapter extends ArrayAdapter<Transaction> {
@@ -61,7 +62,7 @@ public class TransactionAdapter extends ArrayAdapter<Transaction> {
         descTextView.setText(transaction.getDesc());
 
         TextView amountTextView = view.findViewById(R.id.item_list_transaction_amount_textview);
-        amountTextView.setText(Double.toString(transaction.getAmount()));
+        amountTextView.setText(new DecimalFormat("###,###").format(transaction.getAmount()));
 
         return view;
     }

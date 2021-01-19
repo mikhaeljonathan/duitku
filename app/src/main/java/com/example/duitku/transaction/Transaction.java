@@ -47,9 +47,7 @@ public class Transaction implements Serializable { // serializable biar bisa dip
         return desc;
     }
 
-    public double getAmount() {
-        return amount;
-    }
+    public double getAmount() { return amount; }
 
     public void setId(long id) {
         this.id = id;

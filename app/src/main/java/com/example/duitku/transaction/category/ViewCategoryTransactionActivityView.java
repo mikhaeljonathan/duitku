@@ -23,6 +23,8 @@ import com.example.duitku.transaction.TransactionAdapter;
 import com.example.duitku.transaction.TransactionController;
 import com.example.duitku.transaction.view.ViewTransactionDialog;
 
+import java.text.DecimalFormat;
+
 public class ViewCategoryTransactionActivityView implements UIView {
 
     private ListView listView;
@@ -83,7 +85,7 @@ public class ViewCategoryTransactionActivityView implements UIView {
 
     private void setUpAmount(){
         TextView amountTextView = header.findViewById(R.id.view_header_subtitle);
-        amountTextView.setText(Double.toString(categoryTransaction.getAmount()));
+        amountTextView.setText(new DecimalFormat("###,###").format(categoryTransaction.getAmount()));
     }
 
     private void setUpPeriod(){
