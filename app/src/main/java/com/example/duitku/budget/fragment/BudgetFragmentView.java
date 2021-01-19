@@ -121,10 +121,10 @@ public class BudgetFragmentView implements UIView {
         emptyView = inflater.inflate(R.layout.empty_view, null, false);
 
         imageEmptyView = emptyView.findViewById(R.id.empty_view_imageview);
-        imageEmptyView.setImageResource(R.drawable.empty_transaction);
+        imageEmptyView.setImageResource(R.drawable.empty_budget);
 
         TextView textView = emptyView.findViewById(R.id.empty_view_textview);
-        textView.setText("There is no transaction\nTry adding a new one");
+        textView.setText("There is no budget\nTry adding a new one");
 
         listView.addFooterView(emptyView, null, false);
     }
