@@ -1,4 +1,4 @@
-package com.example.duitku.view;
+package com.example.duitku.firebase;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
@@ -11,7 +11,10 @@ import android.widget.Button;
 import android.widget.Toast;
 
 import com.example.duitku.R;
-import com.example.duitku.main.MainActivity;
+import com.example.duitku.database.DuitkuContract;
+import com.example.duitku.user.AddProfileActivity;
+import com.example.duitku.user.User;
+import com.example.duitku.user.UserController;
 import com.google.android.gms.auth.api.signin.GoogleSignIn;
 import com.google.android.gms.auth.api.signin.GoogleSignInAccount;
 import com.google.android.gms.auth.api.signin.GoogleSignInApi;
@@ -20,57 +23,74 @@ import com.google.android.gms.auth.api.signin.GoogleSignInOptions;
 import com.google.android.gms.common.api.ApiException;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
+import com.google.android.material.snackbar.Snackbar;
 import com.google.firebase.auth.AuthCredential;
 import com.google.firebase.auth.AuthResult;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.auth.GoogleAuthProvider;
 
-public class Login extends AppCompatActivity {
+public class GetStarted extends AppCompatActivity {
 
-    private static final String TAG = "sign_in";
-    private static final int RC_SIGN_IN = 1;
-    private Button login_btn;
+    private Button btn_continue;
+
     private FirebaseAuth mAuth;
-    private GoogleSignInClient googleSignInClient;
+    private static final int RC_SIGN_IN = 1;
+    private static final String TAG = "sign_in";
     private GoogleSignInApi mGoogleSignInClient;
+    private GoogleSignInClient googleSignInClient;
+    private FirebaseUser currentUser;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_login);
-        mAuth = FirebaseAuth.getInstance();
+        setContentView(R.layout.activity_get_started);
+        init();
+    }
 
-        if (mAuth.getCurrentUser() != null) {
-            startActivity(new Intent(this, MainActivity.class));
-            Toast.makeText(this, "Welcome", Toast.LENGTH_SHORT);
-            this.finish();
-        }
-
-        findViewById(R.id.login_btn).setOnClickListener(new View.OnClickListener() {
+    private void init() {
+        btn_continue = findViewById(R.id.btn_continue);
+        btn_continue.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                signIn();
+                authenticate();
             }
         });
+    }
 
-        // Configure Google Sign In
-        GoogleSignInOptions gso = new GoogleSignInOptions.Builder(GoogleSignInOptions.DEFAULT_SIGN_IN)
+    private void authenticate() {
+        mAuth = FirebaseAuth.getInstance();
+        GoogleSignInOptions gso = new GoogleSignInOptions
+                .Builder(GoogleSignInOptions.DEFAULT_SIGN_IN)
                 .requestIdToken(getString(R.string.default_web_client_id))
                 .requestEmail()
                 .build();
         googleSignInClient = GoogleSignIn.getClient(this, gso);
+
+        signIn();
     }
 
-    private void signIn() {
+    private void signIn(){
         Intent signInIntent = googleSignInClient.getSignInIntent();
         startActivityForResult(signInIntent, RC_SIGN_IN);
 
         if (mAuth.getCurrentUser() != null) {
-            startActivity(new Intent(this, MainActivity.class));
-            Toast.makeText(this, "Welcome", Toast.LENGTH_SHORT);
+            createNewLocalUser();
             this.finish();
         }
+    }
+
+    private void createNewLocalUser(){
+        String name = currentUser.getDisplayName();
+        String email = currentUser.getEmail();
+        String uid = currentUser.getUid();
+
+        User user = new User(
+                uid, name, email, DuitkuContract.UserEntry.TYPE_REGULAR,
+                DuitkuContract.UserEntry.TYPE_FIRST_TIME, null);
+
+        new UserController(this).addUser(user);
+        this.finish();
     }
 
     @Override
@@ -109,17 +129,18 @@ public class Login extends AppCompatActivity {
                         if (task.isSuccessful()) {
                             // Sign in success, update UI with the signed-in user's information
                             Log.d(TAG, "signInWithCredential:success");
-                            FirebaseUser user = mAuth.getCurrentUser();
-//                            updateUI(user);
+                            currentUser = mAuth.getCurrentUser();
                         } else {
-                            // If sign in fails, display a message to the user.
                             Log.w(TAG, "signInWithCredential:failure", task.getException());
-//                            Snackbar.make(mBinding.mainLayout, "Authentication Failed.", Snackbar.LENGTH_SHORT).show();
-//                            updateUI(null);
                         }
 
                         // ...
                     }
                 });
+    }
+
+    @Override
+    public void onBackPressed() {
+        //do nothing
     }
 }

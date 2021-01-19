@@ -4,15 +4,17 @@ import androidx.appcompat.app.AppCompatActivity;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.widget.Toast;
 
 import com.example.duitku.R;
 import com.example.duitku.database.DuitkuContract.UserEntry;
 import com.example.duitku.interfaces.UIView;
 import com.example.duitku.passcode.PasscodeActivity;
-import com.example.duitku.user.AddProfileActivity;
+//import com.example.duitku.user.AddProfileActivity;
 import com.example.duitku.user.User;
 import com.example.duitku.user.UserController;
 import com.github.florent37.tutoshowcase.TutoShowcase;
+import com.example.duitku.welcome.Welcome;
 
 import java.util.UUID;
 
@@ -28,6 +30,7 @@ public class MainActivity extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+
         UIView mainActivityView = new MainActivityView(this);
         mainActivityView.setUpUI();
 
@@ -46,7 +49,7 @@ public class MainActivity extends AppCompatActivity {
         user = userController.getUser();
 
         if (user == null){
-            addProfile();
+            showWelcome();  //showWelcome() --> showGetStarted() --> addProfile()
             return;
         }
 
@@ -55,12 +58,15 @@ public class MainActivity extends AppCompatActivity {
         }
     }
 
-    private void addProfile(){
-        if (user == null){
-            Intent addProfileIntent = new Intent(this, AddProfileActivity.class);
-            startActivity(addProfileIntent);
-        }
+    private void showWelcome(){
+        Intent welcomeIntent = new Intent(this, Welcome.class);
+        startActivity(welcomeIntent);
     }
+
+//    private void addProfile(){
+//        Intent addProfileIntent = new Intent(this, AddProfileActivity.class);
+//        startActivity(addProfileIntent);
+//    }
 
     private void launchPasscode(){
         Intent insertPasscodeIntent = new Intent(this, PasscodeActivity.class);

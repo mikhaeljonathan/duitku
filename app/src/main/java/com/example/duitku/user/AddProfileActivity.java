@@ -13,6 +13,8 @@ import com.example.duitku.R;
 import com.example.duitku.database.DuitkuContract.UserEntry;
 import com.google.android.material.textfield.TextInputEditText;
 import com.google.android.material.textfield.TextInputLayout;
+import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.auth.FirebaseUser;
 
 public class AddProfileActivity extends AppCompatActivity {
 
@@ -85,7 +87,7 @@ public class AddProfileActivity extends AppCompatActivity {
     private void saveProfile(){
         String name = nameField.getText().toString();
 
-        User user = new User("S", name, "Email", UserEntry.TYPE_REGULAR, UserEntry.TYPE_FIRST_TIME, null);
+        User user = new User("uid", name, "email", UserEntry.TYPE_REGULAR, UserEntry.TYPE_FIRST_TIME, null);
 
         new UserController(this).addUser(user);
     }
