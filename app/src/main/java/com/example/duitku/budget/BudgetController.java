@@ -129,7 +129,7 @@ public class BudgetController {
                     calendarDate.get(Calendar.YEAR) == calendarBudget.get(Calendar.YEAR)) {
                 return budget;
 
-            } else {
+            } else { //3 month
                 int quarterDate = Utility.getQuarter(calendarDate.get(Calendar.MONTH) + 1);
                 int quarterBudget = Utility.getQuarter(calendarDate.get(Calendar.MONTH) + 1);
                 if (quarterDate == quarterBudget){

@@ -3,11 +3,20 @@ package com.example.duitku.transaction.form;
 import android.content.Context;
 import android.view.View;
 
+import androidx.appcompat.app.AppCompatActivity;
+
+import com.example.duitku.R;
+import com.example.duitku.transaction.form.components.TransactionAdComponent;
 import com.example.duitku.transaction.form.components.TransactionAmountComponent;
 import com.example.duitku.transaction.form.components.TransactionCategoryComponent;
 import com.example.duitku.transaction.form.components.TransactionDateComponent;
 import com.example.duitku.transaction.form.components.TransactionDescriptionComponent;
 import com.example.duitku.transaction.form.components.TransactionWalletComponent;
+import com.google.android.gms.ads.AdRequest;
+import com.google.android.gms.ads.AdView;
+import com.google.android.gms.ads.MobileAds;
+import com.google.android.gms.ads.initialization.InitializationStatus;
+import com.google.android.gms.ads.initialization.OnInitializationCompleteListener;
 
 import java.util.Date;
 
@@ -40,6 +49,7 @@ public class TransactionForm extends View {
         dateComponent = new TransactionDateComponent(getContext(), rootView, activity);
         categoryComponent = new TransactionCategoryComponent(getContext(), rootView, activity, type);
         walletComponent = new TransactionWalletComponent(getContext(), rootView, activity, type);
+        TransactionAdComponent adComponent = new TransactionAdComponent(getContext(), rootView, activity);
     }
 
     public boolean validateInput() {

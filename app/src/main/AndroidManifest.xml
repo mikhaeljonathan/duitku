@@ -12,6 +12,11 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
+
+        <meta-data
+            android:name="com.google.android.gms.ads.APPLICATION_ID"
+            android:value="ca-app-pub-2097480504227856~9592631403" />
+
         <activity android:name=".firebase.GetStarted"></activity>
         <activity android:name=".welcome.WelcomeActivity"/>
         <activity android:name=".account.UpgradePremiumActivity" />

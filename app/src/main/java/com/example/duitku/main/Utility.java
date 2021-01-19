@@ -70,7 +70,7 @@ public class Utility {
     }
 
     public static int getMaxDayOfMonth(int month, int year){
-        int[] maxDayOfMonth = {31, 28, 21, 30, 31, 30, 31, 31, 30, 31, 30, 31};
+        int[] maxDayOfMonth = {31, 28, 31, 30, 31, 30, 31, 31, 30, 31, 30, 31};
 
         if (month == 2 && leapYear(year)){
             return 29;
