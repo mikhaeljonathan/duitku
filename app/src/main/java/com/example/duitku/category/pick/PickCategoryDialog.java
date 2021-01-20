@@ -61,6 +61,7 @@ public class PickCategoryDialog extends AppCompatDialogFragment implements Loade
     private void setUpUI(){
         setUpViews();
         setUpGridView();
+        setUpEmptyView();
         setUpButtons();
     }
 
@@ -87,6 +88,18 @@ public class PickCategoryDialog extends AppCompatDialogFragment implements Loade
         });
 
         setUpAdapter();
+    }
+
+    private void setUpEmptyView(){
+        View emptyView = view.findViewById(R.id.dialog_pick_emptyview);
+
+        ImageView imageEmptyView = emptyView.findViewById(R.id.dialog_pick_empty_imageview);
+        imageEmptyView.setImageResource(R.drawable.empty_category);
+
+        TextView textView = emptyView.findViewById(R.id.dialog_pick_empty_textview);
+        textView.setText("There is no category\nTry adding a new one");
+
+        gridView.setEmptyView(emptyView);
     }
 
     private void setUpAdapter(){

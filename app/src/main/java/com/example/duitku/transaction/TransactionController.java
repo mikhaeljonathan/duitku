@@ -227,12 +227,16 @@ public class TransactionController {
     }
 
     public Uri addTransactionFromInitialWallet(long walletId, Wallet wallet){
-        Calendar calendar = Calendar.getInstance();
-        Category category = new CategoryController(context).getCategoryByNameAndType(CategoryEntry.DEFAULT_CATEGORY_NAME, CategoryEntry.TYPE_INCOME);
+        CategoryController categoryController = new CategoryController(context);
+        Category category;
+
         if (wallet.getAmount() < 0){
-            category = new CategoryController(context).getCategoryByNameAndType(CategoryEntry.DEFAULT_CATEGORY_NAME, CategoryEntry.TYPE_EXPENSE);
+            category = categoryController.getDefaultCategory(CategoryEntry.TYPE_EXPENSE);
+        } else {
+            category = categoryController.getDefaultCategory(CategoryEntry.TYPE_INCOME);
         }
 
+        Calendar calendar = Calendar.getInstance();
         long walletDestId = -1;
         long categoryId = category.getId();
         String desc = "Initial Balance for Wallet " + wallet.getName();

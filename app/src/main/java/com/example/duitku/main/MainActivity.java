@@ -55,7 +55,6 @@ public class MainActivity extends AppCompatActivity {
                     DuitkuContract.UserEntry.TYPE_FIRST_TIME, null);
 
             new UserController(this).addUser(user);
-            return;
         }
 
         if (user.getFirstTime().equals(UserEntry.TYPE_FIRST_TIME)){

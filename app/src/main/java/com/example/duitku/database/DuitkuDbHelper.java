@@ -15,7 +15,7 @@ public class DuitkuDbHelper extends SQLiteOpenHelper {
 
     private static final String DATABASE_NAME = "duitku.db";
 
-    private static final int DATABASE_VERSION = 5;
+    private static final int DATABASE_VERSION = 6;
 
     public DuitkuDbHelper(Context context) {
         super(context, DATABASE_NAME, null, DATABASE_VERSION);
@@ -72,20 +72,6 @@ public class DuitkuDbHelper extends SQLiteOpenHelper {
         sqLiteDatabase.execSQL(CREATE_BUDGET_TABLE);
         sqLiteDatabase.execSQL(CREATE_TRANSACTION_TABLE);
         sqLiteDatabase.execSQL(CREATE_USER_TABLE);
-
-        addDefaultCategory(sqLiteDatabase);
-    }
-
-    private void addDefaultCategory(SQLiteDatabase sqLiteDatabase){
-        ContentValues cv = new ContentValues();
-        cv.put(CategoryEntry.COLUMN_NAME, CategoryEntry.DEFAULT_CATEGORY_NAME);
-        cv.put(CategoryEntry.COLUMN_TYPE, CategoryEntry.TYPE_INCOME);
-        sqLiteDatabase.insert(CategoryEntry.TABLE_NAME, null, cv);
-
-        cv = new ContentValues();
-        cv.put(CategoryEntry.COLUMN_NAME, CategoryEntry.DEFAULT_CATEGORY_NAME);
-        cv.put(CategoryEntry.COLUMN_TYPE, CategoryEntry.TYPE_EXPENSE);
-        sqLiteDatabase.insert(CategoryEntry.TABLE_NAME, null, cv);
     }
 
     // di execute kalo versinya ganti

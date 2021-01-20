@@ -59,7 +59,7 @@ public class PickWalletDialog extends AppCompatDialogFragment implements LoaderM
     private void setUpUI(){
         setUpViews();
         setUpListView();
-        setUpAdapter();
+        setUpEmptyView();
         setUpButtons();
     }
 
@@ -87,6 +87,19 @@ public class PickWalletDialog extends AppCompatDialogFragment implements LoaderM
 
         setUpAdapter();
     }
+
+    private void setUpEmptyView(){
+        View emptyView = view.findViewById(R.id.dialog_pick_emptyview);
+
+        ImageView imageEmptyView = emptyView.findViewById(R.id.dialog_pick_empty_imageview);
+        imageEmptyView.setImageResource(R.drawable.empty_wallet);
+
+        TextView textView = emptyView.findViewById(R.id.dialog_pick_empty_textview);
+        textView.setText("There is no wallet\nTry adding a new one");
+
+        listView.setEmptyView(emptyView);
+    }
+
 
     private void setUpAdapter(){
         pickWalletAdapter = new WalletAdapter(getActivity(), null);

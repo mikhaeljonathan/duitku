@@ -54,7 +54,25 @@ public class CategoryController {
         Category ret = null;
         Cursor temp = context.getContentResolver().query(CategoryEntry.CONTENT_URI, getFullProjection(), selection, selectionArgs, null);
         if (temp.moveToFirst()){
-            ret = new Category(temp.getLong(temp.getColumnIndex(CategoryEntry.COLUMN_ID)), temp.getString(temp.getColumnIndex(CategoryEntry.COLUMN_NAME)), temp.getString(temp.getColumnIndex(CategoryEntry.COLUMN_TYPE)));
+            ret = convertCursorToCategory(temp);
+        }
+        temp.close();
+
+        return ret;
+    }
+
+    public Category getDefaultCategory(String type){
+        String selection = CategoryEntry.COLUMN_NAME + " = ? COLLATE NOCASE AND " + CategoryEntry.COLUMN_TYPE + " = ? "; // COLLATE NOCASE buat insensitive case
+        String[] selectionArgs = new String[]{CategoryEntry.DEFAULT_CATEGORY_NAME, type};
+
+        Category ret;
+        Cursor temp = context.getContentResolver().query(CategoryEntry.CONTENT_URI, getFullProjection(), selection, selectionArgs, null);
+        if (temp.moveToFirst()){
+            ret = convertCursorToCategory(temp);
+        } else {
+            ret = new Category(-1, CategoryEntry.DEFAULT_CATEGORY_NAME, type);
+            addCategory(ret);
+            ret = getDefaultCategory(type);
         }
         temp.close();
 
