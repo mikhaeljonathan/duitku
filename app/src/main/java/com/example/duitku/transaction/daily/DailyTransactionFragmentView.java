@@ -17,10 +17,14 @@ import android.widget.TextView;
 import androidx.constraintlayout.widget.ConstraintLayout;
 
 import com.example.duitku.R;
+import com.example.duitku.database.DuitkuContract;
 import com.example.duitku.main.Utility;
 import com.example.duitku.transaction.Transaction;
 import com.example.duitku.interfaces.UIView;
 import com.example.duitku.transaction.view.ViewTransactionDialog;
+import com.example.duitku.user.UserController;
+import com.google.android.gms.ads.AdRequest;
+import com.google.android.gms.ads.AdView;
 
 import java.util.HashMap;
 import java.util.List;
@@ -67,6 +71,14 @@ public class DailyTransactionFragmentView implements UIView {
 
         ConstraintLayout summaryContainer = header.findViewById(R.id.transaction_header_summary_container);
         summaryContainer.setVisibility(View.GONE);
+
+        AdView adView = header.findViewById(R.id.transaction_header_adview);
+        AdRequest adRequest = new AdRequest.Builder().build();
+        adView.loadAd(adRequest);
+
+        if (new UserController(fragment.getActivity()).getUser().getStatus().equals(DuitkuContract.UserEntry.TYPE_PREMIUM)) {
+            adView.setVisibility(View.GONE);
+        }
 
         periodButton = header.findViewById(R.id.transaction_header_period_btn);
     }
