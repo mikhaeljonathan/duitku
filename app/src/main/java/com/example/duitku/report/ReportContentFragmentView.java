@@ -88,7 +88,7 @@ public class ReportContentFragmentView implements UIView {
     private void setUpPieChart(){
         pieChart = header.findViewById(R.id.report_piechart);
 
-        PieDataSet pieDataSet = new PieDataSet(pieEntries, "Income");
+        PieDataSet pieDataSet = new PieDataSet(pieEntries, "Data set");
         pieDataSet.setColors(ColorTemplate.PASTEL_COLORS);
         pieDataSet.setValueTextColor(Color.BLACK);
         pieDataSet.setValueTextSize(12);

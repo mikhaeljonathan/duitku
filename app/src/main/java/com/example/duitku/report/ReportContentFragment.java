@@ -24,6 +24,8 @@ import com.example.duitku.transaction.category.CategoryTransaction;
 
 import java.util.ArrayList;
 import java.util.Calendar;
+import java.util.Collections;
+import java.util.Comparator;
 import java.util.HashMap;
 import java.util.Iterator;
 import java.util.List;
@@ -79,6 +81,12 @@ public class ReportContentFragment extends Fragment implements LoaderManager.Loa
     public void onLoadFinished(@NonNull Loader<Cursor> loader, Cursor data) {
         List<Transaction> allTransactions = transactionController.convertCursorToListOfTransaction(data);
         setUpListAndHashMap(allTransactions);
+        Collections.sort(reportList, new Comparator<Report>() {
+            @Override
+            public int compare(Report report, Report report2) {
+                return report.getPercentage() > report2.getPercentage() ? -1 : 1;
+            }
+        });
         reportContentFragmentView.fillListView(reportList, reportHashMap, getActivity());
     }
 
