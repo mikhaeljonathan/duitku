@@ -5,6 +5,7 @@ import android.app.DatePickerDialog;
 import android.content.Context;
 import android.content.res.Resources;
 import android.graphics.Color;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -34,6 +35,8 @@ import java.util.HashMap;
 import java.util.List;
 
 public class ReportContentFragmentView implements UIView {
+
+    public static int test = 1;
 
     private View header;
     private Button periodButton;
@@ -156,6 +159,10 @@ public class ReportContentFragmentView implements UIView {
         adapter = new ReportExpandableAdapter(reportList, reportHashMap, context, type);
         expandableListView.setAdapter(adapter);
         pieEntries.clear();
+        Log.v("HAHA", "HEHE " + test);
+        Log.v("HAHA" ,"report list size: " + reportList.size());
+        test++;
+        setUpPieChart();
         for (Report report: reportList){
             Category category = new CategoryController(context).getCategoryById(report.getCategoryId());
             float percentage = (float) report.getPercentage();

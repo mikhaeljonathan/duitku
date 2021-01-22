@@ -248,14 +248,15 @@ public class TransactionController {
     }
 
     public Uri addTransactionFromUpdatedWallet(double amountBefore, Wallet wallet){
-        Calendar calendar = Calendar.getInstance();
+        CategoryController categoryController = new CategoryController(context);
         Category category;
         if (amountBefore < wallet.getAmount()){
-            category = new CategoryController(context).getCategoryByNameAndType(CategoryEntry.DEFAULT_CATEGORY_NAME, CategoryEntry.TYPE_INCOME);
+            category = categoryController.getDefaultCategory(CategoryEntry.TYPE_INCOME);
         } else {
-            category = new CategoryController(context).getCategoryByNameAndType(CategoryEntry.DEFAULT_CATEGORY_NAME, CategoryEntry.TYPE_EXPENSE);
+            category = categoryController.getDefaultCategory(CategoryEntry.TYPE_EXPENSE);
         }
 
+        Calendar calendar = Calendar.getInstance();
         long walletId = wallet.getId();
         long walletDestId = -1;
         long categoryId = category.getId();

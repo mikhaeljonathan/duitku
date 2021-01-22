@@ -1,9 +1,7 @@
 package com.example.duitku.report;
 
 import android.database.Cursor;
-import android.net.TrafficStats;
 import android.os.Bundle;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -17,10 +15,9 @@ import androidx.loader.content.Loader;
 
 import com.example.duitku.category.Category;
 import com.example.duitku.category.CategoryController;
-import com.example.duitku.database.DuitkuContract;
+import com.example.duitku.database.DuitkuContract.TransactionEntry;
 import com.example.duitku.transaction.Transaction;
 import com.example.duitku.transaction.TransactionController;
-import com.example.duitku.transaction.category.CategoryTransaction;
 
 import java.util.ArrayList;
 import java.util.Calendar;
@@ -58,10 +55,15 @@ public class ReportContentFragment extends Fragment implements LoaderManager.Loa
         reportContentFragmentView.setUpUI();
         reportContentFragmentView.updatePeriodButton(month, year);
 
-        LoaderManager.getInstance(this).restartLoader(REPORT_LOADER, null, this);
         LoaderManager.getInstance(this).initLoader(REPORT_LOADER, null, this);
 
         return reportContentFragmentView.getView();
+    }
+
+    @Override
+    public void onResume() {
+        super.onResume();
+        
     }
 
     @NonNull
@@ -70,9 +72,9 @@ public class ReportContentFragment extends Fragment implements LoaderManager.Loa
         if (id == REPORT_LOADER){
             String[] projection = transactionController.getFullProjection();
             // yang transfer ga termasuk
-            String selection = DuitkuContract.TransactionEntry.COLUMN_DATE + " LIKE ? AND " + DuitkuContract.TransactionEntry.COLUMN_CATEGORY_ID + " > 0";
+            String selection = TransactionEntry.COLUMN_DATE + " LIKE ? AND " + TransactionEntry.COLUMN_CATEGORY_ID + " > 0";
             String[] selectionArgs = new String[]{"%/" + String.format("%02d", month + 1) + "/" + year};
-            return new CursorLoader(getContext(), DuitkuContract.TransactionEntry.CONTENT_URI, projection, selection, selectionArgs, null);
+            return new CursorLoader(getContext(), TransactionEntry.CONTENT_URI, projection, selection, selectionArgs, null);
         }
         throw new IllegalStateException("Unknown Loader");
     }
