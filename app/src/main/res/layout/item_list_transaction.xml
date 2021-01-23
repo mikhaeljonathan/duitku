@@ -74,10 +74,12 @@ bisa di kanan-->
 
         <TextView
             android:id="@+id/item_list_transaction_desc_textview"
-            android:layout_width="wrap_content"
+            android:layout_width="175dp"
             android:layout_height="wrap_content"
             android:layout_marginStart="32dp"
             android:layout_marginBottom="8dp"
+            android:ellipsize="end"
+            android:maxLines="1"
             android:textColor="@color/textLight"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintStart_toEndOf="@id/item_list_transaction_barrier"
