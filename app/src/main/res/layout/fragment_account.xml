@@ -35,6 +35,8 @@
             android:layout_marginStart="16dp"
             android:layout_marginTop="16dp"
             android:layout_marginBottom="16dp"
+            android:ellipsize="end"
+            android:maxLines="1"
             android:text="mikhael.jonathan@binus.ac.id"
             android:textColor="@android:color/darker_gray"
             android:textSize="18sp"
