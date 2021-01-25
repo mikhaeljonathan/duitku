@@ -82,15 +82,19 @@ public class WalletNameComponent extends View {
             return false;
         }
 
-        Wallet wallet = new WalletController(getContext()).getWalletByName(name);
+        WalletController walletController = new WalletController(getContext());
+
+        Wallet wallet = walletController.getWalletByName(name);
         if (wallet != null && nameBefore == null){
             nameLayout.setError("There is a wallet with this name");
             return false;
         }
 
         if (nameBefore != null && !nameBefore.equalsIgnoreCase(name)){
-            nameLayout.setError("There is a wallet with this name");
-            return false;
+            if (walletController.getWalletByName(name) != null){
+                nameLayout.setError("There is a wallet with this name");
+                return false;
+            }
         }
 
         return true;

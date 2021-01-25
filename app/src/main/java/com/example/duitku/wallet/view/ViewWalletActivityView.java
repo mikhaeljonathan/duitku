@@ -12,6 +12,7 @@ import android.widget.AdapterView;
 import android.widget.Button;
 import android.widget.DatePicker;
 import android.widget.ImageButton;
+import android.widget.ImageView;
 import android.widget.ListView;
 import android.widget.ProgressBar;
 import android.widget.TextView;
@@ -128,6 +129,12 @@ public class ViewWalletActivityView implements UIView {
 
         TextView amountTextView = header.findViewById(R.id.view_header_max_textview);
         amountTextView.setVisibility(View.GONE);
+
+        ImageView warnImageView = header.findViewById(R.id.view_header_warn_imageview);
+        warnImageView.setVisibility(View.GONE);
+
+        TextView warnTextView = header.findViewById(R.id.view_header_warn_textview);
+        warnTextView.setVisibility(View.GONE);
     }
 
     private void setUpButtons(){

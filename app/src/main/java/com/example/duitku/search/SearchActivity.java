@@ -23,6 +23,7 @@ import android.widget.AdapterView;
 import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.ListView;
+import android.widget.TextView;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -46,6 +47,7 @@ public class SearchActivity extends AppCompatActivity implements LoaderManager.L
         setUpBackBtn();
         setUpSearchEditText();
         setUpListView();
+        setUpEmptyView();
 
         LoaderManager.getInstance(this).initLoader(SEARCH_LOADER, null, this);
     }
@@ -91,6 +93,11 @@ public class SearchActivity extends AppCompatActivity implements LoaderManager.L
                 viewTransaction(transaction.getId());
             }
         });
+    }
+
+    private void setUpEmptyView(){
+        View emptyView = findViewById(R.id.activity_search_emptyview);
+        listView.setEmptyView(emptyView);
     }
 
     private void viewTransaction(long id){

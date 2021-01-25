@@ -16,6 +16,7 @@ import androidx.appcompat.app.AlertDialog;
 import androidx.fragment.app.Fragment;
 
 import com.example.duitku.R;
+import com.example.duitku.category.ViewCategoriesActivity;
 import com.example.duitku.database.DuitkuContract.UserEntry;
 import com.example.duitku.passcode.PasscodeActivity;
 import com.example.duitku.user.User;
@@ -64,9 +65,21 @@ public class AccountFragment extends Fragment {
     }
 
     private void setUpButtons(){
+        setCategoriesBtn();
         setUpUpgradePremiumButton();
         setUpAddFeedbackButton();
         setUpSignOutButton();
+    }
+
+    private void setCategoriesBtn(){
+        Button categoriesBtn = view.findViewById(R.id.account_categories_btn);
+        categoriesBtn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Intent viewCategoriesActivity = new Intent(getActivity(), ViewCategoriesActivity.class);
+                startActivity(viewCategoriesActivity);
+            }
+        });
     }
 
     private void setUpPasscodeBtn(){

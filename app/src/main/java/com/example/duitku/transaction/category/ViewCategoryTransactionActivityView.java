@@ -110,6 +110,12 @@ public class ViewCategoryTransactionActivityView implements UIView {
 
         Button periodBtn = header.findViewById(R.id.view_header_period_btn);
         periodBtn.setVisibility(View.GONE);
+
+        ImageView warnImageView = header.findViewById(R.id.view_header_warn_imageview);
+        warnImageView.setVisibility(View.GONE);
+
+        TextView warnTextView = header.findViewById(R.id.view_header_warn_textview);
+        warnTextView.setVisibility(View.GONE);
     }
 
     private void setUpListView(){

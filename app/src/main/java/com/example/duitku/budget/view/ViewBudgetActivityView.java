@@ -7,11 +7,10 @@ import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.Button;
 import android.widget.ImageButton;
+import android.widget.ImageView;
 import android.widget.ListView;
 import android.widget.ProgressBar;
 import android.widget.TextView;
-
-import androidx.appcompat.app.AppCompatActivity;
 
 import com.example.duitku.R;
 import com.example.duitku.budget.Budget;
@@ -24,7 +23,6 @@ import com.example.duitku.transaction.TransactionAdapter;
 import com.example.duitku.transaction.view.ViewTransactionDialog;
 
 import java.text.DecimalFormat;
-import java.util.HashMap;
 import java.util.List;
 
 public class ViewBudgetActivityView implements UIView {
@@ -101,6 +99,18 @@ public class ViewBudgetActivityView implements UIView {
 
         maxTextView.setText(new DecimalFormat("###,###").format(amount));
         usedTextView.setText(new DecimalFormat("###,###").format(used));
+
+        ImageView warnImageView = header.findViewById(R.id.view_header_warn_imageview);
+        TextView warnTextView = header.findViewById(R.id.view_header_warn_textview);
+
+        if (used > amount){
+            warnImageView.setVisibility(View.VISIBLE);
+            warnTextView.setVisibility(View.VISIBLE);
+            warnTextView.setText("Overspent " + new DecimalFormat("###,###").format(used - amount));
+        } else {
+            warnImageView.setVisibility(View.GONE);
+            warnTextView.setVisibility(View.GONE);
+        }
     }
 
     private void setUpTransactionTextView(){
