@@ -19,7 +19,6 @@ import java.text.DecimalFormat;
 public class WalletAdapter extends CursorAdapter {
 
     private final WalletController walletController;
-    private Cursor cursor;
 
     public WalletAdapter(Context context, Cursor c) {
         super(context, c, 0);
@@ -33,7 +32,6 @@ public class WalletAdapter extends CursorAdapter {
 
     @Override
     public void bindView(View view, Context context, Cursor cursor) {
-        this.cursor = cursor;
         Wallet wallet = walletController.convertCursorToWallet(cursor);
 
         String name = wallet.getName();

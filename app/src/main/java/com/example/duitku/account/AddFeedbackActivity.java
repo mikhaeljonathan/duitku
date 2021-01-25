@@ -26,7 +26,6 @@ public class AddFeedbackActivity extends AppCompatActivity {
         editText.requestFocus();
     }
 
-
     private void setUpBackBtn(){
         ImageView backBtn = findViewById(R.id.add_feedback_back_btn);
         backBtn.setOnClickListener(new View.OnClickListener() {
