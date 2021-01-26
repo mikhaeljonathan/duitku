@@ -45,8 +45,6 @@ public class WelcomeActivity extends AppCompatActivity {
                 letsGo();
             }
         });
-
-
     }
 
     private void letsGo(){
@@ -102,6 +100,7 @@ public class WelcomeActivity extends AppCompatActivity {
 
     @Override
     public void onBackPressed() {
-        // do nothing
+        finishAffinity();
     }
+    
 }

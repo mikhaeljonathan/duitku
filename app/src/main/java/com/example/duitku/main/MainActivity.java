@@ -4,6 +4,7 @@ import androidx.appcompat.app.AppCompatActivity;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.util.Log;
 
 import com.example.duitku.R;
 import com.example.duitku.database.DuitkuContract;
@@ -49,12 +50,8 @@ public class MainActivity extends AppCompatActivity {
         user = userController.getUser();
 
         if (user == null){
-//            showWelcome();  //showWelcome() --> showGetStarted()
-            User user = new User(
-                    "S", "MJ", "email", DuitkuContract.UserEntry.TYPE_REGULAR,
-                    DuitkuContract.UserEntry.TYPE_FIRST_TIME, null);
-
-            new UserController(this).addUser(user);
+            showWelcome();  //showWelcome() --> showGetStarted()
+            return;
         }
 
         if (user.getFirstTime().equals(UserEntry.TYPE_FIRST_TIME)){

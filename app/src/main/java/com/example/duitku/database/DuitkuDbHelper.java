@@ -15,7 +15,7 @@ public class DuitkuDbHelper extends SQLiteOpenHelper {
 
     private static final String DATABASE_NAME = "duitku.db";
 
-    private static final int DATABASE_VERSION = 6;
+    private static final int DATABASE_VERSION = 7;
 
     public DuitkuDbHelper(Context context) {
         super(context, DATABASE_NAME, null, DATABASE_VERSION);

@@ -8,6 +8,7 @@ import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
 import android.widget.Button;
+import android.widget.Toast;
 
 import com.example.duitku.R;
 import com.example.duitku.database.DuitkuContract;
@@ -29,14 +30,9 @@ import com.google.firebase.auth.GoogleAuthProvider;
 
 public class GetStarted extends AppCompatActivity {
 
-    private Button btn_continue;
-
     private FirebaseAuth mAuth;
     private static final int RC_SIGN_IN = 1;
-    private static final String TAG = "sign_in";
-    private GoogleSignInApi mGoogleSignInClient;
     private GoogleSignInClient googleSignInClient;
-    private FirebaseUser currentUser;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -46,7 +42,7 @@ public class GetStarted extends AppCompatActivity {
     }
 
     private void init() {
-        btn_continue = findViewById(R.id.btn_continue);
+        Button btn_continue = findViewById(R.id.btn_continue);
         btn_continue.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -63,30 +59,12 @@ public class GetStarted extends AppCompatActivity {
                 .requestEmail()
                 .build();
         googleSignInClient = GoogleSignIn.getClient(this, gso);
-
         signIn();
     }
 
     private void signIn(){
         Intent signInIntent = googleSignInClient.getSignInIntent();
         startActivityForResult(signInIntent, RC_SIGN_IN);
-
-        if (mAuth.getCurrentUser() != null) {
-            createNewLocalUser();
-        }
-    }
-
-    private void createNewLocalUser(){
-        String name = currentUser.getDisplayName();
-        String email = currentUser.getEmail();
-        String uid = currentUser.getUid();
-
-        User user = new User(
-                uid, name, email, DuitkuContract.UserEntry.TYPE_REGULAR,
-                DuitkuContract.UserEntry.TYPE_FIRST_TIME, null);
-
-        new UserController(this).addUser(user);
-        finish();
     }
 
     @Override
@@ -101,16 +79,15 @@ public class GetStarted extends AppCompatActivity {
                 try {
                     // Google Sign In was successful, authenticate with Firebase
                     GoogleSignInAccount account = task.getResult(ApiException.class);
-                    Log.d(TAG, "firebaseAuthWithGoogle:" + account.getId());
                     firebaseAuthWithGoogle(account.getIdToken());
+
                 } catch (ApiException e) {
                     // Google Sign In failed, update UI appropriately
-                    Log.w(TAG, "Google sign in failed", e);
-                    // ...
+                    Toast.makeText(this, "Google sign in failed", Toast.LENGTH_SHORT).show();
                 }
 
             } else {
-                Log.w(TAG, "Google sign in failed", task.getException());
+                Toast.makeText(this, "Google sign in failed", Toast.LENGTH_SHORT).show();
             }
         }
     }
@@ -123,19 +100,28 @@ public class GetStarted extends AppCompatActivity {
                     public void onComplete(@NonNull Task<AuthResult> task) {
                         if (task.isSuccessful()) {
                             // Sign in success, update UI with the signed-in user's information
-                            Log.d(TAG, "signInWithCredential:success");
-                            currentUser = mAuth.getCurrentUser();
-                        } else {
-                            Log.w(TAG, "signInWithCredential:failure", task.getException());
+                            FirebaseUser currentUser = mAuth.getCurrentUser();
+                            if (currentUser != null) {
+                                createNewLocalUser(currentUser);
+                            } else {
+                                Toast.makeText(GetStarted.this, "Error creating user", Toast.LENGTH_SHORT).show();
+                            }
+                            finish();
                         }
-
-                        // ...
                     }
                 });
     }
 
-    @Override
-    public void onBackPressed() {
-        //do nothing
+    private void createNewLocalUser(FirebaseUser user){
+        String name = user.getDisplayName();
+        String email = user.getEmail();
+        String uid = user.getUid();
+
+        User userLocal = new User(
+                uid, name, email, DuitkuContract.UserEntry.TYPE_REGULAR,
+                DuitkuContract.UserEntry.TYPE_FIRST_TIME, null);
+
+        new UserController(this).addUser(userLocal);
     }
+
 }

@@ -23,6 +23,7 @@ import com.example.duitku.main.Utility;
 import com.example.duitku.transaction.category.CategoryTransaction;
 import com.example.duitku.interfaces.UIView;
 import com.example.duitku.transaction.category.ViewCategoryTransactionActivity;
+import com.example.duitku.user.User;
 import com.example.duitku.user.UserController;
 import com.google.android.gms.ads.AdRequest;
 import com.google.android.gms.ads.AdView;
@@ -80,8 +81,11 @@ public class WeeklyTransactionFragmentView implements UIView {
         AdRequest adRequest = new AdRequest.Builder().build();
         adView.loadAd(adRequest);
 
-        if (new UserController(fragment.getActivity()).getUser().getStatus().equals(DuitkuContract.UserEntry.TYPE_PREMIUM)) {
-            adView.setVisibility(View.GONE);
+        User user = new UserController(fragment.getActivity()).getUser();
+        if (user != null){
+            if (user.getStatus().equals(DuitkuContract.UserEntry.TYPE_PREMIUM)) {
+                adView.setVisibility(View.GONE);
+            }
         }
 
         totalAmountTextView = header.findViewById(R.id.transaction_header_amount_textview);
