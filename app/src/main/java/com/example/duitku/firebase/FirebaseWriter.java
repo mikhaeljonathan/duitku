@@ -89,7 +89,7 @@ public class FirebaseWriter {
     }
 
     private void writeUser(){
-        // TODO
+        // TODO bikin collection "detail" di dalem user collection
     }
 
 }
