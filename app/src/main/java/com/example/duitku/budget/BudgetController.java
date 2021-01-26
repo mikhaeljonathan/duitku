@@ -12,6 +12,7 @@ import com.example.duitku.notification.NotificationController;
 import com.example.duitku.transaction.Transaction;
 import com.example.duitku.transaction.TransactionController;
 
+import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
 import java.util.HashMap;
@@ -91,8 +92,13 @@ public class BudgetController {
         return 0;
     }
 
-
     // get budget
+    public List<Budget> getAllBudget(){
+        Cursor data = context.getContentResolver().query(BudgetEntry.CONTENT_URI,
+                getFullProjection(), null, null, null);
+        return convertCursorToListOfBudgets(data);
+    }
+
     public Budget getBudgetById(long id) {
         if (id == -1) return null;
 
@@ -189,6 +195,15 @@ public class BudgetController {
         return new Budget(id, amount, used, startDate, endDate, type, categoryId);
     }
 
+    public List<Budget> convertCursorToListOfBudgets(Cursor data){
+        List<Budget> ret = new ArrayList<>();
+        if (!data.moveToFirst()) return ret;
+        do {
+            ret.add(convertCursorToBudget(data));
+        } while (data.moveToNext());
+        return ret;
+    }
+
     private ContentValues convertBudgetToContentValues(Budget budget) {
         String startDate = null;
         String endDate = null;
@@ -209,6 +224,18 @@ public class BudgetController {
         ret.put(BudgetEntry.COLUMN_CATEGORY_ID, budget.getCategoryId());
 
         return ret;
+    }
+
+    public HashMap<String, Object> convertBudgetToHashMap(Budget budget){
+        HashMap<String, Object> hashMap = new HashMap<>();
+        hashMap.put(BudgetEntry.COLUMN_ID, budget.getId());
+        hashMap.put(BudgetEntry.COLUMN_AMOUNT, budget.getAmount());
+        hashMap.put(BudgetEntry.COLUMN_USED, budget.getUsed());
+        hashMap.put(BudgetEntry.COLUMN_STARTDATE, budget.getStartDate());
+        hashMap.put(BudgetEntry.COLUMN_ENDDATE, budget.getEndDate());
+        hashMap.put(BudgetEntry.COLUMN_TYPE, budget.getType());
+        hashMap.put(BudgetEntry.COLUMN_CATEGORY_ID, budget.getCategoryId());
+        return hashMap;
     }
 
     // operation from other entity's operation

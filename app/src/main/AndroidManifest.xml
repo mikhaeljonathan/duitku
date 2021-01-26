@@ -3,6 +3,7 @@
     package="com.example.duitku">
 
     <uses-permission android:name="android.permission.INTERNET" />
+    <uses-permission android:name="android.permission.RECEIVE_BOOT_COMPLETED" />
     <uses-permission android:name="android.permission.VIBRATE" />
 
     <application
@@ -63,6 +64,9 @@
         <provider
             android:name=".database.DuitkuProvider"
             android:authorities="com.example.duitku" />
+
+        <service android:name=".firebase.FirebaseJobService"
+            android:permission="android.permission.BIND_JOB_SERVICE" />
     </application>
 
 </manifest>

@@ -103,6 +103,7 @@ public class GetStarted extends AppCompatActivity {
                             FirebaseUser currentUser = mAuth.getCurrentUser();
                             if (currentUser != null) {
                                 createNewLocalUser(currentUser);
+                                createUserInFirestore(currentUser);
                             } else {
                                 Toast.makeText(GetStarted.this, "Error creating user", Toast.LENGTH_SHORT).show();
                             }
@@ -122,6 +123,14 @@ public class GetStarted extends AppCompatActivity {
                 DuitkuContract.UserEntry.TYPE_FIRST_TIME, null);
 
         new UserController(this).addUser(userLocal);
+    }
+
+    private void createUserInFirestore(FirebaseUser user){
+        // TODO check user uuid ada di firestore blm, kalo blm add, kalo udh langsung return
+        // user nya buat collection baru (bukan di field)
+        // document usernya ngikutin class User di package user
+
+//        FirebaseHelper firebaseHelper = new FirebaseHelper().addUserToFirebase();
     }
 
 }

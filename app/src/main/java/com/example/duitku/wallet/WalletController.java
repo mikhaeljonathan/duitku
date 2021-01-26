@@ -10,10 +10,15 @@ import com.example.duitku.budget.Budget;
 import com.example.duitku.budget.BudgetController;
 import com.example.duitku.category.Category;
 import com.example.duitku.category.CategoryController;
+import com.example.duitku.database.DuitkuContract;
 import com.example.duitku.database.DuitkuContract.CategoryEntry;
 import com.example.duitku.database.DuitkuContract.WalletEntry;
 import com.example.duitku.transaction.Transaction;
 import com.example.duitku.transaction.TransactionController;
+
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.List;
 
 public class WalletController {
 
@@ -58,6 +63,12 @@ public class WalletController {
     }
 
     // get wallet
+    public List<Wallet> getAllWallet(){
+        Cursor data = context.getContentResolver().query(WalletEntry.CONTENT_URI,
+                getFullProjection(), null, null, null);
+        return convertCursorToListOfWallet(data);
+    }
+
     public Wallet getWalletById(long id){
         if (id == -1) return null;
 
@@ -103,12 +114,30 @@ public class WalletController {
         return new Wallet(id, name, amount, desc);
     }
 
+    public List<Wallet> convertCursorToListOfWallet(Cursor data){
+        List<Wallet> ret = new ArrayList<>();
+        if (!data.moveToFirst()) return ret;
+        do {
+            ret.add(convertCursorToWallet(data));
+        } while (data.moveToNext());
+        return ret;
+    }
+
     private ContentValues convertWalletToContentValues(Wallet wallet){
         ContentValues ret = new ContentValues();
         ret.put(WalletEntry.COLUMN_NAME, wallet.getName());
         ret.put(WalletEntry.COLUMN_AMOUNT, wallet.getAmount());
         ret.put(WalletEntry.COLUMN_DESC, wallet.getDescription());
         return ret;
+    }
+
+    public HashMap<String, Object> convertWalletToHashMap(Wallet wallet){
+        HashMap<String, Object> hashMap = new HashMap<>();
+        hashMap.put(WalletEntry.COLUMN_ID, wallet.getId());
+        hashMap.put(WalletEntry.COLUMN_NAME, wallet.getName());
+        hashMap.put(WalletEntry.COLUMN_AMOUNT, wallet.getAmount());
+        hashMap.put(WalletEntry.COLUMN_DESC, wallet.getDescription());
+        return hashMap;
     }
 
     // operations from other entity's operation

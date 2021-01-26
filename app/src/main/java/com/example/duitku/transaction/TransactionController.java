@@ -65,6 +65,12 @@ public class TransactionController {
     }
 
     // get transaction
+    public List<Transaction> getAllTransaction(){
+        Cursor data = context.getContentResolver().query(TransactionEntry.CONTENT_URI,
+                getFullProjection(), null, null, null);
+        return convertCursorToListOfTransaction(data);
+    }
+
     public Transaction getTransactionById(long id){
         if (id == -1) return null;
 
@@ -209,6 +215,18 @@ public class TransactionController {
             ret.add((CategoryTransaction) mapElement.getValue());
         }
         return ret;
+    }
+
+    public HashMap<String, Object> convertTransactionToHashMap(Transaction transaction){
+        HashMap<String, Object> hashMap = new HashMap<>();
+        hashMap.put(TransactionEntry.COLUMN_ID, transaction.getId());
+        hashMap.put(TransactionEntry.COLUMN_WALLET_ID, transaction.getWalletId());
+        hashMap.put(TransactionEntry.COLUMN_WALLET_DEST_ID, transaction.getWalletDestId());
+        hashMap.put(TransactionEntry.COLUMN_CATEGORY_ID, transaction.getCategoryId());
+        hashMap.put(TransactionEntry.COLUMN_DESC, transaction.getDesc());
+        hashMap.put(TransactionEntry.COLUMN_DATE, transaction.getDate());
+        hashMap.put(TransactionEntry.COLUMN_AMOUNT, transaction.getAmount());
+        return hashMap;
     }
 
     // operations from other entity's operation

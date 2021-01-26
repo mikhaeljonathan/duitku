@@ -102,5 +102,5 @@ public class WelcomeActivity extends AppCompatActivity {
     public void onBackPressed() {
         finishAffinity();
     }
-    
+
 }

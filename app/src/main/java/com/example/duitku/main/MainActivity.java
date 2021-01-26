@@ -2,6 +2,9 @@ package com.example.duitku.main;
 
 import androidx.appcompat.app.AppCompatActivity;
 
+import android.app.job.JobInfo;
+import android.app.job.JobScheduler;
+import android.content.ComponentName;
 import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
@@ -9,6 +12,7 @@ import android.util.Log;
 import com.example.duitku.R;
 import com.example.duitku.database.DuitkuContract;
 import com.example.duitku.database.DuitkuContract.UserEntry;
+import com.example.duitku.firebase.FirebaseJobService;
 import com.example.duitku.interfaces.UIView;
 import com.example.duitku.passcode.PasscodeActivity;
 //import com.example.duitku.user.AddProfileActivity;

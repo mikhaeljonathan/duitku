@@ -2,8 +2,12 @@ package com.example.duitku.account;
 
 import androidx.appcompat.app.AppCompatActivity;
 
+import android.app.job.JobInfo;
+import android.app.job.JobScheduler;
+import android.content.ComponentName;
 import android.os.Bundle;
 import android.text.Html;
+import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.ImageView;
@@ -11,10 +15,13 @@ import android.widget.TextView;
 
 import com.example.duitku.R;
 import com.example.duitku.database.DuitkuContract.UserEntry;
+import com.example.duitku.firebase.FirebaseJobService;
 import com.example.duitku.user.User;
 import com.example.duitku.user.UserController;
 
 public class UpgradePremiumActivity extends AppCompatActivity {
+
+    private static final int BACKUP_FIRESTORE = 123;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -53,7 +60,27 @@ public class UpgradePremiumActivity extends AppCompatActivity {
                 user.setStatus(UserEntry.TYPE_PREMIUM);
 
                 userController.updateUser(user);
+
+                startBackup();
             }
         });
+    }
+
+    public void startBackup() {
+        //ini buat scheduling backup
+        ComponentName componentName = new ComponentName(this, FirebaseJobService.class);
+        JobInfo info = new JobInfo  .Builder(BACKUP_FIRESTORE, componentName)
+                .setPersisted(true)
+                .setPeriodic(6 * 3600 * 1000) // 6 hours
+                .build();
+
+        JobScheduler scheduler = (JobScheduler) getSystemService(JOB_SCHEDULER_SERVICE);
+        scheduler.schedule(info);
+    }
+
+    public void cancelBackup() {
+        // ini buat cancel backup
+        JobScheduler scheduler = (JobScheduler) getSystemService(JOB_SCHEDULER_SERVICE);
+        scheduler.cancel(BACKUP_FIRESTORE);
     }
 }

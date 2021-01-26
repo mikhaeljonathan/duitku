@@ -5,12 +5,16 @@ import android.content.ContentValues;
 import android.content.Context;
 import android.database.Cursor;
 import android.net.Uri;
-import android.util.Log;
 
+import com.example.duitku.budget.Budget;
 import com.example.duitku.budget.BudgetController;
-import com.example.duitku.category.Category;
+import com.example.duitku.database.DuitkuContract;
 import com.example.duitku.database.DuitkuContract.CategoryEntry;
 import com.example.duitku.transaction.TransactionController;
+
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.List;
 
 public class CategoryController {
 
@@ -40,6 +44,12 @@ public class CategoryController {
     }
 
     // get category
+    public List<Category> getAllCategory(){
+        Cursor data = context.getContentResolver().query(CategoryEntry.CONTENT_URI,
+                getFullProjection(), null, null, null);
+        return convertCursorToListOfCategory(data);
+    }
+
     public Category getCategoryById(long id){
         if (id == -1) return null;
 
@@ -103,11 +113,28 @@ public class CategoryController {
         return new Category(id, name, type);
     }
 
+    public List<Category> convertCursorToListOfCategory(Cursor data){
+        List<Category> ret = new ArrayList<>();
+        if (!data.moveToFirst()) return ret;
+        do {
+            ret.add(convertCursorToCategory(data));
+        } while (data.moveToNext());
+        return ret;
+    }
+
     private ContentValues convertCategoryToContentValues(Category category){
         ContentValues ret = new ContentValues();
         ret.put(CategoryEntry.COLUMN_NAME, category.getName());
         ret.put(CategoryEntry.COLUMN_TYPE, category.getType());
         return ret;
+    }
+
+    public HashMap<String, Object> convertCategoryToHashMap(Category category){
+        HashMap<String, Object> hashMap = new HashMap<>();
+        hashMap.put(CategoryEntry.COLUMN_ID, category.getId());
+        hashMap.put(CategoryEntry.COLUMN_NAME, category.getName());
+        hashMap.put(CategoryEntry.COLUMN_TYPE, category.getType());
+        return hashMap;
     }
 
 }

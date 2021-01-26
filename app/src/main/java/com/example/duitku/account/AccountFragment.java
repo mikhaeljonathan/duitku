@@ -18,6 +18,7 @@ import androidx.fragment.app.Fragment;
 import com.example.duitku.R;
 import com.example.duitku.category.fragment.ViewCategoriesActivity;
 import com.example.duitku.database.DuitkuContract.UserEntry;
+import com.example.duitku.main.MainActivity;
 import com.example.duitku.passcode.PasscodeActivity;
 import com.example.duitku.user.User;
 import com.example.duitku.user.UserController;
