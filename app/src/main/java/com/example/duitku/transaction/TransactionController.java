@@ -226,6 +226,20 @@ public class TransactionController {
         return context.getContentResolver().delete(TransactionEntry.CONTENT_URI, selection, selectionArgs);
     }
 
+    public int deleteAllTransactionWithCategoryId(long categoryId){
+        String selection = TransactionEntry.COLUMN_CATEGORY_ID + "= ?";
+        String[] selectionArgs = new String[]{Long.toString(categoryId)};
+
+        Cursor data = context.getContentResolver().query(TransactionEntry.CONTENT_URI, getFullProjection(), selection, selectionArgs, null);
+        List<Transaction> transactions = convertCursorToListOfTransaction(data);
+
+        for (Transaction transaction: transactions){
+            new BudgetController(context).updateBudgetFromDeletedTransaction(transaction);
+        }
+
+        return context.getContentResolver().delete(TransactionEntry.CONTENT_URI, selection, selectionArgs);
+    }
+
     public Uri addTransactionFromInitialWallet(long walletId, Wallet wallet){
         CategoryController categoryController = new CategoryController(context);
         Category category;

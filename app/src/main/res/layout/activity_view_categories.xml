@@ -4,15 +4,51 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".category.ViewCategoriesActivity">
+    android:background="@color/colorPrimary"
+    tools:context=".category.fragment.ViewCategoriesActivity">
+
+    <androidx.appcompat.widget.Toolbar
+        android:id="@+id/view_categories_toolbar"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:background="@color/colorPrimaryDark"
+        android:minHeight="?attr/actionBarSize"
+        android:theme="?attr/actionBarTheme"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <TextView
+        android:id="@+id/view_categories_title"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="16dp"
+        android:text="View Categories"
+        android:textColor="@color/textLight"
+        android:textSize="18sp"
+        app:layout_constraintBottom_toBottomOf="@+id/view_categories_toolbar"
+        app:layout_constraintStart_toEndOf="@+id/view_categories_back_btn"
+        app:layout_constraintTop_toTopOf="@+id/view_categories_toolbar" />
+
+    <ImageButton
+        android:id="@+id/view_categories_back_btn"
+        android:layout_width="48dp"
+        android:layout_height="48dp"
+        android:background="@null"
+        app:layout_constraintBottom_toBottomOf="@+id/view_categories_toolbar"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="@+id/view_categories_toolbar"
+        app:srcCompat="@drawable/icon_arrow_back" />
 
     <com.google.android.material.tabs.TabLayout
         android:id="@+id/view_categories_tablayout"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
+        android:background="@color/colorPrimaryDark"
+        app:tabTextColor="@android:color/white"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
+        app:layout_constraintTop_toBottomOf="@id/view_categories_toolbar"/>
 
     <androidx.viewpager.widget.ViewPager
         android:id="@+id/view_categories_viewpager"
@@ -21,6 +57,8 @@
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/view_categories_tablayout" />
+        app:layout_constraintTop_toBottomOf="@+id/view_categories_tablayout" >
+
+    </androidx.viewpager.widget.ViewPager>
 
 </androidx.constraintlayout.widget.ConstraintLayout>

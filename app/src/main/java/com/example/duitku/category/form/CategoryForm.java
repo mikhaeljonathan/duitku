@@ -36,4 +36,12 @@ public class CategoryForm extends View {
         return categoryNameComponent.getName();
     }
 
+    public void setName(String name){
+        categoryNameComponent.setName(name);
+    }
+
+    public void disableNameField(){
+        categoryNameComponent.disableField();
+    }
+
 }

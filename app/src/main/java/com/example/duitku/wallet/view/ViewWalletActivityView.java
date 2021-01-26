@@ -35,6 +35,7 @@ import java.util.List;
 public class ViewWalletActivityView implements UIView {
 
     private Button periodButton;
+    private TextView transactionTextView;
 
     private ListView listView;
     private TransactionAdapter adapter;
@@ -51,6 +52,9 @@ public class ViewWalletActivityView implements UIView {
     public void setUpAdapter(List<Transaction> transactions){
         adapter = new TransactionAdapter(activity, transactions, wallet.getId());
         listView.setAdapter(adapter);
+        if (adapter.isEmpty()){
+            transactionTextView.setVisibility(View.GONE);
+        }
     }
 
     @Override
@@ -116,7 +120,7 @@ public class ViewWalletActivityView implements UIView {
     }
 
     private void setUpTransactionTextView(){
-        TextView transactionTextView = header.findViewById(R.id.view_header_transaction_textview);
+        transactionTextView = header.findViewById(R.id.view_header_transaction_textview);
         transactionTextView.setPaintFlags(transactionTextView.getPaintFlags()|Paint.UNDERLINE_TEXT_FLAG); //underline
     }
 

@@ -7,8 +7,10 @@ import android.database.Cursor;
 import android.net.Uri;
 import android.util.Log;
 
+import com.example.duitku.budget.BudgetController;
 import com.example.duitku.category.Category;
 import com.example.duitku.database.DuitkuContract.CategoryEntry;
+import com.example.duitku.transaction.TransactionController;
 
 public class CategoryController {
 
@@ -30,8 +32,11 @@ public class CategoryController {
         return context.getContentResolver().update(uri, values, null, null);
     }
 
-    public int deleteCategory(long id){
-        return context.getContentResolver().delete(ContentUris.withAppendedId(CategoryEntry.CONTENT_URI, id), null, null);
+    public int deleteCategory(Category category){
+        int rowsDeleted = context.getContentResolver().delete(ContentUris.withAppendedId(CategoryEntry.CONTENT_URI, category.getId()), null, null);
+        new TransactionController(context).deleteAllTransactionWithCategoryId(category.getId());
+        new BudgetController(context).deleteBudgetWithCategoryId(category.getId());
+        return rowsDeleted;
     }
 
     // get category

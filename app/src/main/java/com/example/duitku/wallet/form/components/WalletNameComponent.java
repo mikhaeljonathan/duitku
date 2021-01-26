@@ -82,6 +82,10 @@ public class WalletNameComponent extends View {
             return false;
         }
 
+        if (name.length() > 20){
+            return false;
+        }
+
         WalletController walletController = new WalletController(getContext());
 
         Wallet wallet = walletController.getWalletByName(name);

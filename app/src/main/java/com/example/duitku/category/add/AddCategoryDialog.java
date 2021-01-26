@@ -21,10 +21,6 @@ import com.example.duitku.category.Category;
 import com.example.duitku.category.CategoryController;
 import com.example.duitku.category.form.CategoryForm;
 import com.example.duitku.database.DuitkuContract.CategoryEntry;
-import com.google.android.material.textfield.TextInputEditText;
-import com.google.android.material.textfield.TextInputLayout;
-
-import org.w3c.dom.Text;
 
 public class AddCategoryDialog extends AppCompatDialogFragment {
 
@@ -67,6 +63,9 @@ public class AddCategoryDialog extends AppCompatDialogFragment {
         LinearLayout categoryFormContainer = view.findViewById(R.id.dialog_add_form);
         categoryFormContainer.addView(inflater.inflate(R.layout.form_category,
                 (ViewGroup) getActivity().findViewById(R.id.form_category_constraintlayout)));
+
+        Button addBtn = view.findViewById(R.id.category_save_btn);
+        addBtn.setText("Add");
     }
 
     private void setUpTitle(){
@@ -88,7 +87,7 @@ public class AddCategoryDialog extends AppCompatDialogFragment {
     }
 
     private void setUpAddBtn(){
-        Button addButton = view.findViewById(R.id.category_add_btn);
+        Button addButton = view.findViewById(R.id.category_save_btn);
         addButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {

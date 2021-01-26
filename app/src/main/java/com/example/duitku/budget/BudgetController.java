@@ -81,6 +81,17 @@ public class BudgetController {
                 .delete(ContentUris.withAppendedId(BudgetEntry.CONTENT_URI, budget.getId()), null, null);
     }
 
+    public int deleteBudgetWithCategoryId(long categoryId){
+        Budget budget = getBudgetByCategoryId(categoryId);
+
+        if (budget != null){
+            return deleteBudget(budget);
+        }
+
+        return 0;
+    }
+
+
     // get budget
     public Budget getBudgetById(long id) {
         if (id == -1) return null;

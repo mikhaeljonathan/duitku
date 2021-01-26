@@ -16,7 +16,7 @@ import androidx.appcompat.app.AlertDialog;
 import androidx.fragment.app.Fragment;
 
 import com.example.duitku.R;
-import com.example.duitku.category.ViewCategoriesActivity;
+import com.example.duitku.category.fragment.ViewCategoriesActivity;
 import com.example.duitku.database.DuitkuContract.UserEntry;
 import com.example.duitku.passcode.PasscodeActivity;
 import com.example.duitku.user.User;

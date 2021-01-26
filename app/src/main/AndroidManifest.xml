@@ -13,7 +13,8 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
-        <activity android:name=".category.ViewCategoriesActivity"></activity>
+        <activity android:name=".category.edit.EditCategoryActivity"></activity>
+        <activity android:name=".category.fragment.ViewCategoriesActivity" />
 
         <meta-data
             android:name="com.google.android.gms.ads.APPLICATION_ID"

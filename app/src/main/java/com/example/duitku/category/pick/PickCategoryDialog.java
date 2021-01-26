@@ -22,6 +22,7 @@ import androidx.loader.content.Loader;
 
 import com.example.duitku.category.CategoryController;
 import com.example.duitku.category.add.AddCategoryDialog;
+import com.example.duitku.category.fragment.CategoryAdapter;
 import com.example.duitku.database.DuitkuContract.CategoryEntry;
 
 import com.example.duitku.R;
@@ -29,7 +30,7 @@ import com.example.duitku.R;
 public class PickCategoryDialog extends AppCompatDialogFragment implements LoaderManager.LoaderCallbacks<Cursor> {
 
     private GridView gridView;
-    private PickCategoryAdapter pickCategoryAdapter;
+    private CategoryAdapter categoryAdapter;
 
     private final PickCategoryListener listener;
     private View view;
@@ -103,8 +104,8 @@ public class PickCategoryDialog extends AppCompatDialogFragment implements Loade
     }
 
     private void setUpAdapter(){
-        pickCategoryAdapter = new PickCategoryAdapter(getActivity(), null);
-        gridView.setAdapter(pickCategoryAdapter);
+        categoryAdapter = new CategoryAdapter(getActivity(), null);
+        gridView.setAdapter(categoryAdapter);
     }
 
     private void setUpButtons(){
@@ -140,12 +141,12 @@ public class PickCategoryDialog extends AppCompatDialogFragment implements Loade
 
     @Override
     public void onLoadFinished(@NonNull Loader<Cursor> loader, Cursor data) {
-        pickCategoryAdapter.swapCursor(data);
+        categoryAdapter.swapCursor(data);
     }
 
     @Override
     public void onLoaderReset(@NonNull Loader<Cursor> loader) {
-        pickCategoryAdapter.swapCursor(null);
+        categoryAdapter.swapCursor(null);
     }
 
     public interface PickCategoryListener {

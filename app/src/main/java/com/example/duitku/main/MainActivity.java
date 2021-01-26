@@ -77,7 +77,7 @@ public class MainActivity extends AppCompatActivity {
     private void setUpShowCase(){
         ShowcaseConfig config = new ShowcaseConfig();
 
-        config.setDelay(500);
+        config.setDelay(250);
 
         UUID uuid = UUID.randomUUID();
         String randomUUIDString = uuid.toString();

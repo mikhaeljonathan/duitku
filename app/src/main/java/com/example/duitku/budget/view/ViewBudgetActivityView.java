@@ -29,6 +29,7 @@ public class ViewBudgetActivityView implements UIView {
 
     private List<Transaction> transactionList;
 
+    private TextView transactionTextView;
     private ListView listView;
     private TransactionAdapter adapter;
 
@@ -114,7 +115,7 @@ public class ViewBudgetActivityView implements UIView {
     }
 
     private void setUpTransactionTextView(){
-        TextView transactionTextView = header.findViewById(R.id.view_header_transaction_textview);
+        transactionTextView = header.findViewById(R.id.view_header_transaction_textview);
         transactionTextView.setPaintFlags(transactionTextView.getPaintFlags()| Paint.UNDERLINE_TEXT_FLAG); //underline
     }
 
@@ -145,6 +146,9 @@ public class ViewBudgetActivityView implements UIView {
     private void setUpAdapter(){
         adapter = new TransactionAdapter(activity, transactionList, null);
         listView.setAdapter(adapter);
+        if (adapter.isEmpty()){
+            transactionTextView.setVisibility(View.GONE);
+        }
     }
 
     private void setUpButtons(){

@@ -22,6 +22,7 @@ public class CategoryNameComponent extends View {
     private AppCompatActivity activity = null;
     private final String categoryType;
 
+    private String nameBefore = null;
     private String name = null;
 
     public CategoryNameComponent(Context context, View rootView, Object activity, String categoryType) {
@@ -86,10 +87,19 @@ public class CategoryNameComponent extends View {
             return false;
         }
 
-        Category category = new CategoryController(getContext()).getCategoryByNameAndType(name, categoryType);
-        if (category != null){
+        CategoryController categoryController = new CategoryController(getContext());
+
+        Category category = categoryController.getCategoryByNameAndType(name, categoryType);
+        if (category != null && nameBefore == null){
             nameLayout.setError("There is a category with this name");
             return false;
+        }
+
+        if (nameBefore != null && !nameBefore.equalsIgnoreCase(name)){
+            if (categoryController.getCategoryByNameAndType(name, categoryType) != null){
+                nameLayout.setError("There is a wallet with this name");
+                return false;
+            }
         }
 
         return true;
@@ -97,5 +107,16 @@ public class CategoryNameComponent extends View {
 
     public String getName(){
         return name;
+    }
+
+    public void setName(String name){
+        this.nameBefore = name;
+        this.name = name;
+        nameField.setText(name);
+    }
+
+    public void disableField(){
+        nameField.setEnabled(false);
+        nameLayout.setError("This is a default category\nCan't delete or edit");
     }
 }

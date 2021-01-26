@@ -1,4 +1,4 @@
-package com.example.duitku.category.pick;
+package com.example.duitku.category.fragment;
 
 import android.content.Context;
 import android.database.Cursor;
@@ -12,11 +12,11 @@ import com.example.duitku.R;
 import com.example.duitku.category.Category;
 import com.example.duitku.category.CategoryController;
 
-public class PickCategoryAdapter extends CursorAdapter {
+public class CategoryAdapter extends CursorAdapter {
 
     private final CategoryController categoryController;
 
-    public PickCategoryAdapter(Context context, Cursor c) {
+    public CategoryAdapter(Context context, Cursor c) {
         super(context, c, 0);
         categoryController = new CategoryController(context);
     }

@@ -1,4 +1,4 @@
-package com.example.duitku.category;
+package com.example.duitku.category.fragment;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
