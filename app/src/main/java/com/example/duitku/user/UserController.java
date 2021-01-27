@@ -28,6 +28,10 @@ public class UserController {
         context.getContentResolver().update(UserEntry.CONTENT_URI, values, null, null);
     }
 
+    public void deleteUser(){
+        context.getContentResolver().delete(UserEntry.CONTENT_URI, null, null);
+    }
+
     public User getUser(){
         User ret = null;
 
