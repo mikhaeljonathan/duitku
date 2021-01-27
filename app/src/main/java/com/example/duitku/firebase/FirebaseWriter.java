@@ -10,6 +10,7 @@ import com.example.duitku.category.CategoryController;
 import com.example.duitku.notification.NotificationController;
 import com.example.duitku.transaction.Transaction;
 import com.example.duitku.transaction.TransactionController;
+import com.example.duitku.user.UserController;
 import com.example.duitku.wallet.Wallet;
 import com.example.duitku.wallet.WalletController;
 
@@ -90,8 +91,25 @@ public class FirebaseWriter {
         }
     }
 
-    private void writeUser(){
-        // TODO
+    public void writeUser(){
+        UserController userController = new UserController(context);
+        fbHelper.addUserToFirebase(userController.convertUserToHashMap(userController.getUser()));
+    }
+
+    private void deleteBudget(long budgetId){
+
+    }
+
+    private void deleteTransaction(long transactionId){
+
+    }
+
+    private void deleteWallet(long walletId){
+
+    }
+
+    private void deleteCategory(long categoryId){
+
     }
 
 }

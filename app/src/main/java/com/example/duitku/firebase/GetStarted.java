@@ -129,7 +129,7 @@ public class GetStarted extends AppCompatActivity {
                 .addOnSuccessListener(new OnSuccessListener<QuerySnapshot>() {
                     @Override
                     public void onSuccess(QuerySnapshot queryDocumentSnapshots) {
-                        userGlobal = queryDocumentSnapshots.toObjects(User.class).get(0);
+                        if (queryDocumentSnapshots.isEmpty()) userGlobal = null;
                     }
                 });
         return userGlobal != null;

@@ -1,5 +1,6 @@
 package com.example.duitku.firebase;
 
+import com.example.duitku.database.DuitkuContract.UserEntry;
 import com.example.duitku.database.DuitkuContract.CategoryEntry;
 import com.example.duitku.database.DuitkuContract.TransactionEntry;
 import com.example.duitku.database.DuitkuContract.WalletEntry;
@@ -66,8 +67,8 @@ public class FirebaseHelper {
     }
 
     public void addUserToFirebase(HashMap<String, Object> userHashMap){
-        // TODO terusin
-//        user_col_ref.document()
+        user_col_ref.document("" +
+                userHashMap.get(UserEntry.COLUMN_ID)).set(userHashMap);
     }
 
     public CollectionReference getArticleRef(){
