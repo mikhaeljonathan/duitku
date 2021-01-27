@@ -103,14 +103,14 @@ public class GetStarted extends AppCompatActivity {
                             // Sign in success, update UI with the signed-in user's information
                             FirebaseUser currentUser = mAuth.getCurrentUser();
                             if (currentUser != null) {
-                                User user = createNewUser(currentUser);
+                                userGlobal = createNewUser(currentUser);
                                 // TODO check
                                 if (!userExistsInFirestore()){
-                                    createUserInFirestore(user);
+                                    createUserInFirestore(userGlobal);
                                 } else {
-                                    user = new FirebaseReader().getUserFromFirestore();
+                                    userGlobal = new FirebaseReader().getUserFromFirestore();
                                 }
-                                new UserController(GetStarted.this).addUser(user);
+                                new UserController(GetStarted.this).addUser(userGlobal);
 
                             } else {
                                 Toast.makeText(GetStarted.this, "Error creating user", Toast.LENGTH_SHORT).show();
