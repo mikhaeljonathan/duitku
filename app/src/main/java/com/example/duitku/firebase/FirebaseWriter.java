@@ -9,6 +9,7 @@ import com.example.duitku.category.Category;
 import com.example.duitku.category.CategoryController;
 import com.example.duitku.transaction.Transaction;
 import com.example.duitku.transaction.TransactionController;
+import com.example.duitku.user.UserController;
 import com.example.duitku.wallet.Wallet;
 import com.example.duitku.wallet.WalletController;
 
@@ -89,7 +90,9 @@ public class FirebaseWriter {
     }
 
     private void writeUser(){
-        // TODO bikin collection "detail" di dalem user collection
+        //TODO
+        UserController userController = new UserController(context);
+        fbHelper.addUserToFirebase(userController.convertUserToHashMap(userController.getUser()));
     }
 
 }

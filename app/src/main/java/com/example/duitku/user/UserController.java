@@ -4,7 +4,11 @@ import android.content.ContentValues;
 import android.content.Context;
 import android.database.Cursor;
 
+import com.example.duitku.database.DuitkuContract;
 import com.example.duitku.database.DuitkuContract.UserEntry;
+import com.example.duitku.wallet.Wallet;
+
+import java.util.HashMap;
 
 public class UserController {
 
@@ -75,4 +79,14 @@ public class UserController {
         return ret;
     }
 
+    public HashMap<String, Object> convertUserToHashMap(User user){
+        HashMap<String, Object> hashMap = new HashMap<>();
+        hashMap.put(UserEntry.COLUMN_ID, user.getId());
+        hashMap.put(UserEntry.COLUMN_USER_NAME, user.getName());
+        hashMap.put(UserEntry.COLUMN_USER_EMAIL, user.getEmail());
+        hashMap.put(UserEntry.COLUMN_USER_STATUS, user.getStatus());
+        hashMap.put(UserEntry.COLUMN_USER_FIRST_TIME, user.getFirstTime());
+        hashMap.put(UserEntry.COLUMN_USER_PASSCODE, user.getPasscode());
+        return hashMap;
+    }
 }

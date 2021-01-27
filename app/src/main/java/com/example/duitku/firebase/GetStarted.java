@@ -27,6 +27,7 @@ import com.google.firebase.auth.AuthResult;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.auth.GoogleAuthProvider;
+import com.google.firebase.firestore.FirebaseFirestore;
 
 public class GetStarted extends AppCompatActivity {
 
@@ -129,7 +130,7 @@ public class GetStarted extends AppCompatActivity {
         // TODO check user uuid ada di firestore blm, kalo blm add, kalo udh langsung return
         // user nya buat collection baru (bukan di field)
         // document usernya ngikutin class User di package user
-
+        FirebaseFirestore
 //        FirebaseHelper firebaseHelper = new FirebaseHelper().addUserToFirebase();
     }
 
