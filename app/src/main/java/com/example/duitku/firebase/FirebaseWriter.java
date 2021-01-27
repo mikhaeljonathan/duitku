@@ -48,7 +48,7 @@ public class FirebaseWriter {
 
     private void writeAllArticles() {
 //        List<Article> all = new ArrayList<>();
-//        TODO masukin semua artikel dari SQLite ke all
+//        //TODO masukin semua artikel dari SQLite ke all
 //
 //        for (Article x: all) {
 //            fbHelper.article_col_ref.document("" + x.getId()).set(x.toHashmap());
@@ -91,10 +91,25 @@ public class FirebaseWriter {
         }
     }
 
-    private void writeUser(){
-        //TODO check
+    public void writeUser(){
         UserController userController = new UserController(context);
         fbHelper.addUserToFirebase(userController.convertUserToHashMap(userController.getUser()));
+    }
+
+    private void deleteBudget(long budgetId){
+
+    }
+
+    private void deleteTransaction(long transactionId){
+
+    }
+
+    private void deleteWallet(long walletId){
+
+    }
+
+    private void deleteCategory(long categoryId){
+
     }
 
 }

@@ -97,4 +97,8 @@ public class Utility {
         return month / 4 + 1;
     }
 
+    public static String getIntervalsFromWeek(int week){
+        // TODO: kerjain di sini do
+    }
+
 }

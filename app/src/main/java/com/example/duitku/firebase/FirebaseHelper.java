@@ -1,5 +1,6 @@
 package com.example.duitku.firebase;
 
+import com.example.duitku.database.DuitkuContract.UserEntry;
 import com.example.duitku.database.DuitkuContract.CategoryEntry;
 import com.example.duitku.database.DuitkuContract.TransactionEntry;
 import com.example.duitku.database.DuitkuContract.WalletEntry;
