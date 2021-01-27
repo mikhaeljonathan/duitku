@@ -87,7 +87,7 @@ public class ViewCategoryTransactionActivityView implements UIView {
 
     private void setUpPeriod(){
         TextView periodTextView = header.findViewById(R.id.view_header_subsubtitle);
-        periodTextView.setText("dari sini sampe sini");
+        periodTextView.setVisibility(View.GONE);
     }
 
     private void setUpTransactionTextView(){

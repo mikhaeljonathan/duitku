@@ -147,10 +147,6 @@ public class WeeklyTransactionFragment extends Fragment implements LoaderManager
         categoryTransactionListHashMap.put(weeklyTransaction, transactionController.convertHashMapToListOfCategoryTransaction(categoryTransactionHashMap));
     }
 
-
-
-
-
     private void updateIncomeAndExpense(Transaction curTransaction){
         CategoryController categoryController = new CategoryController(getActivity());
         long categoryId = curTransaction.getCategory_id();
