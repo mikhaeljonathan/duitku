@@ -7,6 +7,7 @@ import com.example.duitku.budget.Budget;
 import com.example.duitku.budget.BudgetController;
 import com.example.duitku.category.Category;
 import com.example.duitku.category.CategoryController;
+import com.example.duitku.notification.NotificationController;
 import com.example.duitku.transaction.Transaction;
 import com.example.duitku.transaction.TransactionController;
 import com.example.duitku.wallet.Wallet;
@@ -39,6 +40,7 @@ public class FirebaseWriter {
                 writeAllTransactions();
                 writeAllWallets();
                 writeUser();
+                new NotificationController(context).sendOnChannelBackupDatabase();
             }
         }).start();
     }

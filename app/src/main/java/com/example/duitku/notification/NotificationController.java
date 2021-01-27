@@ -13,17 +13,15 @@ import android.provider.Settings;
 import androidx.annotation.RequiresApi;
 import androidx.core.app.NotificationCompat;
 import androidx.core.app.NotificationManagerCompat;
-import androidx.core.content.ContextCompat;
 
 import com.example.duitku.R;
 import com.example.duitku.budget.Budget;
 import com.example.duitku.budget.view.ViewBudgetActivity;
-import com.example.duitku.budget.view.ViewBudgetActivityView;
 import com.example.duitku.category.Category;
 import com.example.duitku.category.CategoryController;
-import com.example.duitku.main.MainActivity;
 
-import static com.example.duitku.main.App.CHANNEL_ID;
+import static com.example.duitku.main.App.CHANNEL_ID_BUDGET;
+import static com.example.duitku.main.App.CHANNEL_ID_FIRESTORE;
 
 public class NotificationController {
 
@@ -42,12 +40,27 @@ public class NotificationController {
         }
 
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O &&
-                isChannelBlocked(CHANNEL_ID)){
-            openChannelSettings(CHANNEL_ID);
+                isChannelBlocked(CHANNEL_ID_BUDGET)){
+            openChannelSettings(CHANNEL_ID_BUDGET);
             return;
         }
 
-        sendNotification(budget);
+        sendBudgetNotification(budget);
+    }
+
+    public void sendOnChannelBackupDatabase(){
+        if (!notificationManager.areNotificationsEnabled()){
+            openNotificationSettings();
+            return;
+        }
+
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O &&
+                isChannelBlocked(CHANNEL_ID_FIRESTORE)){
+            openChannelSettings(CHANNEL_ID_FIRESTORE);
+            return;
+        }
+
+        sendBackupNotification();
     }
 
     private void openNotificationSettings(){
@@ -79,7 +92,7 @@ public class NotificationController {
         context.startActivity(intent);
     }
 
-    private void sendNotification(Budget budget){
+    private void sendBudgetNotification(Budget budget){
         Intent activityIntent = new Intent(context, ViewBudgetActivity.class);
         activityIntent.putExtra("ID", budget.getId());
         PendingIntent contentIntent = PendingIntent.getActivity(context,
@@ -88,7 +101,7 @@ public class NotificationController {
         Category category = new CategoryController(context).getCategoryById(budget.getCategoryId());
         double delta = budget.getUsed() - budget.getAmount();
 
-        Notification notification = new NotificationCompat.Builder(context, CHANNEL_ID)
+        Notification notification = new NotificationCompat.Builder(context, CHANNEL_ID_BUDGET)
                 .setSmallIcon(R.drawable.icon_logo)
                 .setContentTitle("Budget Overflow")
                 .setContentText("Budget " + category.getName() + "\nOverspent " + delta)
@@ -99,6 +112,18 @@ public class NotificationController {
                 .build();
 
         notificationManager.notify(1, notification);
+    }
+
+    private void sendBackupNotification(){
+        Notification notification = new NotificationCompat.Builder(context, CHANNEL_ID_FIRESTORE)
+                .setSmallIcon(R.drawable.icon_logo)
+                .setContentTitle("Cloud Backup")
+                .setContentText("Your data have been backed up in cloud")
+                .setPriority(NotificationCompat.PRIORITY_HIGH)
+                .setCategory(NotificationCompat.CATEGORY_MESSAGE)
+                .build();
+
+        notificationManager.notify(2, notification);
     }
 
 
