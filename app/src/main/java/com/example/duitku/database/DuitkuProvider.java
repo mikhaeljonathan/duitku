@@ -5,6 +5,7 @@ import com.example.duitku.database.DuitkuContract.BudgetEntry;
 import com.example.duitku.database.DuitkuContract.TransactionEntry;
 import com.example.duitku.database.DuitkuContract.CategoryEntry;
 import com.example.duitku.database.DuitkuContract.UserEntry;
+import com.example.duitku.firebase.FirebaseHelper;
 
 
 import android.content.ContentProvider;
@@ -154,9 +155,11 @@ public class DuitkuProvider extends ContentProvider {
                 rowsDeleted = db.delete(TransactionEntry.TABLE_NAME, selection, selectionArgs);
                 break;
             case TRANSACTION_ID:
+                String id = String.valueOf(ContentUris.parseId(uri));
                 selection = TransactionEntry._ID + " = ?";
-                selectionArgs = new String[] {String.valueOf(ContentUris.parseId(uri))};
+                selectionArgs = new String[] {id};
                 rowsDeleted = db.delete(TransactionEntry.TABLE_NAME, selection, selectionArgs);
+                new FirebaseHelper().getTransactionRef().document(id).delete();
                 break;
             case WALLET_ID:
                 selection = WalletEntry._ID + " = ?";

@@ -7,6 +7,10 @@ public class Wallet {
     private double wallet_amount;
     private String wallet_desc;
 
+    public Wallet(){
+
+    }
+
     public Wallet(long _id, String wallet_name, double wallet_amount, String wallet_desc){
         this._id = _id;
         this.wallet_name = wallet_name;

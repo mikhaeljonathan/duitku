@@ -12,9 +12,17 @@ import android.widget.Button;
 import android.widget.Toast;
 
 import com.example.duitku.R;
+import com.example.duitku.budget.Budget;
+import com.example.duitku.budget.BudgetController;
+import com.example.duitku.category.Category;
+import com.example.duitku.category.CategoryController;
 import com.example.duitku.database.DuitkuContract;
+import com.example.duitku.transaction.Transaction;
+import com.example.duitku.transaction.TransactionController;
 import com.example.duitku.user.User;
 import com.example.duitku.user.UserController;
+import com.example.duitku.wallet.Wallet;
+import com.example.duitku.wallet.WalletController;
 import com.google.android.gms.auth.api.signin.GoogleSignIn;
 import com.google.android.gms.auth.api.signin.GoogleSignInAccount;
 import com.google.android.gms.auth.api.signin.GoogleSignInClient;
@@ -28,7 +36,11 @@ import com.google.firebase.auth.AuthResult;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.auth.GoogleAuthProvider;
+import com.google.firebase.firestore.QueryDocumentSnapshot;
 import com.google.firebase.firestore.QuerySnapshot;
+
+import java.util.ArrayList;
+import java.util.List;
 
 public class GetStarted extends AppCompatActivity {
 
@@ -68,7 +80,7 @@ public class GetStarted extends AppCompatActivity {
         signIn();
     }
 
-    private void signIn(){
+    private void signIn() {
         Intent signInIntent = googleSignInClient.getSignInIntent();
         startActivityForResult(signInIntent, RC_SIGN_IN);
     }
@@ -130,28 +142,68 @@ public class GetStarted extends AppCompatActivity {
                         if (queryDocumentSnapshots.isEmpty()) {
                             user = null; // gaada di firebase
                             createUserInFirestore(firebaseUser);
-                        }
-                        else { //ada di firebase
-                            FirebaseReader firebaseReader = new FirebaseReader();
-                            firebaseReader.getUserFromFirestore(new OnSuccessListener<QuerySnapshot>() {
-                                @Override
-                                public void onSuccess(QuerySnapshot queryDocumentSnapshots) {
-                                    user = queryDocumentSnapshots.toObjects(User.class).get(0);
-                                    new UserController(GetStarted.this).addUser(user);
-                                    finish();
-                                }
-                            });
+                        } else { //ada di firebase
+                            user = queryDocumentSnapshots.toObjects(User.class).get(0);
+                            new UserController(GetStarted.this).addUser(user);
+                            getDataFromFirebase();
+                            finish();
                         }
                     }
                 });
     }
 
-    private User createNewUser(FirebaseUser user){
+    private void getDataFromFirebase() {
+        Log.v("HAHA", "HEHE");
+        FirebaseReader firebaseReader = new FirebaseReader();
+
+        final TransactionController transactionController = new TransactionController(this);
+        firebaseReader.getAllTransactions(new OnSuccessListener<QuerySnapshot>() {
+            @Override
+            public void onSuccess(QuerySnapshot queryDocumentSnapshots) {
+                for (QueryDocumentSnapshot doc : queryDocumentSnapshots) {
+                    transactionController.addTransaction(doc.toObject(Transaction.class));
+                }
+            }
+        });
+
+        final WalletController walletController = new WalletController(this);
+        firebaseReader.getAllWallets(new OnSuccessListener<QuerySnapshot>() {
+            @Override
+            public void onSuccess(QuerySnapshot queryDocumentSnapshots) {
+                for (QueryDocumentSnapshot doc : queryDocumentSnapshots) {
+                    walletController.addWallet(doc.toObject(Wallet.class));
+                }
+            }
+        });
+
+        final BudgetController budgetController = new BudgetController(this);
+        firebaseReader.getAllBudgets(new OnSuccessListener<QuerySnapshot>() {
+            @Override
+            public void onSuccess(QuerySnapshot queryDocumentSnapshots) {
+                for (QueryDocumentSnapshot doc : queryDocumentSnapshots) {
+                    budgetController.addBudget(doc.toObject(Budget.class));
+                }
+            }
+        });
+
+        final CategoryController categoryController = new CategoryController(this);
+        firebaseReader.getAllCategories(new OnSuccessListener<QuerySnapshot>() {
+            @Override
+            public void onSuccess(QuerySnapshot queryDocumentSnapshots) {
+                for (QueryDocumentSnapshot doc : queryDocumentSnapshots) {
+                    categoryController.addCategory(doc.toObject(Category.class));
+                }
+            }
+        });
+
+    }
+
+    private User createNewUser(FirebaseUser user) {
         return new User(user.getUid(), user.getDisplayName(), user.getEmail(),
                 DuitkuContract.UserEntry.TYPE_REGULAR, DuitkuContract.UserEntry.TYPE_FIRST_TIME, null);
     }
 
-    private void createUserInFirestore(FirebaseUser firebaseUser){
+    private void createUserInFirestore(FirebaseUser firebaseUser) {
         user = createNewUser(firebaseUser);
         UserController userController = new UserController(this);
         new FirebaseHelper().addUserToFirebase(userController.convertUserToHashMap(user)).addOnSuccessListener(new OnSuccessListener<Void>() {
