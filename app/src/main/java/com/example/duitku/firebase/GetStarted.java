@@ -103,6 +103,13 @@ public class GetStarted extends AppCompatActivity {
                             FirebaseUser currentUser = mAuth.getCurrentUser();
                             if (currentUser != null) {
                                 createNewLocalUser(currentUser);
+
+                                // TODO
+                                if (user not exist in firestore){
+                                    createUserInFirestore(currentUser);
+                                } else {
+
+                                }
                                 createUserInFirestore(currentUser);
                             } else {
                                 Toast.makeText(GetStarted.this, "Error creating user", Toast.LENGTH_SHORT).show();

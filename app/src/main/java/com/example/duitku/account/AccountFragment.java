@@ -18,10 +18,11 @@ import androidx.fragment.app.Fragment;
 import com.example.duitku.R;
 import com.example.duitku.category.fragment.ViewCategoriesActivity;
 import com.example.duitku.database.DuitkuContract.UserEntry;
-import com.example.duitku.main.MainActivity;
 import com.example.duitku.passcode.PasscodeActivity;
 import com.example.duitku.user.User;
 import com.example.duitku.user.UserController;
+import com.example.duitku.welcome.WelcomeActivity;
+import com.google.firebase.auth.FirebaseAuth;
 
 public class AccountFragment extends Fragment {
 
@@ -159,7 +160,45 @@ public class AccountFragment extends Fragment {
     }
 
     private void setUpSignOutButton(){
+        Button signOutBtn = view.findViewById(R.id.account_sign_out_btn);
+        signOutBtn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                showConfirmationSignOutDialog();
+            }
+        });
+    }
 
+    private void showConfirmationSignOutDialog(){
+        AlertDialog.Builder alertDialogBuilder = new AlertDialog.Builder(getActivity(), R.style.AlertDialogCustom);
+        alertDialogBuilder.setTitle("Sign out Confirmation");
+        alertDialogBuilder.setMessage("Are you sure to sign out?")
+                .setPositiveButton("Yes", new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialogInterface, int i) {
+                        signOut();
+                    }
+                })
+                .setNegativeButton("No", new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialogInterface, int i) {
+
+                    }
+                });
+        AlertDialog alertDialog = alertDialogBuilder.create();
+        alertDialog.getWindow().setBackgroundDrawableResource(R.color.colorPrimary); //biar bg gelap
+        alertDialog.show();
+    }
+
+    private void signOut(){
+        FirebaseAuth auth = FirebaseAuth.getInstance();
+        auth.signOut();
+
+        UserController userController = new UserController(getActivity());
+        userController.deleteUser();
+
+        getActivity().startActivity(new Intent(getActivity(), WelcomeActivity.class));
+        getActivity().finish();
     }
 
 }
