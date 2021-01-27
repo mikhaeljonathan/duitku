@@ -204,7 +204,7 @@ public class BudgetController {
         return ret;
     }
 
-    private ContentValues convertBudgetToContentValues(Budget budget) {
+    public ContentValues convertBudgetToContentValues(Budget budget) {
         String startDate = null;
         String endDate = null;
         if (budget.getBudget_startdate() != null) {

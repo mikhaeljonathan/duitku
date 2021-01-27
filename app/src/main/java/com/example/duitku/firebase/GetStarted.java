@@ -6,7 +6,6 @@ import androidx.appcompat.app.AppCompatActivity;
 import android.app.ProgressDialog;
 import android.content.Intent;
 import android.os.Bundle;
-import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.Toast;
@@ -16,7 +15,11 @@ import com.example.duitku.budget.Budget;
 import com.example.duitku.budget.BudgetController;
 import com.example.duitku.category.Category;
 import com.example.duitku.category.CategoryController;
-import com.example.duitku.database.DuitkuContract;
+import com.example.duitku.database.DuitkuContract.TransactionEntry;
+import com.example.duitku.database.DuitkuContract.WalletEntry;
+import com.example.duitku.database.DuitkuContract.BudgetEntry;
+import com.example.duitku.database.DuitkuContract.CategoryEntry;
+import com.example.duitku.database.DuitkuContract.UserEntry;
 import com.example.duitku.main.MainActivity;
 import com.example.duitku.transaction.Transaction;
 import com.example.duitku.transaction.TransactionController;
@@ -162,7 +165,8 @@ public class GetStarted extends AppCompatActivity {
             @Override
             public void onSuccess(QuerySnapshot queryDocumentSnapshots) {
                 for (QueryDocumentSnapshot doc : queryDocumentSnapshots) {
-                    transactionController.addTransaction(doc.toObject(Transaction.class));
+                    getContentResolver().insert(TransactionEntry.CONTENT_URI,
+                            transactionController.convertTransactionToContentValues(doc.toObject(Transaction.class)));
                 }
             }
         });
@@ -172,7 +176,8 @@ public class GetStarted extends AppCompatActivity {
             @Override
             public void onSuccess(QuerySnapshot queryDocumentSnapshots) {
                 for (QueryDocumentSnapshot doc : queryDocumentSnapshots) {
-                    walletController.addWallet(doc.toObject(Wallet.class));
+                    getContentResolver().insert(WalletEntry.CONTENT_URI,
+                            walletController.convertWalletToContentValues(doc.toObject(Wallet.class)));
                 }
             }
         });
@@ -182,7 +187,8 @@ public class GetStarted extends AppCompatActivity {
             @Override
             public void onSuccess(QuerySnapshot queryDocumentSnapshots) {
                 for (QueryDocumentSnapshot doc : queryDocumentSnapshots) {
-                    budgetController.addBudget(doc.toObject(Budget.class));
+                    getContentResolver().insert(BudgetEntry.CONTENT_URI,
+                            budgetController.convertBudgetToContentValues(doc.toObject(Budget.class)));
                 }
             }
         });
@@ -192,7 +198,8 @@ public class GetStarted extends AppCompatActivity {
             @Override
             public void onSuccess(QuerySnapshot queryDocumentSnapshots) {
                 for (QueryDocumentSnapshot doc : queryDocumentSnapshots) {
-                    categoryController.addCategory(doc.toObject(Category.class));
+                    getContentResolver().insert(CategoryEntry.CONTENT_URI,
+                            categoryController.convertCategoryToContentValues(doc.toObject(Category.class)));
                 }
             }
         });
@@ -201,7 +208,7 @@ public class GetStarted extends AppCompatActivity {
 
     private User createNewUser(FirebaseUser user) {
         return new User(user.getUid(), user.getDisplayName(), user.getEmail(),
-                DuitkuContract.UserEntry.TYPE_REGULAR, DuitkuContract.UserEntry.TYPE_FIRST_TIME, null);
+                UserEntry.TYPE_REGULAR, UserEntry.TYPE_FIRST_TIME, null);
     }
 
     private void createUserInFirestore(FirebaseUser firebaseUser) {

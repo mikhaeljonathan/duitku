@@ -120,7 +120,7 @@ public class WalletController {
         return ret;
     }
 
-    private ContentValues convertWalletToContentValues(Wallet wallet){
+    public ContentValues convertWalletToContentValues(Wallet wallet){
         ContentValues ret = new ContentValues();
         ret.put(WalletEntry.COLUMN_NAME, wallet.getWallet_name());
         ret.put(WalletEntry.COLUMN_AMOUNT, wallet.getWallet_amount());

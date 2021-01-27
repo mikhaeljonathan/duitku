@@ -178,7 +178,7 @@ public class TransactionController {
         return new Transaction(transactionId, walletId, walletDestId, categoryId, desc, date, amount);
     }
 
-    private ContentValues convertTransactionToContentValues(Transaction transaction){
+    public ContentValues convertTransactionToContentValues(Transaction transaction){
         String date = Utility.convertDateToString(transaction.getTransaction_date());
         Long categoryId = null;
         if (transaction.getCategory_id() != -1){

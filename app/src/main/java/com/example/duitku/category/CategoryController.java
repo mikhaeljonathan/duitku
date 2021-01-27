@@ -120,7 +120,7 @@ public class CategoryController {
         return ret;
     }
 
-    private ContentValues convertCategoryToContentValues(Category category){
+    public ContentValues convertCategoryToContentValues(Category category){
         ContentValues ret = new ContentValues();
         ret.put(CategoryEntry.COLUMN_NAME, category.getCategory_name());
         ret.put(CategoryEntry.COLUMN_TYPE, category.getCategory_type());
