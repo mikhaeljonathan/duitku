@@ -1,5 +1,7 @@
 package com.example.duitku.firebase;
 
+import android.util.Log;
+
 import com.example.duitku.article.Article;
 import com.example.duitku.budget.Budget;
 import com.example.duitku.category.Category;
@@ -25,22 +27,15 @@ public class FirebaseReader {
     private List<Transaction> transactionList;
     private List<Wallet> walletList;
 
-    private User user;
+    private static User user;
 
     public FirebaseReader (){
         fbHelper = new FirebaseHelper();
         getAll();
     }
 
-    public User getUserFromFirestore() {
-        fbHelper.getUserRef().get()
-                .addOnSuccessListener(new OnSuccessListener<QuerySnapshot>() {
-                    @Override
-                    public void onSuccess(QuerySnapshot queryDocumentSnapshots) {
-                        user = queryDocumentSnapshots.toObjects(User.class).get(0);
-                    }
-                });
-        return user;
+    public void getUserFromFirestore(OnSuccessListener<QuerySnapshot> listener) {
+        fbHelper.getUserRef().get().addOnSuccessListener(listener);
     }
 
     public List<Article> getAllArticle() {

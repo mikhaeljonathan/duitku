@@ -6,6 +6,7 @@ import androidx.appcompat.app.AppCompatActivity;
 import android.app.ProgressDialog;
 import android.content.Intent;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.Toast;
@@ -35,6 +36,7 @@ public class GetStarted extends AppCompatActivity {
     private static final int RC_SIGN_IN = 1;
     private GoogleSignInClient googleSignInClient;
     private User user;
+    private FirebaseUser firebaseUser;
     private ProgressDialog progressDialog;
 
     @Override
@@ -109,38 +111,39 @@ public class GetStarted extends AppCompatActivity {
                         progressDialog.dismiss();
                         if (task.isSuccessful()) {
                             // Sign in success, update UI with the signed-in user's information
-                            FirebaseUser currentUser = mAuth.getCurrentUser();
-                            if (currentUser != null) {
-
-                                user = createNewUser(currentUser);
-
-                                if (!userExistsInFirestore()){
-                                    createUserInFirestore(user);
-                                } else {
-                                    user = new FirebaseReader().getUserFromFirestore();
-                                }
-
-                                new UserController(GetStarted.this).addUser(user);
-
+                            firebaseUser = mAuth.getCurrentUser();
+                            if (firebaseUser != null) {
+                                checkIfUserExistsInFirestore();
                             } else {
                                 Toast.makeText(GetStarted.this, "Error creating user", Toast.LENGTH_SHORT).show();
                             }
-                            finish();
                         }
                     }
                 });
     }
 
-    private boolean userExistsInFirestore() {
-        FirebaseHelper firebaseHelper = new FirebaseHelper();
-        firebaseHelper.getUserRef().get()
+    private void checkIfUserExistsInFirestore() {
+        new FirebaseHelper().getUserRef().get()
                 .addOnSuccessListener(new OnSuccessListener<QuerySnapshot>() {
                     @Override
                     public void onSuccess(QuerySnapshot queryDocumentSnapshots) {
-                        if (queryDocumentSnapshots.isEmpty()) user = null;
+                        if (queryDocumentSnapshots.isEmpty()) {
+                            user = null; // gaada di firebase
+                            createUserInFirestore(firebaseUser);
+                        }
+                        else { //ada di firebase
+                            FirebaseReader firebaseReader = new FirebaseReader();
+                            firebaseReader.getUserFromFirestore(new OnSuccessListener<QuerySnapshot>() {
+                                @Override
+                                public void onSuccess(QuerySnapshot queryDocumentSnapshots) {
+                                    user = queryDocumentSnapshots.toObjects(User.class).get(0);
+                                    new UserController(GetStarted.this).addUser(user);
+                                    finish();
+                                }
+                            });
+                        }
                     }
                 });
-        return user != null;
     }
 
     private User createNewUser(FirebaseUser user){
@@ -148,10 +151,16 @@ public class GetStarted extends AppCompatActivity {
                 DuitkuContract.UserEntry.TYPE_REGULAR, DuitkuContract.UserEntry.TYPE_FIRST_TIME, null);
     }
 
-    private void createUserInFirestore(User user){
-        FirebaseHelper firebaseHelper = new FirebaseHelper();
+    private void createUserInFirestore(FirebaseUser firebaseUser){
+        user = createNewUser(firebaseUser);
         UserController userController = new UserController(this);
-        firebaseHelper.addUserToFirebase(userController.convertUserToHashMap(user));
+        new FirebaseHelper().addUserToFirebase(userController.convertUserToHashMap(user)).addOnSuccessListener(new OnSuccessListener<Void>() {
+            @Override
+            public void onSuccess(Void aVoid) {
+                new UserController(GetStarted.this).addUser(user);
+                finish();
+            }
+        });
     }
 
 }

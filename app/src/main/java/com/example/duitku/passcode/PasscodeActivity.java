@@ -1,6 +1,5 @@
 package com.example.duitku.passcode;
 
-import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 
 import android.content.Context;
@@ -141,14 +140,14 @@ public class PasscodeActivity extends AppCompatActivity {
 
                 UserController userController = new UserController(this);
                 User user = userController.getUser();
-                user.setPasscode(passcode.toString());
+                user.setUser_passcode(passcode.toString());
                 userController.updateUser(user);
 
             } else {
                 errorState("Passcode doesn't match");
             }
         } else {
-            String userPasscode = new UserController(this).getUser().getPasscode();
+            String userPasscode = new UserController(this).getUser().getUser_passcode();
             if (userPasscode.equals(passcode.toString())){
                 finish();
             } else {

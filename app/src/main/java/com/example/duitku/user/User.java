@@ -2,63 +2,67 @@ package com.example.duitku.user;
 
 public class User {
 
-    private String id;
-    private String name;
-    private String email;
-    private String status;
-    private String firstTime;
-    private String passcode;
+    private String _id;
+    private String user_name;
+    private String user_email;
+    private String user_status;
+    private String user_first_time;
+    private String user_passcode;
 
-    public User(String id, String name, String email, String status, String firstTime, String passcode) {
-        this.id = id;
-        this.name = name;
-        this.email = email;
-        this.status = status;
-        this.firstTime = firstTime;
-        this.passcode = passcode;
+    public User(){
+
     }
 
-    public String getId(){
-        return id;
+    public User(String _id, String user_name, String user_email, String user_status, String user_first_time, String user_passcode) {
+        this._id = _id;
+        this.user_name = user_name;
+        this.user_email = user_email;
+        this.user_status = user_status;
+        this.user_first_time = user_first_time;
+        this.user_passcode = user_passcode;
     }
 
-    public String getName() {
-        return name;
+    public String get_id(){
+        return _id;
     }
 
-    public void setName(String name) {
-        this.name = name;
+    public String getUser_name() {
+        return user_name;
     }
 
-    public String getEmail() {
-        return email;
+    public void setUser_name(String name) {
+        this.user_name = name;
     }
 
-    public void setEmail(String email) {
-        this.email = email;
+    public String getUser_email() {
+        return user_email;
     }
 
-    public String getStatus() {
-        return status;
+    public void setUser_email(String email) {
+        this.user_email = email;
     }
 
-    public void setStatus(String status) {
-        this.status = status;
+    public String getUser_status() {
+        return user_status;
     }
 
-    public String getFirstTime() {
-        return firstTime;
+    public void setUser_status(String status) {
+        this.user_status = status;
     }
 
-    public void setFirstTime(String firstTime) {
-        this.firstTime = firstTime;
+    public String getUser_first_time() {
+        return user_first_time;
     }
 
-    public String getPasscode() {
-        return passcode;
+    public void setUser_first_time(String firstTime) {
+        this.user_first_time = firstTime;
     }
 
-    public void setPasscode(String passcode) {
-        this.passcode = passcode;
+    public String getUser_passcode() {
+        return user_passcode;
+    }
+
+    public void setUser_passcode(String passcode) {
+        this.user_passcode = passcode;
     }
 }

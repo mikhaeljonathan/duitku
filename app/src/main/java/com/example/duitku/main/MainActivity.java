@@ -2,17 +2,11 @@ package com.example.duitku.main;
 
 import androidx.appcompat.app.AppCompatActivity;
 
-import android.app.job.JobInfo;
-import android.app.job.JobScheduler;
-import android.content.ComponentName;
 import android.content.Intent;
 import android.os.Bundle;
-import android.util.Log;
 
 import com.example.duitku.R;
-import com.example.duitku.database.DuitkuContract;
 import com.example.duitku.database.DuitkuContract.UserEntry;
-import com.example.duitku.firebase.FirebaseJobService;
 import com.example.duitku.interfaces.UIView;
 import com.example.duitku.passcode.PasscodeActivity;
 //import com.example.duitku.user.AddProfileActivity;
@@ -42,7 +36,7 @@ public class MainActivity extends AppCompatActivity {
         userController = new UserController(this);
         user = userController.getUser();
 
-        if (user != null && user.getPasscode() != null){
+        if (user != null && user.getUser_passcode() != null){
             launchPasscode();
         }
 
@@ -58,7 +52,7 @@ public class MainActivity extends AppCompatActivity {
             return;
         }
 
-        if (user.getFirstTime().equals(UserEntry.TYPE_FIRST_TIME)){
+        if (user.getUser_first_time().equals(UserEntry.TYPE_FIRST_TIME)){
             setUpShowCase();
         }
 
@@ -123,7 +117,7 @@ public class MainActivity extends AppCompatActivity {
     }
 
     private void updateUserNotFirstTime(){
-        user.setFirstTime(UserEntry.TYPE_NOT_FIRST_TIME);
+        user.setUser_first_time(UserEntry.TYPE_NOT_FIRST_TIME);
         userController.updateUser(user);
     }
 

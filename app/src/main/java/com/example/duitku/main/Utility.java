@@ -99,6 +99,7 @@ public class Utility {
 
     public static String getIntervalsFromWeek(int week){
         // TODO: kerjain di sini do
+        return "Intervals";
     }
 
 }

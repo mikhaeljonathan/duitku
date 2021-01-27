@@ -38,7 +38,7 @@ public class TransactionAdComponent extends View {
             adView = rootView.findViewById(R.id.transaction_adview);
         }
 
-        if (new UserController(context).getUser().getStatus().equals(UserEntry.TYPE_PREMIUM)) {
+        if (new UserController(context).getUser().getUser_status().equals(UserEntry.TYPE_PREMIUM)) {
             adView.setVisibility(GONE);
         }
 

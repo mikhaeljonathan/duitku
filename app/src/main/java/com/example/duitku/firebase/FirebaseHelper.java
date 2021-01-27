@@ -5,6 +5,7 @@ import com.example.duitku.database.DuitkuContract.CategoryEntry;
 import com.example.duitku.database.DuitkuContract.TransactionEntry;
 import com.example.duitku.database.DuitkuContract.WalletEntry;
 import com.example.duitku.database.DuitkuContract.BudgetEntry;
+import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.firestore.CollectionReference;
@@ -66,8 +67,8 @@ public class FirebaseHelper {
                 transactionHashMap.get(TransactionEntry.COLUMN_ID)).set(transactionHashMap);
     }
 
-    public void addUserToFirebase(HashMap<String, Object> userHashMap){
-        user_col_ref.document("" +
+    public Task<Void> addUserToFirebase(HashMap<String, Object> userHashMap){
+        return user_col_ref.document("" +
                 userHashMap.get(UserEntry.COLUMN_ID)).set(userHashMap);
     }
 
