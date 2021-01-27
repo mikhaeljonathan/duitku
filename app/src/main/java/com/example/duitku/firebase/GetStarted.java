@@ -3,6 +3,7 @@ package com.example.duitku.firebase;
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 
+import android.app.ProgressDialog;
 import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
@@ -33,7 +34,8 @@ public class GetStarted extends AppCompatActivity {
     private FirebaseAuth mAuth;
     private static final int RC_SIGN_IN = 1;
     private GoogleSignInClient googleSignInClient;
-    private User userGlobal;
+    private User user;
+    private ProgressDialog progressDialog;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -43,6 +45,7 @@ public class GetStarted extends AppCompatActivity {
     }
 
     private void init() {
+        progressDialog = new ProgressDialog(this);
         Button btn_continue = findViewById(R.id.btn_continue);
         btn_continue.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -77,6 +80,9 @@ public class GetStarted extends AppCompatActivity {
             Task<GoogleSignInAccount> task = GoogleSignIn.getSignedInAccountFromIntent(data);
 
             if (task.isSuccessful()) {
+
+                progressDialog.setMessage("Starting signing in...");
+                progressDialog.show();
                 try {
                     // Google Sign In was successful, authenticate with Firebase
                     GoogleSignInAccount account = task.getResult(ApiException.class);
@@ -84,6 +90,7 @@ public class GetStarted extends AppCompatActivity {
 
                 } catch (ApiException e) {
                     // Google Sign In failed, update UI appropriately
+                    progressDialog.dismiss();
                     Toast.makeText(this, "Google sign in failed", Toast.LENGTH_SHORT).show();
                 }
 
@@ -99,12 +106,13 @@ public class GetStarted extends AppCompatActivity {
                 .addOnCompleteListener(this, new OnCompleteListener<AuthResult>() {
                     @Override
                     public void onComplete(@NonNull Task<AuthResult> task) {
+                        progressDialog.dismiss();
                         if (task.isSuccessful()) {
                             // Sign in success, update UI with the signed-in user's information
                             FirebaseUser currentUser = mAuth.getCurrentUser();
                             if (currentUser != null) {
 
-                                User user = createNewUser(currentUser);
+                                user = createNewUser(currentUser);
 
                                 if (!userExistsInFirestore()){
                                     createUserInFirestore(user);
@@ -129,10 +137,10 @@ public class GetStarted extends AppCompatActivity {
                 .addOnSuccessListener(new OnSuccessListener<QuerySnapshot>() {
                     @Override
                     public void onSuccess(QuerySnapshot queryDocumentSnapshots) {
-                        if (queryDocumentSnapshots.isEmpty()) userGlobal = null;
+                        if (queryDocumentSnapshots.isEmpty()) user = null;
                     }
                 });
-        return userGlobal != null;
+        return user != null;
     }
 
     private User createNewUser(FirebaseUser user){
