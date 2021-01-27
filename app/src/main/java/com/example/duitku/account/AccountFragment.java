@@ -18,6 +18,7 @@ import androidx.fragment.app.Fragment;
 import com.example.duitku.R;
 import com.example.duitku.category.fragment.ViewCategoriesActivity;
 import com.example.duitku.database.DuitkuContract.UserEntry;
+import com.example.duitku.database.DuitkuDbHelper;
 import com.example.duitku.passcode.PasscodeActivity;
 import com.example.duitku.user.User;
 import com.example.duitku.user.UserController;
@@ -194,8 +195,7 @@ public class AccountFragment extends Fragment {
         FirebaseAuth auth = FirebaseAuth.getInstance();
         auth.signOut();
 
-        UserController userController = new UserController(getActivity());
-        userController.deleteUser();
+        new DuitkuDbHelper(getActivity()).dropAllTables();
 
         getActivity().startActivity(new Intent(getActivity(), WelcomeActivity.class));
         getActivity().finish();

@@ -17,6 +17,7 @@ import com.example.duitku.budget.BudgetController;
 import com.example.duitku.category.Category;
 import com.example.duitku.category.CategoryController;
 import com.example.duitku.database.DuitkuContract;
+import com.example.duitku.main.MainActivity;
 import com.example.duitku.transaction.Transaction;
 import com.example.duitku.transaction.TransactionController;
 import com.example.duitku.user.User;
@@ -146,6 +147,7 @@ public class GetStarted extends AppCompatActivity {
                             user = queryDocumentSnapshots.toObjects(User.class).get(0);
                             new UserController(GetStarted.this).addUser(user);
                             getDataFromFirebase();
+                            startActivity(new Intent(GetStarted.this, MainActivity.class));
                             finish();
                         }
                     }
@@ -153,7 +155,6 @@ public class GetStarted extends AppCompatActivity {
     }
 
     private void getDataFromFirebase() {
-        Log.v("HAHA", "HEHE");
         FirebaseReader firebaseReader = new FirebaseReader();
 
         final TransactionController transactionController = new TransactionController(this);
@@ -210,6 +211,7 @@ public class GetStarted extends AppCompatActivity {
             @Override
             public void onSuccess(Void aVoid) {
                 new UserController(GetStarted.this).addUser(user);
+                startActivity(new Intent(GetStarted.this, MainActivity.class));
                 finish();
             }
         });
