@@ -25,6 +25,8 @@ public class FirebaseReader {
     private List<Transaction> transactionList;
     private List<Wallet> walletList;
 
+    private User user;
+
     public FirebaseReader (){
         fbHelper = new FirebaseHelper();
         getAll();
