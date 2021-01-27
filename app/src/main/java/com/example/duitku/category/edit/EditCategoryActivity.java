@@ -18,6 +18,7 @@ import com.example.duitku.category.Category;
 import com.example.duitku.category.CategoryController;
 import com.example.duitku.category.form.CategoryForm;
 import com.example.duitku.database.DuitkuContract.CategoryEntry;
+import com.example.duitku.firebase.FirebaseWriter;
 
 public class EditCategoryActivity extends AppCompatActivity {
 
@@ -130,6 +131,8 @@ public class EditCategoryActivity extends AppCompatActivity {
             Toast.makeText(EditCategoryActivity.this, "Error deleting category", Toast.LENGTH_SHORT).show();
         } else {
             Toast.makeText(EditCategoryActivity.this, "Category is deleted", Toast.LENGTH_SHORT).show();
+            FirebaseWriter firebaseWriter = new FirebaseWriter(this);
+            firebaseWriter.deleteTransaction(category.getId());
         }
         finish();
     }

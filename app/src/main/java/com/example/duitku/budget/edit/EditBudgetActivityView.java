@@ -16,6 +16,7 @@ import com.example.duitku.R;
 import com.example.duitku.budget.Budget;
 import com.example.duitku.budget.BudgetController;
 import com.example.duitku.budget.form.BudgetForm;
+import com.example.duitku.firebase.FirebaseWriter;
 import com.example.duitku.interfaces.UIView;
 
 import java.util.Date;
@@ -151,6 +152,8 @@ public class EditBudgetActivityView implements UIView {
             Toast.makeText(activity, "Error deleting budget", Toast.LENGTH_SHORT).show();
         } else {
             Toast.makeText(activity, "Budget is deleted", Toast.LENGTH_SHORT).show();
+            FirebaseWriter firebaseWriter = new FirebaseWriter(activity.getBaseContext());
+            firebaseWriter.deleteTransaction(budget.getId());
         }
         activity.finish();
     }

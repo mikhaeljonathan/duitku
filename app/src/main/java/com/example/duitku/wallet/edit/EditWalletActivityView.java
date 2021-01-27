@@ -13,6 +13,7 @@ import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 
 import com.example.duitku.R;
+import com.example.duitku.firebase.FirebaseWriter;
 import com.example.duitku.transaction.TransactionController;
 import com.example.duitku.interfaces.UIView;
 import com.example.duitku.wallet.Wallet;
@@ -143,6 +144,8 @@ public class EditWalletActivityView implements UIView {
             Toast.makeText(activity, "Error deleting wallet", Toast.LENGTH_SHORT).show();
         } else {
             Toast.makeText(activity, "Wallet is deleted", Toast.LENGTH_SHORT).show();
+            FirebaseWriter firebaseWriter = new FirebaseWriter(activity.getBaseContext());
+            firebaseWriter.deleteWallet(wallet.getId());
         }
         activity.finish();
     }
