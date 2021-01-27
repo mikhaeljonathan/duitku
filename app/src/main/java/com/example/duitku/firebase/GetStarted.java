@@ -102,15 +102,18 @@ public class GetStarted extends AppCompatActivity {
                             // Sign in success, update UI with the signed-in user's information
                             FirebaseUser currentUser = mAuth.getCurrentUser();
                             if (currentUser != null) {
-                                createNewLocalUser(currentUser);
+
+                                User user = createNewUser(currentUser);
 
                                 // TODO
-//                                if (user not exist in firestore){
-//                                    createUserInFirestore(currentUser);
-//                                } else {
-//
-//                                }
-                                createUserInFirestore(currentUser);
+                                if (user not exist in firestore){
+                                    createUserInFirestore(user);
+                                } else {
+                                    // retrieve user dr firestore
+                                    // terus user.setSomething()
+                                }
+                                new UserController(GetStarted.this).addUser(userLocal);
+
                             } else {
                                 Toast.makeText(GetStarted.this, "Error creating user", Toast.LENGTH_SHORT).show();
                             }
@@ -120,19 +123,12 @@ public class GetStarted extends AppCompatActivity {
                 });
     }
 
-    private void createNewLocalUser(FirebaseUser user){
-        String name = user.getDisplayName();
-        String email = user.getEmail();
-        String uid = user.getUid();
-
-        User userLocal = new User(
-                uid, name, email, DuitkuContract.UserEntry.TYPE_REGULAR,
-                DuitkuContract.UserEntry.TYPE_FIRST_TIME, null);
-
-        new UserController(this).addUser(userLocal);
+    private User createNewUser(FirebaseUser user){
+        return new User(user.getUid(), user.getDisplayName(), user.getEmail(),
+                DuitkuContract.UserEntry.TYPE_REGULAR, DuitkuContract.UserEntry.TYPE_FIRST_TIME, null);
     }
 
-    private void createUserInFirestore(FirebaseUser user){
+    private void createUserInFirestore(User user){
         // TODO check user uuid ada di firestore blm, kalo blm add, kalo udh langsung return
         // user nya buat collection baru (bukan di field)
         // document usernya ngikutin class User di package user
