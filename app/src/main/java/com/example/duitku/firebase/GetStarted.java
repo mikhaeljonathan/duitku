@@ -5,7 +5,6 @@ import androidx.appcompat.app.AppCompatActivity;
 
 import android.content.Intent;
 import android.os.Bundle;
-import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.Toast;
@@ -15,24 +14,26 @@ import com.example.duitku.database.DuitkuContract;
 import com.example.duitku.user.User;
 import com.example.duitku.user.UserController;
 import com.google.android.gms.auth.api.signin.GoogleSignIn;
-import com.google.android.gms.auth.api.signin.GoogleSignInApi;
 import com.google.android.gms.auth.api.signin.GoogleSignInAccount;
 import com.google.android.gms.auth.api.signin.GoogleSignInClient;
 import com.google.android.gms.auth.api.signin.GoogleSignInOptions;
 import com.google.android.gms.common.api.ApiException;
 import com.google.android.gms.tasks.OnCompleteListener;
+import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.AuthCredential;
 import com.google.firebase.auth.AuthResult;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.auth.GoogleAuthProvider;
+import com.google.firebase.firestore.QuerySnapshot;
 
 public class GetStarted extends AppCompatActivity {
 
     private FirebaseAuth mAuth;
     private static final int RC_SIGN_IN = 1;
     private GoogleSignInClient googleSignInClient;
+    private User userGlobal;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -105,13 +106,12 @@ public class GetStarted extends AppCompatActivity {
 
                                 User user = createNewUser(currentUser);
 
-                                // TODO
-                                if (user not exist in firestore){
+                                if (!userExistsInFirestore()){
                                     createUserInFirestore(user);
                                 } else {
-                                    // retrieve user dr firestore
-                                    // terus user.setSomething()
+                                    user = new FirebaseReader().getUserFromFirestore();
                                 }
+
                                 new UserController(GetStarted.this).addUser(user);
 
                             } else {
@@ -123,17 +123,27 @@ public class GetStarted extends AppCompatActivity {
                 });
     }
 
+    private boolean userExistsInFirestore() {
+        FirebaseHelper firebaseHelper = new FirebaseHelper();
+        firebaseHelper.getUserRef().get()
+                .addOnSuccessListener(new OnSuccessListener<QuerySnapshot>() {
+                    @Override
+                    public void onSuccess(QuerySnapshot queryDocumentSnapshots) {
+                        userGlobal = queryDocumentSnapshots.toObjects(User.class).get(0);
+                    }
+                });
+        return userGlobal != null;
+    }
+
     private User createNewUser(FirebaseUser user){
         return new User(user.getUid(), user.getDisplayName(), user.getEmail(),
                 DuitkuContract.UserEntry.TYPE_REGULAR, DuitkuContract.UserEntry.TYPE_FIRST_TIME, null);
     }
 
     private void createUserInFirestore(User user){
-        // TODO check user uuid ada di firestore blm, kalo blm add, kalo udh langsung return
-        // user nya buat collection baru (bukan di field)
-        // document usernya ngikutin class User di package user
-
-//        FirebaseHelper firebaseHelper = new FirebaseHelper().addUserToFirebase();
+        FirebaseHelper firebaseHelper = new FirebaseHelper();
+        UserController userController = new UserController(this);
+        firebaseHelper.addUserToFirebase(userController.convertUserToHashMap(user));
     }
 
 }
