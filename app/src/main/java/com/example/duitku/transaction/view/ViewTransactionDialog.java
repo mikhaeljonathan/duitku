@@ -2,10 +2,8 @@ package com.example.duitku.transaction.view;
 
 import android.app.AlertDialog;
 import android.app.Dialog;
-import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -17,7 +15,6 @@ import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatDialogFragment;
 
 import com.example.duitku.R;
-import com.example.duitku.budget.view.ViewBudgetActivity;
 import com.example.duitku.category.Category;
 import com.example.duitku.category.CategoryController;
 import com.example.duitku.database.DuitkuContract.CategoryEntry;
@@ -80,9 +77,9 @@ public class ViewTransactionDialog extends AppCompatDialogFragment {
 
     private void initializeCategory(){
         CategoryController categoryController = new CategoryController(getActivity());
-        category = categoryController.getCategoryById(transaction.getCategoryId());
+        category = categoryController.getCategoryById(transaction.getCategory_id());
         if (category != null){
-            categoryType = category.getType();
+            categoryType = category.getCategory_type();
         } else{
             categoryType = CategoryEntry.TYPE_TRANSFER;
         }
@@ -99,7 +96,7 @@ public class ViewTransactionDialog extends AppCompatDialogFragment {
 
     private void setUpDateTitle(){
         TextView dateTextView = view.findViewById(R.id.view_transaction_date_textview);
-        dateTextView.setText(Utility.convertDateToFullString(transaction.getDate()));
+        dateTextView.setText(Utility.convertDateToFullString(transaction.getTransaction_date()));
     }
 
     private void setUpAmount(){
@@ -113,7 +110,7 @@ public class ViewTransactionDialog extends AppCompatDialogFragment {
         }
 
         TextView amountTextView = view.findViewById(R.id.view_transaction_amount_textview);
-        amountTextView.setText(new DecimalFormat("###,###").format(transaction.getAmount()));
+        amountTextView.setText(new DecimalFormat("###,###").format(transaction.getTransaction_amount()));
     }
 
     private void setUpCategory(){
@@ -124,15 +121,15 @@ public class ViewTransactionDialog extends AppCompatDialogFragment {
             categoryTextView.setVisibility(View.GONE);
             return;
         }
-        categoryTextView.setText(category.getName());
+        categoryTextView.setText(category.getCategory_name());
     }
 
     private void setUpWallet(){
         WalletController walletController = new WalletController(getActivity());
 
         TextView walletTextView = view.findViewById(R.id.view_transaction_wallet_textview);
-        Wallet wallet = walletController.getWalletById(transaction.getWalletId());
-        walletTextView.setText(wallet.getName());
+        Wallet wallet = walletController.getWalletById(transaction.getWallet_id());
+        walletTextView.setText(wallet.getWallet_name());
 
         ImageView walletDestImageView = view.findViewById(R.id.view_transaction_walletdest_imageview);
         TextView walletDestTextView = view.findViewById(R.id.view_transaction_walletdest_textview);
@@ -141,14 +138,14 @@ public class ViewTransactionDialog extends AppCompatDialogFragment {
             walletDestTextView.setVisibility(View.GONE);
             return;
         }
-        Wallet walletDest = walletController.getWalletById(transaction.getWalletDestId());
-        walletDestTextView.setText(walletDest.getName());
+        Wallet walletDest = walletController.getWalletById(transaction.getWalletdest_id());
+        walletDestTextView.setText(walletDest.getWallet_name());
     }
 
     private void setUpDesc(){
         TextView descTextView = view.findViewById(R.id.view_transaction_desc_textview);
-        descTextView.setText(transaction.getDesc());
-        if (transaction.getDesc().isEmpty()){
+        descTextView.setText(transaction.getTransaction_desc());
+        if (transaction.getTransaction_desc().isEmpty()){
             descTextView.setVisibility(View.GONE);
         } else {
             descTextView.setVisibility(View.VISIBLE);
@@ -161,7 +158,7 @@ public class ViewTransactionDialog extends AppCompatDialogFragment {
             @Override
             public void onClick(View view) {
                 Intent editTransactionIntent = new Intent(getActivity(), EditTransactionActivity.class);
-                editTransactionIntent.putExtra("ID", transaction.getId());
+                editTransactionIntent.putExtra("ID", transaction.get_id());
                 getActivity().startActivity(editTransactionIntent);
             }
         });

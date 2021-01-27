@@ -5,86 +5,90 @@ import java.util.Date;
 
 public class Transaction implements Serializable { // serializable biar bisa dipass ke activity
 
-    private long id;
-    private long walletId;
-    private long walletDestId;
-    private long categoryId;
-    private String desc;
-    private Date date;
-    private double amount;
+    private long _id;
+    private long wallet_id;
+    private long walletdest_id;
+    private long category_id;
+    private String transaction_desc;
+    private Date transaction_date;
+    private double transaction_amount;
 
-    public Transaction(long id, long walletId, long walletDestId, long categoryId, String desc, Date date, double amount){
-        this.id = id;
-        this.walletId = walletId;
-        this.walletDestId = walletDestId;
-        this.categoryId = categoryId;
-        this.desc = desc;
-        this.date = date;
-        this.amount = amount;
+    public Transaction(){
+
     }
 
-    public long getId (){
-        return id;
+    public Transaction(long _id, long wallet_id, long walletdest_id, long category_id, String transaction_desc, Date transaction_date, double transaction_amount){
+        this._id = _id;
+        this.wallet_id = wallet_id;
+        this.walletdest_id = walletdest_id;
+        this.category_id = category_id;
+        this.transaction_desc = transaction_desc;
+        this.transaction_date = transaction_date;
+        this.transaction_amount = transaction_amount;
     }
 
-    public Date getDate() {
-        return date;
+    public long get_id(){
+        return _id;
     }
 
-    public long getWalletId() {
-        return walletId;
+    public Date getTransaction_date() {
+        return transaction_date;
     }
 
-    public long getWalletDestId() {
-        return walletDestId;
+    public long getWallet_id() {
+        return wallet_id;
     }
 
-    public long getCategoryId() {
-        return categoryId;
+    public long getWalletdest_id() {
+        return walletdest_id;
     }
 
-    public String getDesc() {
-        return desc;
+    public long getCategory_id() {
+        return category_id;
     }
 
-    public double getAmount() { return amount; }
-
-    public void setId(long id) {
-        this.id = id;
+    public String getTransaction_desc() {
+        return transaction_desc;
     }
 
-    public void setWalletId(long walletId) {
-        this.walletId = walletId;
+    public double getTransaction_amount() { return transaction_amount; }
+
+    public void set_id(long _id) {
+        this._id = _id;
     }
 
-    public void setWalletDestId(long walletDestId) {
-        this.walletDestId = walletDestId;
+    public void setWallet_id(long wallet_id) {
+        this.wallet_id = wallet_id;
     }
 
-    public void setCategoryId(long categoryId) {
-        this.categoryId = categoryId;
+    public void setWalletdest_id(long walletdest_id) {
+        this.walletdest_id = walletdest_id;
     }
 
-    public void setDesc(String desc) {
-        this.desc = desc;
+    public void setCategory_id(long category_id) {
+        this.category_id = category_id;
     }
 
-    public void setDate(Date date) {
-        this.date = date;
+    public void setTransaction_desc(String transaction_desc) {
+        this.transaction_desc = transaction_desc;
     }
 
-    public void setAmount(double amount) {
-        this.amount = amount;
+    public void setTransaction_date(Date transaction_date) {
+        this.transaction_date = transaction_date;
+    }
+
+    public void setTransaction_amount(double transaction_amount) {
+        this.transaction_amount = transaction_amount;
     }
 
     public static Transaction clone(Transaction transaction){
-        long id = transaction.getId();
-        long walletId = transaction.getWalletId();
-        long walletDestId = transaction.getWalletDestId();
-        long categoryId = transaction.getCategoryId();
-        String desc = transaction.getDesc();
-        Date date = transaction.getDate();
-        double amount = transaction.getAmount();
+        long id = transaction.get_id();
+        long walletId = transaction.getWallet_id();
+        long walletDestId = transaction.getWalletdest_id();
+        long categoryId = transaction.getCategory_id();
+        String desc = transaction.getTransaction_desc();
+        Date date = transaction.getTransaction_date();
+        double amount = transaction.getTransaction_amount();
 
         Transaction ret = new Transaction(id, walletId, walletDestId, categoryId, desc, date, amount);
         return ret;

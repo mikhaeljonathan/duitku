@@ -10,8 +10,6 @@ import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentManager;
 
 import com.example.duitku.R;
-import com.example.duitku.budget.Budget;
-import com.example.duitku.budget.BudgetController;
 import com.example.duitku.category.Category;
 import com.example.duitku.category.CategoryController;
 import com.example.duitku.category.pick.PickCategoryDialog;
@@ -78,7 +76,7 @@ public class TransactionCategoryComponent extends View {
             @Override
             public void pickCategory(long id) {
                 Category category = categoryController.getCategoryById(id);
-                categoryTextView.setText(category.getName());
+                categoryTextView.setText(category.getCategory_name());
                 changeTextViewToWhite();
                 categoryId = id;
             }
@@ -127,7 +125,7 @@ public class TransactionCategoryComponent extends View {
         Category category = categoryController.getCategoryById(categoryId);
         if (category == null) return;
 
-        categoryTextView.setText(category.getName());
+        categoryTextView.setText(category.getCategory_name());
         changeTextViewToWhite();
     }
 }

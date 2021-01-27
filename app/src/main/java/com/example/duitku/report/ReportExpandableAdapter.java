@@ -88,7 +88,7 @@ public class ReportExpandableAdapter extends BaseExpandableListAdapter {
 
         TextView categoryName = view.findViewById(R.id.item_list_report_name);
         Category category = new CategoryController(context).getCategoryById(report.getCategoryId());
-        categoryName.setText(category.getName());
+        categoryName.setText(category.getCategory_name());
 
         TextView amount = view.findViewById(R.id.item_list_report_total);
         amount.setText(new DecimalFormat("###,###").format(report.getAmount()));
@@ -129,10 +129,10 @@ public class ReportExpandableAdapter extends BaseExpandableListAdapter {
         setUpHeader(view, transaction);
 
         TextView descTextView = view.findViewById(R.id.item_list_transaction_desc_textview);
-        descTextView.setText(transaction.getDesc());
+        descTextView.setText(transaction.getTransaction_desc());
 
         TextView amountTextView = view.findViewById(R.id.item_list_transaction_amount_textview);
-        amountTextView.setText(new DecimalFormat("###,###").format(transaction.getAmount()));
+        amountTextView.setText(new DecimalFormat("###,###").format(transaction.getTransaction_amount()));
 
         if(b){
             cl.setBackgroundResource(R.drawable.custom_shape_bottom_rounded);
@@ -160,8 +160,8 @@ public class ReportExpandableAdapter extends BaseExpandableListAdapter {
         ImageView transferIcon = view.findViewById(R.id.item_list_transaction_transfer_imageview);
         TextView walletDestTextView = view.findViewById(R.id.item_list_transaction_walletdest_textview);
 
-        Wallet wallet = new WalletController(context).getWalletById(transaction.getWalletId());
-        headerTextView.setText(wallet.getName());
+        Wallet wallet = new WalletController(context).getWalletById(transaction.getWallet_id());
+        headerTextView.setText(wallet.getWallet_name());
         transferIcon.setVisibility(View.GONE);
         walletDestTextView.setVisibility(View.GONE);
     }

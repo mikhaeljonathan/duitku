@@ -29,7 +29,6 @@ import com.github.mikephil.charting.data.PieDataSet;
 import com.github.mikephil.charting.data.PieEntry;
 import com.github.mikephil.charting.utils.ColorTemplate;
 
-import java.text.DecimalFormat;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -112,7 +111,7 @@ public class ReportContentFragmentView implements UIView {
             @Override
             public boolean onChildClick(ExpandableListView expandableListView, View view, int i, int i1, long l) {
                 Transaction transaction = (Transaction) adapter.getChild(i, i1);
-                viewTransaction(transaction.getId());
+                viewTransaction(transaction.get_id());
                 return true;
             }
         });
@@ -166,7 +165,7 @@ public class ReportContentFragmentView implements UIView {
         for (Report report: reportList){
             Category category = new CategoryController(context).getCategoryById(report.getCategoryId());
             float percentage = (float) report.getPercentage();
-            pieEntries.add(new PieEntry(percentage, category.getName()));
+            pieEntries.add(new PieEntry(percentage, category.getCategory_name()));
         }
 
         if (adapter.getGroupCount() == 0){

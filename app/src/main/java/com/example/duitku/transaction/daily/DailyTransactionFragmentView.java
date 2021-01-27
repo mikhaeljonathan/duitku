@@ -96,7 +96,7 @@ public class DailyTransactionFragmentView implements UIView {
             @Override
             public boolean onChildClick(ExpandableListView expandableListView, View view, int i, int i1, long id) {
                 Transaction transaction = (Transaction) adapter.getChild(i, i1);
-                viewTransaction(transaction.getId());
+                viewTransaction(transaction.get_id());
                 return true;
             }
         });

@@ -48,7 +48,7 @@ public class ViewBudgetActivityView implements UIView {
 
     @Override
     public void setUpUI() {
-        budget = new BudgetController(activity).getBudgetById(budget.getId());
+        budget = new BudgetController(activity).getBudgetById(budget.get_id());
         activity.setContentView(R.layout.activity_view);
         TextView textView = activity.findViewById(R.id.view_title_textview);
         textView.setText("View Budget");
@@ -73,12 +73,12 @@ public class ViewBudgetActivityView implements UIView {
 
     private void setUpBudgetName(){
         TextView nameTextView = header.findViewById(R.id.view_header_title);
-        nameTextView.setText(new CategoryController(activity).getCategoryById(budget.getCategoryId()).getName());
+        nameTextView.setText(new CategoryController(activity).getCategoryById(budget.getCategory_id()).getCategory_name());
     }
 
     private void setUpAmount(){
         TextView amountTextView = header.findViewById(R.id.view_header_subtitle);
-        amountTextView.setText(new DecimalFormat("###,###").format(budget.getAmount()));
+        amountTextView.setText(new DecimalFormat("###,###").format(budget.getBudget_amount()));
     }
 
     private void setUpPeriod(){
@@ -92,8 +92,8 @@ public class ViewBudgetActivityView implements UIView {
         TextView usedTextView = header.findViewById(R.id.view_header_used_textview);
         TextView maxTextView = header.findViewById(R.id.view_header_max_textview);
 
-        double amount = budget.getAmount();
-        double used = budget.getUsed();
+        double amount = budget.getBudget_amount();
+        double used = budget.getBudget_used();
 
         progressBar.setMax((int)amount);
         progressBar.setProgress((int)used);
@@ -130,7 +130,7 @@ public class ViewBudgetActivityView implements UIView {
             @Override
             public void onItemClick(AdapterView<?> adapterView, View view, int i, long id) {
                 Transaction transaction = adapter.getTransaction(i - 1);
-                viewTransaction(transaction.getId());
+                viewTransaction(transaction.get_id());
             }
         });
         listView.addHeaderView(header, null, false);
@@ -172,7 +172,7 @@ public class ViewBudgetActivityView implements UIView {
             @Override
             public void onClick(View view) {
                 Intent editBudgetIntent = new Intent(activity, EditBudgetActivity.class);
-                editBudgetIntent.putExtra("ID", budget.getId());
+                editBudgetIntent.putExtra("ID", budget.get_id());
                 activity.startActivity(editBudgetIntent);
             }
         });

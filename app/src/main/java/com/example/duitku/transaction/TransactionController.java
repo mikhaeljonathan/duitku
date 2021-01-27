@@ -38,8 +38,8 @@ public class TransactionController {
         ContentValues values = convertTransactionToContentValues(transaction);
         Uri uri = context.getContentResolver().insert(TransactionEntry.CONTENT_URI, values);
 
-        Category category = new CategoryController(context).getCategoryById(transaction.getCategoryId());
-        if (category != null && category.getType().equals(CategoryEntry.TYPE_EXPENSE)){ //budget pasti expense
+        Category category = new CategoryController(context).getCategoryById(transaction.getCategory_id());
+        if (category != null && category.getCategory_type().equals(CategoryEntry.TYPE_EXPENSE)){ //budget pasti expense
             new BudgetController(context).updateBudgetFromInitialTransaction(transaction);
         }
 
@@ -48,7 +48,7 @@ public class TransactionController {
 
     public int updateTransaction(Transaction transactionBefore, Transaction transactionAfter){
         ContentValues values = convertTransactionToContentValues(transactionAfter);
-        Uri uri = ContentUris.withAppendedId(TransactionEntry.CONTENT_URI, transactionAfter.getId());
+        Uri uri = ContentUris.withAppendedId(TransactionEntry.CONTENT_URI, transactionAfter.get_id());
         int rowsUpdated = context.getContentResolver().update(uri, values, null, null);
 
         new WalletController(context).updateWalletFromUpdatedTransaction(transactionBefore, transactionAfter);
@@ -61,7 +61,7 @@ public class TransactionController {
         new WalletController(context).updateWalletFromDeletedTransaction(transaction);
         new BudgetController(context).updateBudgetFromDeletedTransaction(transaction);
 
-        return context.getContentResolver().delete(ContentUris.withAppendedId(TransactionEntry.CONTENT_URI, transaction.getId()), null, null);
+        return context.getContentResolver().delete(ContentUris.withAppendedId(TransactionEntry.CONTENT_URI, transaction.get_id()), null, null);
     }
 
     // get transaction
@@ -92,8 +92,8 @@ public class TransactionController {
         int monthLowerBound = curMonth + 1;
         int monthUpperBound = curMonth + 1;
 
-        if (budget.getStartDate() == null){ // ga custom date
-            String type = budget.getType();
+        if (budget.getBudget_startdate() == null){ // ga custom date
+            String type = budget.getBudget_type();
             if (type.equals(BudgetEntry.TYPE_3MONTH)){
 
                 int quarter = Utility.getQuarter(curMonth);
@@ -114,7 +114,7 @@ public class TransactionController {
                 "AND CAST(SUBSTR(" + TransactionEntry.COLUMN_DATE + ", 4, 2) AS INTEGER) >= ? " +
                 "AND CAST(SUBSTR(" + TransactionEntry.COLUMN_DATE + ", 4, 2) AS INTEGER) <= ? " +
                 "AND " + TransactionEntry.COLUMN_DATE + " LIKE ?";
-        String[] selectionArgs = new String[]{Long.toString(budget.getCategoryId()),
+        String[] selectionArgs = new String[]{Long.toString(budget.getCategory_id()),
                 Integer.toString(monthLowerBound),
                 Integer.toString(monthUpperBound),
                 "%/%/" + curYear};
@@ -124,8 +124,8 @@ public class TransactionController {
     }
 
     private List<Transaction> getTransactionsByBudgetCustomDate(Budget budget){
-        String startDate = Utility.convertDateToString(budget.getStartDate());
-        String endDate = Utility.convertDateToString(budget.getEndDate());
+        String startDate = Utility.convertDateToString(budget.getBudget_startdate());
+        String endDate = Utility.convertDateToString(budget.getBudget_enddate());
         String dateLowerBound = startDate.substring(6) + startDate.substring(3, 5) + startDate.substring(0, 2);
         String dateUpperBound = endDate.substring(6) + endDate.substring(3, 5) + endDate.substring(0, 2);
 
@@ -133,7 +133,7 @@ public class TransactionController {
         String selection = TransactionEntry.COLUMN_CATEGORY_ID + " = ? " +
                 "AND SUBSTR(" + TransactionEntry.COLUMN_DATE + ", 7)||SUBSTR(" + TransactionEntry.COLUMN_DATE + ", 4, 2)||SUBSTR(" + TransactionEntry.COLUMN_DATE + ", 1, 2) " +
                 "BETWEEN ? AND ?";
-        String[] selectionArgs = new String[]{Long.toString(budget.getCategoryId()), dateLowerBound, dateUpperBound};
+        String[] selectionArgs = new String[]{Long.toString(budget.getCategory_id()), dateLowerBound, dateUpperBound};
         Cursor data = context.getContentResolver().query(TransactionEntry.CONTENT_URI, projection, selection, selectionArgs, null);
 
         return convertCursorToListOfTransaction(data);
@@ -179,23 +179,23 @@ public class TransactionController {
     }
 
     private ContentValues convertTransactionToContentValues(Transaction transaction){
-        String date = Utility.convertDateToString(transaction.getDate());
+        String date = Utility.convertDateToString(transaction.getTransaction_date());
         Long categoryId = null;
-        if (transaction.getCategoryId() != -1){
-            categoryId = transaction.getCategoryId();
+        if (transaction.getCategory_id() != -1){
+            categoryId = transaction.getCategory_id();
         }
         Long walletDestId = null;
-        if (transaction.getWalletDestId() != -1){
-            walletDestId = transaction.getWalletDestId();
+        if (transaction.getWalletdest_id() != -1){
+            walletDestId = transaction.getWalletdest_id();
         }
 
         ContentValues ret = new ContentValues();
-        ret.put(TransactionEntry.COLUMN_WALLET_ID, transaction.getWalletId());
+        ret.put(TransactionEntry.COLUMN_WALLET_ID, transaction.getWallet_id());
         ret.put(TransactionEntry.COLUMN_WALLET_DEST_ID, walletDestId);
         ret.put(TransactionEntry.COLUMN_CATEGORY_ID, categoryId);
-        ret.put(TransactionEntry.COLUMN_DESC, transaction.getDesc());
+        ret.put(TransactionEntry.COLUMN_DESC, transaction.getTransaction_desc());
         ret.put(TransactionEntry.COLUMN_DATE, date);
-        ret.put(TransactionEntry.COLUMN_AMOUNT, transaction.getAmount());
+        ret.put(TransactionEntry.COLUMN_AMOUNT, transaction.getTransaction_amount());
 
         return ret;
     }
@@ -219,13 +219,13 @@ public class TransactionController {
 
     public HashMap<String, Object> convertTransactionToHashMap(Transaction transaction){
         HashMap<String, Object> hashMap = new HashMap<>();
-        hashMap.put(TransactionEntry.COLUMN_ID, transaction.getId());
-        hashMap.put(TransactionEntry.COLUMN_WALLET_ID, transaction.getWalletId());
-        hashMap.put(TransactionEntry.COLUMN_WALLET_DEST_ID, transaction.getWalletDestId());
-        hashMap.put(TransactionEntry.COLUMN_CATEGORY_ID, transaction.getCategoryId());
-        hashMap.put(TransactionEntry.COLUMN_DESC, transaction.getDesc());
-        hashMap.put(TransactionEntry.COLUMN_DATE, transaction.getDate());
-        hashMap.put(TransactionEntry.COLUMN_AMOUNT, transaction.getAmount());
+        hashMap.put(TransactionEntry.COLUMN_ID, transaction.get_id());
+        hashMap.put(TransactionEntry.COLUMN_WALLET_ID, transaction.getWallet_id());
+        hashMap.put(TransactionEntry.COLUMN_WALLET_DEST_ID, transaction.getWalletdest_id());
+        hashMap.put(TransactionEntry.COLUMN_CATEGORY_ID, transaction.getCategory_id());
+        hashMap.put(TransactionEntry.COLUMN_DESC, transaction.getTransaction_desc());
+        hashMap.put(TransactionEntry.COLUMN_DATE, transaction.getTransaction_date());
+        hashMap.put(TransactionEntry.COLUMN_AMOUNT, transaction.getTransaction_amount());
         return hashMap;
     }
 
@@ -262,7 +262,7 @@ public class TransactionController {
         CategoryController categoryController = new CategoryController(context);
         Category category;
 
-        if (wallet.getAmount() < 0){
+        if (wallet.getWallet_amount() < 0){
             category = categoryController.getDefaultCategory(CategoryEntry.TYPE_EXPENSE);
         } else {
             category = categoryController.getDefaultCategory(CategoryEntry.TYPE_INCOME);
@@ -270,10 +270,10 @@ public class TransactionController {
 
         Calendar calendar = Calendar.getInstance();
         long walletDestId = -1;
-        long categoryId = category.getId();
-        String desc = "Initial Balance for Wallet " + wallet.getName();
+        long categoryId = category.get_id();
+        String desc = "Initial Balance for Wallet " + wallet.getWallet_name();
         Date date = calendar.getTime();
-        double amount = Math.abs(wallet.getAmount());
+        double amount = Math.abs(wallet.getWallet_amount());
         Transaction transaction = new Transaction(-1, walletId, walletDestId, categoryId, desc, date, amount);
 
         return addTransaction(transaction);
@@ -282,19 +282,19 @@ public class TransactionController {
     public Uri addTransactionFromUpdatedWallet(double amountBefore, Wallet wallet){
         CategoryController categoryController = new CategoryController(context);
         Category category;
-        if (amountBefore < wallet.getAmount()){
+        if (amountBefore < wallet.getWallet_amount()){
             category = categoryController.getDefaultCategory(CategoryEntry.TYPE_INCOME);
         } else {
             category = categoryController.getDefaultCategory(CategoryEntry.TYPE_EXPENSE);
         }
 
         Calendar calendar = Calendar.getInstance();
-        long walletId = wallet.getId();
+        long walletId = wallet.get_id();
         long walletDestId = -1;
-        long categoryId = category.getId();
-        String desc = "Balance Adjustment for Wallet " + wallet.getName();
+        long categoryId = category.get_id();
+        String desc = "Balance Adjustment for Wallet " + wallet.getWallet_name();
         Date date = calendar.getTime();
-        double amount = Math.abs(amountBefore - wallet.getAmount());
+        double amount = Math.abs(amountBefore - wallet.getWallet_amount());
         Transaction transaction = new Transaction(-1, walletId, walletDestId, categoryId, desc, date, amount);
 
         return addTransaction(transaction);
@@ -307,7 +307,7 @@ public class TransactionController {
         categoryTransaction.setAmount(0);
 
         for (Transaction transaction: temp){
-            Transaction temp2 = getTransactionById(transaction.getId());
+            Transaction temp2 = getTransactionById(transaction.get_id());
             if (temp2 == null) continue;
             categoryTransaction.addTransaction(temp2);
         }

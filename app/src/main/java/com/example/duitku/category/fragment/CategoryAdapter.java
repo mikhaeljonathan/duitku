@@ -30,7 +30,7 @@ public class CategoryAdapter extends CursorAdapter {
     public void bindView(View view, Context context, Cursor cursor) {
         TextView categoryTextView = view.findViewById(R.id.item_list_category_textview);
         Category category = categoryController.convertCursorToCategory(cursor);
-        categoryTextView.setText(category.getName());
+        categoryTextView.setText(category.getCategory_name());
     }
 
 }

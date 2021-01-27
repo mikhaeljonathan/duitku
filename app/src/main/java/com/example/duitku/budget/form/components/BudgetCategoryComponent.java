@@ -74,7 +74,7 @@ public class BudgetCategoryComponent extends View {
             @Override
             public void pickCategory(long id) {
                 Category category = categoryController.getCategoryById(id);
-                categoryTextView.setText(category.getName());
+                categoryTextView.setText(category.getCategory_name());
                 changeTextViewToWhite();
                 categoryId = id;
             }
@@ -132,7 +132,7 @@ public class BudgetCategoryComponent extends View {
         this.categoryIdBefore = categoryId;
         this.categoryId = categoryId;
         Category category = categoryController.getCategoryById(categoryId);
-        categoryTextView.setText(category.getName());
+        categoryTextView.setText(category.getCategory_name());
         changeTextViewToWhite();
     }
 

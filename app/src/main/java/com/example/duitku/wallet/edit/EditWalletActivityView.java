@@ -61,9 +61,9 @@ public class EditWalletActivityView implements UIView {
     private void setUpForm(){
         walletForm = new WalletForm(activity, null, activity);
         walletForm.setUpUI();
-        walletForm.setName(wallet.getName());
-        walletForm.setAmount(wallet.getAmount());
-        walletForm.setDesc(wallet.getDescription());
+        walletForm.setName(wallet.getWallet_name());
+        walletForm.setAmount(wallet.getWallet_amount());
+        walletForm.setDesc(wallet.getWallet_desc());
     }
 
     private void setUpButtons(){
@@ -90,17 +90,17 @@ public class EditWalletActivityView implements UIView {
     }
 
     private int updateWallet(){
-        double amountBefore = wallet.getAmount();
+        double amountBefore = wallet.getWallet_amount();
 
         String name = walletForm.getName();
         double amount = walletForm.getAmount();
         String desc = walletForm.getDesc();
 
-        wallet.setName(name);
-        wallet.setAmount(amount);
-        wallet.setDescription(desc);
+        wallet.setWallet_name(name);
+        wallet.setWallet_amount(amount);
+        wallet.setWallet_desc(desc);
 
-        if (amountBefore != wallet.getAmount()) {
+        if (amountBefore != wallet.getWallet_amount()) {
             new TransactionController(activity).addTransactionFromUpdatedWallet(amountBefore, wallet);
         }
 

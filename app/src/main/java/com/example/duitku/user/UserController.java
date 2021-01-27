@@ -5,6 +5,7 @@ import android.content.Context;
 import android.database.Cursor;
 
 import com.example.duitku.database.DuitkuContract.UserEntry;
+import com.example.duitku.firebase.FirebaseWriter;
 
 import java.util.HashMap;
 
@@ -24,6 +25,7 @@ public class UserController {
     public void updateUser(User user){
         ContentValues values = convertUserToContentValues(user);
         context.getContentResolver().update(UserEntry.CONTENT_URI, values, null, null);
+        new FirebaseWriter(context).writeUser();
     }
 
     public void deleteUser(){

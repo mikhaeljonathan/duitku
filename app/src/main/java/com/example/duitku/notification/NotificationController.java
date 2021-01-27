@@ -94,17 +94,17 @@ public class NotificationController {
 
     private void sendBudgetNotification(Budget budget){
         Intent activityIntent = new Intent(context, ViewBudgetActivity.class);
-        activityIntent.putExtra("ID", budget.getId());
+        activityIntent.putExtra("ID", budget.get_id());
         PendingIntent contentIntent = PendingIntent.getActivity(context,
                 0, activityIntent, PendingIntent.FLAG_UPDATE_CURRENT);
 
-        Category category = new CategoryController(context).getCategoryById(budget.getCategoryId());
-        double delta = budget.getUsed() - budget.getAmount();
+        Category category = new CategoryController(context).getCategoryById(budget.getCategory_id());
+        double delta = budget.getBudget_used() - budget.getBudget_amount();
 
         Notification notification = new NotificationCompat.Builder(context, CHANNEL_ID_BUDGET)
                 .setSmallIcon(R.drawable.icon_logo)
                 .setContentTitle("Budget Overflow")
-                .setContentText("Budget " + category.getName() + "\nOverspent " + delta)
+                .setContentText("Budget " + category.getCategory_name() + "\nOverspent " + delta)
                 .setPriority(NotificationCompat.PRIORITY_HIGH)
                 .setCategory(NotificationCompat.CATEGORY_MESSAGE)
                 .setContentIntent(contentIntent)

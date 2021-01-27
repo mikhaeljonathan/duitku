@@ -23,11 +23,6 @@ import android.widget.AdapterView;
 import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.ListView;
-import android.widget.TextView;
-
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Objects;
 
 public class SearchActivity extends AppCompatActivity implements LoaderManager.LoaderCallbacks<Cursor> {
 
@@ -90,7 +85,7 @@ public class SearchActivity extends AppCompatActivity implements LoaderManager.L
             @Override
             public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
                 Transaction transaction = adapter.getTransaction(i);
-                viewTransaction(transaction.getId());
+                viewTransaction(transaction.get_id());
             }
         });
     }

@@ -42,14 +42,14 @@ public class BudgetController {
         ContentValues values = convertBudgetToContentValues(budget);
         Uri uri = context.getContentResolver().insert(BudgetEntry.CONTENT_URI, values);
 
-        budget.setId(ContentUris.parseId(uri));
+        budget.set_id(ContentUris.parseId(uri));
         createNotification(budget);
         return uri;
     }
 
     public int updateBudget(Budget budget) {
         ContentValues values = convertBudgetToContentValues(budget);
-        Uri uri = ContentUris.withAppendedId(BudgetEntry.CONTENT_URI, budget.getId());
+        Uri uri = ContentUris.withAppendedId(BudgetEntry.CONTENT_URI, budget.get_id());
         return context.getContentResolver().update(uri, values, null, null);
     }
 
@@ -65,21 +65,21 @@ public class BudgetController {
 
         double used = 0;
         for (Transaction transaction : transactions) {
-            used += transaction.getAmount();
+            used += transaction.getTransaction_amount();
         }
 
-        budget.setUsed(used);
+        budget.setBudget_used(used);
     }
 
     private void createNotification(Budget budget){
-        if (budget.getUsed() > budget.getAmount()){
+        if (budget.getBudget_used() > budget.getBudget_amount()){
             new NotificationController(context).sendOnChannelBudgetOverflow(budget);
         }
     }
 
     public int deleteBudget(Budget budget) {
         return context.getContentResolver()
-                .delete(ContentUris.withAppendedId(BudgetEntry.CONTENT_URI, budget.getId()), null, null);
+                .delete(ContentUris.withAppendedId(BudgetEntry.CONTENT_URI, budget.get_id()), null, null);
     }
 
     public int deleteBudgetWithCategoryId(long categoryId){
@@ -126,15 +126,15 @@ public class BudgetController {
     }
 
     public Budget getBudgetByTransaction(Transaction transaction) {
-        Budget budget = getBudgetByCategoryId(transaction.getCategoryId());
+        Budget budget = getBudgetByCategoryId(transaction.getCategory_id());
 
         if (budget == null) return null;
 
-        if (budget.getStartDate() == null) { // ga custom
-            String type = budget.getType();
+        if (budget.getBudget_startdate() == null) { // ga custom
+            String type = budget.getBudget_type();
 
             Calendar calendarDate = Calendar.getInstance();
-            calendarDate.setTime(transaction.getDate());
+            calendarDate.setTime(transaction.getTransaction_date());
 
             Calendar calendarBudget = Calendar.getInstance();
 
@@ -155,8 +155,8 @@ public class BudgetController {
 
             }
         } else { // custom date
-            if (budget.getStartDate().compareTo(transaction.getDate()) <= 0
-                    && budget.getEndDate().compareTo(transaction.getDate()) >= 0) {
+            if (budget.getBudget_startdate().compareTo(transaction.getTransaction_date()) <= 0
+                    && budget.getBudget_enddate().compareTo(transaction.getTransaction_date()) >= 0) {
                 return budget;
             }
         }
@@ -207,40 +207,40 @@ public class BudgetController {
     private ContentValues convertBudgetToContentValues(Budget budget) {
         String startDate = null;
         String endDate = null;
-        if (budget.getStartDate() != null) {
-            startDate = Utility.convertDateToString(budget.getStartDate());
-            endDate = Utility.convertDateToString(budget.getEndDate());
+        if (budget.getBudget_startdate() != null) {
+            startDate = Utility.convertDateToString(budget.getBudget_startdate());
+            endDate = Utility.convertDateToString(budget.getBudget_enddate());
         }
 
-        String type = budget.getType();
+        String type = budget.getBudget_type();
         if (startDate != null) type = null;
 
         ContentValues ret = new ContentValues();
-        ret.put(BudgetEntry.COLUMN_AMOUNT, budget.getAmount());
-        ret.put(BudgetEntry.COLUMN_USED, budget.getUsed());
+        ret.put(BudgetEntry.COLUMN_AMOUNT, budget.getBudget_amount());
+        ret.put(BudgetEntry.COLUMN_USED, budget.getBudget_used());
         ret.put(BudgetEntry.COLUMN_STARTDATE, startDate);
         ret.put(BudgetEntry.COLUMN_ENDDATE, endDate);
         ret.put(BudgetEntry.COLUMN_TYPE, type);
-        ret.put(BudgetEntry.COLUMN_CATEGORY_ID, budget.getCategoryId());
+        ret.put(BudgetEntry.COLUMN_CATEGORY_ID, budget.getCategory_id());
 
         return ret;
     }
 
     public HashMap<String, Object> convertBudgetToHashMap(Budget budget){
         HashMap<String, Object> hashMap = new HashMap<>();
-        hashMap.put(BudgetEntry.COLUMN_ID, budget.getId());
-        hashMap.put(BudgetEntry.COLUMN_AMOUNT, budget.getAmount());
-        hashMap.put(BudgetEntry.COLUMN_USED, budget.getUsed());
-        hashMap.put(BudgetEntry.COLUMN_STARTDATE, budget.getStartDate());
-        hashMap.put(BudgetEntry.COLUMN_ENDDATE, budget.getEndDate());
-        hashMap.put(BudgetEntry.COLUMN_TYPE, budget.getType());
-        hashMap.put(BudgetEntry.COLUMN_CATEGORY_ID, budget.getCategoryId());
+        hashMap.put(BudgetEntry.COLUMN_ID, budget.get_id());
+        hashMap.put(BudgetEntry.COLUMN_AMOUNT, budget.getBudget_amount());
+        hashMap.put(BudgetEntry.COLUMN_USED, budget.getBudget_used());
+        hashMap.put(BudgetEntry.COLUMN_STARTDATE, budget.getBudget_startdate());
+        hashMap.put(BudgetEntry.COLUMN_ENDDATE, budget.getBudget_enddate());
+        hashMap.put(BudgetEntry.COLUMN_TYPE, budget.getBudget_type());
+        hashMap.put(BudgetEntry.COLUMN_CATEGORY_ID, budget.getCategory_id());
         return hashMap;
     }
 
     // operation from other entity's operation
     public void updateBudgetFromInitialTransaction(Transaction transaction) {
-        Budget budget = getBudgetByCategoryId(transaction.getCategoryId());
+        Budget budget = getBudgetByCategoryId(transaction.getCategory_id());
         if (budget == null) return;
 
         updateAndRestartBudget(budget);
@@ -260,10 +260,10 @@ public class BudgetController {
     }
 
     public void updateBudgetFromDeletedTransaction(Transaction transaction){
-        Budget budget = getBudgetByCategoryId(transaction.getCategoryId());
+        Budget budget = getBudgetByCategoryId(transaction.getCategory_id());
         if (budget == null) return;
 
-        budget.setUsed(budget.getUsed() - transaction.getAmount());
+        budget.setBudget_used(budget.getBudget_used() - transaction.getTransaction_amount());
 
         updateBudget(budget);
     }

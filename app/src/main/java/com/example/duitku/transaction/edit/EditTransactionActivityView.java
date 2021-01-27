@@ -42,9 +42,9 @@ public class EditTransactionActivityView implements UIView {
 
         transaction = transactionController.getTransactionById(id);
 
-        Category category = new CategoryController(activity).getCategoryById(transaction.getCategoryId());
+        Category category = new CategoryController(activity).getCategoryById(transaction.getCategory_id());
         if (category != null){
-            type = category.getType();
+            type = category.getCategory_type();
         } else {
             type = CategoryEntry.TYPE_TRANSFER;
         }
@@ -74,12 +74,12 @@ public class EditTransactionActivityView implements UIView {
     private void setUpForm(){
         transactionForm = new TransactionForm(activity, null, activity, type);
         transactionForm.setUpUI();
-        transactionForm.setAmount(transaction.getAmount());
-        transactionForm.setDesc(transaction.getDesc());
-        transactionForm.setDate(transaction.getDate());
-        transactionForm.setCategoryId(transaction.getCategoryId());
-        transactionForm.setWalletId(transaction.getWalletId());
-        transactionForm.setWalletDestId(transaction.getWalletDestId());
+        transactionForm.setAmount(transaction.getTransaction_amount());
+        transactionForm.setDesc(transaction.getTransaction_desc());
+        transactionForm.setDate(transaction.getTransaction_date());
+        transactionForm.setCategoryId(transaction.getCategory_id());
+        transactionForm.setWalletId(transaction.getWallet_id());
+        transactionForm.setWalletDestId(transaction.getWalletdest_id());
     }
 
     private void setUpButtons(){
@@ -115,12 +115,12 @@ public class EditTransactionActivityView implements UIView {
         long walletId = transactionForm.getWalletId();
         long walletDestId = transactionForm.getWalletDestId();
 
-        transaction.setAmount(amount);
-        transaction.setDesc(desc);
-        transaction.setDate(date);
-        transaction.setCategoryId(categoryId);
-        transaction.setWalletId(walletId);
-        transaction.setWalletDestId(walletDestId);
+        transaction.setTransaction_amount(amount);
+        transaction.setTransaction_desc(desc);
+        transaction.setTransaction_date(date);
+        transaction.setCategory_id(categoryId);
+        transaction.setWallet_id(walletId);
+        transaction.setWalletdest_id(walletDestId);
 
         return transactionController.updateTransaction(transactionBefore, transaction);
     }

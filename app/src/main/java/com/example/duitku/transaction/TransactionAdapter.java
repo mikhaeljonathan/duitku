@@ -52,17 +52,17 @@ public class TransactionAdapter extends ArrayAdapter<Transaction> {
 
         transaction = getItem(position);
 
-        category = categoryController.getCategoryById(transaction.getCategoryId());
-        wallet = walletController.getWalletById(transaction.getWalletId());
+        category = categoryController.getCategoryById(transaction.getCategory_id());
+        wallet = walletController.getWalletById(transaction.getWallet_id());
 
         setUpIcon(view);
         setUpHeader(view);
 
         TextView descTextView = view.findViewById(R.id.item_list_transaction_desc_textview);
-        descTextView.setText(transaction.getDesc());
+        descTextView.setText(transaction.getTransaction_desc());
 
         TextView amountTextView = view.findViewById(R.id.item_list_transaction_amount_textview);
-        amountTextView.setText(new DecimalFormat("###,###").format(transaction.getAmount()));
+        amountTextView.setText(new DecimalFormat("###,###").format(transaction.getTransaction_amount()));
 
         return view;
     }
@@ -75,7 +75,7 @@ public class TransactionAdapter extends ArrayAdapter<Transaction> {
             return;
         }
 
-        String type = category.getType();
+        String type = category.getCategory_type();
         if (type.equals(DuitkuContract.CategoryEntry.TYPE_INCOME)){
             categoryImageView.setImageResource(R.drawable.icon_income);
         } else {
@@ -93,22 +93,22 @@ public class TransactionAdapter extends ArrayAdapter<Transaction> {
 
         if (walletId != null){ // View Wallet
             if (category == null) { // transfer
-                if (wallet.getId() == walletId){ // the wallet source is same with current wallet
-                    Wallet wallet = walletController.getWalletById(transaction.getWalletDestId());
-                    headerTextView.setText("Transferred to Wallet " + wallet.getName());
+                if (wallet.get_id() == walletId){ // the wallet source is same with current wallet
+                    Wallet wallet = walletController.getWalletById(transaction.getWalletdest_id());
+                    headerTextView.setText("Transferred to Wallet " + wallet.getWallet_name());
                     return;
                 }
                 // the wallet dest is same with current wallet
-                Wallet wallet = walletController.getWalletById(transaction.getWalletId());
-                headerTextView.setText("Transferred from Wallet " + wallet.getName());
+                Wallet wallet = walletController.getWalletById(transaction.getWallet_id());
+                headerTextView.setText("Transferred from Wallet " + wallet.getWallet_name());
                 return;
             }
             // expense or transfer
-            headerTextView.setText(category.getName());
+            headerTextView.setText(category.getCategory_name());
             return;
         }
         // View category transaction
-        headerTextView.setText(wallet.getName());
+        headerTextView.setText(wallet.getWallet_name());
     }
 
     public Transaction getTransaction(int position) {
