@@ -96,20 +96,20 @@ public class FirebaseWriter {
         fbHelper.addUserToFirebase(userController.convertUserToHashMap(userController.getUser()));
     }
 
-    public void deleteBudget(long budgetId){
+    private void deleteBudget(long budgetId){
         fbHelper.getBudgetRef().document("" + budgetId).delete();
     }
 
-    public void deleteCategory(long categoryId){
-        fbHelper.getCategoryRef().document("" + categoryId).delete();
-    }
-
-    public void deleteTransaction(long transactionId){
+    private void deleteTransaction(long transactionId){
         fbHelper.getTransactionRef().document("" + transactionId).delete();
     }
 
-    public void deleteWallet(long walletId){
+    private void deleteWallet(long walletId){
         fbHelper.getWalletRef().document("" + walletId).delete();
+    }
+
+    private void deleteCategory(long categoryId){
+        fbHelper.getCategoryRef().document("" + categoryId).delete();
     }
 
 }

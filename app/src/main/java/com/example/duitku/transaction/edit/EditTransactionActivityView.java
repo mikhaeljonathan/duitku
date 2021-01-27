@@ -1,6 +1,5 @@
 package com.example.duitku.transaction.edit;
 
-import android.content.Context;
 import android.content.DialogInterface;
 import android.view.View;
 import android.view.ViewGroup;
@@ -17,7 +16,6 @@ import com.example.duitku.R;
 import com.example.duitku.category.Category;
 import com.example.duitku.category.CategoryController;
 import com.example.duitku.database.DuitkuContract.CategoryEntry;
-import com.example.duitku.firebase.FirebaseWriter;
 import com.example.duitku.interfaces.UIView;
 import com.example.duitku.transaction.Transaction;
 import com.example.duitku.transaction.TransactionController;
@@ -133,8 +131,6 @@ public class EditTransactionActivityView implements UIView {
             Toast.makeText(activity, "Error deleting transaction", Toast.LENGTH_SHORT).show();
         } else {
             Toast.makeText(activity, "Transaction is deleted", Toast.LENGTH_SHORT).show();
-            FirebaseWriter firebaseWriter = new FirebaseWriter(activity.getBaseContext());
-            firebaseWriter.deleteTransaction(transaction.getId());
         }
         activity.finish();
     }
