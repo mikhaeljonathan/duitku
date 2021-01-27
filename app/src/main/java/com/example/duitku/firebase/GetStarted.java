@@ -5,7 +5,6 @@ import androidx.appcompat.app.AppCompatActivity;
 
 import android.content.Intent;
 import android.os.Bundle;
-import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.Toast;
@@ -15,7 +14,6 @@ import com.example.duitku.database.DuitkuContract;
 import com.example.duitku.user.User;
 import com.example.duitku.user.UserController;
 import com.google.android.gms.auth.api.signin.GoogleSignIn;
-import com.google.android.gms.auth.api.signin.GoogleSignInApi;
 import com.google.android.gms.auth.api.signin.GoogleSignInAccount;
 import com.google.android.gms.auth.api.signin.GoogleSignInClient;
 import com.google.android.gms.auth.api.signin.GoogleSignInOptions;
@@ -28,7 +26,6 @@ import com.google.firebase.auth.AuthResult;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.auth.GoogleAuthProvider;
-import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.firebase.firestore.QuerySnapshot;
 
 public class GetStarted extends AppCompatActivity {
@@ -36,7 +33,7 @@ public class GetStarted extends AppCompatActivity {
     private FirebaseAuth mAuth;
     private static final int RC_SIGN_IN = 1;
     private GoogleSignInClient googleSignInClient;
-    private User user;
+    private User userGlobal;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -130,10 +127,10 @@ public class GetStarted extends AppCompatActivity {
                 .addOnSuccessListener(new OnSuccessListener<QuerySnapshot>() {
                     @Override
                     public void onSuccess(QuerySnapshot queryDocumentSnapshots) {
-                        user = queryDocumentSnapshots.toObjects(User.class).get(0);
+                        if (queryDocumentSnapshots.isEmpty()) userGlobal = null;
                     }
                 });
-        return user != null;
+        return userGlobal != null;
     }
 
     private User createNewUser(FirebaseUser user){
