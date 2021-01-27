@@ -3,6 +3,7 @@ package com.example.duitku.firebase;
 import com.example.duitku.article.Article;
 import com.example.duitku.budget.Budget;
 import com.example.duitku.category.Category;
+import com.example.duitku.user.User;
 import com.example.duitku.wallet.Wallet;
 import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.firebase.firestore.QueryDocumentSnapshot;
@@ -18,7 +19,7 @@ public class FirebaseReader {
     // panggilnya kalau butuh backup dari cloud aja
 
     private FirebaseHelper fbHelper;
-
+    private User user;
     private List<Budget> budgetList;
     private List<Category> categoryList;
     private List<Transaction> transactionList;
@@ -27,6 +28,17 @@ public class FirebaseReader {
     public FirebaseReader (){
         fbHelper = new FirebaseHelper();
         getAll();
+    }
+
+    public User getUserFromFirestore() {
+        fbHelper.getUserRef().get()
+                .addOnSuccessListener(new OnSuccessListener<QuerySnapshot>() {
+                    @Override
+                    public void onSuccess(QuerySnapshot queryDocumentSnapshots) {
+                        user = queryDocumentSnapshots.toObjects(User.class).get(0);
+                    }
+                });
+        return user;
     }
 
     public List<Article> getAllArticle() {
