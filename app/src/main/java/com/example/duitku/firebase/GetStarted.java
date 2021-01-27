@@ -112,7 +112,7 @@ public class GetStarted extends AppCompatActivity {
                                     // retrieve user dr firestore
                                     // terus user.setSomething()
                                 }
-                                new UserController(GetStarted.this).addUser(userLocal);
+                                new UserController(GetStarted.this).addUser(user);
 
                             } else {
                                 Toast.makeText(GetStarted.this, "Error creating user", Toast.LENGTH_SHORT).show();
