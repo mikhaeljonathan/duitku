@@ -97,19 +97,19 @@ public class FirebaseWriter {
     }
 
     private void deleteBudget(long budgetId){
-
+        fbHelper.getBudgetRef().document("" + budgetId).delete();
     }
 
     private void deleteTransaction(long transactionId){
-
+        fbHelper.getTransactionRef().document("" + transactionId).delete();
     }
 
     private void deleteWallet(long walletId){
-
+        fbHelper.getWalletRef().document("" + walletId).delete();
     }
 
     private void deleteCategory(long categoryId){
-
+        fbHelper.getCategoryRef().document("" + categoryId).delete();
     }
 
 }
