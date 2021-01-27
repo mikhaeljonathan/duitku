@@ -1,6 +1,7 @@
 package com.example.duitku.transaction.weekly;
 
 import android.database.Cursor;
+import android.os.Build;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -8,6 +9,7 @@ import android.view.ViewGroup;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
+import androidx.annotation.RequiresApi;
 import androidx.fragment.app.Fragment;
 import androidx.loader.app.LoaderManager;
 import androidx.loader.content.CursorLoader;
@@ -92,6 +94,7 @@ public class WeeklyTransactionFragment extends Fragment implements LoaderManager
         weeklyTransactionFragmentView.fillListView(weeklyTransactionList, categoryTransactionListHashMap, getActivity());
     }
 
+    @RequiresApi(api = Build.VERSION_CODES.O)
     private void setUpListAndHashMap(List<Transaction> allTransactions){
         // initialize variabel2 penting
         weeklyTransactionList.clear();
@@ -103,6 +106,9 @@ public class WeeklyTransactionFragment extends Fragment implements LoaderManager
         totalGlobalExpense = 0;
 
         int lastWeek = -1;
+        int day = -1;
+        int month = -1;
+        int year = -1;
 
         if (allTransactions.isEmpty()) return;
 
@@ -111,8 +117,10 @@ public class WeeklyTransactionFragment extends Fragment implements LoaderManager
             // kalo dah ganti pekan
             Calendar calendar = Calendar.getInstance();
             calendar.setTime(curTransaction.getTransaction_date());
+            month = calendar.get(Calendar.MONTH);
+            year = calendar.get(Calendar.YEAR);
             if (lastWeek != -1 && calendar.get(Calendar.WEEK_OF_MONTH) != lastWeek) {
-                addToListAndHashMap(lastWeek);
+                addToListAndHashMap(lastWeek, month, year);
                 // reset variabel2 agregasinya
                 totalIncome = 0;
                 totalExpense = 0;
@@ -122,17 +130,25 @@ public class WeeklyTransactionFragment extends Fragment implements LoaderManager
             addToCategoryTransactionHashMap(curTransaction); //ini buat bikin transaksi yang digrup by category
             // setiap iterasi pasti jalanin ini
             calendar.setTime(curTransaction.getTransaction_date());
+
             lastWeek = calendar.get(Calendar.WEEK_OF_MONTH);
+            month = calendar.get(Calendar.MONTH);
+            year = calendar.get(Calendar.YEAR);
         }
         //sisanya
-        addToListAndHashMap(lastWeek);
+        addToListAndHashMap(lastWeek,month, year);
     }
 
-    private void addToListAndHashMap(int lastWeek){
-        WeeklyTransaction weeklyTransaction = new WeeklyTransaction(lastWeek, Utility.getIntervalsFromWeek(lastWeek), totalIncome, totalExpense);
+    @RequiresApi(api = Build.VERSION_CODES.O)
+    private void addToListAndHashMap(int lastWeek, int month , int year){
+        WeeklyTransaction weeklyTransaction = new WeeklyTransaction(lastWeek, Utility.getIntervalsFromWeek(lastWeek, month, year), totalIncome, totalExpense);
         weeklyTransactionList.add(weeklyTransaction);
         categoryTransactionListHashMap.put(weeklyTransaction, transactionController.convertHashMapToListOfCategoryTransaction(categoryTransactionHashMap));
     }
+
+
+
+
 
     private void updateIncomeAndExpense(Transaction curTransaction){
         CategoryController categoryController = new CategoryController(getActivity());

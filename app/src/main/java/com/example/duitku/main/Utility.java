@@ -1,11 +1,23 @@
 package com.example.duitku.main;
 
+import android.os.Build;
+
+import androidx.annotation.RequiresApi;
+
 import java.text.DateFormat;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
+import java.time.DayOfWeek;
+import java.time.LocalDate;
+import java.time.YearMonth;
+import java.time.format.DateTimeFormatter;
+import java.time.format.FormatStyle;
+import java.time.temporal.TemporalAdjuster;
+import java.time.temporal.TemporalAdjusters;
 import java.util.Calendar;
 import java.util.Date;
 import java.util.HashMap;
+import java.util.Locale;
 
 public class Utility {
 
@@ -95,9 +107,40 @@ public class Utility {
         return month / 4 + 1;
     }
 
-    public static String getIntervalsFromWeek(int week){
-        // TODO: kerjain di sini do
-        return "Intervals";
+    @RequiresApi(api = Build.VERSION_CODES.O)
+    public static String getIntervalsFromWeek(int lastWeek, int month, int year){
+        DateTimeFormatter f = DateTimeFormatter.ofLocalizedDate( FormatStyle.FULL ).withLocale( Locale.US ) ;
+
+        YearMonth ym = YearMonth.of( year , month+1 ) ;
+        LocalDate firstOfMonth = ym.atDay( 1) ;
+
+        TemporalAdjuster ta = TemporalAdjusters.previousOrSame( DayOfWeek.SUNDAY ) ;
+        LocalDate previousOrSameMonday = firstOfMonth.with( ta ) ;
+
+        LocalDate endOfMonth = ym.atEndOfMonth() ;
+        LocalDate weekStart = previousOrSameMonday ;
+        switch (lastWeek){
+            case 2 :
+                weekStart = weekStart.plusWeeks( 1 ) ;
+                break;
+            case 3 :
+                weekStart = weekStart.plusWeeks( 2 ) ;
+                break;
+            case 4 :
+                weekStart = weekStart.plusWeeks( 3 ) ;
+                break;
+            case 5 :
+                weekStart = weekStart.plusWeeks( 4 ) ;
+                break;
+            case 6 :
+                weekStart = weekStart.plusWeeks( 5) ;
+                break;
+        }
+        LocalDate weekStop = weekStart.plusDays( 6 ) ;
+
+        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd/MM");
+
+        return weekStart.format(formatter) + " - " + weekStop.format(formatter);
     }
 
 }
