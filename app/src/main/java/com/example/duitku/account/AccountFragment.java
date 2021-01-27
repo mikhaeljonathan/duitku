@@ -19,10 +19,16 @@ import com.example.duitku.R;
 import com.example.duitku.category.fragment.ViewCategoriesActivity;
 import com.example.duitku.database.DuitkuContract.UserEntry;
 import com.example.duitku.database.DuitkuDbHelper;
+import com.example.duitku.firebase.FirebaseReader;
 import com.example.duitku.passcode.PasscodeActivity;
 import com.example.duitku.user.User;
 import com.example.duitku.user.UserController;
 import com.example.duitku.welcome.WelcomeActivity;
+import com.google.android.gms.auth.api.signin.GoogleSignIn;
+import com.google.android.gms.auth.api.signin.GoogleSignInClient;
+import com.google.android.gms.auth.api.signin.GoogleSignInOptions;
+import com.google.android.gms.tasks.OnCompleteListener;
+import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.FirebaseAuth;
 
 public class AccountFragment extends Fragment {
@@ -192,13 +198,23 @@ public class AccountFragment extends Fragment {
     }
 
     private void signOut(){
-        FirebaseAuth auth = FirebaseAuth.getInstance();
-        auth.signOut();
+        GoogleSignIn.getClient(getActivity(), new GoogleSignInOptions.
+                Builder(GoogleSignInOptions.DEFAULT_SIGN_IN).
+                build())
+                .signOut()
+                .addOnCompleteListener(new OnCompleteListener<Void>() {
+                    @Override
+                    public void onComplete(@NonNull Task<Void> task) {
+                        if (task.isSuccessful()){
+                            FirebaseAuth.getInstance().signOut();
+                            Intent loginIntent = new Intent(getActivity(), WelcomeActivity.class);
+                            startActivity(loginIntent);
+                            getActivity().finish();
+                        }
+                    }
+                });
 
         new DuitkuDbHelper(getActivity()).dropAllTables();
-
-        getActivity().startActivity(new Intent(getActivity(), WelcomeActivity.class));
-        getActivity().finish();
     }
 
 }
