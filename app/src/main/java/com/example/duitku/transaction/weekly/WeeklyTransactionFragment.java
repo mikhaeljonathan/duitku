@@ -79,6 +79,7 @@ public class WeeklyTransactionFragment extends Fragment implements LoaderManager
         throw new IllegalStateException("Unknown Loader");
     }
 
+    @RequiresApi(api = Build.VERSION_CODES.O)
     @Override
     public void onLoadFinished(@NonNull Loader<Cursor> loader, Cursor data) {
         List<Transaction> allTransactions = transactionController.convertCursorToListOfTransaction(data);
