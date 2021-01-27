@@ -20,7 +20,7 @@ public class CategoryTransaction implements Serializable { // serializable biar 
 
     public void addTransaction(Transaction transaction){
         transactions.add(transaction);
-        addAmount(transaction.getAmount());
+        addAmount(transaction.getTransaction_amount());
     }
 
     public void addAmount(double amount){

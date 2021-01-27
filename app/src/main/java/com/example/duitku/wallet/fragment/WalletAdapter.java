@@ -34,8 +34,8 @@ public class WalletAdapter extends CursorAdapter {
     public void bindView(View view, Context context, Cursor cursor) {
         Wallet wallet = walletController.convertCursorToWallet(cursor);
 
-        String name = wallet.getName();
-        double amount = wallet.getAmount();
+        String name = wallet.getWallet_name();
+        double amount = wallet.getWallet_amount();
 
         ConstraintLayout cl = view.findViewById(R.id.item_list_wallet_constraintlayout);
         TextView walletNameTextView = view.findViewById(R.id.item_list_wallet_name_textview);

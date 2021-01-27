@@ -2,7 +2,6 @@ package com.example.duitku.budget.fragment;
 
 import android.content.Context;
 import android.database.Cursor;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -43,7 +42,7 @@ public class BudgetAdapter extends CursorAdapter {
 
         ConstraintLayout cl = view.findViewById(R.id.item_list_budget_constraintlayout);
         budget = new BudgetController(context).convertCursorToBudget(cursor);
-        category = new CategoryController(context).getCategoryById(budget.getCategoryId());
+        category = new CategoryController(context).getCategoryById(budget.getCategory_id());
 
         setUpName(view);
         setUpUntilDate(view);
@@ -54,7 +53,7 @@ public class BudgetAdapter extends CursorAdapter {
 
     private void setUpName(View view){
         TextView nameTextView = view.findViewById(R.id.item_list_budget_name_textview);
-        nameTextView.setText(category.getName());
+        nameTextView.setText(category.getCategory_name());
     }
 
     private void setUpUntilDate(View view){
@@ -63,8 +62,8 @@ public class BudgetAdapter extends CursorAdapter {
     }
 
     private void setUpProgressBar(View view){
-        double used = budget.getUsed();
-        double amount = budget.getAmount();
+        double used = budget.getBudget_used();
+        double amount = budget.getBudget_amount();
 
         ProgressBar progressBar = view.findViewById(R.id.item_list_budget_progressbar);
         progressBar.setMax((int)amount);
@@ -79,9 +78,9 @@ public class BudgetAdapter extends CursorAdapter {
 
     private String getUntilDate(Budget budget){
         // custom date
-        Date endDate = budget.getEndDate();
+        Date endDate = budget.getBudget_enddate();
         if (endDate != null){
-            return Utility.convertDateToString(budget.getEndDate());
+            return Utility.convertDateToString(budget.getBudget_enddate());
         }
 
         // periodically
@@ -90,9 +89,9 @@ public class BudgetAdapter extends CursorAdapter {
         int month = calendar.get(Calendar.MONTH) + 1;
         int year = calendar.get(Calendar.YEAR);
 
-        if (budget.getType().equals(BudgetEntry.TYPE_3MONTH)){
+        if (budget.getBudget_type().equals(BudgetEntry.TYPE_3MONTH)){
             month = 3 * Utility.getQuarter(month);
-        } else if (budget.getType().equals(BudgetEntry.TYPE_YEAR)){
+        } else if (budget.getBudget_type().equals(BudgetEntry.TYPE_YEAR)){
             month = 12;
         }
 

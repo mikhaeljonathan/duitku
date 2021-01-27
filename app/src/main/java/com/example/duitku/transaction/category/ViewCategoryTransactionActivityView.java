@@ -1,7 +1,6 @@
 package com.example.duitku.transaction.category;
 
 import android.graphics.Paint;
-import android.util.Log;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
@@ -11,8 +10,6 @@ import android.widget.ImageView;
 import android.widget.ListView;
 import android.widget.ProgressBar;
 import android.widget.TextView;
-
-import androidx.appcompat.app.AppCompatActivity;
 
 import com.example.duitku.R;
 import com.example.duitku.category.Category;
@@ -80,7 +77,7 @@ public class ViewCategoryTransactionActivityView implements UIView {
 
     private void setUpName(){
         TextView nameTextView = header.findViewById(R.id.view_header_title);
-        nameTextView.setText(category.getName());
+        nameTextView.setText(category.getCategory_name());
     }
 
     private void setUpAmount(){
@@ -124,7 +121,7 @@ public class ViewCategoryTransactionActivityView implements UIView {
             @Override
             public void onItemClick(AdapterView<?> adapterView, View view, int i, long id) {
                 Transaction transaction = adapter.getTransaction(i - 1);
-                viewTransaction(transaction.getId());
+                viewTransaction(transaction.get_id());
             }
         });
         listView.addHeaderView(header, null, false);

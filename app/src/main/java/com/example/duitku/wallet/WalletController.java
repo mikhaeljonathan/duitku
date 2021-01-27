@@ -6,11 +6,8 @@ import android.content.Context;
 import android.database.Cursor;
 import android.net.Uri;
 
-import com.example.duitku.budget.Budget;
-import com.example.duitku.budget.BudgetController;
 import com.example.duitku.category.Category;
 import com.example.duitku.category.CategoryController;
-import com.example.duitku.database.DuitkuContract;
 import com.example.duitku.database.DuitkuContract.CategoryEntry;
 import com.example.duitku.database.DuitkuContract.WalletEntry;
 import com.example.duitku.transaction.Transaction;
@@ -33,7 +30,7 @@ public class WalletController {
         ContentValues values = convertWalletToContentValues(wallet);
         Uri uri = context.getContentResolver().insert(WalletEntry.CONTENT_URI, values);
 
-        if (wallet.getAmount() != 0){
+        if (wallet.getWallet_amount() != 0){
             long id = ContentUris.parseId(uri);
             new TransactionController(context).addTransactionFromInitialWallet(id, wallet);
         }
@@ -43,13 +40,13 @@ public class WalletController {
 
     public int updateWallet(Wallet wallet){
         ContentValues values = convertWalletToContentValues(wallet);
-        Uri uri = ContentUris.withAppendedId(WalletEntry.CONTENT_URI, wallet.getId());
+        Uri uri = ContentUris.withAppendedId(WalletEntry.CONTENT_URI, wallet.get_id());
         return context.getContentResolver().update(uri, values, null, null);
     }
 
     public int deleteWallet(Wallet wallet){
-        int rowsDeleted = context.getContentResolver().delete(ContentUris.withAppendedId(WalletEntry.CONTENT_URI, wallet.getId()), null, null);
-        new TransactionController(context).deleteAllTransactionWithWalletId(wallet.getId());
+        int rowsDeleted = context.getContentResolver().delete(ContentUris.withAppendedId(WalletEntry.CONTENT_URI, wallet.get_id()), null, null);
+        new TransactionController(context).deleteAllTransactionWithWalletId(wallet.get_id());
         return rowsDeleted;
     }
 
@@ -123,36 +120,36 @@ public class WalletController {
         return ret;
     }
 
-    private ContentValues convertWalletToContentValues(Wallet wallet){
+    public ContentValues convertWalletToContentValues(Wallet wallet){
         ContentValues ret = new ContentValues();
-        ret.put(WalletEntry.COLUMN_NAME, wallet.getName());
-        ret.put(WalletEntry.COLUMN_AMOUNT, wallet.getAmount());
-        ret.put(WalletEntry.COLUMN_DESC, wallet.getDescription());
+        ret.put(WalletEntry.COLUMN_NAME, wallet.getWallet_name());
+        ret.put(WalletEntry.COLUMN_AMOUNT, wallet.getWallet_amount());
+        ret.put(WalletEntry.COLUMN_DESC, wallet.getWallet_desc());
         return ret;
     }
 
     public HashMap<String, Object> convertWalletToHashMap(Wallet wallet){
         HashMap<String, Object> hashMap = new HashMap<>();
-        hashMap.put(WalletEntry.COLUMN_ID, wallet.getId());
-        hashMap.put(WalletEntry.COLUMN_NAME, wallet.getName());
-        hashMap.put(WalletEntry.COLUMN_AMOUNT, wallet.getAmount());
-        hashMap.put(WalletEntry.COLUMN_DESC, wallet.getDescription());
+        hashMap.put(WalletEntry.COLUMN_ID, wallet.get_id());
+        hashMap.put(WalletEntry.COLUMN_NAME, wallet.getWallet_name());
+        hashMap.put(WalletEntry.COLUMN_AMOUNT, wallet.getWallet_amount());
+        hashMap.put(WalletEntry.COLUMN_DESC, wallet.getWallet_desc());
         return hashMap;
     }
 
     // operations from other entity's operation
     public int updateWalletFromInitialTransaction(Transaction transaction){
-        Category category = new CategoryController(context).getCategoryById(transaction.getCategoryId());
-        Wallet wallet = getWalletById(transaction.getWalletId());
-        Wallet walletDest = getWalletById(transaction.getWalletDestId());
+        Category category = new CategoryController(context).getCategoryById(transaction.getCategory_id());
+        Wallet wallet = getWalletById(transaction.getWallet_id());
+        Wallet walletDest = getWalletById(transaction.getWalletdest_id());
 
         if (category == null){ // transfer
-            wallet.setAmount(wallet.getAmount() - transaction.getAmount());
-            walletDest.setAmount(walletDest.getAmount() + transaction.getAmount());
-        } else if (category.getType().equals(CategoryEntry.TYPE_EXPENSE)){
-            wallet.setAmount(wallet.getAmount() - transaction.getAmount());
+            wallet.setWallet_amount(wallet.getWallet_amount() - transaction.getTransaction_amount());
+            walletDest.setWallet_amount(walletDest.getWallet_amount() + transaction.getTransaction_amount());
+        } else if (category.getCategory_type().equals(CategoryEntry.TYPE_EXPENSE)){
+            wallet.setWallet_amount(wallet.getWallet_amount() - transaction.getTransaction_amount());
         } else { // income
-            wallet.setAmount(wallet.getAmount() + transaction.getAmount());
+            wallet.setWallet_amount(wallet.getWallet_amount() + transaction.getTransaction_amount());
         }
 
         int rowsUpdated = updateWallet(wallet);
@@ -162,50 +159,50 @@ public class WalletController {
 
     public void updateWalletFromUpdatedTransaction(Transaction transactionBefore, Transaction transactionAfter){
 
-        Category category = new CategoryController(context).getCategoryById(transactionBefore.getCategoryId());
+        Category category = new CategoryController(context).getCategoryById(transactionBefore.getCategory_id());
 
         if (category == null){ // Transfer
 
             // if wallet source changed
-            if (transactionBefore.getWalletId() != transactionAfter.getWalletId()){
+            if (transactionBefore.getWallet_id() != transactionAfter.getWallet_id()){
 
-                updateWalletAmount(transactionBefore.getWalletId(), transactionBefore.getAmount());
-                updateWalletAmount(transactionAfter.getWalletId(), -transactionAfter.getAmount());
+                updateWalletAmount(transactionBefore.getWallet_id(), transactionBefore.getTransaction_amount());
+                updateWalletAmount(transactionAfter.getWallet_id(), -transactionAfter.getTransaction_amount());
 
-            } else if (transactionBefore.getAmount() != transactionAfter.getAmount()){ // wallet source not changed but amount changed
-                updateWalletAmount(transactionAfter.getWalletId(), transactionBefore.getAmount() - transactionAfter.getAmount());
+            } else if (transactionBefore.getTransaction_amount() != transactionAfter.getTransaction_amount()){ // wallet source not changed but amount changed
+                updateWalletAmount(transactionAfter.getWallet_id(), transactionBefore.getTransaction_amount() - transactionAfter.getTransaction_amount());
             }
 
             // wallet destination changed
-            if (transactionBefore.getWalletDestId() != transactionAfter.getWalletDestId()){
+            if (transactionBefore.getWalletdest_id() != transactionAfter.getWalletdest_id()){
 
-                updateWalletAmount(transactionBefore.getWalletDestId(), -transactionBefore.getAmount());
-                updateWalletAmount(transactionAfter.getWalletDestId(), transactionAfter.getAmount());
+                updateWalletAmount(transactionBefore.getWalletdest_id(), -transactionBefore.getTransaction_amount());
+                updateWalletAmount(transactionAfter.getWalletdest_id(), transactionAfter.getTransaction_amount());
 
-            } else if (transactionBefore.getAmount() != transactionAfter.getAmount()){ // wallet dest not changed but amount changed
-                updateWalletAmount(transactionAfter.getWalletDestId(), -transactionBefore.getAmount() + transactionAfter.getAmount());
+            } else if (transactionBefore.getTransaction_amount() != transactionAfter.getTransaction_amount()){ // wallet dest not changed but amount changed
+                updateWalletAmount(transactionAfter.getWalletdest_id(), -transactionBefore.getTransaction_amount() + transactionAfter.getTransaction_amount());
             }
 
-        } else if (category.getType().equals(CategoryEntry.TYPE_EXPENSE)){ // Expense
+        } else if (category.getCategory_type().equals(CategoryEntry.TYPE_EXPENSE)){ // Expense
 
-            if (transactionBefore.getWalletId() != transactionAfter.getWalletId()){
+            if (transactionBefore.getWallet_id() != transactionAfter.getWallet_id()){
 
-                updateWalletAmount(transactionBefore.getWalletId(), transactionBefore.getAmount());
-                updateWalletAmount(transactionAfter.getWalletId(), -transactionAfter.getAmount());
+                updateWalletAmount(transactionBefore.getWallet_id(), transactionBefore.getTransaction_amount());
+                updateWalletAmount(transactionAfter.getWallet_id(), -transactionAfter.getTransaction_amount());
 
-            } else if (transactionBefore.getAmount() != transactionAfter.getAmount()){ // wallet source not changed but amount changed
-                updateWalletAmount(transactionAfter.getWalletId(), transactionBefore.getAmount() - transactionAfter.getAmount());
+            } else if (transactionBefore.getTransaction_amount() != transactionAfter.getTransaction_amount()){ // wallet source not changed but amount changed
+                updateWalletAmount(transactionAfter.getWallet_id(), transactionBefore.getTransaction_amount() - transactionAfter.getTransaction_amount());
             }
 
         } else { // Income
 
-            if (transactionBefore.getWalletId() != transactionAfter.getWalletId()){
+            if (transactionBefore.getWallet_id() != transactionAfter.getWallet_id()){
 
-                updateWalletAmount(transactionBefore.getWalletId(), -transactionBefore.getAmount());
-                updateWalletAmount(transactionAfter.getWalletId(), transactionAfter.getAmount());
+                updateWalletAmount(transactionBefore.getWallet_id(), -transactionBefore.getTransaction_amount());
+                updateWalletAmount(transactionAfter.getWallet_id(), transactionAfter.getTransaction_amount());
 
-            } else if (transactionBefore.getAmount() != transactionAfter.getAmount()){ // wallet source not changed but amount changed
-                updateWalletAmount(transactionAfter.getWalletId(), -transactionBefore.getAmount() + transactionAfter.getAmount());
+            } else if (transactionBefore.getTransaction_amount() != transactionAfter.getTransaction_amount()){ // wallet source not changed but amount changed
+                updateWalletAmount(transactionAfter.getWallet_id(), -transactionBefore.getTransaction_amount() + transactionAfter.getTransaction_amount());
             }
 
         }
@@ -214,22 +211,22 @@ public class WalletController {
 
     private void updateWalletAmount(long walletId, double amount){
         Wallet wallet = getWalletById(walletId);
-        wallet.setAmount(wallet.getAmount() + amount);
+        wallet.setWallet_amount(wallet.getWallet_amount() + amount);
         updateWallet(wallet);
     }
 
     public void updateWalletFromDeletedTransaction(Transaction transaction){
-        Category category = new CategoryController(context).getCategoryById(transaction.getCategoryId());
+        Category category = new CategoryController(context).getCategoryById(transaction.getCategory_id());
 
         if (category == null) {
 
-            updateWalletAmount(transaction.getWalletId(), transaction.getAmount());
-            updateWalletAmount(transaction.getWalletDestId(), -transaction.getAmount());
+            updateWalletAmount(transaction.getWallet_id(), transaction.getTransaction_amount());
+            updateWalletAmount(transaction.getWalletdest_id(), -transaction.getTransaction_amount());
 
-        } else if (category.getType().equals(CategoryEntry.TYPE_EXPENSE)){
-            updateWalletAmount(transaction.getWalletId(), transaction.getAmount());
+        } else if (category.getCategory_type().equals(CategoryEntry.TYPE_EXPENSE)){
+            updateWalletAmount(transaction.getWallet_id(), transaction.getTransaction_amount());
         } else {
-            updateWalletAmount(transaction.getWalletId(), -transaction.getAmount());
+            updateWalletAmount(transaction.getWallet_id(), -transaction.getTransaction_amount());
         }
     }
 

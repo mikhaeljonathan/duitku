@@ -82,7 +82,7 @@ public class MonthlyTransactionFragmentView implements UIView {
 
         User user = new UserController(fragment.getActivity()).getUser();
         if (user != null){
-            if (user.getStatus().equals(DuitkuContract.UserEntry.TYPE_PREMIUM)) {
+            if (user.getUser_status().equals(DuitkuContract.UserEntry.TYPE_PREMIUM)) {
                 adView.setVisibility(View.GONE);
             }
         }

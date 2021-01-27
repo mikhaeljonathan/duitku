@@ -120,7 +120,7 @@ public class MonthlyExpandableAdapter extends BaseExpandableListAdapter {
         TextView categoryNameTextView = view.findViewById(R.id.item_list_transaction_category_name_textview);
         CategoryController categoryController = new CategoryController(context);
         Category category = categoryController.getCategoryById(categoryTransaction.getCategoryId());
-        categoryNameTextView.setText(category.getName());
+        categoryNameTextView.setText(category.getCategory_name());
 
         TextView transactionCountTextView = view.findViewById(R.id.item_list_transaction_category_transactioncount_textview);
         transactionCountTextView.setText("There are " + categoryTransaction.getTransactions().size() + " transaction(s)");

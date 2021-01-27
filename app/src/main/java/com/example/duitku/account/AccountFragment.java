@@ -18,6 +18,7 @@ import androidx.fragment.app.Fragment;
 import com.example.duitku.R;
 import com.example.duitku.category.fragment.ViewCategoriesActivity;
 import com.example.duitku.database.DuitkuContract.UserEntry;
+import com.example.duitku.database.DuitkuDbHelper;
 import com.example.duitku.passcode.PasscodeActivity;
 import com.example.duitku.user.User;
 import com.example.duitku.user.UserController;
@@ -53,13 +54,13 @@ public class AccountFragment extends Fragment {
 
     private void setUpBanner() {
         TextView nameTV = view.findViewById(R.id.account_name_textview);
-        nameTV.setText(user.getName());
+        nameTV.setText(user.getUser_name());
 
         TextView emailTV = view.findViewById(R.id.account_email_textview);
-        emailTV.setText(user.getEmail());
+        emailTV.setText(user.getUser_email());
 
         ImageView premiumImageView = view.findViewById(R.id.account_premium_imageview);
-        if (user.getStatus().equals(UserEntry.TYPE_REGULAR)){
+        if (user.getUser_status().equals(UserEntry.TYPE_REGULAR)){
             premiumImageView.setVisibility(View.GONE);
         } else {
             premiumImageView.setVisibility(View.VISIBLE);
@@ -87,7 +88,7 @@ public class AccountFragment extends Fragment {
     private void setUpPasscodeBtn(){
         passcodeBtn = view.findViewById(R.id.account_set_passcode_btn);
 
-        final String passcode = user.getPasscode();
+        final String passcode = user.getUser_passcode();
 
         if (passcode != null){
             passcodeBtn.setText("Remove Passcode");
@@ -132,7 +133,7 @@ public class AccountFragment extends Fragment {
     }
 
     private void removePasscode(){
-        user.setPasscode(null);
+        user.setUser_passcode(null);
         new UserController(getActivity()).updateUser(user);
         setUpPasscodeBtn();
     }
@@ -194,8 +195,7 @@ public class AccountFragment extends Fragment {
         FirebaseAuth auth = FirebaseAuth.getInstance();
         auth.signOut();
 
-        UserController userController = new UserController(getActivity());
-        userController.deleteUser();
+        new DuitkuDbHelper(getActivity()).dropAllTables();
 
         getActivity().startActivity(new Intent(getActivity(), WelcomeActivity.class));
         getActivity().finish();

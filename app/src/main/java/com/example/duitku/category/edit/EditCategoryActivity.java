@@ -17,7 +17,6 @@ import com.example.duitku.R;
 import com.example.duitku.category.Category;
 import com.example.duitku.category.CategoryController;
 import com.example.duitku.category.form.CategoryForm;
-import com.example.duitku.database.DuitkuContract.CategoryEntry;
 
 public class EditCategoryActivity extends AppCompatActivity {
 
@@ -58,9 +57,9 @@ public class EditCategoryActivity extends AppCompatActivity {
     }
 
     private void setUpForm(){
-        categoryForm = new CategoryForm(this, null, this, category.getType());
+        categoryForm = new CategoryForm(this, null, this, category.getCategory_type());
         categoryForm.setUpUI();
-        categoryForm.setName(category.getName());
+        categoryForm.setName(category.getCategory_name());
     }
 
     private void setUpButtons(){
@@ -89,7 +88,7 @@ public class EditCategoryActivity extends AppCompatActivity {
     private int updateCategory() {
         String name = categoryForm.getName();
 
-        category.setName(name);
+        category.setCategory_name(name);
 
         return categoryController.updateCategory(category);
     }
@@ -145,8 +144,8 @@ public class EditCategoryActivity extends AppCompatActivity {
     }
 
     private void hideView(){
-        Category categoryDefault = categoryController.getDefaultCategory(category.getType());
-        if (categoryDefault.getId() == category.getId()){
+        Category categoryDefault = categoryController.getDefaultCategory(category.getCategory_type());
+        if (categoryDefault.get_id() == category.get_id()){
             saveBtn.setVisibility(View.GONE);
             deleteBtn.setVisibility(View.GONE);
             categoryForm.disableNameField();

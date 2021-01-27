@@ -6,9 +6,7 @@ import android.content.Context;
 import android.database.Cursor;
 import android.net.Uri;
 
-import com.example.duitku.budget.Budget;
 import com.example.duitku.budget.BudgetController;
-import com.example.duitku.database.DuitkuContract;
 import com.example.duitku.database.DuitkuContract.CategoryEntry;
 import com.example.duitku.transaction.TransactionController;
 
@@ -32,14 +30,14 @@ public class CategoryController {
 
     public int updateCategory(Category category){
         ContentValues values = convertCategoryToContentValues(category);
-        Uri uri = ContentUris.withAppendedId(CategoryEntry.CONTENT_URI, category.getId());
+        Uri uri = ContentUris.withAppendedId(CategoryEntry.CONTENT_URI, category.get_id());
         return context.getContentResolver().update(uri, values, null, null);
     }
 
     public int deleteCategory(Category category){
-        int rowsDeleted = context.getContentResolver().delete(ContentUris.withAppendedId(CategoryEntry.CONTENT_URI, category.getId()), null, null);
-        new TransactionController(context).deleteAllTransactionWithCategoryId(category.getId());
-        new BudgetController(context).deleteBudgetWithCategoryId(category.getId());
+        int rowsDeleted = context.getContentResolver().delete(ContentUris.withAppendedId(CategoryEntry.CONTENT_URI, category.get_id()), null, null);
+        new TransactionController(context).deleteAllTransactionWithCategoryId(category.get_id());
+        new BudgetController(context).deleteBudgetWithCategoryId(category.get_id());
         return rowsDeleted;
     }
 
@@ -122,18 +120,18 @@ public class CategoryController {
         return ret;
     }
 
-    private ContentValues convertCategoryToContentValues(Category category){
+    public ContentValues convertCategoryToContentValues(Category category){
         ContentValues ret = new ContentValues();
-        ret.put(CategoryEntry.COLUMN_NAME, category.getName());
-        ret.put(CategoryEntry.COLUMN_TYPE, category.getType());
+        ret.put(CategoryEntry.COLUMN_NAME, category.getCategory_name());
+        ret.put(CategoryEntry.COLUMN_TYPE, category.getCategory_type());
         return ret;
     }
 
     public HashMap<String, Object> convertCategoryToHashMap(Category category){
         HashMap<String, Object> hashMap = new HashMap<>();
-        hashMap.put(CategoryEntry.COLUMN_ID, category.getId());
-        hashMap.put(CategoryEntry.COLUMN_NAME, category.getName());
-        hashMap.put(CategoryEntry.COLUMN_TYPE, category.getType());
+        hashMap.put(CategoryEntry.COLUMN_ID, category.get_id());
+        hashMap.put(CategoryEntry.COLUMN_NAME, category.getCategory_name());
+        hashMap.put(CategoryEntry.COLUMN_TYPE, category.getCategory_type());
         return hashMap;
     }
 

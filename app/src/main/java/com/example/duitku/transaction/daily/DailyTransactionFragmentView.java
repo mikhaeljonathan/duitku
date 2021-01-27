@@ -79,7 +79,7 @@ public class DailyTransactionFragmentView implements UIView {
 
         User user = new UserController(fragment.getActivity()).getUser();
         if (user != null){
-            if (user.getStatus().equals(DuitkuContract.UserEntry.TYPE_PREMIUM)) {
+            if (user.getUser_status().equals(DuitkuContract.UserEntry.TYPE_PREMIUM)) {
                 adView.setVisibility(View.GONE);
             }
         }
@@ -96,7 +96,7 @@ public class DailyTransactionFragmentView implements UIView {
             @Override
             public boolean onChildClick(ExpandableListView expandableListView, View view, int i, int i1, long id) {
                 Transaction transaction = (Transaction) adapter.getChild(i, i1);
-                viewTransaction(transaction.getId());
+                viewTransaction(transaction.get_id());
                 return true;
             }
         });

@@ -92,7 +92,7 @@ public class TransactionWalletComponent extends View {
             @Override
             public void pickWallet(long id) {
                 Wallet wallet = walletController.getWalletById(id);
-                walletTextView.setText(wallet.getName());
+                walletTextView.setText(wallet.getWallet_name());
                 changeTextViewToWhite(walletTextView);
                 walletId = id;
             }
@@ -117,7 +117,7 @@ public class TransactionWalletComponent extends View {
             @Override
             public void pickWallet(long id) {
                 Wallet wallet = walletController.getWalletById(id);
-                walletDestTextView.setText(wallet.getName());
+                walletDestTextView.setText(wallet.getWallet_name());
                 changeTextViewToWhite(walletDestTextView);
                 walletDestId = id;
             }
@@ -184,7 +184,7 @@ public class TransactionWalletComponent extends View {
 
     public void setWalletId(long id){
         Wallet wallet = walletController.getWalletById(id);
-        walletTextView.setText(wallet.getName());
+        walletTextView.setText(wallet.getWallet_name());
         changeTextViewToWhite(walletTextView);
         walletId = id;
     }
@@ -193,7 +193,7 @@ public class TransactionWalletComponent extends View {
         Wallet wallet = walletController.getWalletById(id);
         if (wallet == null) return;
 
-        walletDestTextView.setText(wallet.getName());
+        walletDestTextView.setText(wallet.getWallet_name());
         changeTextViewToWhite(walletDestTextView);
         walletDestId = id;
     }

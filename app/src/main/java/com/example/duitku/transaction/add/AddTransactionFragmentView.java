@@ -1,7 +1,6 @@
 package com.example.duitku.transaction.add;
 
 import android.net.Uri;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -11,23 +10,16 @@ import android.widget.Toast;
 import androidx.fragment.app.Fragment;
 
 import com.example.duitku.R;
-import com.example.duitku.category.CategoryController;
 import com.example.duitku.database.DuitkuContract;
-import com.example.duitku.database.DuitkuContract.CategoryEntry;
 import com.example.duitku.interfaces.UIView;
 import com.example.duitku.transaction.Transaction;
 import com.example.duitku.transaction.TransactionController;
 import com.example.duitku.transaction.form.TransactionForm;
 import com.example.duitku.user.UserController;
-import com.example.duitku.wallet.pick.PickWalletDialog;
-import com.example.duitku.wallet.Wallet;
 import com.example.duitku.wallet.WalletController;
-import com.google.android.gms.ads.AdListener;
 import com.google.android.gms.ads.AdRequest;
 import com.google.android.gms.ads.InterstitialAd;
-import com.google.android.gms.ads.LoadAdError;
 
-import java.util.Calendar;
 import java.util.Date;
 import java.util.Random;
 
@@ -114,7 +106,7 @@ public class AddTransactionFragmentView implements UIView {
     }
 
     private void showInterstitialAd(){
-        if (new UserController(fragment.getActivity()).getUser().getStatus().equals(DuitkuContract.UserEntry.TYPE_PREMIUM)) {
+        if (new UserController(fragment.getActivity()).getUser().getUser_status().equals(DuitkuContract.UserEntry.TYPE_PREMIUM)) {
             return;
         }
         if (new Random().nextInt(2) == 0){

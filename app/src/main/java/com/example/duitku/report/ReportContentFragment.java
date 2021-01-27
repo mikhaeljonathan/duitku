@@ -103,11 +103,11 @@ public class ReportContentFragment extends Fragment implements LoaderManager.Loa
 
         // traverse through list
         for (Transaction curTransaction: allTransactions){
-            long categoryId = curTransaction.getCategoryId();
+            long categoryId = curTransaction.getCategory_id();
 
             Category category = new CategoryController(getActivity()).getCategoryById(categoryId);
             if (category == null) continue;
-            if (!category.getType().equals(type)) continue;
+            if (!category.getCategory_type().equals(type)) continue;
 
             if (categoryHashMap.get(categoryId) == null){
                 List<Transaction> transactions = new ArrayList<>();
@@ -116,7 +116,7 @@ public class ReportContentFragment extends Fragment implements LoaderManager.Loa
             } else {
                 categoryHashMap.get(categoryId).add(curTransaction);
             }
-            total += curTransaction.getAmount();
+            total += curTransaction.getTransaction_amount();
         }
 
         addToReportHashMap(total);
@@ -130,12 +130,12 @@ public class ReportContentFragment extends Fragment implements LoaderManager.Loa
             List<Transaction> transactions = (List<Transaction>) element.getValue();
             double totalTransaction = 0;
             for (Transaction transaction: transactions){
-                totalTransaction += transaction.getAmount();
+                totalTransaction += transaction.getTransaction_amount();
             }
 
             double percentage = totalTransaction / totalGlobal * 100.0;
 
-            Report report = new Report(transactions.get(0).getCategoryId(), totalTransaction, percentage);
+            Report report = new Report(transactions.get(0).getCategory_id(), totalTransaction, percentage);
             reportHashMap.put(report, transactions);
             reportList.add(report);
         }

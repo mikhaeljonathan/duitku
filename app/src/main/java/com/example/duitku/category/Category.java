@@ -2,37 +2,41 @@ package com.example.duitku.category;
 
 public class Category {
 
-    private long id;
-    private String name;
-    private String type;
+    private long _id;
+    private String category_name;
+    private String category_type;
 
-    public Category(long id, String name, String type){
-        this.id = id;
-        this.name = name;
-        this.type = type;
+    public Category(){
+
     }
 
-    public long getId(){
-        return id;
+    public Category(long _id, String category_name, String category_type){
+        this._id = _id;
+        this.category_name = category_name;
+        this.category_type = category_type;
     }
 
-    public String getName() {
-        return name;
+    public long get_id(){
+        return _id;
     }
 
-    public String getType() {
-        return type;
+    public String getCategory_name() {
+        return category_name;
     }
 
-    public void setId(long id) {
-        this.id = id;
+    public String getCategory_type() {
+        return category_type;
     }
 
-    public void setName(String name) {
-        this.name = name;
+    public void set_id(long _id) {
+        this._id = _id;
     }
 
-    public void setType(String type) {
-        this.type = type;
+    public void setCategory_name(String category_name) {
+        this.category_name = category_name;
+    }
+
+    public void setCategory_type(String category_type) {
+        this.category_type = category_type;
     }
 }

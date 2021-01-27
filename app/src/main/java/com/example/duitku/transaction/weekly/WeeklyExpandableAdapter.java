@@ -1,7 +1,6 @@
 package com.example.duitku.transaction.weekly;
 
 import android.content.Context;
-import android.media.Image;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -124,7 +123,7 @@ public class WeeklyExpandableAdapter extends BaseExpandableListAdapter {
         TextView categoryNameTextView = view.findViewById(R.id.item_list_transaction_category_name_textview);
         CategoryController categoryController = new CategoryController(context);
         Category category = categoryController.getCategoryById(categoryTransaction.getCategoryId());
-        categoryNameTextView.setText(category.getName());
+        categoryNameTextView.setText(category.getCategory_name());
 
         TextView transactionCountTextView = view.findViewById(R.id.item_list_transaction_category_transactioncount_textview);
         transactionCountTextView.setText("There are " + categoryTransaction.getTransactions().size() + " transaction(s)");

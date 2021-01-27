@@ -2,7 +2,6 @@ package com.example.duitku.firebase;
 
 import android.content.Context;
 
-import com.example.duitku.article.Article;
 import com.example.duitku.budget.Budget;
 import com.example.duitku.budget.BudgetController;
 import com.example.duitku.category.Category;
@@ -14,7 +13,6 @@ import com.example.duitku.user.UserController;
 import com.example.duitku.wallet.Wallet;
 import com.example.duitku.wallet.WalletController;
 
-import java.util.ArrayList;
 import java.util.List;
 
 public class FirebaseWriter {
@@ -28,7 +26,6 @@ public class FirebaseWriter {
     public FirebaseWriter (Context context){
         this.context = context;
         fbHelper = new FirebaseHelper();
-        writeAll();
     }
 
     public void writeAll() {
@@ -100,16 +97,16 @@ public class FirebaseWriter {
         fbHelper.getBudgetRef().document("" + budgetId).delete();
     }
 
+    public void deleteCategory(long categoryId){
+        fbHelper.getCategoryRef().document("" + categoryId).delete();
+    }
+
     public void deleteTransaction(long transactionId){
         fbHelper.getTransactionRef().document("" + transactionId).delete();
     }
 
     public void deleteWallet(long walletId){
         fbHelper.getWalletRef().document("" + walletId).delete();
-    }
-
-    public void deleteCategory(long categoryId){
-        fbHelper.getCategoryRef().document("" + categoryId).delete();
     }
 
 }

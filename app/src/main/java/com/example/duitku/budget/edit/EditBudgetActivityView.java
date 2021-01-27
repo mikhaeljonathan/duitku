@@ -62,11 +62,11 @@ public class EditBudgetActivityView implements UIView {
     private void setUpForm(){
         budgetForm = new BudgetForm(activity, null, activity);
         budgetForm.setUpUI();
-        budgetForm.setAmount(budget.getAmount());
-        budgetForm.setStartDate(budget.getStartDate());
-        budgetForm.setEndDate(budget.getEndDate());
-        budgetForm.setBudgetType(budget.getType());
-        budgetForm.setCategoryId(budget.getCategoryId());
+        budgetForm.setAmount(budget.getBudget_amount());
+        budgetForm.setStartDate(budget.getBudget_startdate());
+        budgetForm.setEndDate(budget.getBudget_enddate());
+        budgetForm.setBudgetType(budget.getBudget_type());
+        budgetForm.setCategoryId(budget.getCategory_id());
     }
 
     private void setUpButtons(){
@@ -99,18 +99,18 @@ public class EditBudgetActivityView implements UIView {
         int budgetTypePos = budgetForm.getBudgetTypePos();
         long categoryId = budgetForm.getCategoryId();
 
-        budget.setAmount(amount);
-        budget.setUsed(0);
+        budget.setBudget_amount(amount);
+        budget.setBudget_used(0);
         if (budgetForm.getCustomDateCheckBox().isChecked()){
-            budget.setStartDate(startDate);
-            budget.setEndDate(endDate);
-            budget.setType(null);
+            budget.setBudget_startdate(startDate);
+            budget.setBudget_enddate(endDate);
+            budget.setBudget_type(null);
         } else {
-            budget.setStartDate(null);
-            budget.setEndDate(null);
-            budget.setType(BudgetController.budgetType[budgetTypePos]);
+            budget.setBudget_startdate(null);
+            budget.setBudget_enddate(null);
+            budget.setBudget_type(BudgetController.budgetType[budgetTypePos]);
         }
-        budget.setCategoryId(categoryId);
+        budget.setCategory_id(categoryId);
 
         return budgetController.updateAndRestartBudget(budget);
     }

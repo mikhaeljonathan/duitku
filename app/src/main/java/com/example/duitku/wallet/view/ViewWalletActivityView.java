@@ -5,7 +5,6 @@ import android.app.DatePickerDialog;
 import android.content.Intent;
 import android.content.res.Resources;
 import android.graphics.Paint;
-import android.util.Log;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
@@ -16,8 +15,6 @@ import android.widget.ImageView;
 import android.widget.ListView;
 import android.widget.ProgressBar;
 import android.widget.TextView;
-
-import androidx.appcompat.app.AppCompatDialogFragment;
 
 import com.example.duitku.R;
 import com.example.duitku.main.Utility;
@@ -50,7 +47,7 @@ public class ViewWalletActivityView implements UIView {
     }
 
     public void setUpAdapter(List<Transaction> transactions){
-        adapter = new TransactionAdapter(activity, transactions, wallet.getId());
+        adapter = new TransactionAdapter(activity, transactions, wallet.get_id());
         listView.setAdapter(adapter);
         if (adapter.isEmpty()){
             transactionTextView.setVisibility(View.GONE);
@@ -59,7 +56,7 @@ public class ViewWalletActivityView implements UIView {
 
     @Override
     public void setUpUI() {
-        wallet = new WalletController(activity).getWalletById(wallet.getId());
+        wallet = new WalletController(activity).getWalletById(wallet.get_id());
         activity.setContentView(R.layout.activity_view);
         TextView textView = activity.findViewById(R.id.view_title_textview);
         textView.setText("View Wallet");
@@ -84,21 +81,21 @@ public class ViewWalletActivityView implements UIView {
 
     private void setUpWalletName(){
         TextView nameTextView = header.findViewById(R.id.view_header_title);
-        nameTextView.setText(wallet.getName());
+        nameTextView.setText(wallet.getWallet_name());
     }
 
     private void setUpAmount(){
         TextView amountTextView = header.findViewById(R.id.view_header_subtitle);
-        amountTextView.setText(new DecimalFormat("###,###").format(wallet.getAmount()));
+        amountTextView.setText(new DecimalFormat("###,###").format(wallet.getWallet_amount()));
     }
 
     private void setUpDesc(){
         TextView descTextView = header.findViewById(R.id.view_header_subsubtitle);
-        String desc = wallet.getDescription();
+        String desc = wallet.getWallet_desc();
         if (desc.equals("")){
             descTextView.setVisibility(View.GONE);
         } else {
-            descTextView.setText(wallet.getDescription());
+            descTextView.setText(wallet.getWallet_desc());
         }
     }
 
@@ -108,7 +105,7 @@ public class ViewWalletActivityView implements UIView {
             @Override
             public void onItemClick(AdapterView<?> adapterView, View view, int i, long id) {
                 Transaction transaction = adapter.getTransaction(i - 1);
-                viewTransaction(transaction.getId());
+                viewTransaction(transaction.get_id());
             }
         });
         listView.addHeaderView(header, null, false);
@@ -162,7 +159,7 @@ public class ViewWalletActivityView implements UIView {
             @Override
             public void onClick(View view) {
                 Intent editWalletIntent = new Intent(activity, EditWalletActivity.class);
-                editWalletIntent.putExtra("ID", wallet.getId());
+                editWalletIntent.putExtra("ID", wallet.get_id());
                 activity.startActivity(editWalletIntent);
             }
         });

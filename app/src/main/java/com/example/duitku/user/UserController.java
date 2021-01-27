@@ -4,9 +4,8 @@ import android.content.ContentValues;
 import android.content.Context;
 import android.database.Cursor;
 
-import com.example.duitku.database.DuitkuContract;
 import com.example.duitku.database.DuitkuContract.UserEntry;
-import com.example.duitku.wallet.Wallet;
+import com.example.duitku.firebase.FirebaseWriter;
 
 import java.util.HashMap;
 
@@ -26,6 +25,7 @@ public class UserController {
     public void updateUser(User user){
         ContentValues values = convertUserToContentValues(user);
         context.getContentResolver().update(UserEntry.CONTENT_URI, values, null, null);
+        new FirebaseWriter(context).writeUser();
     }
 
     public void deleteUser(){
@@ -73,24 +73,25 @@ public class UserController {
     private ContentValues convertUserToContentValues(User user){
         ContentValues ret = new ContentValues();
 
-        ret.put(UserEntry.COLUMN_ID, user.getId());
-        ret.put(UserEntry.COLUMN_USER_NAME, user.getName());
-        ret.put(UserEntry.COLUMN_USER_EMAIL, user.getEmail());
-        ret.put(UserEntry.COLUMN_USER_STATUS, user.getStatus());
-        ret.put(UserEntry.COLUMN_USER_FIRST_TIME, user.getFirstTime());
-        ret.put(UserEntry.COLUMN_USER_PASSCODE, user.getPasscode());
+        ret.put(UserEntry.COLUMN_ID, user.get_id());
+        ret.put(UserEntry.COLUMN_USER_NAME, user.getUser_name());
+        ret.put(UserEntry.COLUMN_USER_EMAIL, user.getUser_email());
+        ret.put(UserEntry.COLUMN_USER_STATUS, user.getUser_status());
+        ret.put(UserEntry.COLUMN_USER_FIRST_TIME, user.getUser_first_time());
+        ret.put(UserEntry.COLUMN_USER_PASSCODE, user.getUser_passcode());
 
         return ret;
     }
 
     public HashMap<String, Object> convertUserToHashMap(User user){
         HashMap<String, Object> hashMap = new HashMap<>();
-        hashMap.put(UserEntry.COLUMN_ID, user.getId());
-        hashMap.put(UserEntry.COLUMN_USER_NAME, user.getName());
-        hashMap.put(UserEntry.COLUMN_USER_EMAIL, user.getEmail());
-        hashMap.put(UserEntry.COLUMN_USER_STATUS, user.getStatus());
-        hashMap.put(UserEntry.COLUMN_USER_FIRST_TIME, user.getFirstTime());
-        hashMap.put(UserEntry.COLUMN_USER_PASSCODE, user.getPasscode());
+        hashMap.put(UserEntry.COLUMN_ID, user.get_id());
+        hashMap.put(UserEntry.COLUMN_USER_NAME, user.getUser_name());
+        hashMap.put(UserEntry.COLUMN_USER_EMAIL, user.getUser_email());
+        hashMap.put(UserEntry.COLUMN_USER_STATUS, user.getUser_status());
+        hashMap.put(UserEntry.COLUMN_USER_FIRST_TIME, user.getUser_first_time());
+        hashMap.put(UserEntry.COLUMN_USER_PASSCODE, user.getUser_passcode());
         return hashMap;
     }
+
 }

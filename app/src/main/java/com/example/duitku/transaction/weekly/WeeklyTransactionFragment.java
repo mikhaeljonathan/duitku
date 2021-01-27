@@ -29,8 +29,6 @@ import java.util.Comparator;
 import java.util.HashMap;
 import java.util.List;
 
-import io.grpc.okhttp.internal.Util;
-
 public class WeeklyTransactionFragment extends Fragment implements LoaderManager.LoaderCallbacks<Cursor> {
 
     private int month = Calendar.getInstance().get(Calendar.MONTH);
@@ -86,7 +84,7 @@ public class WeeklyTransactionFragment extends Fragment implements LoaderManager
         Collections.sort(allTransactions, new Comparator<Transaction>() {
             @Override
             public int compare(Transaction t1, Transaction t2) {
-                return t2.getDate().compareTo(t1.getDate()); // dari tanggal yang paling recent
+                return t2.getTransaction_date().compareTo(t1.getTransaction_date()); // dari tanggal yang paling recent
             }
         });
         setUpListAndHashMap(allTransactions);
@@ -112,7 +110,7 @@ public class WeeklyTransactionFragment extends Fragment implements LoaderManager
         for (Transaction curTransaction: allTransactions){
             // kalo dah ganti pekan
             Calendar calendar = Calendar.getInstance();
-            calendar.setTime(curTransaction.getDate());
+            calendar.setTime(curTransaction.getTransaction_date());
             if (lastWeek != -1 && calendar.get(Calendar.WEEK_OF_MONTH) != lastWeek) {
                 addToListAndHashMap(lastWeek);
                 // reset variabel2 agregasinya
@@ -123,7 +121,7 @@ public class WeeklyTransactionFragment extends Fragment implements LoaderManager
             updateIncomeAndExpense(curTransaction);
             addToCategoryTransactionHashMap(curTransaction); //ini buat bikin transaksi yang digrup by category
             // setiap iterasi pasti jalanin ini
-            calendar.setTime(curTransaction.getDate());
+            calendar.setTime(curTransaction.getTransaction_date());
             lastWeek = calendar.get(Calendar.WEEK_OF_MONTH);
         }
         //sisanya
@@ -138,23 +136,23 @@ public class WeeklyTransactionFragment extends Fragment implements LoaderManager
 
     private void updateIncomeAndExpense(Transaction curTransaction){
         CategoryController categoryController = new CategoryController(getActivity());
-        long categoryId = curTransaction.getCategoryId();
+        long categoryId = curTransaction.getCategory_id();
         Category category = categoryController.getCategoryById(categoryId);
 
         if (category == null) return;
 
-        String type = category.getType();
+        String type = category.getCategory_type();
         if (type.equals(CategoryEntry.TYPE_EXPENSE)){
-            totalGlobalExpense += curTransaction.getAmount();
-            totalExpense += curTransaction.getAmount();
+            totalGlobalExpense += curTransaction.getTransaction_amount();
+            totalExpense += curTransaction.getTransaction_amount();
         } else {
-            totalGlobalIncome += curTransaction.getAmount();
-            totalIncome += curTransaction.getAmount();
+            totalGlobalIncome += curTransaction.getTransaction_amount();
+            totalIncome += curTransaction.getTransaction_amount();
         }
     }
 
     private void addToCategoryTransactionHashMap(Transaction curTransaction){
-        long categoryId = curTransaction.getCategoryId();
+        long categoryId = curTransaction.getCategory_id();
         CategoryTransaction categoryTransaction = categoryTransactionHashMap.get(categoryId);
         if (categoryTransaction == null){ //belum ada category yang setipe dengan transaksi ini
             categoryTransaction = new CategoryTransaction(categoryId, 0);

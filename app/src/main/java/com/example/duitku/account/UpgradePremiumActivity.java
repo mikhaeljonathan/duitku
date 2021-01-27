@@ -7,7 +7,6 @@ import android.app.job.JobScheduler;
 import android.content.ComponentName;
 import android.os.Bundle;
 import android.text.Html;
-import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.ImageView;
@@ -57,7 +56,7 @@ public class UpgradePremiumActivity extends AppCompatActivity {
             public void onClick(View view) {
                 UserController userController = new UserController(UpgradePremiumActivity.this);
                 User user = userController.getUser();
-                user.setStatus(UserEntry.TYPE_PREMIUM);
+                user.setUser_status(UserEntry.TYPE_PREMIUM);
 
                 userController.updateUser(user);
 

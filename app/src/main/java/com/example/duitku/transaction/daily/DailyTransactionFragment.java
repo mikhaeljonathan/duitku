@@ -81,7 +81,7 @@ public class DailyTransactionFragment extends Fragment implements LoaderManager.
         Collections.sort(allTransactions, new Comparator<Transaction>() {
             @Override
             public int compare(Transaction t1, Transaction t2) {
-                return t2.getDate().compareTo(t1.getDate()); // dari tanggal yang paling recent
+                return t2.getTransaction_date().compareTo(t1.getTransaction_date()); // dari tanggal yang paling recent
             }
         });
         setUpListAndHashMap(allTransactions);
@@ -103,7 +103,7 @@ public class DailyTransactionFragment extends Fragment implements LoaderManager.
         // traverse through list
         for (Transaction curTransaction: allTransactions){
             // kalo dah ganti hari
-            if (lastDate != null && !curTransaction.getDate().equals(lastDate)) {
+            if (lastDate != null && !curTransaction.getTransaction_date().equals(lastDate)) {
                 addToListAndHashMap(lastDate, transactions);
                 // reset variabel2 agregasinya
                 totalIncome = 0;
@@ -113,7 +113,7 @@ public class DailyTransactionFragment extends Fragment implements LoaderManager.
             updateIncomeAndExpense(curTransaction);
             // setiap iterasi pasti jalanin ini
             transactions.add(curTransaction);
-            lastDate = curTransaction.getDate();
+            lastDate = curTransaction.getTransaction_date();
         }
         //sisanya
         addToListAndHashMap(lastDate, transactions);
@@ -134,16 +134,16 @@ public class DailyTransactionFragment extends Fragment implements LoaderManager.
 
     private void updateIncomeAndExpense(Transaction curTransaction){
         CategoryController categoryController = new CategoryController(getActivity());
-        long categoryId = curTransaction.getCategoryId();
+        long categoryId = curTransaction.getCategory_id();
         Category category = categoryController.getCategoryById(categoryId);
 
         if (category == null) return;
 
-        String type = category.getType();
+        String type = category.getCategory_type();
         if (type.equals(CategoryEntry.TYPE_EXPENSE)){
-            totalExpense += curTransaction.getAmount();
+            totalExpense += curTransaction.getTransaction_amount();
         } else {
-            totalIncome += curTransaction.getAmount();
+            totalIncome += curTransaction.getTransaction_amount();
         }
     }
 

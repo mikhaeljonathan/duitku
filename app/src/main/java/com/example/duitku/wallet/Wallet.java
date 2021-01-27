@@ -2,43 +2,51 @@ package com.example.duitku.wallet;
 
 public class Wallet {
 
-    private final long id;
-    private String name;
-    private double amount;
-    private String description;
+    private long _id;
+    private String wallet_name;
+    private double wallet_amount;
+    private String wallet_desc;
 
-    public Wallet(long id, String name, double amount, String description){
-        this.id = id;
-        this.name = name;
-        this.amount = amount;
-        this.description = description;
+    public Wallet(){
+
     }
 
-    public long getId(){
-        return id;
+    public Wallet(long _id, String wallet_name, double wallet_amount, String wallet_desc){
+        this._id = _id;
+        this.wallet_name = wallet_name;
+        this.wallet_amount = wallet_amount;
+        this.wallet_desc = wallet_desc;
     }
 
-    public String getName() {
-        return name;
+    public long get_id(){
+        return _id;
     }
 
-    public double getAmount() {
-        return amount;
+    public String getWallet_name() {
+        return wallet_name;
     }
 
-    public String getDescription() {
-        return description;
+    public double getWallet_amount() {
+        return wallet_amount;
     }
 
-    public void setName(String name){
-        this.name = name;
+    public String getWallet_desc() {
+        return wallet_desc;
     }
 
-    public void setAmount(double amount){
-        this.amount = amount;
+    public void setWallet_name(String wallet_name){
+        this.wallet_name = wallet_name;
     }
 
-    public void setDescription(String description){
-        this.description = description;
+    public void setWallet_amount(double wallet_amount){
+        this.wallet_amount = wallet_amount;
+    }
+
+    public void setWallet_desc(String wallet_desc){
+        this.wallet_desc = wallet_desc;
+    }
+
+    public void set_id(long _id) {
+        this._id = _id;
     }
 }

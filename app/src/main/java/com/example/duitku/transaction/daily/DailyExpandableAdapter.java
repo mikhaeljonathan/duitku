@@ -124,16 +124,16 @@ public class DailyExpandableAdapter extends BaseExpandableListAdapter {
 
         // get the category
         CategoryController categoryController = new CategoryController(context);
-        Category category = categoryController.getCategoryById(transaction.getCategoryId());
+        Category category = categoryController.getCategoryById(transaction.getCategory_id());
 
         setUpIcon(view, category);
         setupHeader(view, category, transaction);
 
         TextView descTextView = view.findViewById(R.id.item_list_transaction_desc_textview);
-        descTextView.setText(transaction.getDesc());
+        descTextView.setText(transaction.getTransaction_desc());
 
         TextView amountTextView = view.findViewById(R.id.item_list_transaction_amount_textview);
-        amountTextView.setText(new DecimalFormat("###,###").format(transaction.getAmount()));
+        amountTextView.setText(new DecimalFormat("###,###").format(transaction.getTransaction_amount()));
 
         if(b){
             cl.setBackgroundResource(R.drawable.custom_shape_bottom_rounded);
@@ -155,7 +155,7 @@ public class DailyExpandableAdapter extends BaseExpandableListAdapter {
             return;
         }
 
-        String type = category.getType();
+        String type = category.getCategory_type();
         if (type.equals(CategoryEntry.TYPE_INCOME)){
             categoryImageView.setImageResource(R.drawable.icon_income);
         } else {
@@ -178,17 +178,17 @@ public class DailyExpandableAdapter extends BaseExpandableListAdapter {
             walletDestTextView.setVisibility(View.VISIBLE);
 
             WalletController walletController = new WalletController(context);
-            long walletId = transaction.getWalletId();
-            long walletDestId = transaction.getWalletDestId();
+            long walletId = transaction.getWallet_id();
+            long walletDestId = transaction.getWalletdest_id();
 
             Wallet walletSource = walletController.getWalletById(walletId);
-            headerTextView.setText(walletSource.getName());
+            headerTextView.setText(walletSource.getWallet_name());
 
             Wallet walletDest = walletController.getWalletById(walletDestId);
-            walletDestTextView.setText(walletDest.getName());
+            walletDestTextView.setText(walletDest.getWallet_name());
 
         } else {
-            headerTextView.setText(category.getName());
+            headerTextView.setText(category.getCategory_name());
         }
 
     }
