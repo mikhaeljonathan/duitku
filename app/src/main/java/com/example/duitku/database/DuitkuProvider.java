@@ -6,6 +6,7 @@ import com.example.duitku.database.DuitkuContract.TransactionEntry;
 import com.example.duitku.database.DuitkuContract.CategoryEntry;
 import com.example.duitku.database.DuitkuContract.UserEntry;
 import com.example.duitku.firebase.FirebaseHelper;
+import com.example.duitku.firebase.FirebaseWriter;
 
 
 import android.content.ContentProvider;
@@ -155,26 +156,32 @@ public class DuitkuProvider extends ContentProvider {
                 rowsDeleted = db.delete(TransactionEntry.TABLE_NAME, selection, selectionArgs);
                 break;
             case TRANSACTION_ID:
-                String id = String.valueOf(ContentUris.parseId(uri));
                 selection = TransactionEntry._ID + " = ?";
+                String id = String.valueOf(ContentUris.parseId(uri));
                 selectionArgs = new String[] {id};
                 rowsDeleted = db.delete(TransactionEntry.TABLE_NAME, selection, selectionArgs);
-                new FirebaseHelper().getTransactionRef().document(id).delete();
+                new FirebaseWriter(getContext()).deleteTransaction(Long.parseLong(id));
                 break;
             case WALLET_ID:
                 selection = WalletEntry._ID + " = ?";
-                selectionArgs = new String[] {String.valueOf(ContentUris.parseId(uri))};
+                id = String.valueOf(ContentUris.parseId(uri));
+                selectionArgs = new String[] {id};
                 rowsDeleted = db.delete(WalletEntry.TABLE_NAME, selection, selectionArgs);
+                new FirebaseWriter(getContext()).deleteWallet(Long.parseLong(id));
                 break;
             case BUDGET_ID:
                 selection = BudgetEntry._ID + " = ?";
-                selectionArgs = new String[] {String.valueOf(ContentUris.parseId(uri))};
+                id = String.valueOf(ContentUris.parseId(uri));
+                selectionArgs = new String[] {id};
                 rowsDeleted = db.delete(BudgetEntry.TABLE_NAME, selection, selectionArgs);
+                new FirebaseWriter(getContext()).deleteBudget(Long.parseLong(id));
                 break;
             case CATEGORY_ID:
                 selection = CategoryEntry._ID + " = ?";
-                selectionArgs = new String[] {String.valueOf(ContentUris.parseId(uri))};
+                id = String.valueOf(ContentUris.parseId(uri));
+                selectionArgs = new String[] {id};
                 rowsDeleted = db.delete(CategoryEntry.TABLE_NAME, selection, selectionArgs);
+                new FirebaseWriter(getContext()).deleteCategory(Long.parseLong(id));
                 break;
             case USER:
                 rowsDeleted = db.delete(UserEntry.TABLE_NAME, null, null);
