@@ -14,18 +14,33 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
-        <activity android:name=".category.edit.EditCategoryActivity"></activity>
-        <activity android:name=".category.fragment.ViewCategoriesActivity" />
+        <activity android:name=".main.SplashScreen"
+            android:screenOrientation="portrait">
+            <intent-filter>
+                <action android:name="android.intent.action.MAIN" />
+
+                <category android:name="android.intent.category.LAUNCHER" />
+            </intent-filter>
+        </activity>
+        <activity android:name=".category.edit.EditCategoryActivity"
+            android:screenOrientation="portrait"/>
+        <activity android:name=".category.fragment.ViewCategoriesActivity"
+            android:screenOrientation="portrait"/>
 
         <meta-data
             android:name="com.google.android.gms.ads.APPLICATION_ID"
             android:value="ca-app-pub-2097480504227856~9592631403" />
 
-        <activity android:name=".firebase.GetStarted" />
-        <activity android:name=".welcome.WelcomeActivity" />
-        <activity android:name=".account.UpgradePremiumActivity" />
-        <activity android:name=".passcode.PasscodeActivity" />
-        <activity android:name=".account.AddFeedbackActivity" />
+        <activity android:name=".firebase.GetStarted"
+            android:screenOrientation="portrait"/>
+        <activity android:name=".welcome.WelcomeActivity"
+            android:screenOrientation="portrait"/>
+        <activity android:name=".account.UpgradePremiumActivity"
+            android:screenOrientation="portrait"/>
+        <activity android:name=".passcode.PasscodeActivity"
+            android:screenOrientation="portrait"/>
+        <activity android:name=".account.AddFeedbackActivity"
+            android:screenOrientation="portrait"/>
         <activity
             android:name=".search.SearchActivity"
             android:screenOrientation="portrait" />
@@ -54,18 +69,14 @@
             android:name=".main.MainActivity"
             android:configChanges="orientation"
             android:screenOrientation="portrait">
-            <intent-filter>
-                <action android:name="android.intent.action.MAIN" />
-
-                <category android:name="android.intent.category.LAUNCHER" />
-            </intent-filter>
         </activity>
 
         <provider
             android:name=".database.DuitkuProvider"
             android:authorities="com.example.duitku" />
 
-        <service android:name=".firebase.FirebaseJobService"
+        <service
+            android:name=".firebase.FirebaseJobService"
             android:permission="android.permission.BIND_JOB_SERVICE" />
     </application>
 
