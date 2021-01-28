@@ -20,7 +20,9 @@ import com.example.duitku.user.UserController;
 
 public class UpgradePremiumActivity extends AppCompatActivity {
 
-    private static final int BACKUP_FIRESTORE = 123;
+    public static final int BACKUP_FIRESTORE = 123;
+
+    private TextView upgradedTV;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -37,6 +39,14 @@ public class UpgradePremiumActivity extends AppCompatActivity {
         TextView titleTV = findViewById(R.id.upgrade_premium_textView1);
         String text = "Go <font color='#00FFFF'>Premium</font> to enjoy more <font color='#00FFFF'>extraordinary</font> experiences with us!";
         titleTV.setText(Html.fromHtml(text));
+
+        upgradedTV = findViewById(R.id.upgrade_premium_upgraded);
+
+        if (new UserController(this).isPremium()){
+            upgradedTV.setVisibility(View.VISIBLE);
+        } else {
+            upgradedTV.setVisibility(View.GONE);
+        }
     }
 
     private void setUpBackBtn(){
@@ -50,7 +60,11 @@ public class UpgradePremiumActivity extends AppCompatActivity {
     }
 
     private void setUpUpgradeBtn(){
-        Button upgradeBtn = findViewById(R.id.upgrade_premium_btn);
+        final Button upgradeBtn = findViewById(R.id.upgrade_premium_btn);
+        if (new UserController(this).isPremium()){
+            upgradeBtn.setVisibility(View.GONE);
+        }
+
         upgradeBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -59,16 +73,18 @@ public class UpgradePremiumActivity extends AppCompatActivity {
                 user.setUser_status(UserEntry.TYPE_PREMIUM);
 
                 userController.updateUser(user);
+                upgradedTV.setVisibility(View.VISIBLE);
+                upgradeBtn.setVisibility(View.GONE);
 
                 startBackup();
             }
         });
     }
 
-    public void startBackup() {
+    private void startBackup() {
         //ini buat scheduling backup
         ComponentName componentName = new ComponentName(this, FirebaseJobService.class);
-        JobInfo info = new JobInfo  .Builder(BACKUP_FIRESTORE, componentName)
+        JobInfo info = new JobInfo.Builder(BACKUP_FIRESTORE, componentName)
                 .setPersisted(true)
                 .setPeriodic(6 * 3600 * 1000) // 6 hours
                 .build();
@@ -77,9 +93,4 @@ public class UpgradePremiumActivity extends AppCompatActivity {
         scheduler.schedule(info);
     }
 
-    public void cancelBackup() {
-        // ini buat cancel backup
-        JobScheduler scheduler = (JobScheduler) getSystemService(JOB_SCHEDULER_SERVICE);
-        scheduler.cancel(BACKUP_FIRESTORE);
-    }
 }

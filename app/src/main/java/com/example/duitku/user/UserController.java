@@ -52,6 +52,12 @@ public class UserController {
                 UserEntry.COLUMN_USER_PASSCODE};
     }
 
+    public boolean isPremium(){
+        User user = getUser();
+        if (user == null) return false;
+        return user.getUser_status().equals(UserEntry.TYPE_PREMIUM);
+    }
+
     private User convertCursorToUser(Cursor data){
         int userIdColumnIndex = data.getColumnIndex(UserEntry.COLUMN_ID);
         int userNameColumnIndex = data.getColumnIndex(UserEntry.COLUMN_USER_NAME);

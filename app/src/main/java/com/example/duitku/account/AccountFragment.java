@@ -1,5 +1,8 @@
 package com.example.duitku.account;
 
+import android.app.job.JobInfo;
+import android.app.job.JobScheduler;
+import android.content.ComponentName;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
@@ -19,7 +22,9 @@ import com.example.duitku.R;
 import com.example.duitku.category.fragment.ViewCategoriesActivity;
 import com.example.duitku.database.DuitkuContract.UserEntry;
 import com.example.duitku.database.DuitkuDbHelper;
+import com.example.duitku.firebase.FirebaseJobService;
 import com.example.duitku.firebase.FirebaseReader;
+import com.example.duitku.firebase.FirebaseWriter;
 import com.example.duitku.passcode.PasscodeActivity;
 import com.example.duitku.user.User;
 import com.example.duitku.user.UserController;
@@ -30,6 +35,9 @@ import com.google.android.gms.auth.api.signin.GoogleSignInOptions;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.FirebaseAuth;
+
+import static android.content.Context.JOB_SCHEDULER_SERVICE;
+import static com.example.duitku.account.UpgradePremiumActivity.BACKUP_FIRESTORE;
 
 public class AccountFragment extends Fragment {
 
@@ -171,6 +179,7 @@ public class AccountFragment extends Fragment {
         signOutBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
+                new FirebaseWriter(getActivity()).writeAll();
                 showConfirmationSignOutDialog();
             }
         });
@@ -198,6 +207,8 @@ public class AccountFragment extends Fragment {
     }
 
     private void signOut(){
+        cancelBackup();
+
         GoogleSignIn.getClient(getActivity(), new GoogleSignInOptions.
                 Builder(GoogleSignInOptions.DEFAULT_SIGN_IN).
                 build())
@@ -215,6 +226,12 @@ public class AccountFragment extends Fragment {
                 });
 
         new DuitkuDbHelper(getActivity()).dropAllTables();
+    }
+
+    public void cancelBackup() {
+        // ini buat cancel backup
+        JobScheduler scheduler = (JobScheduler) getActivity().getSystemService(JOB_SCHEDULER_SERVICE);
+        scheduler.cancel(BACKUP_FIRESTORE);
     }
 
 }

@@ -28,6 +28,7 @@ public class FirebaseHelper {
     private CollectionReference transaction_col_ref;
     private CollectionReference wallet_col_ref;
     private CollectionReference user_col_ref;
+    private CollectionReference feedback_col_ref;
 
     public FirebaseHelper() {
         db = FirebaseFirestore.getInstance();
@@ -45,6 +46,13 @@ public class FirebaseHelper {
         transaction_col_ref = user_doc_ref.collection("transaction");
         wallet_col_ref = user_doc_ref.collection("wallet");
         user_col_ref = user_doc_ref.collection("user");
+        feedback_col_ref = db.collection("feedback");
+    }
+
+    public void addFeedback(String feedback){
+        HashMap<String, Object> hashMap = new HashMap<>();
+        hashMap.put("Feedback", feedback);
+        feedback_col_ref.document().set(hashMap);
     }
 
     public void addBudgetToFirebase(HashMap<String, Object> budgetHashMap){

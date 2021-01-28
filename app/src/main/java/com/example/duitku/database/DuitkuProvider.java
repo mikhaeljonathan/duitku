@@ -7,6 +7,8 @@ import com.example.duitku.database.DuitkuContract.CategoryEntry;
 import com.example.duitku.database.DuitkuContract.UserEntry;
 import com.example.duitku.firebase.FirebaseHelper;
 import com.example.duitku.firebase.FirebaseWriter;
+import com.example.duitku.transaction.Transaction;
+import com.example.duitku.transaction.TransactionController;
 
 
 import android.content.ContentProvider;
@@ -19,6 +21,8 @@ import android.net.Uri;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
+
+import java.util.List;
 
 public class DuitkuProvider extends ContentProvider {
 
@@ -153,6 +157,12 @@ public class DuitkuProvider extends ContentProvider {
         int match = uriMatcher.match(uri);
         switch (match){
             case TRANSACTION:
+                TransactionController transactionController = new TransactionController(getContext());
+                Cursor data = query(uri, transactionController.getFullProjection(), selection, selectionArgs, null);
+                List<Transaction> transactions = transactionController.convertCursorToListOfTransaction(data);
+                for (Transaction transaction: transactions){
+                    new FirebaseWriter(getContext()).deleteTransaction(transaction.get_id());
+                }
                 rowsDeleted = db.delete(TransactionEntry.TABLE_NAME, selection, selectionArgs);
                 break;
             case TRANSACTION_ID:
