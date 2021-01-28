@@ -33,7 +33,7 @@ public class BudgetFragmentView implements UIView {
     private View view;
     private final Fragment fragment;
 
-    public BudgetFragmentView(LayoutInflater inflater, ViewGroup container, Fragment fragment){
+    public BudgetFragmentView(LayoutInflater inflater, ViewGroup container, Fragment fragment) {
         this.inflater = inflater;
         this.container = container;
         this.fragment = fragment;
@@ -47,11 +47,11 @@ public class BudgetFragmentView implements UIView {
         setUpEmptyView();
     }
 
-    public BudgetAdapter getAdapter(){
+    public BudgetAdapter getAdapter() {
         return adapter;
     }
 
-    private void setUpHeader(){
+    private void setUpHeader() {
         header = inflater.inflate(R.layout.fragment_transaction_header, container, false);
 
         setUpTitle();
@@ -60,12 +60,12 @@ public class BudgetFragmentView implements UIView {
         hideView();
     }
 
-    private void setUpTitle(){
+    private void setUpTitle() {
         TextView titleTextView = header.findViewById(R.id.transaction_header_title_textview);
         titleTextView.setText("Budget");
     }
 
-    private void setUpAddBtn(){
+    private void setUpAddBtn() {
         ImageView addButton = header.findViewById(R.id.transaction_header_add_btn);
         addButton.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -75,12 +75,12 @@ public class BudgetFragmentView implements UIView {
         });
     }
 
-    private void addBudget(){
+    private void addBudget() {
         AddBudgetDialog addBudgetDialog = new AddBudgetDialog();
         addBudgetDialog.show(fragment.getFragmentManager(), "Add Budget Dialog");
     }
 
-    private void hideView(){
+    private void hideView() {
         Button periodButton = header.findViewById(R.id.transaction_header_period_btn);
         TextView totalWalletTextView = header.findViewById(R.id.transaction_header_totalwallet_textview);
         ConstraintLayout summaryContainer = header.findViewById(R.id.transaction_header_summary_container);
@@ -90,7 +90,7 @@ public class BudgetFragmentView implements UIView {
         summaryContainer.setVisibility(View.GONE);
     }
 
-    private void setUpListView(){
+    private void setUpListView() {
         ExpandableListView expandableListView = view.findViewById(R.id.fragment_transaction_viewpager_expandablelistview);
         expandableListView.setVisibility(View.GONE);
         listView = view.findViewById(R.id.fragment_transaction_viewpager_listview);
@@ -106,18 +106,18 @@ public class BudgetFragmentView implements UIView {
         setUpAdapter();
     }
 
-    private void viewBudget(long id){
+    private void viewBudget(long id) {
         Intent viewBudgetIntent = new Intent(fragment.getActivity(), ViewBudgetActivity.class);
         viewBudgetIntent.putExtra("ID", id);
         fragment.getActivity().startActivity(viewBudgetIntent);
     }
 
-    private void setUpAdapter(){
+    private void setUpAdapter() {
         adapter = new BudgetAdapter(fragment.getActivity(), null);
         listView.setAdapter(adapter);
     }
 
-    private void setUpEmptyView(){
+    private void setUpEmptyView() {
         emptyView = inflater.inflate(R.layout.empty_view, null, false);
 
         imageEmptyView = emptyView.findViewById(R.id.empty_view_imageview);
@@ -129,9 +129,9 @@ public class BudgetFragmentView implements UIView {
         listView.addFooterView(emptyView, null, false);
     }
 
-    public void swapCursor(Cursor data){
-        if (data != null){
-            if (!data.moveToFirst()){
+    public void swapCursor(Cursor data) {
+        if (data != null) {
+            if (!data.moveToFirst()) {
                 imageEmptyView.setVisibility(View.VISIBLE);
                 emptyView.setVisibility(View.VISIBLE);
             } else {

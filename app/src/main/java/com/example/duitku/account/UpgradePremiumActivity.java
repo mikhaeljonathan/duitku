@@ -35,21 +35,21 @@ public class UpgradePremiumActivity extends AppCompatActivity {
         setUpUpgradeBtn();
     }
 
-    private void setUpUI(){
+    private void setUpUI() {
         TextView titleTV = findViewById(R.id.upgrade_premium_textView1);
         String text = "Go <font color='#00FFFF'>Premium</font> to enjoy more <font color='#00FFFF'>extraordinary</font> experiences with us!";
         titleTV.setText(Html.fromHtml(text));
 
         upgradedTV = findViewById(R.id.upgrade_premium_upgraded);
 
-        if (new UserController(this).isPremium()){
+        if (new UserController(this).isPremium()) {
             upgradedTV.setVisibility(View.VISIBLE);
         } else {
             upgradedTV.setVisibility(View.GONE);
         }
     }
 
-    private void setUpBackBtn(){
+    private void setUpBackBtn() {
         ImageView backBtn = findViewById(R.id.upgrade_premium_back_btn);
         backBtn.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -59,9 +59,9 @@ public class UpgradePremiumActivity extends AppCompatActivity {
         });
     }
 
-    private void setUpUpgradeBtn(){
+    private void setUpUpgradeBtn() {
         final Button upgradeBtn = findViewById(R.id.upgrade_premium_btn);
-        if (new UserController(this).isPremium()){
+        if (new UserController(this).isPremium()) {
             upgradeBtn.setVisibility(View.GONE);
         }
 

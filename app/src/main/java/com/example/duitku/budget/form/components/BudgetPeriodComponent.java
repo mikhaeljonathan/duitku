@@ -26,20 +26,20 @@ public class BudgetPeriodComponent extends View {
         super(context);
 
         this.rootView = rootView;
-        if (activity instanceof AppCompatActivity){
+        if (activity instanceof AppCompatActivity) {
             this.activity = (AppCompatActivity) activity;
         }
 
         setUpUI();
     }
 
-    private void setUpUI(){
+    private void setUpUI() {
         initialize();
         setUpSpinner();
     }
 
-    private void initialize(){
-        if (rootView == null){
+    private void initialize() {
+        if (rootView == null) {
             periodConstraintLayout = activity.findViewById(R.id.budget_period_constraintlayout);
             periodSpinner = activity.findViewById(R.id.budget_period_spinner);
         } else {
@@ -48,7 +48,7 @@ public class BudgetPeriodComponent extends View {
         }
     }
 
-    private void setUpSpinner(){
+    private void setUpSpinner() {
         ArrayAdapter<String> periodAdapter = new ArrayAdapter<>(getContext(), R.layout.spinner_item, BudgetController.budgetPeriod);
         periodAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
 
@@ -66,15 +66,15 @@ public class BudgetPeriodComponent extends View {
         });
     }
 
-    public void setVisibility(int view){
+    public void setVisibility(int view) {
         periodConstraintLayout.setVisibility(view);
     }
 
-    public int getBudgetTypePos(){
+    public int getBudgetTypePos() {
         return budgetTypePos;
     }
 
-    public void setBudgetTypePos(int budgetTypePos){
+    public void setBudgetTypePos(int budgetTypePos) {
         this.budgetTypePos = budgetTypePos;
         periodSpinner.setSelection(budgetTypePos);
     }

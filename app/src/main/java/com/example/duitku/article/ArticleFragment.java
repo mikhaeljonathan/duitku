@@ -25,7 +25,7 @@ public class ArticleFragment extends Fragment {
     @Nullable
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
-        View rootView = inflater.inflate(R.layout.fragment_article,container, false);
+        View rootView = inflater.inflate(R.layout.fragment_article, container, false);
         ArticleListAdapter adapter;
         listArticle.clear();
         fillArticles();
@@ -41,14 +41,14 @@ public class ArticleFragment extends Fragment {
                 String title = "Select a browser";
                 Intent chooser = Intent.createChooser(implicit, title);
 //                if (implicit.resolveActivity(get)!= null) {
-                    startActivity(chooser);
+                startActivity(chooser);
 //                }
             }
         });
         return rootView;
     }
 
-    public void fillArticles(){
+    public void fillArticles() {
         listArticle.add(new Article(-1, "4 Cara Terbaik Menyimpan Uang untuk Anda yang Boros", "https://koinworks.com/blog/menyimpan-uang/"));
         listArticle.add(new Article(-1, "Cara Menabung yang Benar menurut Pakar Keuangan", "https://www.cimbniaga.co.id/id/inspirasi/perencanaan/cara-menabung-yang-benar-menurut-pakar-keuangan"));
         listArticle.add(new Article(-1, "Dompet Jebol? Ini Cara Menghemat Uang Agar Tidak Boros", "https://pintek.id/blog/cara-menghemat-uang/"));

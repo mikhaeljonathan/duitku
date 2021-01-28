@@ -33,11 +33,11 @@ public class BudgetForm extends View {
         this.activity = activity;
     }
 
-    public void setUpUI(){
+    public void setUpUI() {
         setUpFields();
     }
 
-    private void setUpFields(){
+    private void setUpFields() {
         categoryComponent = new BudgetCategoryComponent(getContext(), rootView, activity);
         amountComponent = new BudgetAmountComponent(getContext(), rootView, activity);
         periodComponent = new BudgetPeriodComponent(getContext(), rootView, activity);
@@ -45,8 +45,8 @@ public class BudgetForm extends View {
         setUpCustomDateCheckBox();
     }
 
-    private void setUpCustomDateCheckBox(){
-        if (rootView == null){
+    private void setUpCustomDateCheckBox() {
+        if (rootView == null) {
             AppCompatActivity temp = (AppCompatActivity) activity;
             customDateCheckBox = temp.findViewById(R.id.budget_customdate_checkbox);
         } else {
@@ -66,60 +66,60 @@ public class BudgetForm extends View {
         });
     }
 
-    public boolean validateInput(){
+    public boolean validateInput() {
         if (!categoryComponent.validateInput()) return false;
         if (!amountComponent.validateInput()) return false;
         return dateComponent.validateInput(customDateCheckBox);
     }
 
-    public CheckBox getCustomDateCheckBox(){
+    public CheckBox getCustomDateCheckBox() {
         return customDateCheckBox;
     }
 
-    public double getAmount(){
+    public double getAmount() {
         return amountComponent.getAmount();
     }
 
-    public Date getStartDate(){
+    public Date getStartDate() {
         return dateComponent.getStartDate();
     }
 
-    public Date getEndDate(){
+    public Date getEndDate() {
         return dateComponent.getEndDate();
     }
 
-    public int getBudgetTypePos(){
+    public int getBudgetTypePos() {
         return periodComponent.getBudgetTypePos();
     }
 
-    public long getCategoryId(){
+    public long getCategoryId() {
         return categoryComponent.getCategoryId();
     }
 
-    public void setAmount(double amount){
+    public void setAmount(double amount) {
         amountComponent.setAmount(amount);
     }
 
-    public void setStartDate(Date date){
+    public void setStartDate(Date date) {
         dateComponent.setStartDate(date);
-        if (date != null){
+        if (date != null) {
             customDateCheckBox.setChecked(true);
         }
     }
 
-    public void setEndDate(Date date){
+    public void setEndDate(Date date) {
         dateComponent.setEndDate(date);
     }
 
-    public void setBudgetType(String type){
+    public void setBudgetType(String type) {
         int budgetTypePos = 0;
-        if (type != null){
+        if (type != null) {
             budgetTypePos = BudgetController.budgetPeriodMap.get(type);
         }
         periodComponent.setBudgetTypePos(budgetTypePos);
     }
 
-    public void setCategoryId(long id){
+    public void setCategoryId(long id) {
         categoryComponent.setCategoryId(id);
     }
 

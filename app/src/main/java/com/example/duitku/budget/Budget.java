@@ -12,11 +12,11 @@ public class Budget {
     private String budget_type;
     private long category_id;
 
-    public Budget(){
+    public Budget() {
 
     }
 
-    public Budget(long _id, double budget_amount, double budget_used, Date budget_startdate, Date budget_enddate, String budget_type, long category_id){
+    public Budget(long _id, double budget_amount, double budget_used, Date budget_startdate, Date budget_enddate, String budget_type, long category_id) {
         this._id = _id;
         this.budget_amount = budget_amount;
         this.budget_used = budget_used;
@@ -26,11 +26,13 @@ public class Budget {
         this.category_id = category_id;
     }
 
-    public void set_id(long _id){
+    public void set_id(long _id) {
         this._id = _id;
     }
 
-    public long get_id() {return _id;}
+    public long get_id() {
+        return _id;
+    }
 
     public double getBudget_amount() {
         return budget_amount;
@@ -40,11 +42,11 @@ public class Budget {
         return budget_used;
     }
 
-    public Date getBudget_startdate(){
+    public Date getBudget_startdate() {
         return budget_startdate;
     }
 
-    public Date getBudget_enddate(){
+    public Date getBudget_enddate() {
         return budget_enddate;
     }
 

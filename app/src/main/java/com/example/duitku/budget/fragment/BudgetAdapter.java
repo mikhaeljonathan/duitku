@@ -51,23 +51,23 @@ public class BudgetAdapter extends CursorAdapter {
         cl.setBackgroundResource(R.drawable.custom_shape);
     }
 
-    private void setUpName(View view){
+    private void setUpName(View view) {
         TextView nameTextView = view.findViewById(R.id.item_list_budget_name_textview);
         nameTextView.setText(category.getCategory_name());
     }
 
-    private void setUpUntilDate(View view){
+    private void setUpUntilDate(View view) {
         TextView untilTextView = view.findViewById(R.id.item_list_budget_until_textview);
         untilTextView.setText("Until\n" + getUntilDate(budget));
     }
 
-    private void setUpProgressBar(View view){
+    private void setUpProgressBar(View view) {
         double used = budget.getBudget_used();
         double amount = budget.getBudget_amount();
 
         ProgressBar progressBar = view.findViewById(R.id.item_list_budget_progressbar);
-        progressBar.setMax((int)amount);
-        progressBar.setProgress((int)used);
+        progressBar.setMax((int) amount);
+        progressBar.setProgress((int) used);
 
         TextView usedTextView = view.findViewById(R.id.item_list_budget_used_textview);
         TextView amountTextView = view.findViewById(R.id.item_list_budget_amount_textview);
@@ -76,10 +76,10 @@ public class BudgetAdapter extends CursorAdapter {
         amountTextView.setText(new DecimalFormat("###,###").format(amount));
     }
 
-    private String getUntilDate(Budget budget){
+    private String getUntilDate(Budget budget) {
         // custom date
         Date endDate = budget.getBudget_enddate();
-        if (endDate != null){
+        if (endDate != null) {
             return Utility.convertDateToString(budget.getBudget_enddate());
         }
 
@@ -89,9 +89,9 @@ public class BudgetAdapter extends CursorAdapter {
         int month = calendar.get(Calendar.MONTH) + 1;
         int year = calendar.get(Calendar.YEAR);
 
-        if (budget.getBudget_type().equals(BudgetEntry.TYPE_3MONTH)){
+        if (budget.getBudget_type().equals(BudgetEntry.TYPE_3MONTH)) {
             month = 3 * Utility.getQuarter(month);
-        } else if (budget.getBudget_type().equals(BudgetEntry.TYPE_YEAR)){
+        } else if (budget.getBudget_type().equals(BudgetEntry.TYPE_YEAR)) {
             month = 12;
         }
 

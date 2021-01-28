@@ -37,12 +37,12 @@ public class ViewBudgetActivityView implements UIView {
     private final ViewBudgetActivity activity;
     private View header;
 
-    public ViewBudgetActivityView(long id, ViewBudgetActivity activity){
+    public ViewBudgetActivityView(long id, ViewBudgetActivity activity) {
         this.budget = new BudgetController(activity).getBudgetById(id);
         this.activity = activity;
     }
 
-    public void setTransactionList(List<Transaction> transactionList){
+    public void setTransactionList(List<Transaction> transactionList) {
         this.transactionList = transactionList;
     }
 
@@ -58,7 +58,7 @@ public class ViewBudgetActivityView implements UIView {
         setUpButtons();
     }
 
-    private void setUpHeader(){
+    private void setUpHeader() {
         header = activity.getLayoutInflater().inflate(R.layout.activity_view_header,
                 (ViewGroup) activity.findViewById(R.id.activity_view_constraintlayout));
 
@@ -71,23 +71,23 @@ public class ViewBudgetActivityView implements UIView {
         hideView();
     }
 
-    private void setUpBudgetName(){
+    private void setUpBudgetName() {
         TextView nameTextView = header.findViewById(R.id.view_header_title);
         nameTextView.setText(new CategoryController(activity).getCategoryById(budget.getCategory_id()).getCategory_name());
     }
 
-    private void setUpAmount(){
+    private void setUpAmount() {
         TextView amountTextView = header.findViewById(R.id.view_header_subtitle);
         amountTextView.setText(new DecimalFormat("###,###").format(budget.getBudget_amount()));
     }
 
-    private void setUpPeriod(){
+    private void setUpPeriod() {
         TextView periodTextView = header.findViewById(R.id.view_header_subsubtitle);
         String period = "dari sini sampe sini";
         periodTextView.setText(period);
     }
 
-    private void setUpProgressBar(){
+    private void setUpProgressBar() {
         ProgressBar progressBar = header.findViewById(R.id.view_header_progressbar);
         TextView usedTextView = header.findViewById(R.id.view_header_used_textview);
         TextView maxTextView = header.findViewById(R.id.view_header_max_textview);
@@ -95,8 +95,8 @@ public class ViewBudgetActivityView implements UIView {
         double amount = budget.getBudget_amount();
         double used = budget.getBudget_used();
 
-        progressBar.setMax((int)amount);
-        progressBar.setProgress((int)used);
+        progressBar.setMax((int) amount);
+        progressBar.setProgress((int) used);
 
         maxTextView.setText(new DecimalFormat("###,###").format(amount));
         usedTextView.setText(new DecimalFormat("###,###").format(used));
@@ -104,7 +104,7 @@ public class ViewBudgetActivityView implements UIView {
         ImageView warnImageView = header.findViewById(R.id.view_header_warn_imageview);
         TextView warnTextView = header.findViewById(R.id.view_header_warn_textview);
 
-        if (used > amount){
+        if (used > amount) {
             warnImageView.setVisibility(View.VISIBLE);
             warnTextView.setVisibility(View.VISIBLE);
             warnTextView.setText("Overspent " + new DecimalFormat("###,###").format(used - amount));
@@ -114,17 +114,17 @@ public class ViewBudgetActivityView implements UIView {
         }
     }
 
-    private void setUpTransactionTextView(){
+    private void setUpTransactionTextView() {
         transactionTextView = header.findViewById(R.id.view_header_transaction_textview);
-        transactionTextView.setPaintFlags(transactionTextView.getPaintFlags()| Paint.UNDERLINE_TEXT_FLAG); //underline
+        transactionTextView.setPaintFlags(transactionTextView.getPaintFlags() | Paint.UNDERLINE_TEXT_FLAG); //underline
     }
 
-    private void hideView(){
+    private void hideView() {
         Button periodBtn = header.findViewById(R.id.view_header_period_btn);
         periodBtn.setVisibility(View.GONE);
     }
 
-    private void setUpListView(){
+    private void setUpListView() {
         listView = activity.findViewById(R.id.view_listview);
         listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
@@ -138,25 +138,25 @@ public class ViewBudgetActivityView implements UIView {
         setUpAdapter();
     }
 
-    private void viewTransaction(long id){
+    private void viewTransaction(long id) {
         ViewTransactionDialog viewTransactionDialog = new ViewTransactionDialog(id);
         viewTransactionDialog.show(activity.getSupportFragmentManager(), "View Transaction Dialog");
     }
 
-    private void setUpAdapter(){
+    private void setUpAdapter() {
         adapter = new TransactionAdapter(activity, transactionList, null);
         listView.setAdapter(adapter);
-        if (adapter.isEmpty()){
+        if (adapter.isEmpty()) {
             transactionTextView.setVisibility(View.GONE);
         }
     }
 
-    private void setUpButtons(){
+    private void setUpButtons() {
         setUpBackBtn();
         setUpEditBtn();
     }
 
-    private void setUpBackBtn(){
+    private void setUpBackBtn() {
         ImageButton backBtn = activity.findViewById(R.id.view_back_btn);
         backBtn.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -166,7 +166,7 @@ public class ViewBudgetActivityView implements UIView {
         });
     }
 
-    private void setUpEditBtn(){
+    private void setUpEditBtn() {
         ImageButton editBtn = activity.findViewById(R.id.view_edit_btn);
         editBtn.setOnClickListener(new View.OnClickListener() {
             @Override

@@ -5,7 +5,7 @@ public class Article {
     private String title;
     private String address;
 
-    public Article(long id, String title, String address){
+    public Article(long id, String title, String address) {
         this.id = id;
         this.title = title;
         this.address = address;

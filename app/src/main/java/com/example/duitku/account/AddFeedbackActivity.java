@@ -1,6 +1,7 @@
 package com.example.duitku.account;
 
 import androidx.appcompat.app.AppCompatActivity;
+
 import com.example.duitku.R;
 import com.example.duitku.firebase.FirebaseHelper;
 
@@ -27,12 +28,12 @@ public class AddFeedbackActivity extends AppCompatActivity {
         setUpSendBtn();
     }
 
-    private void setUpUI(){
+    private void setUpUI() {
         editText = findViewById(R.id.editTextTextMultiLine);
         editText.requestFocus();
     }
 
-    private void setUpBackBtn(){
+    private void setUpBackBtn() {
         ImageView backBtn = findViewById(R.id.add_feedback_back_btn);
         backBtn.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -42,7 +43,7 @@ public class AddFeedbackActivity extends AppCompatActivity {
         });
     }
 
-    private void setUpSendBtn(){
+    private void setUpSendBtn() {
         Button sendBtn = findViewById(R.id.add_feedback_save_btn);
         sendBtn.setOnClickListener(new View.OnClickListener() {
             @Override

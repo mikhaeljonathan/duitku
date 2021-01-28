@@ -15,6 +15,7 @@ import android.widget.Toast;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatDialogFragment;
+
 import com.example.duitku.R;
 import com.example.duitku.budget.Budget;
 import com.example.duitku.budget.BudgetController;
@@ -41,13 +42,13 @@ public class AddBudgetDialog extends AppCompatDialogFragment {
         return dialog;
     }
 
-    private void setUpUI(){
+    private void setUpUI() {
         setUpViews();
         setUpForm();
         setUpButtons();
     }
 
-    private void setUpViews(){
+    private void setUpViews() {
         LayoutInflater inflater = getActivity().getLayoutInflater();
 
         view = inflater.inflate(R.layout.dialog_add,
@@ -60,21 +61,21 @@ public class AddBudgetDialog extends AppCompatDialogFragment {
                 (ViewGroup) getActivity().findViewById(R.id.form_budget_constraintlayout)));
     }
 
-    private void setUpTitle(){
+    private void setUpTitle() {
         TextView titleTV = view.findViewById(R.id.dialog_add_title);
         titleTV.setText("Add Budget");
     }
 
-    private void setUpForm(){
+    private void setUpForm() {
         budgetForm = new BudgetForm(getActivity(), view, this);
         budgetForm.setUpUI();
     }
 
-    private void setUpButtons(){
+    private void setUpButtons() {
         setUpAddButton();
     }
 
-    private void setUpAddButton(){
+    private void setUpAddButton() {
         Button addBudgetBtn = view.findViewById(R.id.budget_save_btn);
 
         addBudgetBtn.setText("Add");
@@ -83,7 +84,7 @@ public class AddBudgetDialog extends AppCompatDialogFragment {
             public void onClick(View view) {
                 if (!budgetForm.validateInput()) return;
                 Uri uri = addBudget();
-                if (uri == null){
+                if (uri == null) {
                     Toast.makeText(getActivity(), "Error adding new budget", Toast.LENGTH_SHORT).show();
                 } else {
                     Toast.makeText(getActivity(), "Budget added", Toast.LENGTH_SHORT).show();
@@ -93,7 +94,7 @@ public class AddBudgetDialog extends AppCompatDialogFragment {
         });
     }
 
-    private Uri addBudget(){
+    private Uri addBudget() {
         BudgetController budgetController = new BudgetController(getActivity());
 
         double amount = budgetForm.getAmount();
@@ -103,7 +104,7 @@ public class AddBudgetDialog extends AppCompatDialogFragment {
         long categoryId = budgetForm.getCategoryId();
 
         String budgetType = BudgetController.budgetType[budgetTypePos];
-        if (!budgetForm.getCustomDateCheckBox().isChecked()){
+        if (!budgetForm.getCustomDateCheckBox().isChecked()) {
             startDate = null;
             endDate = null;
         }

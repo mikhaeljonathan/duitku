@@ -31,7 +31,7 @@ public class EditBudgetActivityView implements UIView {
 
     private final Budget budget;
 
-    public EditBudgetActivityView(long id, AppCompatActivity activity){
+    public EditBudgetActivityView(long id, AppCompatActivity activity) {
         this.activity = activity;
 
         budgetController = new BudgetController(activity);
@@ -45,7 +45,7 @@ public class EditBudgetActivityView implements UIView {
         setUpButtons();
     }
 
-    private void setUpViews(){
+    private void setUpViews() {
         activity.setContentView(R.layout.activity_edit);
 
         TextView titleTV = activity.findViewById(R.id.activity_edit_title);
@@ -59,7 +59,7 @@ public class EditBudgetActivityView implements UIView {
         deleteBtn.setText("Delete Budget");
     }
 
-    private void setUpForm(){
+    private void setUpForm() {
         budgetForm = new BudgetForm(activity, null, activity);
         budgetForm.setUpUI();
         budgetForm.setAmount(budget.getBudget_amount());
@@ -69,20 +69,20 @@ public class EditBudgetActivityView implements UIView {
         budgetForm.setCategoryId(budget.getCategory_id());
     }
 
-    private void setUpButtons(){
+    private void setUpButtons() {
         setUpSaveButton();
         setUpDeleteButton();
         setUpBackButton();
     }
 
-    private void setUpSaveButton(){
+    private void setUpSaveButton() {
         Button saveBudgetBtn = activity.findViewById(R.id.budget_save_btn);
         saveBudgetBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 if (!budgetForm.validateInput()) return;
                 int rowsUpdated = updateBudget();
-                if (rowsUpdated == 0){
+                if (rowsUpdated == 0) {
                     Toast.makeText(activity, "Error updating budget", Toast.LENGTH_SHORT).show();
                 } else {
                     Toast.makeText(activity, "Budget updated", Toast.LENGTH_SHORT).show();
@@ -92,7 +92,7 @@ public class EditBudgetActivityView implements UIView {
         });
     }
 
-    private int updateBudget(){
+    private int updateBudget() {
         double amount = budgetForm.getAmount();
         Date startDate = budgetForm.getStartDate();
         Date endDate = budgetForm.getEndDate();
@@ -101,7 +101,7 @@ public class EditBudgetActivityView implements UIView {
 
         budget.setBudget_amount(amount);
         budget.setBudget_used(0);
-        if (budgetForm.getCustomDateCheckBox().isChecked()){
+        if (budgetForm.getCustomDateCheckBox().isChecked()) {
             budget.setBudget_startdate(startDate);
             budget.setBudget_enddate(endDate);
             budget.setBudget_type(null);
@@ -115,7 +115,7 @@ public class EditBudgetActivityView implements UIView {
         return budgetController.updateAndRestartBudget(budget);
     }
 
-    private void setUpDeleteButton(){
+    private void setUpDeleteButton() {
         deleteBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -124,7 +124,7 @@ public class EditBudgetActivityView implements UIView {
         });
     }
 
-    private void showDeleteConfirmationDialog(){
+    private void showDeleteConfirmationDialog() {
         AlertDialog.Builder alertDialogBuilder = new AlertDialog.Builder(activity, R.style.AlertDialogCustom);
         alertDialogBuilder.setTitle("Delete Confirmation");
         alertDialogBuilder.setMessage("Are you sure to delete this budget?\nYou can't undo this")
@@ -145,9 +145,9 @@ public class EditBudgetActivityView implements UIView {
         alertDialog.show();
     }
 
-    private void deleteBudget(){
+    private void deleteBudget() {
         int rowsDeleted = budgetController.deleteBudget(budget);
-        if (rowsDeleted == 0){
+        if (rowsDeleted == 0) {
             Toast.makeText(activity, "Error deleting budget", Toast.LENGTH_SHORT).show();
         } else {
             Toast.makeText(activity, "Budget is deleted", Toast.LENGTH_SHORT).show();
@@ -155,7 +155,7 @@ public class EditBudgetActivityView implements UIView {
         activity.finish();
     }
 
-    private void setUpBackButton(){
+    private void setUpBackButton() {
         ImageView backBtn = activity.findViewById(R.id.activity_edit_back_btn);
         backBtn.setOnClickListener(new View.OnClickListener() {
             @Override

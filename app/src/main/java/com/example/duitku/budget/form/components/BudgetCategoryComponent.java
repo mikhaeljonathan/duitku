@@ -36,7 +36,7 @@ public class BudgetCategoryComponent extends View {
         super(context);
 
         this.rootView = rootView;
-        if (activity instanceof AppCompatActivity){
+        if (activity instanceof AppCompatActivity) {
             this.activity = (AppCompatActivity) activity;
         } else {
             this.fragment = (Fragment) activity;
@@ -47,14 +47,14 @@ public class BudgetCategoryComponent extends View {
         setUpUI();
     }
 
-    private void setUpUI(){
+    private void setUpUI() {
         initialize();
         setUpComponents();
         setPickerBehaviour();
     }
 
-    private void initialize(){
-        if (rootView == null){
+    private void initialize() {
+        if (rootView == null) {
             categoryConstraintLayout = activity.findViewById(R.id.budget_category_constraintlayout);
             categoryTextView = activity.findViewById(R.id.budget_category_textview);
             errorCategoryTextView = activity.findViewById(R.id.budget_category_error_textview);
@@ -65,11 +65,11 @@ public class BudgetCategoryComponent extends View {
         }
     }
 
-    private void setUpComponents(){
+    private void setUpComponents() {
         errorCategoryTextView.setVisibility(View.GONE);
     }
 
-    private void setPickerBehaviour(){
+    private void setPickerBehaviour() {
         final PickCategoryDialog.PickCategoryListener categoryPickerListener = new PickCategoryDialog.PickCategoryListener() {
             @Override
             public void pickCategory(long id) {
@@ -85,7 +85,7 @@ public class BudgetCategoryComponent extends View {
                 // yang dibudget pasti expense
                 PickCategoryDialog pickCategoryDialog = new PickCategoryDialog(categoryPickerListener, DuitkuContract.CategoryEntry.TYPE_EXPENSE);
                 FragmentManager fm;
-                if (activity == null){
+                if (activity == null) {
                     fm = fragment.getFragmentManager();
                 } else {
                     fm = activity.getSupportFragmentManager();
@@ -95,16 +95,16 @@ public class BudgetCategoryComponent extends View {
         });
     }
 
-    private void changeTextViewToWhite(){
-        if (fragment == null){
+    private void changeTextViewToWhite() {
+        if (fragment == null) {
             categoryTextView.setTextColor(activity.getResources().getColor(android.R.color.white));
         } else {
             categoryTextView.setTextColor(fragment.getResources().getColor(android.R.color.white));
         }
     }
 
-    public boolean validateInput(){
-        if (categoryId == -1){
+    public boolean validateInput() {
+        if (categoryId == -1) {
             errorCategoryTextView.setText("Category has to be chosen");
             errorCategoryTextView.setVisibility(View.VISIBLE);
             return false;
@@ -113,7 +113,7 @@ public class BudgetCategoryComponent extends View {
         }
 
         Budget budget = new BudgetController(getContext()).getBudgetByCategoryId(categoryId);
-        if (budget != null && categoryIdBefore != categoryId){
+        if (budget != null && categoryIdBefore != categoryId) {
             errorCategoryTextView.setText("There is a budget with this category");
             errorCategoryTextView.setVisibility(View.VISIBLE);
             return false;
@@ -124,11 +124,11 @@ public class BudgetCategoryComponent extends View {
         return true;
     }
 
-    public long getCategoryId(){
+    public long getCategoryId() {
         return categoryId;
     }
 
-    public void setCategoryId(long categoryId){
+    public void setCategoryId(long categoryId) {
         this.categoryIdBefore = categoryId;
         this.categoryId = categoryId;
         Category category = categoryController.getCategoryById(categoryId);

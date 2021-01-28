@@ -74,21 +74,21 @@ public class AccountFragment extends Fragment {
         emailTV.setText(user.getUser_email());
 
         ImageView premiumImageView = view.findViewById(R.id.account_premium_imageview);
-        if (user.getUser_status().equals(UserEntry.TYPE_REGULAR)){
+        if (user.getUser_status().equals(UserEntry.TYPE_REGULAR)) {
             premiumImageView.setVisibility(View.GONE);
         } else {
             premiumImageView.setVisibility(View.VISIBLE);
         }
     }
 
-    private void setUpButtons(){
+    private void setUpButtons() {
         setCategoriesBtn();
         setUpUpgradePremiumButton();
         setUpAddFeedbackButton();
         setUpSignOutButton();
     }
 
-    private void setCategoriesBtn(){
+    private void setCategoriesBtn() {
         Button categoriesBtn = view.findViewById(R.id.account_categories_btn);
         categoriesBtn.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -99,12 +99,12 @@ public class AccountFragment extends Fragment {
         });
     }
 
-    private void setUpPasscodeBtn(){
+    private void setUpPasscodeBtn() {
         passcodeBtn = view.findViewById(R.id.account_set_passcode_btn);
 
         final String passcode = user.getUser_passcode();
 
-        if (passcode != null){
+        if (passcode != null) {
             passcodeBtn.setText("Remove Passcode");
         } else {
             passcodeBtn.setText("Set Passcode");
@@ -113,7 +113,7 @@ public class AccountFragment extends Fragment {
         passcodeBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                if (passcode != null){
+                if (passcode != null) {
                     showRemoveConfirmationDialog();
                 } else {
                     Intent setPasscodeIntent = new Intent(getActivity(), PasscodeActivity.class);
@@ -125,7 +125,7 @@ public class AccountFragment extends Fragment {
 
     }
 
-    private void showRemoveConfirmationDialog(){
+    private void showRemoveConfirmationDialog() {
         AlertDialog.Builder alertDialogBuilder = new AlertDialog.Builder(getActivity(), R.style.AlertDialogCustom);
         alertDialogBuilder.setTitle("Remove Passcode Confirmation");
         alertDialogBuilder.setMessage("Are you sure to remove the passcode?")
@@ -146,13 +146,13 @@ public class AccountFragment extends Fragment {
         alertDialog.show();
     }
 
-    private void removePasscode(){
+    private void removePasscode() {
         user.setUser_passcode(null);
         new UserController(getActivity()).updateUser(user);
         setUpPasscodeBtn();
     }
 
-    private void setUpUpgradePremiumButton(){
+    private void setUpUpgradePremiumButton() {
         Button upgradePremiumBtn = view.findViewById(R.id.account_upgrade_premium_btn);
         upgradePremiumBtn.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -163,7 +163,7 @@ public class AccountFragment extends Fragment {
         });
     }
 
-    private void setUpAddFeedbackButton(){
+    private void setUpAddFeedbackButton() {
         Button addFeedbackBtn = view.findViewById(R.id.account_add_feedback_btn);
         addFeedbackBtn.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -174,7 +174,7 @@ public class AccountFragment extends Fragment {
         });
     }
 
-    private void setUpSignOutButton(){
+    private void setUpSignOutButton() {
         Button signOutBtn = view.findViewById(R.id.account_sign_out_btn);
         signOutBtn.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -185,7 +185,7 @@ public class AccountFragment extends Fragment {
         });
     }
 
-    private void showConfirmationSignOutDialog(){
+    private void showConfirmationSignOutDialog() {
         AlertDialog.Builder alertDialogBuilder = new AlertDialog.Builder(getActivity(), R.style.AlertDialogCustom);
         alertDialogBuilder.setTitle("Sign out Confirmation");
         alertDialogBuilder.setMessage("Are you sure to sign out?")
@@ -206,7 +206,7 @@ public class AccountFragment extends Fragment {
         alertDialog.show();
     }
 
-    private void signOut(){
+    private void signOut() {
         cancelBackup();
 
         GoogleSignIn.getClient(getActivity(), new GoogleSignInOptions.
@@ -216,7 +216,7 @@ public class AccountFragment extends Fragment {
                 .addOnCompleteListener(new OnCompleteListener<Void>() {
                     @Override
                     public void onComplete(@NonNull Task<Void> task) {
-                        if (task.isSuccessful()){
+                        if (task.isSuccessful()) {
                             FirebaseAuth.getInstance().signOut();
                             Intent loginIntent = new Intent(getActivity(), WelcomeActivity.class);
                             startActivity(loginIntent);

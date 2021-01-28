@@ -39,7 +39,7 @@ public class BudgetDateComponent extends View {
         super(context);
 
         this.rootView = rootView;
-        if (activity instanceof AppCompatActivity){
+        if (activity instanceof AppCompatActivity) {
             this.activity = (AppCompatActivity) activity;
         } else {
             this.fragment = (Fragment) activity;
@@ -48,13 +48,13 @@ public class BudgetDateComponent extends View {
         setUpUI();
     }
 
-    private void setUpUI(){
+    private void setUpUI() {
         initialize();
         setUpComponents();
     }
 
-    private void initialize(){
-        if (rootView == null){
+    private void initialize() {
+        if (rootView == null) {
             startDateConstraintLayout = activity.findViewById(R.id.budget_startdate_constraintlayout);
             startDateTextView = activity.findViewById(R.id.budget_startdate_textview);
             errorStartDateTextView = activity.findViewById(R.id.budget_startdate_error_textview);
@@ -71,7 +71,7 @@ public class BudgetDateComponent extends View {
         }
     }
 
-    private void setUpComponents(){
+    private void setUpComponents() {
         this.setVisibility(View.GONE);
         errorStartDateTextView.setVisibility(View.GONE);
         errorEndDateTextView.setVisibility(View.GONE);
@@ -80,7 +80,7 @@ public class BudgetDateComponent extends View {
         setUpEndDatePicker();
     }
 
-    private void setUpStartDatePicker(){
+    private void setUpStartDatePicker() {
         final DatePickerDialog.OnDateSetListener listener = new DatePickerDialog.OnDateSetListener() {
             @Override
             public void onDateSet(DatePicker datePicker, int year, int month, int dayOfMonth) {
@@ -95,7 +95,7 @@ public class BudgetDateComponent extends View {
             public void onClick(View view) {
                 DialogFragment datePicker = new DatePickerFragment(startDate, listener);
                 FragmentManager fm;
-                if (activity == null){
+                if (activity == null) {
                     fm = fragment.getFragmentManager();
                 } else {
                     fm = activity.getSupportFragmentManager();
@@ -105,7 +105,7 @@ public class BudgetDateComponent extends View {
         });
     }
 
-    private void setUpEndDatePicker(){
+    private void setUpEndDatePicker() {
         final DatePickerDialog.OnDateSetListener listener = new DatePickerDialog.OnDateSetListener() {
             @Override
             public void onDateSet(DatePicker datePicker, int year, int month, int dayOfMonth) {
@@ -120,7 +120,7 @@ public class BudgetDateComponent extends View {
             public void onClick(View view) {
                 DialogFragment datePicker = new DatePickerFragment(endDate, listener);
                 FragmentManager fm;
-                if (activity == null){
+                if (activity == null) {
                     fm = fragment.getFragmentManager();
                 } else {
                     fm = activity.getSupportFragmentManager();
@@ -130,36 +130,36 @@ public class BudgetDateComponent extends View {
         });
     }
 
-    private void changeStartDateToWhite(){
-        if (fragment == null){
+    private void changeStartDateToWhite() {
+        if (fragment == null) {
             startDateTextView.setTextColor(activity.getResources().getColor(android.R.color.white));
         } else {
             startDateTextView.setTextColor(fragment.getResources().getColor(android.R.color.white));
         }
     }
 
-    private void changeEndDateToWhite(){
-        if (fragment == null){
+    private void changeEndDateToWhite() {
+        if (fragment == null) {
             endDateTextView.setTextColor(activity.getResources().getColor(android.R.color.white));
         } else {
             endDateTextView.setTextColor(fragment.getResources().getColor(android.R.color.white));
         }
     }
 
-    public void setVisibility(int view){
+    public void setVisibility(int view) {
         startDateConstraintLayout.setVisibility(view);
         endDateConstraintLayout.setVisibility(view);
     }
 
-    public boolean validateInput(CheckBox customDateCheckBox){
-        if (customDateCheckBox.isChecked() && startDate == null){
+    public boolean validateInput(CheckBox customDateCheckBox) {
+        if (customDateCheckBox.isChecked() && startDate == null) {
             errorStartDateTextView.setVisibility(View.VISIBLE);
             return false;
         } else {
             errorStartDateTextView.setVisibility(View.GONE);
         }
 
-        if (customDateCheckBox.isChecked() && endDate == null){
+        if (customDateCheckBox.isChecked() && endDate == null) {
             errorEndDateTextView.setText("End date has to be chosen");
             errorEndDateTextView.setVisibility(View.VISIBLE);
             return false;
@@ -167,7 +167,7 @@ public class BudgetDateComponent extends View {
             errorEndDateTextView.setVisibility(View.GONE);
         }
 
-        if (customDateCheckBox.isChecked() && startDate.compareTo(endDate) > 0){
+        if (customDateCheckBox.isChecked() && startDate.compareTo(endDate) > 0) {
             errorEndDateTextView.setText("End date has to be later than start date");
             errorEndDateTextView.setVisibility(View.VISIBLE);
             return false;
@@ -178,25 +178,25 @@ public class BudgetDateComponent extends View {
         return true;
     }
 
-    public Date getStartDate(){
+    public Date getStartDate() {
         return startDate;
     }
 
-    public Date getEndDate(){
+    public Date getEndDate() {
         return endDate;
     }
 
-    public void setStartDate(Date date){
+    public void setStartDate(Date date) {
         startDate = date;
-        if (startDate != null){
+        if (startDate != null) {
             startDateTextView.setText(Utility.convertDateToFullString(date));
         }
         changeStartDateToWhite();
     }
 
-    public void setEndDate(Date date){
+    public void setEndDate(Date date) {
         endDate = date;
-        if (endDate != null){
+        if (endDate != null) {
             endDateTextView.setText(Utility.convertDateToFullString(date));
         }
         changeEndDateToWhite();

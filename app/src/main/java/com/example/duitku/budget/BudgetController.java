@@ -53,7 +53,7 @@ public class BudgetController {
         return context.getContentResolver().update(uri, values, null, null);
     }
 
-    public int updateAndRestartBudget(Budget budget){
+    public int updateAndRestartBudget(Budget budget) {
         initialUsed(budget);
         createNotification(budget);
 
@@ -71,8 +71,8 @@ public class BudgetController {
         budget.setBudget_used(used);
     }
 
-    private void createNotification(Budget budget){
-        if (budget.getBudget_used() > budget.getBudget_amount()){
+    private void createNotification(Budget budget) {
+        if (budget.getBudget_used() > budget.getBudget_amount()) {
             new NotificationController(context).sendOnChannelBudgetOverflow(budget);
         }
     }
@@ -82,10 +82,10 @@ public class BudgetController {
                 .delete(ContentUris.withAppendedId(BudgetEntry.CONTENT_URI, budget.get_id()), null, null);
     }
 
-    public int deleteBudgetWithCategoryId(long categoryId){
+    public int deleteBudgetWithCategoryId(long categoryId) {
         Budget budget = getBudgetByCategoryId(categoryId);
 
-        if (budget != null){
+        if (budget != null) {
             return deleteBudget(budget);
         }
 
@@ -93,7 +93,7 @@ public class BudgetController {
     }
 
     // get budget
-    public List<Budget> getAllBudget(){
+    public List<Budget> getAllBudget() {
         Cursor data = context.getContentResolver().query(BudgetEntry.CONTENT_URI,
                 getFullProjection(), null, null, null);
         return convertCursorToListOfBudgets(data);
@@ -149,7 +149,7 @@ public class BudgetController {
             } else { //3 month
                 int quarterDate = Utility.getQuarter(calendarDate.get(Calendar.MONTH) + 1);
                 int quarterBudget = Utility.getQuarter(calendarDate.get(Calendar.MONTH) + 1);
-                if (quarterDate == quarterBudget){
+                if (quarterDate == quarterBudget) {
                     return budget;
                 }
 
@@ -195,7 +195,7 @@ public class BudgetController {
         return new Budget(id, amount, used, startDate, endDate, type, categoryId);
     }
 
-    public List<Budget> convertCursorToListOfBudgets(Cursor data){
+    public List<Budget> convertCursorToListOfBudgets(Cursor data) {
         List<Budget> ret = new ArrayList<>();
         if (!data.moveToFirst()) return ret;
         do {
@@ -226,7 +226,7 @@ public class BudgetController {
         return ret;
     }
 
-    public HashMap<String, Object> convertBudgetToHashMap(Budget budget){
+    public HashMap<String, Object> convertBudgetToHashMap(Budget budget) {
         HashMap<String, Object> hashMap = new HashMap<>();
         hashMap.put(BudgetEntry.COLUMN_ID, budget.get_id());
         hashMap.put(BudgetEntry.COLUMN_AMOUNT, budget.getBudget_amount());
@@ -250,16 +250,16 @@ public class BudgetController {
         Budget budgetBefore = getBudgetByTransaction(transactionBefore);
         Budget budgetAfter = getBudgetByTransaction(transactionAfter);
 
-        if (budgetBefore != null){
+        if (budgetBefore != null) {
             updateAndRestartBudget(budgetBefore);
         }
 
-        if (budgetAfter != null){
+        if (budgetAfter != null) {
             updateAndRestartBudget(budgetAfter);
         }
     }
 
-    public void updateBudgetFromDeletedTransaction(Transaction transaction){
+    public void updateBudgetFromDeletedTransaction(Transaction transaction) {
         Budget budget = getBudgetByCategoryId(transaction.getCategory_id());
         if (budget == null) return;
 
