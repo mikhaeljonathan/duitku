@@ -87,6 +87,11 @@ public class CategoryNameComponent extends View {
             return false;
         }
 
+        if (name.equalsIgnoreCase("others")){
+            nameLayout.setError("This category name is reserved by system");
+            return false;
+        }
+
         CategoryController categoryController = new CategoryController(getContext());
 
         Category category = categoryController.getCategoryByNameAndType(name, categoryType);

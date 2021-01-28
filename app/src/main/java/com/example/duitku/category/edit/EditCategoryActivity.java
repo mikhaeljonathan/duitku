@@ -144,8 +144,7 @@ public class EditCategoryActivity extends AppCompatActivity {
     }
 
     private void hideView(){
-        Category categoryDefault = categoryController.getDefaultCategory(category.getCategory_type());
-        if (categoryDefault.get_id() == category.get_id()){
+        if (category.getCategory_name().equalsIgnoreCase("others")){
             saveBtn.setVisibility(View.GONE);
             deleteBtn.setVisibility(View.GONE);
             categoryForm.disableNameField();
