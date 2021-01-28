@@ -35,7 +35,7 @@ public class EditTransactionActivityView implements UIView {
     private final Transaction transaction;
     private final String type;
 
-    public EditTransactionActivityView(long id, AppCompatActivity activity){
+    public EditTransactionActivityView(long id, AppCompatActivity activity) {
         this.activity = activity;
 
         transactionController = new TransactionController(activity);
@@ -43,7 +43,7 @@ public class EditTransactionActivityView implements UIView {
         transaction = transactionController.getTransactionById(id);
 
         Category category = new CategoryController(activity).getCategoryById(transaction.getCategory_id());
-        if (category != null){
+        if (category != null) {
             type = category.getCategory_type();
         } else {
             type = CategoryEntry.TYPE_TRANSFER;
@@ -57,7 +57,7 @@ public class EditTransactionActivityView implements UIView {
         setUpButtons();
     }
 
-    private void setUpViews(){
+    private void setUpViews() {
         activity.setContentView(R.layout.activity_edit);
 
         TextView titleTV = activity.findViewById(R.id.activity_edit_title);
@@ -71,7 +71,7 @@ public class EditTransactionActivityView implements UIView {
         deleteBtn.setText("Delete Transaction");
     }
 
-    private void setUpForm(){
+    private void setUpForm() {
         transactionForm = new TransactionForm(activity, null, activity, type);
         transactionForm.setUpUI();
         transactionForm.setAmount(transaction.getTransaction_amount());
@@ -82,20 +82,20 @@ public class EditTransactionActivityView implements UIView {
         transactionForm.setWalletDestId(transaction.getWalletdest_id());
     }
 
-    private void setUpButtons(){
+    private void setUpButtons() {
         setUpSaveButton();
         setUpDeleteButton();
         setUpBackButton();
     }
 
-    private void setUpSaveButton(){
+    private void setUpSaveButton() {
         Button saveBtn = activity.findViewById(R.id.transaction_save_btn);
         saveBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 if (!transactionForm.validateInput()) return;
                 int rowsUpdated = updateTransaction();
-                if (rowsUpdated == 0){
+                if (rowsUpdated == 0) {
                     Toast.makeText(activity, "Error updating the transaction", Toast.LENGTH_SHORT).show();
                 } else {
                     Toast.makeText(activity, "Transaction updated", Toast.LENGTH_SHORT).show();
@@ -105,7 +105,7 @@ public class EditTransactionActivityView implements UIView {
         });
     }
 
-    private int updateTransaction(){
+    private int updateTransaction() {
         Transaction transactionBefore = Transaction.clone(transaction);
 
         double amount = transactionForm.getAmount();
@@ -125,9 +125,9 @@ public class EditTransactionActivityView implements UIView {
         return transactionController.updateTransaction(transactionBefore, transaction);
     }
 
-    private void deleteTransaction(){
+    private void deleteTransaction() {
         int rowsDeleted = transactionController.deleteTransaction(transaction);
-        if (rowsDeleted == 0){
+        if (rowsDeleted == 0) {
             Toast.makeText(activity, "Error deleting transaction", Toast.LENGTH_SHORT).show();
         } else {
             Toast.makeText(activity, "Transaction is deleted", Toast.LENGTH_SHORT).show();
@@ -135,7 +135,7 @@ public class EditTransactionActivityView implements UIView {
         activity.finish();
     }
 
-    private void setUpDeleteButton(){
+    private void setUpDeleteButton() {
         deleteBtn = activity.findViewById(R.id.activity_edit_delete);
         deleteBtn.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -145,7 +145,7 @@ public class EditTransactionActivityView implements UIView {
         });
     }
 
-    private void showDeleteConfirmationDialog(){
+    private void showDeleteConfirmationDialog() {
         AlertDialog.Builder alertDialogBuilder = new AlertDialog.Builder(activity, R.style.AlertDialogCustom);
         alertDialogBuilder.setTitle("Delete Confirmation");
         alertDialogBuilder.setMessage("Are you sure to delete this transaction?\nYou can't undo this")
@@ -166,7 +166,7 @@ public class EditTransactionActivityView implements UIView {
         alertDialog.show();
     }
 
-    private void setUpBackButton(){
+    private void setUpBackButton() {
         ImageView backBtn = activity.findViewById(R.id.activity_edit_back_btn);
         backBtn.setOnClickListener(new View.OnClickListener() {
             @Override

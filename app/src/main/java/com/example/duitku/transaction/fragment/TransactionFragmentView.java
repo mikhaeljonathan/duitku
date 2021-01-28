@@ -28,7 +28,7 @@ public class TransactionFragmentView implements UIView {
     private View view;
     private final Fragment fragment;
 
-    public TransactionFragmentView(LayoutInflater inflater, ViewGroup container, Fragment fragment){
+    public TransactionFragmentView(LayoutInflater inflater, ViewGroup container, Fragment fragment) {
         this.inflater = inflater;
         this.container = container;
         this.fragment = fragment;
@@ -41,7 +41,7 @@ public class TransactionFragmentView implements UIView {
         setUpSearchEditText();
     }
 
-    private void setUpViewPager(){
+    private void setUpViewPager() {
         ViewPager viewPager = view.findViewById(R.id.fragment_transaction_viewpager);
 
         TransactionViewPagerAdapter adapter = new TransactionViewPagerAdapter(fragment.getChildFragmentManager());
@@ -56,7 +56,7 @@ public class TransactionFragmentView implements UIView {
         viewPager.setCurrentItem(2); // mulai dari daily transaction
     }
 
-    private void setUpSearchEditText(){
+    private void setUpSearchEditText() {
         Button searchBtn = view.findViewById(R.id.fragment_transaction_search_btn);
         searchBtn.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -67,7 +67,7 @@ public class TransactionFragmentView implements UIView {
         });
     }
 
-    public View getView(){
+    public View getView() {
         return view;
     }
 

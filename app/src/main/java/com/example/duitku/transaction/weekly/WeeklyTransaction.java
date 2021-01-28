@@ -7,14 +7,14 @@ public class WeeklyTransaction {
     private final double income;
     private final double expense;
 
-    public WeeklyTransaction(int week, String intervals, double income, double expense){
+    public WeeklyTransaction(int week, String intervals, double income, double expense) {
         this.week = week;
         this.intervals = intervals;
         this.income = income;
         this.expense = expense;
     }
 
-    public int getWeek(){
+    public int getWeek() {
         return week;
     }
 

@@ -13,37 +13,37 @@ public class UserController {
 
     private final Context context;
 
-    public UserController(Context context){
+    public UserController(Context context) {
         this.context = context;
     }
 
-    public void addUser(User user){
+    public void addUser(User user) {
         ContentValues values = convertUserToContentValues(user);
         context.getContentResolver().insert(UserEntry.CONTENT_URI, values);
     }
 
-    public void updateUser(User user){
+    public void updateUser(User user) {
         ContentValues values = convertUserToContentValues(user);
         context.getContentResolver().update(UserEntry.CONTENT_URI, values, null, null);
         new FirebaseWriter(context).writeUser();
     }
 
-    public void deleteUser(){
+    public void deleteUser() {
         context.getContentResolver().delete(UserEntry.CONTENT_URI, null, null);
     }
 
-    public User getUser(){
+    public User getUser() {
         User ret = null;
 
         Cursor data = context.getContentResolver().query(UserEntry.CONTENT_URI, getFullProjection(), null, null, null);
-        if (data.moveToFirst()){
+        if (data.moveToFirst()) {
             ret = convertCursorToUser(data);
         }
 
         return ret;
     }
 
-    public String[] getFullProjection(){
+    public String[] getFullProjection() {
         return new String[]{UserEntry.COLUMN_ID,
                 UserEntry.COLUMN_USER_NAME,
                 UserEntry.COLUMN_USER_EMAIL,
@@ -52,13 +52,13 @@ public class UserController {
                 UserEntry.COLUMN_USER_PASSCODE};
     }
 
-    public boolean isPremium(){
+    public boolean isPremium() {
         User user = getUser();
         if (user == null) return false;
         return user.getUser_status().equals(UserEntry.TYPE_PREMIUM);
     }
 
-    private User convertCursorToUser(Cursor data){
+    private User convertCursorToUser(Cursor data) {
         int userIdColumnIndex = data.getColumnIndex(UserEntry.COLUMN_ID);
         int userNameColumnIndex = data.getColumnIndex(UserEntry.COLUMN_USER_NAME);
         int userEmailColumnIndex = data.getColumnIndex(UserEntry.COLUMN_USER_EMAIL);
@@ -76,7 +76,7 @@ public class UserController {
         return new User(id, name, email, status, firstTime, passcode);
     }
 
-    private ContentValues convertUserToContentValues(User user){
+    private ContentValues convertUserToContentValues(User user) {
         ContentValues ret = new ContentValues();
 
         ret.put(UserEntry.COLUMN_ID, user.get_id());
@@ -89,7 +89,7 @@ public class UserController {
         return ret;
     }
 
-    public HashMap<String, Object> convertUserToHashMap(User user){
+    public HashMap<String, Object> convertUserToHashMap(User user) {
         HashMap<String, Object> hashMap = new HashMap<>();
         hashMap.put(UserEntry.COLUMN_ID, user.get_id());
         hashMap.put(UserEntry.COLUMN_USER_NAME, user.getUser_name());

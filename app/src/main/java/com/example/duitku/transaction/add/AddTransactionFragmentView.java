@@ -36,7 +36,7 @@ public class AddTransactionFragmentView implements UIView {
 
     private String type;
 
-    public AddTransactionFragmentView(LayoutInflater inflater, ViewGroup container, Fragment fragment, String type){
+    public AddTransactionFragmentView(LayoutInflater inflater, ViewGroup container, Fragment fragment, String type) {
         this.inflater = inflater;
         this.container = container;
         this.fragment = fragment;
@@ -51,26 +51,26 @@ public class AddTransactionFragmentView implements UIView {
         setUpButtons();
     }
 
-    private void initInterstitialAd(){
+    private void initInterstitialAd() {
         interstitialAd = new InterstitialAd(fragment.getActivity());
         interstitialAd.setAdUnitId("ca-app-pub-3940256099942544/1033173712");
         interstitialAd.loadAd(new AdRequest.Builder().build());
     }
 
-    private void setUpViews(){
+    private void setUpViews() {
         this.view = inflater.inflate(R.layout.fragment_add_transaction, container, false);
     }
 
-    private void setUpForm(){
+    private void setUpForm() {
         transactionForm = new TransactionForm(fragment.getActivity(), view, fragment, type);
         transactionForm.setUpUI();
     }
 
-    private void setUpButtons(){
+    private void setUpButtons() {
         setUpAddBtn();
     }
 
-    private void setUpAddBtn(){
+    private void setUpAddBtn() {
         Button addBtn = view.findViewById(R.id.transaction_save_btn);
         addBtn.setText("Add");
         addBtn.setOnClickListener(new View.OnClickListener() {
@@ -78,7 +78,7 @@ public class AddTransactionFragmentView implements UIView {
             public void onClick(View view) {
                 if (!transactionForm.validateInput()) return;
                 Uri uri = addTransaction();
-                if (uri == null){
+                if (uri == null) {
                     Toast.makeText(fragment.getActivity(), "Error adding new transaction", Toast.LENGTH_SHORT).show();
                 } else {
                     Toast.makeText(fragment.getActivity(), "Transaction added", Toast.LENGTH_SHORT).show();
@@ -89,7 +89,7 @@ public class AddTransactionFragmentView implements UIView {
         });
     }
 
-    private Uri addTransaction(){
+    private Uri addTransaction() {
         long walletId = transactionForm.getWalletId();
         long walletDestId = transactionForm.getWalletDestId();
         long categoryId = transactionForm.getCategoryId();
@@ -105,11 +105,11 @@ public class AddTransactionFragmentView implements UIView {
         return uri;
     }
 
-    private void showInterstitialAd(){
+    private void showInterstitialAd() {
         if (new UserController(fragment.getActivity()).getUser().getUser_status().equals(DuitkuContract.UserEntry.TYPE_PREMIUM)) {
             return;
         }
-        if (new Random().nextInt(2) == 0){
+        if (new Random().nextInt(2) == 0) {
             interstitialAd.show();
         }
     }

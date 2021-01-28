@@ -22,7 +22,7 @@ public class FirebaseReader {
 
     private FirebaseHelper fbHelper;
 
-    public FirebaseReader (){
+    public FirebaseReader() {
         fbHelper = new FirebaseHelper();
     }
 
@@ -32,7 +32,7 @@ public class FirebaseReader {
                 .addOnSuccessListener(new OnSuccessListener<QuerySnapshot>() {
                     @Override
                     public void onSuccess(QuerySnapshot queryDocumentSnapshots) {
-                        for (QueryDocumentSnapshot doc: queryDocumentSnapshots) {
+                        for (QueryDocumentSnapshot doc : queryDocumentSnapshots) {
                             ret.add(doc.toObject(Article.class));
                         }
                     }

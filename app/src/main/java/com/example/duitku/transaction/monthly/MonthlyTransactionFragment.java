@@ -89,7 +89,7 @@ public class MonthlyTransactionFragment extends Fragment implements LoaderManage
         monthlyTransactionFragmentView.fillListView(monthlyTransactionList, categoryTransactionListHashMap, getActivity());
     }
 
-    private void setUpListAndHashMap(List<Transaction> allTransactions){
+    private void setUpListAndHashMap(List<Transaction> allTransactions) {
         monthlyTransactionList.clear();
         categoryTransactionListHashMap.clear();
         categoryTransactionHashMap.clear();
@@ -103,7 +103,7 @@ public class MonthlyTransactionFragment extends Fragment implements LoaderManage
         if (allTransactions.isEmpty()) return;
 
         // traverse through list
-        for (Transaction curTransaction: allTransactions){
+        for (Transaction curTransaction : allTransactions) {
             // kalo dah ganti bulan
             Calendar calendar = Calendar.getInstance();
             calendar.setTime(curTransaction.getTransaction_date());
@@ -124,13 +124,13 @@ public class MonthlyTransactionFragment extends Fragment implements LoaderManage
         addToListAndHashMap(lastMonth);
     }
 
-    private void addToListAndHashMap(int lastMonth){
+    private void addToListAndHashMap(int lastMonth) {
         MonthlyTransaction monthlyTransaction = new MonthlyTransaction(lastMonth, totalIncome, totalExpense);
         monthlyTransactionList.add(monthlyTransaction);
         categoryTransactionListHashMap.put(monthlyTransaction, transactionController.convertHashMapToListOfCategoryTransaction(categoryTransactionHashMap));
     }
 
-    private void updateIncomeAndExpense(Transaction curTransaction){
+    private void updateIncomeAndExpense(Transaction curTransaction) {
         CategoryController categoryController = new CategoryController(getActivity());
         long categoryId = curTransaction.getCategory_id();
         Category category = categoryController.getCategoryById(categoryId);
@@ -138,7 +138,7 @@ public class MonthlyTransactionFragment extends Fragment implements LoaderManage
         if (category == null) return;
 
         String type = category.getCategory_type();
-        if (type.equals(DuitkuContract.CategoryEntry.TYPE_EXPENSE)){
+        if (type.equals(DuitkuContract.CategoryEntry.TYPE_EXPENSE)) {
             totalGlobalExpense += curTransaction.getTransaction_amount();
             totalExpense += curTransaction.getTransaction_amount();
         } else {
@@ -147,10 +147,10 @@ public class MonthlyTransactionFragment extends Fragment implements LoaderManage
         }
     }
 
-    private void addToCategoryTransactionHashMap(Transaction curTransaction){
+    private void addToCategoryTransactionHashMap(Transaction curTransaction) {
         long categoryId = curTransaction.getCategory_id();
         CategoryTransaction categoryTransaction = categoryTransactionHashMap.get(categoryId);
-        if (categoryTransaction == null){ //belum ada category yang setipe dengan transaksi ini
+        if (categoryTransaction == null) { //belum ada category yang setipe dengan transaksi ini
             categoryTransaction = new CategoryTransaction(categoryId, 0);
             categoryTransactionHashMap.put(categoryId, categoryTransaction);
         }

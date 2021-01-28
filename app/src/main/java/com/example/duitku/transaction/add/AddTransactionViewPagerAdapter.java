@@ -35,7 +35,7 @@ public class AddTransactionViewPagerAdapter extends FragmentPagerAdapter {
         return fragmentTitleList.get(position);
     }
 
-    public void addFrag(Fragment fragment, String title){
+    public void addFrag(Fragment fragment, String title) {
         fragmentList.add(fragment);
         fragmentTitleList.add(title);
     }

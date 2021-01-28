@@ -9,7 +9,7 @@ public class User {
     private String user_first_time;
     private String user_passcode;
 
-    public User(){
+    public User() {
 
     }
 
@@ -26,7 +26,7 @@ public class User {
         this._id = _id;
     }
 
-    public String get_id(){
+    public String get_id() {
         return _id;
     }
 

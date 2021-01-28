@@ -29,7 +29,7 @@ public class CategoryNameComponent extends View {
         super(context);
 
         this.rootView = rootView;
-        if (activity instanceof AppCompatActivity){
+        if (activity instanceof AppCompatActivity) {
             this.activity = (AppCompatActivity) activity;
         }
         this.categoryType = categoryType;
@@ -37,13 +37,13 @@ public class CategoryNameComponent extends View {
         setUpUI();
     }
 
-    private void setUpUI(){
+    private void setUpUI() {
         initialize();
         setUpComponents();
     }
 
-    private void initialize(){
-        if (rootView == null){
+    private void initialize() {
+        if (rootView == null) {
             nameLayout = activity.findViewById(R.id.category_name_textinputlayout);
             nameField = activity.findViewById(R.id.category_name_edittext);
         } else {
@@ -52,7 +52,7 @@ public class CategoryNameComponent extends View {
         }
     }
 
-    private void setUpComponents(){
+    private void setUpComponents() {
         nameField.requestFocus();
         nameField.addTextChangedListener(new TextWatcher() {
             @Override
@@ -67,7 +67,7 @@ public class CategoryNameComponent extends View {
 
             @Override
             public void afterTextChanged(Editable editable) {
-                if (editable.toString().length() > 20){
+                if (editable.toString().length() > 20) {
                     nameLayout.setError("Category name too long");
                 } else {
                     nameLayout.setErrorEnabled(false);
@@ -76,18 +76,18 @@ public class CategoryNameComponent extends View {
         });
     }
 
-    public boolean validateInput(){
+    public boolean validateInput() {
         name = nameField.getText().toString().trim();
-        if (name.equals("")){
+        if (name.equals("")) {
             nameLayout.setError("Category name can't be empty");
             return false;
         }
 
-        if (name.length() > 20){
+        if (name.length() > 20) {
             return false;
         }
 
-        if (name.equalsIgnoreCase("others")){
+        if (name.equalsIgnoreCase("others")) {
             nameLayout.setError("This category name is reserved by system");
             return false;
         }
@@ -95,13 +95,13 @@ public class CategoryNameComponent extends View {
         CategoryController categoryController = new CategoryController(getContext());
 
         Category category = categoryController.getCategoryByNameAndType(name, categoryType);
-        if (category != null && nameBefore == null){
+        if (category != null && nameBefore == null) {
             nameLayout.setError("There is a category with this name");
             return false;
         }
 
-        if (nameBefore != null && !nameBefore.equalsIgnoreCase(name)){
-            if (categoryController.getCategoryByNameAndType(name, categoryType) != null){
+        if (nameBefore != null && !nameBefore.equalsIgnoreCase(name)) {
+            if (categoryController.getCategoryByNameAndType(name, categoryType) != null) {
                 nameLayout.setError("There is a wallet with this name");
                 return false;
             }
@@ -110,17 +110,17 @@ public class CategoryNameComponent extends View {
         return true;
     }
 
-    public String getName(){
+    public String getName() {
         return name;
     }
 
-    public void setName(String name){
+    public void setName(String name) {
         this.nameBefore = name;
         this.name = name;
         nameField.setText(name);
     }
 
-    public void disableField(){
+    public void disableField() {
         nameField.setEnabled(false);
         nameLayout.setError("This is a default category\nCan't delete or edit");
     }

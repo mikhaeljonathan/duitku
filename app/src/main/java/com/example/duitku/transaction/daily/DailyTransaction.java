@@ -7,7 +7,7 @@ public class DailyTransaction {
     private final double income;
     private final double expense;
 
-    public DailyTransaction(int date, String day, double income, double expense){
+    public DailyTransaction(int date, String day, double income, double expense) {
         this.date = date;
         this.day = day;
         this.income = income;

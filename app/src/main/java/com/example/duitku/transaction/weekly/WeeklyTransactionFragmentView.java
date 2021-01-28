@@ -51,7 +51,7 @@ public class WeeklyTransactionFragmentView implements UIView {
     private View view;
     private final WeeklyTransactionFragment fragment;
 
-    public WeeklyTransactionFragmentView(LayoutInflater inflater, ViewGroup container, WeeklyTransactionFragment fragment){
+    public WeeklyTransactionFragmentView(LayoutInflater inflater, ViewGroup container, WeeklyTransactionFragment fragment) {
         this.inflater = inflater;
         this.container = container;
         this.fragment = fragment;
@@ -65,7 +65,7 @@ public class WeeklyTransactionFragmentView implements UIView {
         setUpEmptyView();
     }
 
-    private void setUpHeader(){
+    private void setUpHeader() {
         header = inflater.inflate(R.layout.fragment_transaction_header, container, false);
 
         summaryContainer = header.findViewById(R.id.transaction_header_summary_container);
@@ -82,7 +82,7 @@ public class WeeklyTransactionFragmentView implements UIView {
         adView.loadAd(adRequest);
 
         User user = new UserController(fragment.getActivity()).getUser();
-        if (user != null){
+        if (user != null) {
             if (user.getUser_status().equals(DuitkuContract.UserEntry.TYPE_PREMIUM)) {
                 adView.setVisibility(View.GONE);
             }
@@ -95,7 +95,7 @@ public class WeeklyTransactionFragmentView implements UIView {
         periodButton = header.findViewById(R.id.transaction_header_period_btn);
     }
 
-    private void setUpExpandableListView(){
+    private void setUpExpandableListView() {
         ListView listView = view.findViewById(R.id.fragment_transaction_viewpager_listview);
         listView.setVisibility(View.GONE);
 
@@ -112,7 +112,7 @@ public class WeeklyTransactionFragmentView implements UIView {
         expandableListView.addHeaderView(header, null, false);
     }
 
-    private void setUpEmptyView(){
+    private void setUpEmptyView() {
         emptyView = inflater.inflate(R.layout.empty_view, null, false);
 
         imageEmptyView = emptyView.findViewById(R.id.empty_view_imageview);
@@ -124,13 +124,13 @@ public class WeeklyTransactionFragmentView implements UIView {
         expandableListView.addFooterView(emptyView, null, false);
     }
 
-    private void viewCategoryTransaction(CategoryTransaction categoryTransaction){
+    private void viewCategoryTransaction(CategoryTransaction categoryTransaction) {
         Intent viewCategoryTransactionIntent = new Intent(fragment.getActivity(), ViewCategoryTransactionActivity.class);
         viewCategoryTransactionIntent.putExtra("CategoryTransaction", categoryTransaction);
         fragment.getActivity().startActivity(viewCategoryTransactionIntent);
     }
 
-    public void updatePeriodButton(final int month, final int year){
+    public void updatePeriodButton(final int month, final int year) {
         periodButton.setText(Utility.monthsName[month] + " " + year);
         periodButton.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -148,17 +148,17 @@ public class WeeklyTransactionFragmentView implements UIView {
         });
     }
 
-    public void updateSummary(double totalGlobalIncome, double totalGlobalExpense){
-        totalAmountTextView.setText(new DecimalFormat("###,###").format(totalGlobalIncome-totalGlobalExpense));
+    public void updateSummary(double totalGlobalIncome, double totalGlobalExpense) {
+        totalAmountTextView.setText(new DecimalFormat("###,###").format(totalGlobalIncome - totalGlobalExpense));
         totalGlobalIncomeTextView.setText(new DecimalFormat("###,###").format(totalGlobalIncome));
         totalGlobalExpenseTextView.setText(new DecimalFormat("###,###").format(totalGlobalExpense));
     }
 
-    public void fillListView(List<WeeklyTransaction> weeklyTransactionList, HashMap<WeeklyTransaction, List<CategoryTransaction>> categoryTransactionListHashMap, Context context){
+    public void fillListView(List<WeeklyTransaction> weeklyTransactionList, HashMap<WeeklyTransaction, List<CategoryTransaction>> categoryTransactionListHashMap, Context context) {
         adapter = new WeeklyExpandableAdapter(weeklyTransactionList, categoryTransactionListHashMap, context);
         expandableListView.setAdapter(adapter);
 
-        if (adapter.getGroupCount() == 0){
+        if (adapter.getGroupCount() == 0) {
             summaryContainer.setVisibility(View.GONE);
             imageEmptyView.setVisibility(View.VISIBLE);
             emptyView.setVisibility(View.VISIBLE);

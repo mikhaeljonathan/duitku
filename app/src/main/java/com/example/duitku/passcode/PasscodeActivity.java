@@ -42,25 +42,25 @@ public class PasscodeActivity extends AppCompatActivity {
 
     }
 
-    private void setTitle(){
+    private void setTitle() {
         titleTV = findViewById(R.id.passcode_title);
-        if (flag.equals("SET")){
+        if (flag.equals("SET")) {
             titleTV.setText("Set Passcode");
-        } else if (flag.equals("CONFIRM")){
+        } else if (flag.equals("CONFIRM")) {
             titleTV.setText("Confirm Passcode");
         } else {
             titleTV.setText("Input Passcode");
         }
     }
 
-    private void setImageViewHashMap(){
+    private void setImageViewHashMap() {
         hm.put(1, (ImageView) findViewById(R.id.imageView));
         hm.put(2, (ImageView) findViewById(R.id.imageView2));
         hm.put(3, (ImageView) findViewById(R.id.imageView3));
         hm.put(4, (ImageView) findViewById(R.id.imageView4));
     }
 
-    private void setButtonsList(){
+    private void setButtonsList() {
         buttons.add((Button) findViewById(R.id.button0));
         buttons.add((Button) findViewById(R.id.button1));
         buttons.add((Button) findViewById(R.id.button2));
@@ -73,14 +73,14 @@ public class PasscodeActivity extends AppCompatActivity {
         buttons.add((Button) findViewById(R.id.button9));
     }
 
-    private void setButtonsBehavior(){
+    private void setButtonsBehavior() {
         setNumberButtons();
         setCancelButton();
         setBackButton();
     }
 
-    private void setNumberButtons(){
-        for (int i = 0; i < 10; i++){
+    private void setNumberButtons() {
+        for (int i = 0; i < 10; i++) {
             Button button = buttons.get(i);
             final int temp = i;
             button.setOnClickListener(new View.OnClickListener() {
@@ -93,7 +93,7 @@ public class PasscodeActivity extends AppCompatActivity {
         }
     }
 
-    private void setCancelButton(){
+    private void setCancelButton() {
         Button cancelBtn = findViewById(R.id.button_cancel);
         cancelBtn.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -103,12 +103,12 @@ public class PasscodeActivity extends AppCompatActivity {
         });
     }
 
-    private void setBackButton(){
+    private void setBackButton() {
         Button backBtn = findViewById(R.id.button_back);
         backBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                if (passcode.length() > 0){
+                if (passcode.length() > 0) {
                     passcode.deleteCharAt(passcode.length() - 1);
                     changeToDark();
                 }
@@ -116,26 +116,26 @@ public class PasscodeActivity extends AppCompatActivity {
         });
     }
 
-    private void changeToDark(){
+    private void changeToDark() {
         int length = passcode.length();
         hm.get(length + 1).setImageResource(R.drawable.icon_circle_dark);
     }
 
-    private void changeToWhite(){
+    private void changeToWhite() {
         int length = passcode.length();
         hm.get(length).setImageResource(R.drawable.icon_circle_white);
-        if (length == 4){
+        if (length == 4) {
             takeAction();
         }
     }
 
-    private void takeAction(){
-        if (flag.equals("SET")){
+    private void takeAction() {
+        if (flag.equals("SET")) {
             finish();
             openConfirmActivity();
-        } else if (flag.equals("CONFIRM")){
+        } else if (flag.equals("CONFIRM")) {
             String passcodeConfirm = getIntent().getStringExtra("Passcode");
-            if (passcodeConfirm.equals(passcode.toString())){
+            if (passcodeConfirm.equals(passcode.toString())) {
                 finish();
 
                 UserController userController = new UserController(this);
@@ -148,7 +148,7 @@ public class PasscodeActivity extends AppCompatActivity {
             }
         } else {
             String userPasscode = new UserController(this).getUser().getUser_passcode();
-            if (userPasscode.equals(passcode.toString())){
+            if (userPasscode.equals(passcode.toString())) {
                 finish();
             } else {
                 errorState("Invalid Passcode");
@@ -156,17 +156,17 @@ public class PasscodeActivity extends AppCompatActivity {
         }
     }
 
-    private void openConfirmActivity(){
+    private void openConfirmActivity() {
         Intent confirmPasscodeIntent = new Intent(this, PasscodeActivity.class);
         confirmPasscodeIntent.putExtra("Flag", "CONFIRM");
         confirmPasscodeIntent.putExtra("Passcode", passcode.toString());
         startActivity(confirmPasscodeIntent);
     }
 
-    private void errorState(String message){
+    private void errorState(String message) {
         titleTV.setText(message);
         passcode.delete(0, passcode.length());
-        for (int i = 1; i <= 4; i++){
+        for (int i = 1; i <= 4; i++) {
             hm.get(i).setImageResource(R.drawable.icon_circle_dark);
         }
         Vibrator v = (Vibrator) getSystemService(Context.VIBRATOR_SERVICE);
@@ -176,7 +176,7 @@ public class PasscodeActivity extends AppCompatActivity {
 
     @Override
     public void onBackPressed() {
-        if (flag.equals("INPUT")){
+        if (flag.equals("INPUT")) {
             finishAffinity();
         }
         super.onBackPressed();

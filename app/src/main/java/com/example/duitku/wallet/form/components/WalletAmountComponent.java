@@ -27,20 +27,20 @@ public class WalletAmountComponent extends View {
         super(context);
 
         this.rootView = rootView;
-        if (activity instanceof AppCompatActivity){
+        if (activity instanceof AppCompatActivity) {
             this.activity = (AppCompatActivity) activity;
         }
 
         setUpUI();
     }
 
-    private void setUpUI(){
+    private void setUpUI() {
         initialize();
         setUpComponents();
     }
 
-    private void initialize(){
-        if (rootView == null){
+    private void initialize() {
+        if (rootView == null) {
             amountLayout = activity.findViewById(R.id.wallet_amount_textinputlayout);
             amountField = activity.findViewById(R.id.wallet_amount_field);
         } else {
@@ -49,7 +49,7 @@ public class WalletAmountComponent extends View {
         }
     }
 
-    private void setUpComponents(){
+    private void setUpComponents() {
         amountField.addTextChangedListener(new TextWatcher() {
             @Override
             public void beforeTextChanged(CharSequence charSequence, int i, int i1, int i2) {
@@ -63,7 +63,7 @@ public class WalletAmountComponent extends View {
 
             @Override
             public void afterTextChanged(Editable editable) {
-                if (editable.toString().length() > 9){
+                if (editable.toString().length() > 9) {
                     amountLayout.setError("Amount too much");
                 } else {
                     amountLayout.setErrorEnabled(false);
@@ -72,9 +72,9 @@ public class WalletAmountComponent extends View {
         });
     }
 
-    public boolean validateInput(){
+    public boolean validateInput() {
         String amountString = amountField.getText().toString().trim();
-        if (amountString.equals("")){
+        if (amountString.equals("")) {
             amount = 0;
         } else {
             amount = Double.parseDouble(amountString);
@@ -83,11 +83,11 @@ public class WalletAmountComponent extends View {
         return !(amount > 999999999);
     }
 
-    public double getAmount(){
+    public double getAmount() {
         return amount;
     }
 
-    public void setAmount(double amount){
+    public void setAmount(double amount) {
         this.amount = amount;
         amountField.setText(new DecimalFormat("#").format(amount));
     }

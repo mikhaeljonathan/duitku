@@ -34,7 +34,7 @@ public class TransactionDateComponent extends View {
         super(context);
 
         this.rootView = rootView;
-        if (activity instanceof AppCompatActivity){
+        if (activity instanceof AppCompatActivity) {
             this.activity = (AppCompatActivity) activity;
         } else {
             this.fragment = (Fragment) activity;
@@ -43,13 +43,13 @@ public class TransactionDateComponent extends View {
         setUpUI();
     }
 
-    private void setUpUI(){
+    private void setUpUI() {
         initialize();
         setUpComponents();
     }
 
-    private void initialize(){
-        if (rootView == null){
+    private void initialize() {
+        if (rootView == null) {
             dateConstraintLayout = activity.findViewById(R.id.transaction_date_constraintlayout);
             dateTextView = activity.findViewById(R.id.transaction_date_textview);
         } else {
@@ -58,7 +58,7 @@ public class TransactionDateComponent extends View {
         }
     }
 
-    private void setUpComponents(){
+    private void setUpComponents() {
         final DatePickerDialog.OnDateSetListener listener = new android.app.DatePickerDialog.OnDateSetListener() {
             @Override
             public void onDateSet(DatePicker datePicker, int year, int month, int dayOfMonth) {
@@ -71,7 +71,7 @@ public class TransactionDateComponent extends View {
             public void onClick(View view) {
                 DialogFragment datePicker = new DatePickerFragment(date, listener);
                 FragmentManager fm;
-                if (activity == null){
+                if (activity == null) {
                     fm = fragment.getFragmentManager();
                 } else {
                     fm = activity.getSupportFragmentManager();
@@ -81,11 +81,11 @@ public class TransactionDateComponent extends View {
         });
     }
 
-    public Date getDate(){
+    public Date getDate() {
         return date;
     }
 
-    public void setDate(Date date){
+    public void setDate(Date date) {
         this.date = date;
         dateTextView.setText(Utility.convertDateToFullString(date));
     }

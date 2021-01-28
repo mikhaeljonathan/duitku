@@ -41,15 +41,15 @@ public class ViewWalletActivityView implements UIView {
     private final ViewWalletActivity activity;
     private View header;
 
-    public ViewWalletActivityView(long id, ViewWalletActivity activity){
+    public ViewWalletActivityView(long id, ViewWalletActivity activity) {
         this.wallet = new WalletController(activity).getWalletById(id);
         this.activity = activity;
     }
 
-    public void setUpAdapter(List<Transaction> transactions){
+    public void setUpAdapter(List<Transaction> transactions) {
         adapter = new TransactionAdapter(activity, transactions, wallet.get_id());
         listView.setAdapter(adapter);
-        if (adapter.isEmpty()){
+        if (adapter.isEmpty()) {
             transactionTextView.setVisibility(View.GONE);
         }
     }
@@ -66,7 +66,7 @@ public class ViewWalletActivityView implements UIView {
         setUpButtons();
     }
 
-    private void setUpHeader(){
+    private void setUpHeader() {
         header = activity.getLayoutInflater().inflate(R.layout.activity_view_header,
                 (ViewGroup) activity.findViewById(R.id.activity_view_constraintlayout));
 
@@ -79,27 +79,27 @@ public class ViewWalletActivityView implements UIView {
         periodButton = header.findViewById(R.id.view_header_period_btn);
     }
 
-    private void setUpWalletName(){
+    private void setUpWalletName() {
         TextView nameTextView = header.findViewById(R.id.view_header_title);
         nameTextView.setText(wallet.getWallet_name());
     }
 
-    private void setUpAmount(){
+    private void setUpAmount() {
         TextView amountTextView = header.findViewById(R.id.view_header_subtitle);
         amountTextView.setText(new DecimalFormat("###,###").format(wallet.getWallet_amount()));
     }
 
-    private void setUpDesc(){
+    private void setUpDesc() {
         TextView descTextView = header.findViewById(R.id.view_header_subsubtitle);
         String desc = wallet.getWallet_desc();
-        if (desc.equals("")){
+        if (desc.equals("")) {
             descTextView.setVisibility(View.GONE);
         } else {
             descTextView.setText(wallet.getWallet_desc());
         }
     }
 
-    private void setUpListView(){
+    private void setUpListView() {
         listView = activity.findViewById(R.id.view_listview);
         listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
@@ -111,17 +111,17 @@ public class ViewWalletActivityView implements UIView {
         listView.addHeaderView(header, null, false);
     }
 
-    private void viewTransaction(long id){
+    private void viewTransaction(long id) {
         ViewTransactionDialog viewTransactionDialog = new ViewTransactionDialog(id);
         viewTransactionDialog.show(activity.getSupportFragmentManager(), "View Transaction Dialog");
     }
 
-    private void setUpTransactionTextView(){
+    private void setUpTransactionTextView() {
         transactionTextView = header.findViewById(R.id.view_header_transaction_textview);
-        transactionTextView.setPaintFlags(transactionTextView.getPaintFlags()|Paint.UNDERLINE_TEXT_FLAG); //underline
+        transactionTextView.setPaintFlags(transactionTextView.getPaintFlags() | Paint.UNDERLINE_TEXT_FLAG); //underline
     }
 
-    private void hideView(){
+    private void hideView() {
         ProgressBar progressBar = header.findViewById(R.id.view_header_progressbar);
         progressBar.setVisibility(View.GONE);
 
@@ -138,12 +138,12 @@ public class ViewWalletActivityView implements UIView {
         warnTextView.setVisibility(View.GONE);
     }
 
-    private void setUpButtons(){
+    private void setUpButtons() {
         setUpBackBtn();
         setUpEditBtn();
     }
 
-    private void setUpBackBtn(){
+    private void setUpBackBtn() {
         ImageButton backBtn = activity.findViewById(R.id.view_back_btn);
         backBtn.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -153,7 +153,7 @@ public class ViewWalletActivityView implements UIView {
         });
     }
 
-    private void setUpEditBtn(){
+    private void setUpEditBtn() {
         ImageButton editBtn = activity.findViewById(R.id.view_edit_btn);
         editBtn.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -165,7 +165,7 @@ public class ViewWalletActivityView implements UIView {
         });
     }
 
-    public void updatePeriodButton(final int month, final int year){
+    public void updatePeriodButton(final int month, final int year) {
         periodButton.setText(Utility.monthsName[month] + " " + year);
         periodButton.setOnClickListener(new View.OnClickListener() {
             @Override

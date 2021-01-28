@@ -43,7 +43,7 @@ public class DuitkuDbHelper extends SQLiteOpenHelper {
                 BudgetEntry.COLUMN_ENDDATE + " TEXT, " +
                 BudgetEntry.COLUMN_AMOUNT + " DOUBLE NOT NULL, " +
                 BudgetEntry.COLUMN_USED + " DOUBLE NOT NULL DEFAULT 0, " +
-                BudgetEntry.COLUMN_TYPE + " TEXT CHECK(" + BudgetEntry.COLUMN_TYPE + " IN ('" + BudgetEntry.TYPE_MONTH + "', '" + BudgetEntry.TYPE_3MONTH + "', '" + BudgetEntry.TYPE_YEAR + "')), "+
+                BudgetEntry.COLUMN_TYPE + " TEXT CHECK(" + BudgetEntry.COLUMN_TYPE + " IN ('" + BudgetEntry.TYPE_MONTH + "', '" + BudgetEntry.TYPE_3MONTH + "', '" + BudgetEntry.TYPE_YEAR + "')), " +
                 BudgetEntry.COLUMN_CATEGORY_ID + " INTEGER, " +
                 "FOREIGN KEY (" + BudgetEntry.COLUMN_CATEGORY_ID + ") REFERENCES " + CategoryEntry.TABLE_NAME + "(" + CategoryEntry.COLUMN_ID + "))";
 
@@ -85,7 +85,7 @@ public class DuitkuDbHelper extends SQLiteOpenHelper {
         onCreate(sqLiteDatabase);
     }
 
-    public void dropAllTables(){
+    public void dropAllTables() {
         SQLiteDatabase sqLiteDatabase = getWritableDatabase();
         sqLiteDatabase.execSQL("DROP TABLE IF EXISTS " + WalletEntry.TABLE_NAME);
         sqLiteDatabase.execSQL("DROP TABLE IF EXISTS " + BudgetEntry.TABLE_NAME);

@@ -29,24 +29,24 @@ public class TransactionController {
 
     private final Context context;
 
-    public TransactionController(Context context){
+    public TransactionController(Context context) {
         this.context = context;
     }
 
     // basic operations
-    public Uri addTransaction(Transaction transaction){
+    public Uri addTransaction(Transaction transaction) {
         ContentValues values = convertTransactionToContentValues(transaction);
         Uri uri = context.getContentResolver().insert(TransactionEntry.CONTENT_URI, values);
 
         Category category = new CategoryController(context).getCategoryById(transaction.getCategory_id());
-        if (category != null && category.getCategory_type().equals(CategoryEntry.TYPE_EXPENSE)){ //budget pasti expense
+        if (category != null && category.getCategory_type().equals(CategoryEntry.TYPE_EXPENSE)) { //budget pasti expense
             new BudgetController(context).updateBudgetFromInitialTransaction(transaction);
         }
 
         return uri;
     }
 
-    public int updateTransaction(Transaction transactionBefore, Transaction transactionAfter){
+    public int updateTransaction(Transaction transactionBefore, Transaction transactionAfter) {
         ContentValues values = convertTransactionToContentValues(transactionAfter);
         Uri uri = ContentUris.withAppendedId(TransactionEntry.CONTENT_URI, transactionAfter.get_id());
         int rowsUpdated = context.getContentResolver().update(uri, values, null, null);
@@ -57,7 +57,7 @@ public class TransactionController {
         return rowsUpdated;
     }
 
-    public int deleteTransaction(Transaction transaction){
+    public int deleteTransaction(Transaction transaction) {
         new WalletController(context).updateWalletFromDeletedTransaction(transaction);
         new BudgetController(context).updateBudgetFromDeletedTransaction(transaction);
 
@@ -65,25 +65,25 @@ public class TransactionController {
     }
 
     // get transaction
-    public List<Transaction> getAllTransaction(){
+    public List<Transaction> getAllTransaction() {
         Cursor data = context.getContentResolver().query(TransactionEntry.CONTENT_URI,
                 getFullProjection(), null, null, null);
         return convertCursorToListOfTransaction(data);
     }
 
-    public Transaction getTransactionById(long id){
+    public Transaction getTransactionById(long id) {
         if (id == -1) return null;
 
         Transaction ret = null;
         Cursor data = context.getContentResolver().query(ContentUris.withAppendedId(TransactionEntry.CONTENT_URI, id), getFullProjection(), null, null, null);
-        if (data.moveToFirst()){
+        if (data.moveToFirst()) {
             ret = convertCursorToTransaction(data);
         }
 
         return ret;
     }
 
-    public List<Transaction> getTransactionsByBudget(Budget budget){
+    public List<Transaction> getTransactionsByBudget(Budget budget) {
         Calendar calendar = Calendar.getInstance();
         int curMonth = calendar.get(Calendar.MONTH);
         int curYear = calendar.get(Calendar.YEAR);
@@ -92,15 +92,15 @@ public class TransactionController {
         int monthLowerBound = curMonth + 1;
         int monthUpperBound = curMonth + 1;
 
-        if (budget.getBudget_startdate() == null){ // ga custom date
+        if (budget.getBudget_startdate() == null) { // ga custom date
             String type = budget.getBudget_type();
-            if (type.equals(BudgetEntry.TYPE_3MONTH)){
+            if (type.equals(BudgetEntry.TYPE_3MONTH)) {
 
                 int quarter = Utility.getQuarter(curMonth);
                 monthLowerBound = 3 * (quarter - 1) + 1;
                 monthUpperBound = 3 * quarter;
 
-            } else if (type.equals(BudgetEntry.TYPE_YEAR)){
+            } else if (type.equals(BudgetEntry.TYPE_YEAR)) {
 
                 monthLowerBound = 1;
                 monthUpperBound = 12;
@@ -123,7 +123,7 @@ public class TransactionController {
         return convertCursorToListOfTransaction(data);
     }
 
-    private List<Transaction> getTransactionsByBudgetCustomDate(Budget budget){
+    private List<Transaction> getTransactionsByBudgetCustomDate(Budget budget) {
         String startDate = Utility.convertDateToString(budget.getBudget_startdate());
         String endDate = Utility.convertDateToString(budget.getBudget_enddate());
         String dateLowerBound = startDate.substring(6) + startDate.substring(3, 5) + startDate.substring(0, 2);
@@ -139,7 +139,7 @@ public class TransactionController {
         return convertCursorToListOfTransaction(data);
     }
 
-    public String[] getFullProjection(){
+    public String[] getFullProjection() {
         return new String[]{TransactionEntry.COLUMN_ID,
                 TransactionEntry.COLUMN_WALLET_ID,
                 TransactionEntry.COLUMN_WALLET_DEST_ID,
@@ -150,7 +150,7 @@ public class TransactionController {
     }
 
     // converting
-    public Transaction convertCursorToTransaction(Cursor data){
+    public Transaction convertCursorToTransaction(Cursor data) {
         int transactionIdColumnIndex = data.getColumnIndex(TransactionEntry.COLUMN_ID);
         int walletIdColumnIndex = data.getColumnIndex(TransactionEntry.COLUMN_WALLET_ID);
         int walletDestIdColumnIndex = data.getColumnIndex(TransactionEntry.COLUMN_WALLET_DEST_ID);
@@ -165,27 +165,27 @@ public class TransactionController {
         long categoryId = data.getLong(categoryIdColumnIndex);
         String desc = data.getString(descColumnIndex);
         Date date = Utility.parseDate(data.getString(dateColumnIndex));
-        double amount= data.getDouble(amountColumnIndex);
+        double amount = data.getDouble(amountColumnIndex);
 
-        if (walletDestId == 0){
+        if (walletDestId == 0) {
             walletDestId = -1;
         }
 
-        if (categoryId == 0){
+        if (categoryId == 0) {
             categoryId = -1;
         }
 
         return new Transaction(transactionId, walletId, walletDestId, categoryId, desc, date, amount);
     }
 
-    public ContentValues convertTransactionToContentValues(Transaction transaction){
+    public ContentValues convertTransactionToContentValues(Transaction transaction) {
         String date = Utility.convertDateToString(transaction.getTransaction_date());
         Long categoryId = null;
-        if (transaction.getCategory_id() != -1){
+        if (transaction.getCategory_id() != -1) {
             categoryId = transaction.getCategory_id();
         }
         Long walletDestId = null;
-        if (transaction.getWalletdest_id() != -1){
+        if (transaction.getWalletdest_id() != -1) {
             walletDestId = transaction.getWalletdest_id();
         }
 
@@ -200,7 +200,7 @@ public class TransactionController {
         return ret;
     }
 
-    public List<Transaction> convertCursorToListOfTransaction(Cursor data){
+    public List<Transaction> convertCursorToListOfTransaction(Cursor data) {
         List<Transaction> ret = new ArrayList<>();
         if (!data.moveToFirst()) return ret;
         do {
@@ -209,15 +209,15 @@ public class TransactionController {
         return ret;
     }
 
-    public List<CategoryTransaction> convertHashMapToListOfCategoryTransaction(HashMap<Long, CategoryTransaction> hashMap){
+    public List<CategoryTransaction> convertHashMapToListOfCategoryTransaction(HashMap<Long, CategoryTransaction> hashMap) {
         List<CategoryTransaction> ret = new ArrayList<>();
-        for (Map.Entry mapElement: hashMap.entrySet()){
+        for (Map.Entry mapElement : hashMap.entrySet()) {
             ret.add((CategoryTransaction) mapElement.getValue());
         }
         return ret;
     }
 
-    public HashMap<String, Object> convertTransactionToHashMap(Transaction transaction){
+    public HashMap<String, Object> convertTransactionToHashMap(Transaction transaction) {
         HashMap<String, Object> hashMap = new HashMap<>();
         hashMap.put(TransactionEntry.COLUMN_ID, transaction.get_id());
         hashMap.put(TransactionEntry.COLUMN_WALLET_ID, transaction.getWallet_id());
@@ -230,39 +230,39 @@ public class TransactionController {
     }
 
     // operations from other entity's operation
-    public int deleteAllTransactionWithWalletId(long walletId){
+    public int deleteAllTransactionWithWalletId(long walletId) {
         String selection = TransactionEntry.COLUMN_WALLET_ID + " = ? OR " + TransactionEntry.COLUMN_WALLET_DEST_ID + " = ?";
         String[] selectionArgs = new String[]{Long.toString(walletId), Long.toString(walletId)};
 
         Cursor data = context.getContentResolver().query(TransactionEntry.CONTENT_URI, getFullProjection(), selection, selectionArgs, null);
         List<Transaction> transactions = convertCursorToListOfTransaction(data);
 
-        for (Transaction transaction: transactions){
+        for (Transaction transaction : transactions) {
             new BudgetController(context).updateBudgetFromDeletedTransaction(transaction);
         }
 
         return context.getContentResolver().delete(TransactionEntry.CONTENT_URI, selection, selectionArgs);
     }
 
-    public int deleteAllTransactionWithCategoryId(long categoryId){
+    public int deleteAllTransactionWithCategoryId(long categoryId) {
         String selection = TransactionEntry.COLUMN_CATEGORY_ID + "= ?";
         String[] selectionArgs = new String[]{Long.toString(categoryId)};
 
         Cursor data = context.getContentResolver().query(TransactionEntry.CONTENT_URI, getFullProjection(), selection, selectionArgs, null);
         List<Transaction> transactions = convertCursorToListOfTransaction(data);
 
-        for (Transaction transaction: transactions){
+        for (Transaction transaction : transactions) {
             new BudgetController(context).updateBudgetFromDeletedTransaction(transaction);
         }
 
         return context.getContentResolver().delete(TransactionEntry.CONTENT_URI, selection, selectionArgs);
     }
 
-    public Uri addTransactionFromInitialWallet(long walletId, Wallet wallet){
+    public Uri addTransactionFromInitialWallet(long walletId, Wallet wallet) {
         CategoryController categoryController = new CategoryController(context);
         Category category;
 
-        if (wallet.getWallet_amount() < 0){
+        if (wallet.getWallet_amount() < 0) {
             category = categoryController.getDefaultCategory(CategoryEntry.TYPE_EXPENSE);
         } else {
             category = categoryController.getDefaultCategory(CategoryEntry.TYPE_INCOME);
@@ -279,10 +279,10 @@ public class TransactionController {
         return addTransaction(transaction);
     }
 
-    public Uri addTransactionFromUpdatedWallet(double amountBefore, Wallet wallet){
+    public Uri addTransactionFromUpdatedWallet(double amountBefore, Wallet wallet) {
         CategoryController categoryController = new CategoryController(context);
         Category category;
-        if (amountBefore < wallet.getWallet_amount()){
+        if (amountBefore < wallet.getWallet_amount()) {
             category = categoryController.getDefaultCategory(CategoryEntry.TYPE_INCOME);
         } else {
             category = categoryController.getDefaultCategory(CategoryEntry.TYPE_EXPENSE);
@@ -300,13 +300,13 @@ public class TransactionController {
         return addTransaction(transaction);
     }
 
-    public CategoryTransaction recalculateCategoryTransaction(CategoryTransaction categoryTransaction){
+    public CategoryTransaction recalculateCategoryTransaction(CategoryTransaction categoryTransaction) {
         List<Transaction> temp = new ArrayList<>(categoryTransaction.getTransactions());
 
         categoryTransaction.getTransactions().clear();
         categoryTransaction.setAmount(0);
 
-        for (Transaction transaction: temp){
+        for (Transaction transaction : temp) {
             Transaction temp2 = getTransactionById(transaction.get_id());
             if (temp2 == null) continue;
             categoryTransaction.addTransaction(temp2);

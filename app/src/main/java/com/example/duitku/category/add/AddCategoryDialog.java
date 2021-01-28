@@ -29,7 +29,7 @@ public class AddCategoryDialog extends AppCompatDialogFragment {
 
     private final String categoryType;
 
-    public AddCategoryDialog(String categoryType){
+    public AddCategoryDialog(String categoryType) {
         this.categoryType = categoryType;
     }
 
@@ -47,13 +47,13 @@ public class AddCategoryDialog extends AppCompatDialogFragment {
         return dialog;
     }
 
-    private void setUpUI(){
+    private void setUpUI() {
         setUpViews();
         setUpForm();
         setUpButtons();
     }
 
-    private void setUpViews(){
+    private void setUpViews() {
         LayoutInflater inflater = getActivity().getLayoutInflater();
         view = inflater.inflate(R.layout.dialog_add,
                 (ViewGroup) getActivity().findViewById(R.id.dialog_add_constraintlayout));
@@ -68,7 +68,7 @@ public class AddCategoryDialog extends AppCompatDialogFragment {
         addBtn.setText("Add");
     }
 
-    private void setUpTitle(){
+    private void setUpTitle() {
         TextView titleTV = view.findViewById(R.id.dialog_add_title);
         if (categoryType.equals(CategoryEntry.TYPE_EXPENSE)) {
             titleTV.setText("Add Expense Category");
@@ -77,23 +77,23 @@ public class AddCategoryDialog extends AppCompatDialogFragment {
         }
     }
 
-    private void setUpForm(){
+    private void setUpForm() {
         categoryForm = new CategoryForm(getActivity(), view, this, categoryType);
         categoryForm.setUpUI();
     }
 
-    private void setUpButtons(){
+    private void setUpButtons() {
         setUpAddBtn();
     }
 
-    private void setUpAddBtn(){
+    private void setUpAddBtn() {
         Button addButton = view.findViewById(R.id.category_save_btn);
         addButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 if (!categoryForm.validateInput()) return;
                 Uri uri = addCategory();
-                if (uri == null){
+                if (uri == null) {
                     Toast.makeText(getContext(), "Error adding new category", Toast.LENGTH_SHORT).show();
                 } else {
                     Toast.makeText(getContext(), "Category added", Toast.LENGTH_SHORT).show();
@@ -103,7 +103,7 @@ public class AddCategoryDialog extends AppCompatDialogFragment {
         });
     }
 
-    private Uri addCategory(){
+    private Uri addCategory() {
         String name = categoryForm.getName();
 
         Category category = new Category(-1, name, categoryType);

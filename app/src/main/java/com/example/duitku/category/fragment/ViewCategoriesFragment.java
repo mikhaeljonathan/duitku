@@ -39,7 +39,7 @@ public class ViewCategoriesFragment extends Fragment implements LoaderManager.Lo
 
     private CategoryController categoryController = new CategoryController(getActivity());
 
-    public ViewCategoriesFragment(String type){
+    public ViewCategoriesFragment(String type) {
         this.type = type;
     }
 
@@ -56,7 +56,7 @@ public class ViewCategoriesFragment extends Fragment implements LoaderManager.Lo
         return view;
     }
 
-    private void setUpView(){
+    private void setUpView() {
         view = inflater.inflate(R.layout.fragment_view_categories, container, false);
 
         gridView = view.findViewById(R.id.fragment_categories_gridview);
@@ -70,12 +70,12 @@ public class ViewCategoriesFragment extends Fragment implements LoaderManager.Lo
         });
     }
 
-    private void setUpEmptyView(){
+    private void setUpEmptyView() {
         View emptyView = view.findViewById(R.id.view_categories_emptyview);
         gridView.setEmptyView(emptyView);
     }
 
-    private void viewCategory(long id){
+    private void viewCategory(long id) {
         Intent viewCategoryIntent = new Intent(getActivity(), EditCategoryActivity.class);
         viewCategoryIntent.putExtra("ID", id);
         getActivity().startActivity(viewCategoryIntent);
@@ -84,7 +84,7 @@ public class ViewCategoriesFragment extends Fragment implements LoaderManager.Lo
     @NonNull
     @Override
     public Loader<Cursor> onCreateLoader(int id, @Nullable Bundle args) {
-        if (id == CATEGORIES_LOADER){
+        if (id == CATEGORIES_LOADER) {
             String[] projection = categoryController.getFullProjection();
             String selection = CategoryEntry.COLUMN_TYPE + " = ?";
             String[] selectionArgs = new String[]{type};

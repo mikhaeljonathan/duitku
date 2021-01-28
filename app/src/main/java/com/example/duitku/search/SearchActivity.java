@@ -47,7 +47,7 @@ public class SearchActivity extends AppCompatActivity implements LoaderManager.L
         LoaderManager.getInstance(this).initLoader(SEARCH_LOADER, null, this);
     }
 
-    private void setUpBackBtn(){
+    private void setUpBackBtn() {
         ImageView backBtn = findViewById(R.id.activity_search_back_btn);
         backBtn.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -57,7 +57,7 @@ public class SearchActivity extends AppCompatActivity implements LoaderManager.L
         });
     }
 
-    private void setUpSearchEditText(){
+    private void setUpSearchEditText() {
         EditText searchField = findViewById(R.id.activity_search_search_edittext);
         searchField.requestFocus();
         searchField.addTextChangedListener(new TextWatcher() {
@@ -79,7 +79,7 @@ public class SearchActivity extends AppCompatActivity implements LoaderManager.L
         });
     }
 
-    private void setUpListView(){
+    private void setUpListView() {
         listView = findViewById(R.id.activity_search_listview);
         listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
@@ -90,12 +90,12 @@ public class SearchActivity extends AppCompatActivity implements LoaderManager.L
         });
     }
 
-    private void setUpEmptyView(){
+    private void setUpEmptyView() {
         View emptyView = findViewById(R.id.activity_search_emptyview);
         listView.setEmptyView(emptyView);
     }
 
-    private void viewTransaction(long id){
+    private void viewTransaction(long id) {
         ViewTransactionDialog viewTransactionDialog = new ViewTransactionDialog(id);
         viewTransactionDialog.show(getSupportFragmentManager(), "View Transaction Dialog");
     }
@@ -107,7 +107,7 @@ public class SearchActivity extends AppCompatActivity implements LoaderManager.L
             String[] projection = transactionController.getFullProjection();
             String selection = TransactionEntry.COLUMN_DESC + " LIKE ? COLLATE NOCASE";
             String[] selectionArgs;
-            if (pattern.length() > 0){
+            if (pattern.length() > 0) {
                 selectionArgs = new String[]{"%" + pattern + "%"};
             } else { // kalau kosong gausa tampilin apapun, jadi pilih regex yang ga mungkin match dengan apapun
                 selectionArgs = new String[]{"%" + "\b" + "%"};

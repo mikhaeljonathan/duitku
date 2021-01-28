@@ -49,54 +49,54 @@ public class FirebaseHelper {
         feedback_col_ref = db.collection("feedback");
     }
 
-    public void addFeedback(String feedback){
+    public void addFeedback(String feedback) {
         HashMap<String, Object> hashMap = new HashMap<>();
         hashMap.put("Feedback", feedback);
         feedback_col_ref.document().set(hashMap);
     }
 
-    public void addBudgetToFirebase(HashMap<String, Object> budgetHashMap){
+    public void addBudgetToFirebase(HashMap<String, Object> budgetHashMap) {
         budget_col_ref.document("" +
                 budgetHashMap.get(BudgetEntry.COLUMN_ID)).set(budgetHashMap);
     }
 
-    public void addCategoryToFirebase(HashMap<String, Object> categoryHashMap){
+    public void addCategoryToFirebase(HashMap<String, Object> categoryHashMap) {
         category_col_ref.document("" +
                 categoryHashMap.get(CategoryEntry.COLUMN_ID)).set(categoryHashMap);
     }
 
-    public void addWalletToFirebase(HashMap<String, Object> walletHashMap){
+    public void addWalletToFirebase(HashMap<String, Object> walletHashMap) {
         wallet_col_ref.document("" +
                 walletHashMap.get(WalletEntry.COLUMN_ID)).set(walletHashMap);
     }
 
-    public void addTransactionToFirebase(HashMap<String, Object> transactionHashMap){
+    public void addTransactionToFirebase(HashMap<String, Object> transactionHashMap) {
         transaction_col_ref.document("" +
                 transactionHashMap.get(TransactionEntry.COLUMN_ID)).set(transactionHashMap);
     }
 
-    public Task<Void> addUserToFirebase(HashMap<String, Object> userHashMap){
+    public Task<Void> addUserToFirebase(HashMap<String, Object> userHashMap) {
         return user_col_ref.document("" +
                 userHashMap.get(UserEntry.COLUMN_ID)).set(userHashMap);
     }
 
-    public CollectionReference getArticleRef(){
+    public CollectionReference getArticleRef() {
         return article_col_ref;
     }
 
-    public CollectionReference getTransactionRef(){
+    public CollectionReference getTransactionRef() {
         return transaction_col_ref;
     }
 
-    public CollectionReference getWalletRef(){
+    public CollectionReference getWalletRef() {
         return wallet_col_ref;
     }
 
-    public CollectionReference getBudgetRef(){
+    public CollectionReference getBudgetRef() {
         return budget_col_ref;
     }
 
-    public CollectionReference getCategoryRef(){
+    public CollectionReference getCategoryRef() {
         return category_col_ref;
     }
 

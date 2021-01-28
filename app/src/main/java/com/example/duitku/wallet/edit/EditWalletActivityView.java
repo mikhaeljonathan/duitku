@@ -30,7 +30,7 @@ public class EditWalletActivityView implements UIView {
 
     private final Wallet wallet;
 
-    public EditWalletActivityView(long id, AppCompatActivity activity){
+    public EditWalletActivityView(long id, AppCompatActivity activity) {
         this.activity = activity;
 
         walletController = new WalletController(activity);
@@ -44,7 +44,7 @@ public class EditWalletActivityView implements UIView {
         setUpButtons();
     }
 
-    private void setUpViews(){
+    private void setUpViews() {
         activity.setContentView(R.layout.activity_edit);
 
         TextView titleTV = activity.findViewById(R.id.activity_edit_title);
@@ -58,7 +58,7 @@ public class EditWalletActivityView implements UIView {
         deleteBtn.setText("Delete Wallet");
     }
 
-    private void setUpForm(){
+    private void setUpForm() {
         walletForm = new WalletForm(activity, null, activity);
         walletForm.setUpUI();
         walletForm.setName(wallet.getWallet_name());
@@ -66,20 +66,20 @@ public class EditWalletActivityView implements UIView {
         walletForm.setDesc(wallet.getWallet_desc());
     }
 
-    private void setUpButtons(){
+    private void setUpButtons() {
         setUpSaveButton();
         setUpDeleteButton();
         setUpBackButton();
     }
 
-    private void setUpSaveButton(){
+    private void setUpSaveButton() {
         Button saveBtn = activity.findViewById(R.id.wallet_save_btn);
         saveBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 if (!walletForm.validateInput()) return;
                 int rowsUpdated = updateWallet();
-                if (rowsUpdated == 0){
+                if (rowsUpdated == 0) {
                     Toast.makeText(activity, "Error editing wallet", Toast.LENGTH_SHORT).show();
                 } else {
                     Toast.makeText(activity, "Wallet edited", Toast.LENGTH_SHORT).show();
@@ -89,7 +89,7 @@ public class EditWalletActivityView implements UIView {
         });
     }
 
-    private int updateWallet(){
+    private int updateWallet() {
         double amountBefore = wallet.getWallet_amount();
 
         String name = walletForm.getName();
@@ -107,7 +107,7 @@ public class EditWalletActivityView implements UIView {
         return walletController.updateWallet(wallet);
     }
 
-    private void setUpDeleteButton(){
+    private void setUpDeleteButton() {
         deleteBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -116,7 +116,7 @@ public class EditWalletActivityView implements UIView {
         });
     }
 
-    private void showDeleteConfirmationDialog(){
+    private void showDeleteConfirmationDialog() {
         AlertDialog.Builder alertDialogBuilder = new AlertDialog.Builder(activity, R.style.AlertDialogCustom);
         alertDialogBuilder.setTitle("Delete Confirmation");
         alertDialogBuilder.setMessage("Are you sure to delete this wallet?\nAll transactions with this wallet are deleted too.")
@@ -137,9 +137,9 @@ public class EditWalletActivityView implements UIView {
         alertDialog.show();
     }
 
-    private void deleteWallet(){
+    private void deleteWallet() {
         int rowsDeleted = walletController.deleteWallet(wallet);
-        if (rowsDeleted == 0){
+        if (rowsDeleted == 0) {
             Toast.makeText(activity, "Error deleting wallet", Toast.LENGTH_SHORT).show();
         } else {
             Toast.makeText(activity, "Wallet is deleted", Toast.LENGTH_SHORT).show();
@@ -147,7 +147,7 @@ public class EditWalletActivityView implements UIView {
         activity.finish();
     }
 
-    private void setUpBackButton(){
+    private void setUpBackButton() {
         ImageButton backBtn = activity.findViewById(R.id.activity_edit_back_btn);
         backBtn.setOnClickListener(new View.OnClickListener() {
             @Override

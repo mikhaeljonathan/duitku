@@ -38,7 +38,7 @@ public class PickCategoryDialog extends AppCompatDialogFragment implements Loade
     private final String categoryType;
     private final int CATEGORY_LOADER = 0;
 
-    public PickCategoryDialog(PickCategoryListener listener, String categoryType){
+    public PickCategoryDialog(PickCategoryListener listener, String categoryType) {
         this.listener = listener;
         this.categoryType = categoryType;
     }
@@ -59,14 +59,14 @@ public class PickCategoryDialog extends AppCompatDialogFragment implements Loade
         return dialog;
     }
 
-    private void setUpUI(){
+    private void setUpUI() {
         setUpViews();
         setUpGridView();
         setUpEmptyView();
         setUpButtons();
     }
 
-    private void setUpViews(){
+    private void setUpViews() {
         LayoutInflater inflater = getActivity().getLayoutInflater();
         view = inflater.inflate(R.layout.dialog_pick,
                 (ViewGroup) getActivity().findViewById(R.id.dialog_pick_constraintlayout));
@@ -75,7 +75,7 @@ public class PickCategoryDialog extends AppCompatDialogFragment implements Loade
         titleTV.setText("Pick Category");
     }
 
-    private void setUpGridView(){
+    private void setUpGridView() {
         ListView listView = view.findViewById(R.id.dialog_pick_listview);
         listView.setVisibility(View.GONE);
 
@@ -91,7 +91,7 @@ public class PickCategoryDialog extends AppCompatDialogFragment implements Loade
         setUpAdapter();
     }
 
-    private void setUpEmptyView(){
+    private void setUpEmptyView() {
         View emptyView = view.findViewById(R.id.dialog_pick_emptyview);
 
         ImageView imageEmptyView = emptyView.findViewById(R.id.dialog_pick_empty_imageview);
@@ -103,16 +103,16 @@ public class PickCategoryDialog extends AppCompatDialogFragment implements Loade
         gridView.setEmptyView(emptyView);
     }
 
-    private void setUpAdapter(){
+    private void setUpAdapter() {
         categoryAdapter = new CategoryAdapter(getActivity(), null);
         gridView.setAdapter(categoryAdapter);
     }
 
-    private void setUpButtons(){
+    private void setUpButtons() {
         setUpAddBtn();
     }
 
-    private void setUpAddBtn(){
+    private void setUpAddBtn() {
         ImageView addCategoryBtn = view.findViewById(R.id.dialog_pick_add_btn);
         addCategoryBtn.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -122,7 +122,7 @@ public class PickCategoryDialog extends AppCompatDialogFragment implements Loade
         });
     }
 
-    private void addCategory(){
+    private void addCategory() {
         AddCategoryDialog addCategoryDialog = new AddCategoryDialog(categoryType);
         addCategoryDialog.show(getFragmentManager(), "Add Category Dialog");
     }

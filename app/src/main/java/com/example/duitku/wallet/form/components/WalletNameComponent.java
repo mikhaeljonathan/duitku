@@ -36,13 +36,13 @@ public class WalletNameComponent extends View {
         setUpUI();
     }
 
-    private void setUpUI(){
+    private void setUpUI() {
         initialize();
         setUpComponents();
     }
 
-    private void initialize(){
-        if (rootView == null){
+    private void initialize() {
+        if (rootView == null) {
             nameLayout = activity.findViewById(R.id.wallet_name_textinputlayout);
             nameField = activity.findViewById(R.id.wallet_name_field);
         } else {
@@ -51,7 +51,7 @@ public class WalletNameComponent extends View {
         }
     }
 
-    private void setUpComponents(){
+    private void setUpComponents() {
         nameField.requestFocus();
         nameField.addTextChangedListener(new TextWatcher() {
             @Override
@@ -66,7 +66,7 @@ public class WalletNameComponent extends View {
 
             @Override
             public void afterTextChanged(Editable editable) {
-                if (editable.toString().length() > 20){
+                if (editable.toString().length() > 20) {
                     nameLayout.setError("Wallet name max 20 characters");
                 } else {
                     nameLayout.setErrorEnabled(false);
@@ -75,27 +75,27 @@ public class WalletNameComponent extends View {
         });
     }
 
-    public boolean validateInput(){
+    public boolean validateInput() {
         name = nameField.getText().toString().trim();
-        if (name.equals("")){
+        if (name.equals("")) {
             nameLayout.setError("Wallet name can't be empty");
             return false;
         }
 
-        if (name.length() > 20){
+        if (name.length() > 20) {
             return false;
         }
 
         WalletController walletController = new WalletController(getContext());
 
         Wallet wallet = walletController.getWalletByName(name);
-        if (wallet != null && nameBefore == null){
+        if (wallet != null && nameBefore == null) {
             nameLayout.setError("There is a wallet with this name");
             return false;
         }
 
-        if (nameBefore != null && !nameBefore.equalsIgnoreCase(name)){
-            if (walletController.getWalletByName(name) != null){
+        if (nameBefore != null && !nameBefore.equalsIgnoreCase(name)) {
+            if (walletController.getWalletByName(name) != null) {
                 nameLayout.setError("There is a wallet with this name");
                 return false;
             }
@@ -104,11 +104,11 @@ public class WalletNameComponent extends View {
         return true;
     }
 
-    public String getName(){
+    public String getName() {
         return name;
     }
 
-    public void setName(String name){
+    public void setName(String name) {
         this.nameBefore = name;
         this.name = name;
         nameField.setText(name);

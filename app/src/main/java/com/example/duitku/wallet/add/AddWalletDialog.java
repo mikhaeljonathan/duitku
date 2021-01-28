@@ -40,13 +40,13 @@ public class AddWalletDialog extends AppCompatDialogFragment {
         return dialog;
     }
 
-    private void setUpUI(){
+    private void setUpUI() {
         setUpViews();
         setUpForm();
         setUpButtons();
     }
 
-    private void setUpViews(){
+    private void setUpViews() {
         LayoutInflater inflater = getActivity().getLayoutInflater();
 
         view = inflater.inflate(R.layout.dialog_add,
@@ -59,21 +59,21 @@ public class AddWalletDialog extends AppCompatDialogFragment {
                 (ViewGroup) getActivity().findViewById(R.id.form_wallet_constraintlayout)));
     }
 
-    private void setUpTitle(){
+    private void setUpTitle() {
         TextView titleTV = view.findViewById(R.id.dialog_add_title);
         titleTV.setText("Add Wallet");
     }
 
-    private void setUpForm(){
+    private void setUpForm() {
         walletForm = new WalletForm(getActivity(), view, this);
         walletForm.setUpUI();
     }
 
-    private void setUpButtons(){
+    private void setUpButtons() {
         setUpAddBtn();
     }
 
-    private void setUpAddBtn(){
+    private void setUpAddBtn() {
         Button addButton = view.findViewById(R.id.wallet_save_btn);
         addButton.setText("Add");
         addButton.setOnClickListener(new View.OnClickListener() {
@@ -81,7 +81,7 @@ public class AddWalletDialog extends AppCompatDialogFragment {
             public void onClick(View view) {
                 if (!walletForm.validateInput()) return;
                 Uri uri = addWallet();
-                if (uri == null){
+                if (uri == null) {
                     Toast.makeText(getContext(), "Error adding new wallet", Toast.LENGTH_SHORT).show();
                 } else {
                     Toast.makeText(getContext(), "Wallet added", Toast.LENGTH_SHORT).show();
@@ -91,7 +91,7 @@ public class AddWalletDialog extends AppCompatDialogFragment {
         });
     }
 
-    private Uri addWallet(){
+    private Uri addWallet() {
         String name = walletForm.getName();
         double amount = walletForm.getAmount();
         String desc = walletForm.getDesc();

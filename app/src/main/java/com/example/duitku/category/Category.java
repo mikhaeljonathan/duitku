@@ -6,17 +6,17 @@ public class Category {
     private String category_name;
     private String category_type;
 
-    public Category(){
+    public Category() {
 
     }
 
-    public Category(long _id, String category_name, String category_type){
+    public Category(long _id, String category_name, String category_type) {
         this._id = _id;
         this.category_name = category_name;
         this.category_type = category_type;
     }
 
-    public long get_id(){
+    public long get_id() {
         return _id;
     }
 

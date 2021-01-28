@@ -35,7 +35,7 @@ public class ReportPagerAdapter extends FragmentPagerAdapter {
         return fragmentList.size();
     }
 
-    public void addFrag(Fragment fragment, String title){
+    public void addFrag(Fragment fragment, String title) {
         fragmentList.add(fragment);
         fragmentTitleList.add(title);
     }

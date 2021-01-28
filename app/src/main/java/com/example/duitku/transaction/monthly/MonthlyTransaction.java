@@ -6,7 +6,7 @@ public class MonthlyTransaction {
     private final double income;
     private final double expense;
 
-    public MonthlyTransaction(int month, double income, double expense){
+    public MonthlyTransaction(int month, double income, double expense) {
         this.month = month;
         this.income = income;
         this.expense = expense;

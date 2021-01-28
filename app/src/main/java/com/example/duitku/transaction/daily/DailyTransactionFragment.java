@@ -88,7 +88,7 @@ public class DailyTransactionFragment extends Fragment implements LoaderManager.
         dailyTransactionFragmentView.fillListView(dailyTransactionList, dailyTransactionListHashMap, getActivity());
     }
 
-    private void setUpListAndHashMap(List<Transaction> allTransactions){
+    private void setUpListAndHashMap(List<Transaction> allTransactions) {
         // initialize variabel2 penting
         dailyTransactionList.clear();
         dailyTransactionListHashMap.clear();
@@ -101,7 +101,7 @@ public class DailyTransactionFragment extends Fragment implements LoaderManager.
         if (allTransactions.isEmpty()) return;
 
         // traverse through list
-        for (Transaction curTransaction: allTransactions){
+        for (Transaction curTransaction : allTransactions) {
             // kalo dah ganti hari
             if (lastDate != null && !curTransaction.getTransaction_date().equals(lastDate)) {
                 addToListAndHashMap(lastDate, transactions);
@@ -119,7 +119,7 @@ public class DailyTransactionFragment extends Fragment implements LoaderManager.
         addToListAndHashMap(lastDate, transactions);
     }
 
-    private void addToListAndHashMap(Date lastDate, List<Transaction> transactions){
+    private void addToListAndHashMap(Date lastDate, List<Transaction> transactions) {
         Calendar calendar = Calendar.getInstance();
         // dapetin transaksi yang barusan (posisi skrg - 1) hari apa
         calendar.setTime(lastDate);
@@ -132,7 +132,7 @@ public class DailyTransactionFragment extends Fragment implements LoaderManager.
         dailyTransactionListHashMap.put(dailyTransaction, transactions); // masukin hashmap juga dr parent ke anak2nya
     }
 
-    private void updateIncomeAndExpense(Transaction curTransaction){
+    private void updateIncomeAndExpense(Transaction curTransaction) {
         CategoryController categoryController = new CategoryController(getActivity());
         long categoryId = curTransaction.getCategory_id();
         Category category = categoryController.getCategoryById(categoryId);
@@ -140,7 +140,7 @@ public class DailyTransactionFragment extends Fragment implements LoaderManager.
         if (category == null) return;
 
         String type = category.getCategory_type();
-        if (type.equals(CategoryEntry.TYPE_EXPENSE)){
+        if (type.equals(CategoryEntry.TYPE_EXPENSE)) {
             totalExpense += curTransaction.getTransaction_amount();
         } else {
             totalIncome += curTransaction.getTransaction_amount();

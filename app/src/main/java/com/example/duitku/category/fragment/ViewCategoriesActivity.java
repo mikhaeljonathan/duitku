@@ -22,7 +22,7 @@ public class ViewCategoriesActivity extends AppCompatActivity {
         setUpBackBtn();
     }
 
-    private void setUpViewPager(){
+    private void setUpViewPager() {
         ViewPager viewPager = findViewById(R.id.view_categories_viewpager);
 
         ViewCategoriesAdapter adapter = new ViewCategoriesAdapter(getSupportFragmentManager());
@@ -39,7 +39,7 @@ public class ViewCategoriesActivity extends AppCompatActivity {
         tabLayout.setupWithViewPager(viewPager);
     }
 
-    private void setUpBackBtn(){
+    private void setUpBackBtn() {
         ImageView backBtn = findViewById(R.id.view_categories_back_btn);
         backBtn.setOnClickListener(new View.OnClickListener() {
             @Override

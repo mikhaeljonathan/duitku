@@ -27,7 +27,7 @@ public class WeeklyExpandableAdapter extends BaseExpandableListAdapter {
 
     public WeeklyExpandableAdapter(List<WeeklyTransaction> weeklyTransactionList,
                                    HashMap<WeeklyTransaction, List<CategoryTransaction>> categoryTransactionListHashMap,
-                                   Context context){
+                                   Context context) {
         this.weeklyTransactionList = weeklyTransactionList;
         this.categoryTransactionListHashMap = categoryTransactionListHashMap;
         this.context = context;
@@ -71,7 +71,7 @@ public class WeeklyExpandableAdapter extends BaseExpandableListAdapter {
     @Override
     public View getGroupView(int i, boolean b, View view, ViewGroup viewGroup) {
         WeeklyTransaction weeklyTransaction = (WeeklyTransaction) getGroup(i);
-        if (view == null){
+        if (view == null) {
             view = LayoutInflater.from(context).inflate(R.layout.item_list_transaction_weekly, viewGroup, false);
         }
 
@@ -93,18 +93,18 @@ public class WeeklyExpandableAdapter extends BaseExpandableListAdapter {
         expenseTextView.setText(new DecimalFormat("###,###").format(weeklyTransaction.getExpense()));
 
 
-        if(!b) {
+        if (!b) {
             image.setImageResource(R.drawable.icon_arrow_up);
             cl.setBackgroundResource(R.drawable.custom_shape);
             hidden.setVisibility(View.VISIBLE);
-        }else {
+        } else {
             image.setImageResource(R.drawable.icon_arrow_down);
             cl.setBackgroundResource(R.drawable.custom_shape_top_rounded);
             hidden.setVisibility(View.GONE);
         }
 
         // handle grup terakhir supaya gakeluar hidden view nya
-        if(i == (weeklyTransactionList.size()-1)){
+        if (i == (weeklyTransactionList.size() - 1)) {
             hidden.setVisibility(View.GONE);
         }
         return view;
@@ -113,7 +113,7 @@ public class WeeklyExpandableAdapter extends BaseExpandableListAdapter {
     @Override
     public View getChildView(int i, int i1, boolean b, View view, ViewGroup viewGroup) {
         CategoryTransaction categoryTransaction = (CategoryTransaction) getChild(i, i1);
-        if (view == null){
+        if (view == null) {
             view = LayoutInflater.from(context).inflate(R.layout.item_list_transaction_category, viewGroup, false);
         }
 
@@ -131,10 +131,10 @@ public class WeeklyExpandableAdapter extends BaseExpandableListAdapter {
         TextView amountTextView = view.findViewById(R.id.item_list_transaction_category_amount_textview);
         amountTextView.setText(new DecimalFormat("###,###").format(categoryTransaction.getAmount()));
 
-        if(b){
+        if (b) {
             cl.setBackgroundResource(R.drawable.custom_shape_bottom_rounded);
             hidden.setBackgroundResource(R.color.colorPrimary);
-        }else{
+        } else {
             cl.setBackgroundResource(R.color.colorPrimaryDark);
             hidden.setBackgroundResource(R.color.colorPrimaryDark);
         }

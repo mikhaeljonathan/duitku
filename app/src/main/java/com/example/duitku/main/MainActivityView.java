@@ -22,7 +22,7 @@ public class MainActivityView implements UIView {
 
     private final AppCompatActivity activity;
 
-    public MainActivityView(AppCompatActivity activity){
+    public MainActivityView(AppCompatActivity activity) {
         this.activity = activity;
     }
 
@@ -33,7 +33,7 @@ public class MainActivityView implements UIView {
         setUpFloatingActionButton();
     }
 
-    private void setUpBottomNavBar(){
+    private void setUpBottomNavBar() {
         final BottomNavigationView bottomNavBar = activity.findViewById(R.id.main_bottomnavbar);
         bottomNavBar.getMenu().getItem(2).setEnabled(false); // yang di tengah2 gabisa diklik
 
@@ -43,7 +43,7 @@ public class MainActivityView implements UIView {
                 // biar kalau diklik ga kerefresh
                 if (bottomNavBar.getSelectedItemId() == menuItem.getItemId()) return true;
                 Fragment fragment = null;
-                switch (menuItem.getItemId()){
+                switch (menuItem.getItemId()) {
                     case R.id.nav_transaction:
                         fragment = new TransactionFragment();
                         break;
@@ -66,7 +66,7 @@ public class MainActivityView implements UIView {
         activity.getSupportFragmentManager().beginTransaction().replace(R.id.main_container, new TransactionFragment()).commit();
     }
 
-    private void setUpFloatingActionButton(){
+    private void setUpFloatingActionButton() {
         FloatingActionButton addTransactionFab = activity.findViewById(R.id.main_add_fab);
         addTransactionFab.setOnClickListener(new View.OnClickListener() {
 

@@ -37,8 +37,9 @@ public class DuitkuProvider extends ContentProvider {
     private static final int USER = 500;
 
     private static final UriMatcher uriMatcher = new UriMatcher(UriMatcher.NO_MATCH);
+
     // biar bisa diexecute scr global, ga di dalem method manapun
-    static{
+    static {
         uriMatcher.addURI(DuitkuContract.CONTENT_AUTHORITY, DuitkuContract.PATH_WALLET, WALLET);
         uriMatcher.addURI(DuitkuContract.CONTENT_AUTHORITY, DuitkuContract.PATH_WALLET + "/#", WALLET_ID);
         uriMatcher.addURI(DuitkuContract.CONTENT_AUTHORITY, DuitkuContract.PATH_CATEGORY, CATEGORY);
@@ -66,21 +67,21 @@ public class DuitkuProvider extends ContentProvider {
         Cursor cursor;
 
         int match = uriMatcher.match(uri);
-        switch(match){
+        switch (match) {
             case WALLET:
                 cursor = db.query(WalletEntry.TABLE_NAME, projection, selection, selectionArgs, null, null, sortOrder);
                 break;
             case WALLET_ID:
                 selection = WalletEntry.COLUMN_ID + "=?";
-                selectionArgs = new String[] { String.valueOf(ContentUris.parseId(uri)) };
-                cursor = db.query(WalletEntry.TABLE_NAME, projection, selection, selectionArgs,null, null, sortOrder);
+                selectionArgs = new String[]{String.valueOf(ContentUris.parseId(uri))};
+                cursor = db.query(WalletEntry.TABLE_NAME, projection, selection, selectionArgs, null, null, sortOrder);
                 break;
             case CATEGORY:
                 cursor = db.query(CategoryEntry.TABLE_NAME, projection, selection, selectionArgs, null, null, sortOrder);
                 break;
             case CATEGORY_ID:
                 selection = CategoryEntry.COLUMN_ID + "=?";
-                selectionArgs = new String[] { String.valueOf(ContentUris.parseId(uri)) };
+                selectionArgs = new String[]{String.valueOf(ContentUris.parseId(uri))};
                 cursor = db.query(CategoryEntry.TABLE_NAME, projection, selection, selectionArgs, null, null, sortOrder);
                 break;
             case BUDGET:
@@ -88,7 +89,7 @@ public class DuitkuProvider extends ContentProvider {
                 break;
             case BUDGET_ID:
                 selection = BudgetEntry.COLUMN_ID + "=?";
-                selectionArgs = new String[] { String.valueOf(ContentUris.parseId(uri)) };
+                selectionArgs = new String[]{String.valueOf(ContentUris.parseId(uri))};
                 cursor = db.query(BudgetEntry.TABLE_NAME, projection, selection, selectionArgs, null, null, sortOrder);
                 break;
             case TRANSACTION:
@@ -96,7 +97,7 @@ public class DuitkuProvider extends ContentProvider {
                 break;
             case TRANSACTION_ID:
                 selection = TransactionEntry.COLUMN_ID + "=?";
-                selectionArgs = new String[] { String.valueOf(ContentUris.parseId(uri)) };
+                selectionArgs = new String[]{String.valueOf(ContentUris.parseId(uri))};
                 cursor = db.query(TransactionEntry.TABLE_NAME, projection, selection, selectionArgs, null, null, sortOrder);
                 break;
             case USER:
@@ -120,7 +121,7 @@ public class DuitkuProvider extends ContentProvider {
         long id;
 
         int match = uriMatcher.match(uri);
-        switch (match){
+        switch (match) {
             case WALLET:
                 id = db.insert(WalletEntry.TABLE_NAME, null, contentValues);
                 break;
@@ -140,7 +141,7 @@ public class DuitkuProvider extends ContentProvider {
                 throw new IllegalArgumentException("Insertion is not supported for " + uri);
         }
 
-        if (id == -1){
+        if (id == -1) {
             return null;
         }
 
@@ -155,12 +156,12 @@ public class DuitkuProvider extends ContentProvider {
         int rowsDeleted;
 
         int match = uriMatcher.match(uri);
-        switch (match){
+        switch (match) {
             case TRANSACTION:
                 TransactionController transactionController = new TransactionController(getContext());
                 Cursor data = query(uri, transactionController.getFullProjection(), selection, selectionArgs, null);
                 List<Transaction> transactions = transactionController.convertCursorToListOfTransaction(data);
-                for (Transaction transaction: transactions){
+                for (Transaction transaction : transactions) {
                     new FirebaseWriter(getContext()).deleteTransaction(transaction.get_id());
                 }
                 rowsDeleted = db.delete(TransactionEntry.TABLE_NAME, selection, selectionArgs);
@@ -168,28 +169,28 @@ public class DuitkuProvider extends ContentProvider {
             case TRANSACTION_ID:
                 String id = String.valueOf(ContentUris.parseId(uri));
                 selection = TransactionEntry._ID + " = ?";
-                selectionArgs = new String[] {id};
+                selectionArgs = new String[]{id};
                 rowsDeleted = db.delete(TransactionEntry.TABLE_NAME, selection, selectionArgs);
                 new FirebaseWriter(getContext()).deleteTransaction(Long.parseLong(id));
                 break;
             case WALLET_ID:
                 selection = WalletEntry._ID + " = ?";
                 id = String.valueOf(ContentUris.parseId(uri));
-                selectionArgs = new String[] {id};
+                selectionArgs = new String[]{id};
                 rowsDeleted = db.delete(WalletEntry.TABLE_NAME, selection, selectionArgs);
                 new FirebaseWriter(getContext()).deleteWallet(Long.parseLong(id));
                 break;
             case BUDGET_ID:
                 selection = BudgetEntry._ID + " = ?";
                 id = String.valueOf(ContentUris.parseId(uri));
-                selectionArgs = new String[] {id};
+                selectionArgs = new String[]{id};
                 rowsDeleted = db.delete(BudgetEntry.TABLE_NAME, selection, selectionArgs);
                 new FirebaseWriter(getContext()).deleteBudget(Long.parseLong(id));
                 break;
             case CATEGORY_ID:
                 selection = CategoryEntry._ID + " = ?";
                 id = String.valueOf(ContentUris.parseId(uri));
-                selectionArgs = new String[] {id};
+                selectionArgs = new String[]{id};
                 rowsDeleted = db.delete(CategoryEntry.TABLE_NAME, selection, selectionArgs);
                 new FirebaseWriter(getContext()).deleteCategory(Long.parseLong(id));
                 break;
@@ -200,7 +201,7 @@ public class DuitkuProvider extends ContentProvider {
                 throw new IllegalArgumentException("Deletion is not supported for " + uri);
         }
 
-        if (rowsDeleted != 0){
+        if (rowsDeleted != 0) {
             getContext().getContentResolver().notifyChange(uri, null);
         }
         return rowsDeleted;
@@ -213,25 +214,25 @@ public class DuitkuProvider extends ContentProvider {
         int rowsUpdated;
 
         int match = uriMatcher.match(uri);
-        switch (match){
+        switch (match) {
             case TRANSACTION_ID:
                 selection = TransactionEntry._ID + " = ?";
-                selectionArgs = new String[] { String.valueOf(ContentUris.parseId(uri))};
+                selectionArgs = new String[]{String.valueOf(ContentUris.parseId(uri))};
                 rowsUpdated = db.update(TransactionEntry.TABLE_NAME, contentValues, selection, selectionArgs);
                 break;
             case WALLET_ID:
                 selection = WalletEntry._ID + " = ?";
-                selectionArgs = new String[] {String.valueOf(ContentUris.parseId(uri))};
+                selectionArgs = new String[]{String.valueOf(ContentUris.parseId(uri))};
                 rowsUpdated = db.update(WalletEntry.TABLE_NAME, contentValues, selection, selectionArgs);
                 break;
             case BUDGET_ID:
                 selection = BudgetEntry._ID + " = ?";
-                selectionArgs = new String[] {String.valueOf(ContentUris.parseId(uri))};
+                selectionArgs = new String[]{String.valueOf(ContentUris.parseId(uri))};
                 rowsUpdated = db.update(BudgetEntry.TABLE_NAME, contentValues, selection, selectionArgs);
                 break;
             case CATEGORY_ID:
                 selection = CategoryEntry._ID + " = ?";
-                selectionArgs = new String[] {String.valueOf(ContentUris.parseId(uri))};
+                selectionArgs = new String[]{String.valueOf(ContentUris.parseId(uri))};
                 rowsUpdated = db.update(CategoryEntry.TABLE_NAME, contentValues, selection, selectionArgs);
                 break;
             case USER:
@@ -241,7 +242,7 @@ public class DuitkuProvider extends ContentProvider {
                 throw new IllegalArgumentException("Update is not supported for " + uri);
         }
 
-        if (rowsUpdated != 0){
+        if (rowsUpdated != 0) {
             getContext().getContentResolver().notifyChange(uri, null);
         }
         return rowsUpdated;

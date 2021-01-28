@@ -15,7 +15,7 @@ public class AddTransactionFragment extends Fragment {
 
     private final String type;
 
-    public AddTransactionFragment(String type){
+    public AddTransactionFragment(String type) {
         this.type = type;
     }
 

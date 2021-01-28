@@ -30,7 +30,7 @@ public class DailyExpandableAdapter extends BaseExpandableListAdapter {
 
     public DailyExpandableAdapter(List<DailyTransaction> dailyTransactionList,
                                   HashMap<DailyTransaction, List<Transaction>> dailyTransactionListHashMap,
-                                  Context context){
+                                  Context context) {
         this.dailyTransactionList = dailyTransactionList;
         this.dailyTransactionListHashMap = dailyTransactionListHashMap;
         this.context = context;
@@ -80,7 +80,7 @@ public class DailyExpandableAdapter extends BaseExpandableListAdapter {
 
         View hidden = view.findViewById(R.id.view_hidden2);
         ConstraintLayout cl = view.findViewById(R.id.item_list_transaction_daily_constraintlayout);
-        ImageView image =  view.findViewById(R.id.arrow_expandable);
+        ImageView image = view.findViewById(R.id.arrow_expandable);
 
         TextView dateTextView = view.findViewById(R.id.item_list_transaction_daily_date_textview);
         dateTextView.setText(Integer.toString(dailyTransaction.getDate()));
@@ -92,20 +92,21 @@ public class DailyExpandableAdapter extends BaseExpandableListAdapter {
         incomeTextView.setText(new DecimalFormat("###,###").format(dailyTransaction.getIncome()));
 
         TextView expenseTextView = view.findViewById(R.id.item_list_transaction_daily_expense_textview);
-        expenseTextView.setText(new DecimalFormat("###,###").format(dailyTransaction.getExpense()));new DecimalFormat("#0,000.00");
+        expenseTextView.setText(new DecimalFormat("###,###").format(dailyTransaction.getExpense()));
+        new DecimalFormat("#0,000.00");
 
-        if(!b) {
+        if (!b) {
             image.setImageResource(R.drawable.icon_arrow_up);
             cl.setBackgroundResource(R.drawable.custom_shape);
             hidden.setVisibility(View.VISIBLE);
-        }else {
+        } else {
             image.setImageResource(R.drawable.icon_arrow_down);
             cl.setBackgroundResource(R.drawable.custom_shape_top_rounded);
             hidden.setVisibility(View.GONE);
         }
 
         // handle grup terakhir supaya gakeluar hidden view nya
-        if(i == (dailyTransactionList.size()-1)){
+        if (i == (dailyTransactionList.size() - 1)) {
             hidden.setVisibility(View.GONE);
         }
 
@@ -115,7 +116,7 @@ public class DailyExpandableAdapter extends BaseExpandableListAdapter {
     @Override
     public View getChildView(int i, int i1, boolean b, View view, ViewGroup viewGroup) {
         Transaction transaction = (Transaction) getChild(i, i1);
-        if (view == null){
+        if (view == null) {
             view = LayoutInflater.from(context).inflate(R.layout.item_list_transaction, viewGroup, false);
         }
 
@@ -135,10 +136,10 @@ public class DailyExpandableAdapter extends BaseExpandableListAdapter {
         TextView amountTextView = view.findViewById(R.id.item_list_transaction_amount_textview);
         amountTextView.setText(new DecimalFormat("###,###").format(transaction.getTransaction_amount()));
 
-        if(b){
+        if (b) {
             cl.setBackgroundResource(R.drawable.custom_shape_bottom_rounded);
             hidden.setBackgroundResource(R.color.colorPrimary);
-        }else{
+        } else {
             cl.setBackgroundResource(R.color.colorPrimaryDark);
             hidden.setBackgroundResource(R.color.colorPrimaryDark);
         }
@@ -147,23 +148,23 @@ public class DailyExpandableAdapter extends BaseExpandableListAdapter {
         return view;
     }
 
-    private void setUpIcon(View view, Category category){
+    private void setUpIcon(View view, Category category) {
         ImageView categoryImageView = view.findViewById(R.id.item_list_transaction_categorytype_icon);
 
-        if (category == null){
+        if (category == null) {
             categoryImageView.setImageResource(R.drawable.icon_transfer);
             return;
         }
 
         String type = category.getCategory_type();
-        if (type.equals(CategoryEntry.TYPE_INCOME)){
+        if (type.equals(CategoryEntry.TYPE_INCOME)) {
             categoryImageView.setImageResource(R.drawable.icon_income);
         } else {
             categoryImageView.setImageResource(R.drawable.icon_expense);
         }
     }
 
-    private void setupHeader(View view, Category category, Transaction transaction){
+    private void setupHeader(View view, Category category, Transaction transaction) {
         TextView headerTextView = view.findViewById(R.id.item_list_transaction_header_textview);
         ImageView transferImageView = view.findViewById(R.id.item_list_transaction_transfer_imageview);
         TextView walletDestTextView = view.findViewById(R.id.item_list_transaction_walletdest_textview);
@@ -172,7 +173,7 @@ public class DailyExpandableAdapter extends BaseExpandableListAdapter {
         transferImageView.setVisibility(View.GONE);
         walletDestTextView.setVisibility(View.GONE);
 
-        if (category == null){
+        if (category == null) {
 
             transferImageView.setVisibility(View.VISIBLE);
             walletDestTextView.setVisibility(View.VISIBLE);

@@ -47,17 +47,17 @@ public class WelcomeActivity extends AppCompatActivity {
         });
     }
 
-    private void letsGo(){
+    private void letsGo() {
         Intent getStartedIntent = new Intent(this, GetStarted.class);
         startActivity(getStartedIntent);
         this.finish();
     }
 
-    public void addDotsIndicator(int position){
+    public void addDotsIndicator(int position) {
         mdots = new TextView[4];
         mDotLayout.removeAllViews();
 
-        for(int i=0 ; i<mdots.length ; i++){
+        for (int i = 0; i < mdots.length; i++) {
             mdots[i] = new TextView(this);
             mdots[i].setText(Html.fromHtml("&#8226;"));
             mdots[i].setTextSize(35);
@@ -66,12 +66,12 @@ public class WelcomeActivity extends AppCompatActivity {
             mDotLayout.addView(mdots[i]);
         }
 
-        if (mdots.length > 0){
+        if (mdots.length > 0) {
             mdots[position].setTextColor(getResources().getColor(R.color.textLight));
         }
     }
 
-    ViewPager.OnPageChangeListener viewListener = new ViewPager.OnPageChangeListener(){
+    ViewPager.OnPageChangeListener viewListener = new ViewPager.OnPageChangeListener() {
 
         @Override
         public void onPageScrolled(int position, float positionOffset, int positionOffsetPixels) {
@@ -83,7 +83,7 @@ public class WelcomeActivity extends AppCompatActivity {
             addDotsIndicator(position);
 
             mCurrentPage = position;
-            if (mCurrentPage != mdots.length-1){
+            if (mCurrentPage != mdots.length - 1) {
                 mNextBtn.setEnabled(false);
                 mNextBtn.setVisibility(View.INVISIBLE);
             } else {

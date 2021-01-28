@@ -28,7 +28,7 @@ public class MonthlyExpandableAdapter extends BaseExpandableListAdapter {
 
     public MonthlyExpandableAdapter(List<MonthlyTransaction> monthlyTransactionList,
                                     HashMap<MonthlyTransaction, List<CategoryTransaction>> categoryTransactionListHashMap,
-                                    Context context){
+                                    Context context) {
         this.monthlyTransactionList = monthlyTransactionList;
         this.categoryTransactionListHashMap = categoryTransactionListHashMap;
         this.context = context;
@@ -72,7 +72,7 @@ public class MonthlyExpandableAdapter extends BaseExpandableListAdapter {
     @Override
     public View getGroupView(int i, boolean b, View view, ViewGroup viewGroup) {
         MonthlyTransaction monthlyTransaction = (MonthlyTransaction) getGroup(i);
-        if (view == null){
+        if (view == null) {
             view = LayoutInflater.from(context).inflate(R.layout.item_list_transaction_monthly, viewGroup, false);
         }
 
@@ -89,18 +89,18 @@ public class MonthlyExpandableAdapter extends BaseExpandableListAdapter {
         TextView expense = view.findViewById(R.id.item_list_transaction_monthly_expense_textview);
         expense.setText(new DecimalFormat("###,###").format(monthlyTransaction.getExpense()));
 
-        if(!b) {
+        if (!b) {
             image.setImageResource(R.drawable.icon_arrow_up);
             cl.setBackgroundResource(R.drawable.custom_shape);
             hidden.setVisibility(View.VISIBLE);
-        }else {
+        } else {
             image.setImageResource(R.drawable.icon_arrow_down);
             cl.setBackgroundResource(R.drawable.custom_shape_top_rounded);
             hidden.setVisibility(View.GONE);
         }
 
         // handle grup terakhir supaya gakeluar hidden view nya
-        if(i == (monthlyTransactionList.size()-1)){
+        if (i == (monthlyTransactionList.size() - 1)) {
             hidden.setVisibility(View.GONE);
         }
 
@@ -110,7 +110,7 @@ public class MonthlyExpandableAdapter extends BaseExpandableListAdapter {
     @Override
     public View getChildView(int i, int i1, boolean b, View view, ViewGroup viewGroup) {
         CategoryTransaction categoryTransaction = (CategoryTransaction) getChild(i, i1);
-        if (view == null){
+        if (view == null) {
             view = LayoutInflater.from(context).inflate(R.layout.item_list_transaction_category, viewGroup, false);
         }
 
@@ -128,10 +128,10 @@ public class MonthlyExpandableAdapter extends BaseExpandableListAdapter {
         TextView amountTextView = view.findViewById(R.id.item_list_transaction_category_amount_textview);
         amountTextView.setText(new DecimalFormat("###,###").format(categoryTransaction.getAmount()));
 
-        if(b){
+        if (b) {
             cl.setBackgroundResource(R.drawable.custom_shape_bottom_rounded);
             hidden.setBackgroundResource(R.color.colorPrimary);
-        }else{
+        } else {
             cl.setBackgroundResource(R.color.colorPrimaryDark);
             hidden.setBackgroundResource(R.color.colorPrimaryDark);
         }

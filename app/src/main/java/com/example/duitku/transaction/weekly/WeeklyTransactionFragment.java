@@ -96,7 +96,7 @@ public class WeeklyTransactionFragment extends Fragment implements LoaderManager
     }
 
     @RequiresApi(api = Build.VERSION_CODES.O)
-    private void setUpListAndHashMap(List<Transaction> allTransactions){
+    private void setUpListAndHashMap(List<Transaction> allTransactions) {
         // initialize variabel2 penting
         weeklyTransactionList.clear();
         categoryTransactionListHashMap.clear();
@@ -114,7 +114,7 @@ public class WeeklyTransactionFragment extends Fragment implements LoaderManager
         if (allTransactions.isEmpty()) return;
 
         // traverse through list
-        for (Transaction curTransaction: allTransactions){
+        for (Transaction curTransaction : allTransactions) {
             // kalo dah ganti pekan
             Calendar calendar = Calendar.getInstance();
             calendar.setTime(curTransaction.getTransaction_date());
@@ -137,17 +137,17 @@ public class WeeklyTransactionFragment extends Fragment implements LoaderManager
             year = calendar.get(Calendar.YEAR);
         }
         //sisanya
-        addToListAndHashMap(lastWeek,month, year);
+        addToListAndHashMap(lastWeek, month, year);
     }
 
     @RequiresApi(api = Build.VERSION_CODES.O)
-    private void addToListAndHashMap(int lastWeek, int month , int year){
+    private void addToListAndHashMap(int lastWeek, int month, int year) {
         WeeklyTransaction weeklyTransaction = new WeeklyTransaction(lastWeek, Utility.getIntervalsFromWeek(lastWeek, month, year), totalIncome, totalExpense);
         weeklyTransactionList.add(weeklyTransaction);
         categoryTransactionListHashMap.put(weeklyTransaction, transactionController.convertHashMapToListOfCategoryTransaction(categoryTransactionHashMap));
     }
 
-    private void updateIncomeAndExpense(Transaction curTransaction){
+    private void updateIncomeAndExpense(Transaction curTransaction) {
         CategoryController categoryController = new CategoryController(getActivity());
         long categoryId = curTransaction.getCategory_id();
         Category category = categoryController.getCategoryById(categoryId);
@@ -155,7 +155,7 @@ public class WeeklyTransactionFragment extends Fragment implements LoaderManager
         if (category == null) return;
 
         String type = category.getCategory_type();
-        if (type.equals(CategoryEntry.TYPE_EXPENSE)){
+        if (type.equals(CategoryEntry.TYPE_EXPENSE)) {
             totalGlobalExpense += curTransaction.getTransaction_amount();
             totalExpense += curTransaction.getTransaction_amount();
         } else {
@@ -164,10 +164,10 @@ public class WeeklyTransactionFragment extends Fragment implements LoaderManager
         }
     }
 
-    private void addToCategoryTransactionHashMap(Transaction curTransaction){
+    private void addToCategoryTransactionHashMap(Transaction curTransaction) {
         long categoryId = curTransaction.getCategory_id();
         CategoryTransaction categoryTransaction = categoryTransactionHashMap.get(categoryId);
-        if (categoryTransaction == null){ //belum ada category yang setipe dengan transaksi ini
+        if (categoryTransaction == null) { //belum ada category yang setipe dengan transaksi ini
             categoryTransaction = new CategoryTransaction(categoryId, 0);
             categoryTransactionHashMap.put(categoryId, categoryTransaction);
         }

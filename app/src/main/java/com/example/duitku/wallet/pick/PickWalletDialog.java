@@ -36,7 +36,7 @@ public class PickWalletDialog extends AppCompatDialogFragment implements LoaderM
 
     private final int WALLET_LOADER = 0;
 
-    public PickWalletDialog(PickWalletListener listener){
+    public PickWalletDialog(PickWalletListener listener) {
         this.listener = listener;
     }
 
@@ -49,21 +49,21 @@ public class PickWalletDialog extends AppCompatDialogFragment implements LoaderM
 
         builder.setView(view);
 
-        LoaderManager.getInstance(this).initLoader(WALLET_LOADER, null ,this);
+        LoaderManager.getInstance(this).initLoader(WALLET_LOADER, null, this);
 
         Dialog dialog = builder.create();
         dialog.getWindow().setBackgroundDrawableResource(R.color.colorPrimary);
         return dialog;
     }
 
-    private void setUpUI(){
+    private void setUpUI() {
         setUpViews();
         setUpListView();
         setUpEmptyView();
         setUpButtons();
     }
 
-    private void setUpViews(){
+    private void setUpViews() {
         LayoutInflater inflater = getActivity().getLayoutInflater();
         view = inflater.inflate(R.layout.dialog_pick,
                 (ViewGroup) getActivity().findViewById(R.id.dialog_pick_constraintlayout));
@@ -72,7 +72,7 @@ public class PickWalletDialog extends AppCompatDialogFragment implements LoaderM
         titleTV.setText("Pick Wallet");
     }
 
-    private void setUpListView(){
+    private void setUpListView() {
         GridView gridView = view.findViewById(R.id.dialog_pick_gridview);
         gridView.setVisibility(View.GONE);
 
@@ -88,7 +88,7 @@ public class PickWalletDialog extends AppCompatDialogFragment implements LoaderM
         setUpAdapter();
     }
 
-    private void setUpEmptyView(){
+    private void setUpEmptyView() {
         View emptyView = view.findViewById(R.id.dialog_pick_emptyview);
 
         ImageView imageEmptyView = emptyView.findViewById(R.id.dialog_pick_empty_imageview);
@@ -101,16 +101,16 @@ public class PickWalletDialog extends AppCompatDialogFragment implements LoaderM
     }
 
 
-    private void setUpAdapter(){
+    private void setUpAdapter() {
         pickWalletAdapter = new WalletAdapter(getActivity(), null);
         listView.setAdapter(pickWalletAdapter);
     }
 
-    private void setUpButtons(){
+    private void setUpButtons() {
         setUpAddBtn();
     }
 
-    private void setUpAddBtn(){
+    private void setUpAddBtn() {
         ImageView addWalletBtn = view.findViewById(R.id.dialog_pick_add_btn);
         addWalletBtn.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -120,7 +120,7 @@ public class PickWalletDialog extends AppCompatDialogFragment implements LoaderM
         });
     }
 
-    private void addWallet(){
+    private void addWallet() {
         AddWalletDialog addWalletDialog = new AddWalletDialog();
         addWalletDialog.show(getFragmentManager(), "Add Wallet Dialog");
     }
@@ -145,7 +145,7 @@ public class PickWalletDialog extends AppCompatDialogFragment implements LoaderM
         pickWalletAdapter.swapCursor(null);
     }
 
-    public interface PickWalletListener{
+    public interface PickWalletListener {
         void pickWallet(long id);
     }
 

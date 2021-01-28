@@ -37,7 +37,7 @@ public class WalletFragmentView implements UIView {
     private View view;
     private Fragment fragment;
 
-    public WalletFragmentView(LayoutInflater inflater, ViewGroup container, Fragment fragment){
+    public WalletFragmentView(LayoutInflater inflater, ViewGroup container, Fragment fragment) {
         this.inflater = inflater;
         this.container = container;
         this.fragment = fragment;
@@ -51,15 +51,15 @@ public class WalletFragmentView implements UIView {
         setUpEmptyView();
     }
 
-    public void updateTotalWalletTextView(double amount){
+    public void updateTotalWalletTextView(double amount) {
         totalWalletTextView.setText("Total amount:   " + new DecimalFormat("###,###").format(amount));
     }
 
-    public WalletAdapter getAdapter(){
+    public WalletAdapter getAdapter() {
         return adapter;
     }
 
-    private void setUpHeader(){
+    private void setUpHeader() {
         header = inflater.inflate(R.layout.fragment_transaction_header, container, false);
         totalWalletTextView = header.findViewById(R.id.transaction_header_totalwallet_textview);
 
@@ -69,12 +69,12 @@ public class WalletFragmentView implements UIView {
         hideView();
     }
 
-    private void setUpTitle(){
+    private void setUpTitle() {
         TextView titleTextView = header.findViewById(R.id.transaction_header_title_textview);
         titleTextView.setText("Wallet");
     }
 
-    private void setUpAddBtn(){
+    private void setUpAddBtn() {
         ImageView addButton = header.findViewById(R.id.transaction_header_add_btn);
         addButton.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -84,12 +84,12 @@ public class WalletFragmentView implements UIView {
         });
     }
 
-    private void addWallet(){
+    private void addWallet() {
         AddWalletDialog addWalletDialog = new AddWalletDialog();
         addWalletDialog.show(fragment.getFragmentManager(), "Add Wallet Dialog");
     }
 
-    private void hideView(){
+    private void hideView() {
         Button periodButton = header.findViewById(R.id.transaction_header_period_btn);
         ConstraintLayout summaryContainer = header.findViewById(R.id.transaction_header_summary_container);
 
@@ -97,7 +97,7 @@ public class WalletFragmentView implements UIView {
         summaryContainer.setVisibility(View.GONE);
     }
 
-    private void setUpListView(){
+    private void setUpListView() {
         ExpandableListView expandableListView = view.findViewById(R.id.fragment_transaction_viewpager_expandablelistview);
         expandableListView.setVisibility(View.GONE);
         listView = view.findViewById(R.id.fragment_transaction_viewpager_listview);
@@ -113,18 +113,18 @@ public class WalletFragmentView implements UIView {
         setUpAdapter();
     }
 
-    private void viewWallet(long id){
+    private void viewWallet(long id) {
         Intent viewWalletIntent = new Intent(fragment.getActivity(), ViewWalletActivity.class);
         viewWalletIntent.putExtra("ID", id);
         fragment.getActivity().startActivity(viewWalletIntent);
     }
 
-    private void setUpAdapter(){
+    private void setUpAdapter() {
         adapter = new WalletAdapter(fragment.getActivity(), null);
         listView.setAdapter(adapter);
     }
 
-    private void setUpEmptyView(){
+    private void setUpEmptyView() {
         emptyView = inflater.inflate(R.layout.empty_view, null, false);
 
         imageEmptyView = emptyView.findViewById(R.id.empty_view_imageview);
@@ -136,9 +136,9 @@ public class WalletFragmentView implements UIView {
         listView.addFooterView(emptyView, null, false);
     }
 
-    public void swapCursor(Cursor data){
-        if (data != null){
-            if (!data.moveToFirst()){
+    public void swapCursor(Cursor data) {
+        if (data != null) {
+            if (!data.moveToFirst()) {
                 imageEmptyView.setVisibility(View.VISIBLE);
                 emptyView.setVisibility(View.VISIBLE);
             } else {

@@ -7,18 +7,18 @@ public class Wallet {
     private double wallet_amount;
     private String wallet_desc;
 
-    public Wallet(){
+    public Wallet() {
 
     }
 
-    public Wallet(long _id, String wallet_name, double wallet_amount, String wallet_desc){
+    public Wallet(long _id, String wallet_name, double wallet_amount, String wallet_desc) {
         this._id = _id;
         this.wallet_name = wallet_name;
         this.wallet_amount = wallet_amount;
         this.wallet_desc = wallet_desc;
     }
 
-    public long get_id(){
+    public long get_id() {
         return _id;
     }
 
@@ -34,15 +34,15 @@ public class Wallet {
         return wallet_desc;
     }
 
-    public void setWallet_name(String wallet_name){
+    public void setWallet_name(String wallet_name) {
         this.wallet_name = wallet_name;
     }
 
-    public void setWallet_amount(double wallet_amount){
+    public void setWallet_amount(double wallet_amount) {
         this.wallet_amount = wallet_amount;
     }
 
-    public void setWallet_desc(String wallet_desc){
+    public void setWallet_desc(String wallet_desc) {
         this.wallet_desc = wallet_desc;
     }
 

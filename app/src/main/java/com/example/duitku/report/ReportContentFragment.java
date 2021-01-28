@@ -44,7 +44,7 @@ public class ReportContentFragment extends Fragment implements LoaderManager.Loa
 
     private final int REPORT_LOADER = 0;
 
-    public ReportContentFragment(String type){
+    public ReportContentFragment(String type) {
         this.type = type;
     }
 
@@ -63,13 +63,13 @@ public class ReportContentFragment extends Fragment implements LoaderManager.Loa
     @Override
     public void onResume() {
         super.onResume();
-        
+
     }
 
     @NonNull
     @Override
     public Loader<Cursor> onCreateLoader(int id, @Nullable Bundle args) {
-        if (id == REPORT_LOADER){
+        if (id == REPORT_LOADER) {
             String[] projection = transactionController.getFullProjection();
             // yang transfer ga termasuk
             String selection = TransactionEntry.COLUMN_DATE + " LIKE ? AND " + TransactionEntry.COLUMN_CATEGORY_ID + " > 0";
@@ -92,7 +92,7 @@ public class ReportContentFragment extends Fragment implements LoaderManager.Loa
         reportContentFragmentView.fillListView(reportList, reportHashMap, getActivity());
     }
 
-    private void setUpListAndHashMap(List<Transaction> allTransactions){
+    private void setUpListAndHashMap(List<Transaction> allTransactions) {
         // initialize variabel2 penting
         reportList.clear();
         reportHashMap.clear();
@@ -102,14 +102,14 @@ public class ReportContentFragment extends Fragment implements LoaderManager.Loa
         double total = 0;
 
         // traverse through list
-        for (Transaction curTransaction: allTransactions){
+        for (Transaction curTransaction : allTransactions) {
             long categoryId = curTransaction.getCategory_id();
 
             Category category = new CategoryController(getActivity()).getCategoryById(categoryId);
             if (category == null) continue;
             if (!category.getCategory_type().equals(type)) continue;
 
-            if (categoryHashMap.get(categoryId) == null){
+            if (categoryHashMap.get(categoryId) == null) {
                 List<Transaction> transactions = new ArrayList<>();
                 transactions.add(curTransaction);
                 categoryHashMap.put(categoryId, transactions);
@@ -122,14 +122,14 @@ public class ReportContentFragment extends Fragment implements LoaderManager.Loa
         addToReportHashMap(total);
     }
 
-    private void addToReportHashMap(double totalGlobal){
+    private void addToReportHashMap(double totalGlobal) {
         Iterator hm = categoryHashMap.entrySet().iterator();
 
-        while(hm.hasNext()){
+        while (hm.hasNext()) {
             Map.Entry element = (Map.Entry) hm.next();
             List<Transaction> transactions = (List<Transaction>) element.getValue();
             double totalTransaction = 0;
-            for (Transaction transaction: transactions){
+            for (Transaction transaction : transactions) {
                 totalTransaction += transaction.getTransaction_amount();
             }
 

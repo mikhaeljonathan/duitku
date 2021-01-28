@@ -13,11 +13,11 @@ public class Transaction implements Serializable { // serializable biar bisa dip
     private Date transaction_date;
     private double transaction_amount;
 
-    public Transaction(){
+    public Transaction() {
 
     }
 
-    public Transaction(long _id, long wallet_id, long walletdest_id, long category_id, String transaction_desc, Date transaction_date, double transaction_amount){
+    public Transaction(long _id, long wallet_id, long walletdest_id, long category_id, String transaction_desc, Date transaction_date, double transaction_amount) {
         this._id = _id;
         this.wallet_id = wallet_id;
         this.walletdest_id = walletdest_id;
@@ -27,7 +27,7 @@ public class Transaction implements Serializable { // serializable biar bisa dip
         this.transaction_amount = transaction_amount;
     }
 
-    public long get_id(){
+    public long get_id() {
         return _id;
     }
 
@@ -51,7 +51,9 @@ public class Transaction implements Serializable { // serializable biar bisa dip
         return transaction_desc;
     }
 
-    public double getTransaction_amount() { return transaction_amount; }
+    public double getTransaction_amount() {
+        return transaction_amount;
+    }
 
     public void set_id(long _id) {
         this._id = _id;
@@ -81,7 +83,7 @@ public class Transaction implements Serializable { // serializable biar bisa dip
         this.transaction_amount = transaction_amount;
     }
 
-    public static Transaction clone(Transaction transaction){
+    public static Transaction clone(Transaction transaction) {
         long id = transaction.get_id();
         long walletId = transaction.getWallet_id();
         long walletDestId = transaction.getWalletdest_id();

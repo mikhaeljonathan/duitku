@@ -46,7 +46,7 @@ public class TransactionAdapter extends ArrayAdapter<Transaction> {
     @Override
     public View getView(int position, @Nullable View convertView, @NonNull ViewGroup parent) {
         View view = convertView;
-        if (view == null){
+        if (view == null) {
             view = LayoutInflater.from(getContext()).inflate(R.layout.item_list_transaction, parent, false);
         }
 
@@ -67,23 +67,23 @@ public class TransactionAdapter extends ArrayAdapter<Transaction> {
         return view;
     }
 
-    private void setUpIcon(View view){
+    private void setUpIcon(View view) {
         ImageView categoryImageView = view.findViewById(R.id.item_list_transaction_categorytype_icon);
 
-        if (category == null){
+        if (category == null) {
             categoryImageView.setImageResource(R.drawable.icon_transfer);
             return;
         }
 
         String type = category.getCategory_type();
-        if (type.equals(DuitkuContract.CategoryEntry.TYPE_INCOME)){
+        if (type.equals(DuitkuContract.CategoryEntry.TYPE_INCOME)) {
             categoryImageView.setImageResource(R.drawable.icon_income);
         } else {
             categoryImageView.setImageResource(R.drawable.icon_expense);
         }
     }
 
-    private void setUpHeader(View view){
+    private void setUpHeader(View view) {
         TextView headerTextView = view.findViewById(R.id.item_list_transaction_header_textview);
         ImageView transferIcon = view.findViewById(R.id.item_list_transaction_transfer_imageview);
         TextView walletDestTextView = view.findViewById(R.id.item_list_transaction_walletdest_textview);
@@ -91,9 +91,9 @@ public class TransactionAdapter extends ArrayAdapter<Transaction> {
         transferIcon.setVisibility(View.GONE);
         walletDestTextView.setVisibility(View.GONE);
 
-        if (walletId != null){ // View Wallet
+        if (walletId != null) { // View Wallet
             if (category == null) { // transfer
-                if (wallet.get_id() == walletId){ // the wallet source is same with current wallet
+                if (wallet.get_id() == walletId) { // the wallet source is same with current wallet
                     Wallet wallet = walletController.getWalletById(transaction.getWalletdest_id());
                     headerTextView.setText("Transferred to Wallet " + wallet.getWallet_name());
                     return;

@@ -12,7 +12,7 @@ public class TransactionViewPagerAdapter extends FragmentPagerAdapter {
 
     private final List<Fragment> fragmentList = new ArrayList<>();
 
-    public TransactionViewPagerAdapter(FragmentManager fm){
+    public TransactionViewPagerAdapter(FragmentManager fm) {
         super(fm, (BEHAVIOR_RESUME_ONLY_CURRENT_FRAGMENT));
     }
 
@@ -27,7 +27,7 @@ public class TransactionViewPagerAdapter extends FragmentPagerAdapter {
         return fragmentList.size();
     }
 
-    public void addFrag(Fragment fragment){
+    public void addFrag(Fragment fragment) {
         fragmentList.add(fragment);
     }
 

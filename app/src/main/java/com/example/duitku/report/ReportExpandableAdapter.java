@@ -32,7 +32,7 @@ public class ReportExpandableAdapter extends BaseExpandableListAdapter {
     public ReportExpandableAdapter(List<Report> reportList,
                                    HashMap<Report, List<Transaction>> incomeReportListHashMap,
                                    Context context,
-                                   String type){
+                                   String type) {
         this.reportList = reportList;
         this.incomeReportListHashMap = incomeReportListHashMap;
         this.context = context;
@@ -78,13 +78,13 @@ public class ReportExpandableAdapter extends BaseExpandableListAdapter {
     public View getGroupView(int i, boolean b, View view, ViewGroup viewGroup) {
         Report report = (Report) getGroup(i);
 
-        if (view == null){
+        if (view == null) {
             view = LayoutInflater.from(context).inflate(R.layout.item_list_report, viewGroup, false);
         }
 
         View hidden = view.findViewById(R.id.hidden_view_report);
         ConstraintLayout cl = view.findViewById(R.id.item_list_report_constraintlayout);
-        ImageView image =  view.findViewById(R.id.arrow_expandable_report);
+        ImageView image = view.findViewById(R.id.arrow_expandable_report);
 
         TextView categoryName = view.findViewById(R.id.item_list_report_name);
         Category category = new CategoryController(context).getCategoryById(report.getCategoryId());
@@ -96,18 +96,18 @@ public class ReportExpandableAdapter extends BaseExpandableListAdapter {
         TextView percentage = view.findViewById(R.id.item_list_report_percentage);
         percentage.setText(String.format("%.2f", report.getPercentage()) + "%");
 
-        if(!b) {
+        if (!b) {
             image.setImageResource(R.drawable.icon_arrow_up);
             cl.setBackgroundResource(R.drawable.custom_shape);
             hidden.setVisibility(View.VISIBLE);
-        }else {
+        } else {
             image.setImageResource(R.drawable.icon_arrow_down);
             cl.setBackgroundResource(R.drawable.custom_shape_top_rounded);
             hidden.setVisibility(View.GONE);
         }
 
         // handle grup terakhir supaya gakeluar hidden view nya
-        if(i == (reportList.size()-1)){
+        if (i == (reportList.size() - 1)) {
             hidden.setVisibility(View.GONE);
         }
 
@@ -118,7 +118,7 @@ public class ReportExpandableAdapter extends BaseExpandableListAdapter {
     public View getChildView(int i, int i1, boolean b, View view, ViewGroup viewGroup) {
         Transaction transaction = (Transaction) getChild(i, i1);
 
-        if (view == null){
+        if (view == null) {
             view = LayoutInflater.from(context).inflate(R.layout.item_list_transaction, viewGroup, false);
         }
 
@@ -134,10 +134,10 @@ public class ReportExpandableAdapter extends BaseExpandableListAdapter {
         TextView amountTextView = view.findViewById(R.id.item_list_transaction_amount_textview);
         amountTextView.setText(new DecimalFormat("###,###").format(transaction.getTransaction_amount()));
 
-        if(b){
+        if (b) {
             cl.setBackgroundResource(R.drawable.custom_shape_bottom_rounded);
             hidden.setBackgroundResource(R.color.colorPrimary);
-        }else{
+        } else {
             cl.setBackgroundResource(R.color.colorPrimaryDark);
             hidden.setBackgroundResource(R.color.colorPrimaryDark);
         }
@@ -146,16 +146,16 @@ public class ReportExpandableAdapter extends BaseExpandableListAdapter {
         return view;
     }
 
-    private void setUpIcon(View view){
+    private void setUpIcon(View view) {
         ImageView categoryImageView = view.findViewById(R.id.item_list_transaction_categorytype_icon);
-        if (type.equals(CategoryEntry.TYPE_EXPENSE)){
+        if (type.equals(CategoryEntry.TYPE_EXPENSE)) {
             categoryImageView.setImageResource(R.drawable.icon_expense);
         } else {
             categoryImageView.setImageResource(R.drawable.icon_income);
         }
     }
 
-    private void setUpHeader(View view, Transaction transaction){
+    private void setUpHeader(View view, Transaction transaction) {
         TextView headerTextView = view.findViewById(R.id.item_list_transaction_header_textview);
         ImageView transferIcon = view.findViewById(R.id.item_list_transaction_transfer_imageview);
         TextView walletDestTextView = view.findViewById(R.id.item_list_transaction_walletdest_textview);

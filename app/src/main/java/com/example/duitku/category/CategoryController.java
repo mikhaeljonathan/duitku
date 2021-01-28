@@ -18,23 +18,23 @@ public class CategoryController {
 
     private final Context context;
 
-    public CategoryController (Context context){
+    public CategoryController(Context context) {
         this.context = context;
     }
 
     // basic operations
-    public Uri addCategory(Category category){
+    public Uri addCategory(Category category) {
         ContentValues values = convertCategoryToContentValues(category);
         return context.getContentResolver().insert(CategoryEntry.CONTENT_URI, values);
     }
 
-    public int updateCategory(Category category){
+    public int updateCategory(Category category) {
         ContentValues values = convertCategoryToContentValues(category);
         Uri uri = ContentUris.withAppendedId(CategoryEntry.CONTENT_URI, category.get_id());
         return context.getContentResolver().update(uri, values, null, null);
     }
 
-    public int deleteCategory(Category category){
+    public int deleteCategory(Category category) {
         int rowsDeleted = context.getContentResolver().delete(ContentUris.withAppendedId(CategoryEntry.CONTENT_URI, category.get_id()), null, null);
         new TransactionController(context).deleteAllTransactionWithCategoryId(category.get_id());
         new BudgetController(context).deleteBudgetWithCategoryId(category.get_id());
@@ -42,31 +42,31 @@ public class CategoryController {
     }
 
     // get category
-    public List<Category> getAllCategory(){
+    public List<Category> getAllCategory() {
         Cursor data = context.getContentResolver().query(CategoryEntry.CONTENT_URI,
                 getFullProjection(), null, null, null);
         return convertCursorToListOfCategory(data);
     }
 
-    public Category getCategoryById(long id){
+    public Category getCategoryById(long id) {
         if (id == -1) return null;
 
         Category ret = null;
-        Cursor data = context.getContentResolver().query(ContentUris.withAppendedId(CategoryEntry.CONTENT_URI, id), getFullProjection(), null, null,null);
-        if (data.moveToFirst()){
+        Cursor data = context.getContentResolver().query(ContentUris.withAppendedId(CategoryEntry.CONTENT_URI, id), getFullProjection(), null, null, null);
+        if (data.moveToFirst()) {
             ret = convertCursorToCategory(data);
         }
 
         return ret;
     }
 
-    public Category getCategoryByNameAndType(String name, String type){
+    public Category getCategoryByNameAndType(String name, String type) {
         String selection = CategoryEntry.COLUMN_NAME + " = ? COLLATE NOCASE AND " + CategoryEntry.COLUMN_TYPE + " = ? "; // COLLATE NOCASE buat insensitive case
         String[] selectionArgs = new String[]{name, type};
 
         Category ret = null;
         Cursor temp = context.getContentResolver().query(CategoryEntry.CONTENT_URI, getFullProjection(), selection, selectionArgs, null);
-        if (temp.moveToFirst()){
+        if (temp.moveToFirst()) {
             ret = convertCursorToCategory(temp);
         }
         temp.close();
@@ -74,13 +74,13 @@ public class CategoryController {
         return ret;
     }
 
-    public Category getDefaultCategory(String type){
+    public Category getDefaultCategory(String type) {
         String selection = CategoryEntry.COLUMN_NAME + " = ? COLLATE NOCASE AND " + CategoryEntry.COLUMN_TYPE + " = ? "; // COLLATE NOCASE buat insensitive case
         String[] selectionArgs = new String[]{CategoryEntry.DEFAULT_CATEGORY_NAME, type};
 
         Category ret;
         Cursor temp = context.getContentResolver().query(CategoryEntry.CONTENT_URI, getFullProjection(), selection, selectionArgs, null);
-        if (temp.moveToFirst()){
+        if (temp.moveToFirst()) {
             ret = convertCursorToCategory(temp);
         } else {
             ret = new Category(-1, CategoryEntry.DEFAULT_CATEGORY_NAME, type);
@@ -92,14 +92,14 @@ public class CategoryController {
         return ret;
     }
 
-    public String[] getFullProjection(){
+    public String[] getFullProjection() {
         return new String[]{CategoryEntry.COLUMN_ID,
                 CategoryEntry.COLUMN_NAME,
                 CategoryEntry.COLUMN_TYPE};
     }
 
     // converting
-    public Category convertCursorToCategory(Cursor data){
+    public Category convertCursorToCategory(Cursor data) {
         int idColumnIndex = data.getColumnIndex(CategoryEntry.COLUMN_ID);
         int nameColumnIndex = data.getColumnIndex(CategoryEntry.COLUMN_NAME);
         int typeColumnIndex = data.getColumnIndex(CategoryEntry.COLUMN_TYPE);
@@ -111,7 +111,7 @@ public class CategoryController {
         return new Category(id, name, type);
     }
 
-    public List<Category> convertCursorToListOfCategory(Cursor data){
+    public List<Category> convertCursorToListOfCategory(Cursor data) {
         List<Category> ret = new ArrayList<>();
         if (!data.moveToFirst()) return ret;
         do {
@@ -120,14 +120,14 @@ public class CategoryController {
         return ret;
     }
 
-    public ContentValues convertCategoryToContentValues(Category category){
+    public ContentValues convertCategoryToContentValues(Category category) {
         ContentValues ret = new ContentValues();
         ret.put(CategoryEntry.COLUMN_NAME, category.getCategory_name());
         ret.put(CategoryEntry.COLUMN_TYPE, category.getCategory_type());
         return ret;
     }
 
-    public HashMap<String, Object> convertCategoryToHashMap(Category category){
+    public HashMap<String, Object> convertCategoryToHashMap(Category category) {
         HashMap<String, Object> hashMap = new HashMap<>();
         hashMap.put(CategoryEntry.COLUMN_ID, category.get_id());
         hashMap.put(CategoryEntry.COLUMN_NAME, category.getCategory_name());

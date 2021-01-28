@@ -28,19 +28,19 @@ public class NotificationController {
     private NotificationManagerCompat notificationManager;
     private final Context context;
 
-    public NotificationController(Context context){
+    public NotificationController(Context context) {
         this.context = context;
         notificationManager = NotificationManagerCompat.from(context);
     }
 
-    public void sendOnChannelBudgetOverflow(Budget budget){
-        if (!notificationManager.areNotificationsEnabled()){
+    public void sendOnChannelBudgetOverflow(Budget budget) {
+        if (!notificationManager.areNotificationsEnabled()) {
             openNotificationSettings();
             return;
         }
 
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O &&
-                isChannelBlocked(CHANNEL_ID_BUDGET)){
+                isChannelBlocked(CHANNEL_ID_BUDGET)) {
             openChannelSettings(CHANNEL_ID_BUDGET);
             return;
         }
@@ -48,14 +48,14 @@ public class NotificationController {
         sendBudgetNotification(budget);
     }
 
-    public void sendOnChannelBackupDatabase(){
-        if (!notificationManager.areNotificationsEnabled()){
+    public void sendOnChannelBackupDatabase() {
+        if (!notificationManager.areNotificationsEnabled()) {
             openNotificationSettings();
             return;
         }
 
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O &&
-                isChannelBlocked(CHANNEL_ID_FIRESTORE)){
+                isChannelBlocked(CHANNEL_ID_FIRESTORE)) {
             openChannelSettings(CHANNEL_ID_FIRESTORE);
             return;
         }
@@ -63,9 +63,9 @@ public class NotificationController {
         sendBackupNotification();
     }
 
-    private void openNotificationSettings(){
+    private void openNotificationSettings() {
         Intent intent;
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O){
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
             intent = new Intent(Settings.ACTION_APP_NOTIFICATION_SETTINGS);
             intent.putExtra(Settings.EXTRA_APP_PACKAGE, context.getPackageName());
         } else {
@@ -76,7 +76,7 @@ public class NotificationController {
     }
 
     @RequiresApi(26)
-    private boolean isChannelBlocked(String channelId){
+    private boolean isChannelBlocked(String channelId) {
         NotificationManager manager = context.getSystemService(NotificationManager.class);
         NotificationChannel channel = manager.getNotificationChannel(channelId);
 
@@ -85,14 +85,14 @@ public class NotificationController {
     }
 
     @RequiresApi(26)
-    private void openChannelSettings(String channelId){
+    private void openChannelSettings(String channelId) {
         Intent intent = new Intent(Settings.ACTION_CHANNEL_NOTIFICATION_SETTINGS);
         intent.putExtra(Settings.EXTRA_APP_PACKAGE, context.getPackageName());
         intent.putExtra(Settings.EXTRA_CHANNEL_ID, channelId);
         context.startActivity(intent);
     }
 
-    private void sendBudgetNotification(Budget budget){
+    private void sendBudgetNotification(Budget budget) {
         Intent activityIntent = new Intent(context, ViewBudgetActivity.class);
         activityIntent.putExtra("ID", budget.get_id());
         PendingIntent contentIntent = PendingIntent.getActivity(context,
@@ -114,7 +114,7 @@ public class NotificationController {
         notificationManager.notify(1, notification);
     }
 
-    private void sendBackupNotification(){
+    private void sendBackupNotification() {
         Notification notification = new NotificationCompat.Builder(context, CHANNEL_ID_FIRESTORE)
                 .setSmallIcon(R.drawable.icon_logo)
                 .setContentTitle("Cloud Backup")
@@ -125,7 +125,6 @@ public class NotificationController {
 
         notificationManager.notify(2, notification);
     }
-
 
 
 }

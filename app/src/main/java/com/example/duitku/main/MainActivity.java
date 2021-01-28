@@ -37,7 +37,7 @@ public class MainActivity extends AppCompatActivity {
         userController = new UserController(this);
         user = userController.getUser();
 
-        if (user != null && user.getUser_passcode() != null){
+        if (user != null && user.getUser_passcode() != null) {
             launchPasscode();
         }
 
@@ -48,29 +48,29 @@ public class MainActivity extends AppCompatActivity {
         super.onResume();
         user = userController.getUser();
 
-        if (user == null){
+        if (user == null) {
             showWelcome();  //showWelcome() --> showGetStarted()
             return;
         }
 
-        if (user.getUser_first_time().equals(UserEntry.TYPE_FIRST_TIME)){
+        if (user.getUser_first_time().equals(UserEntry.TYPE_FIRST_TIME)) {
             setUpShowCase();
         }
 
     }
 
-    private void showWelcome(){
+    private void showWelcome() {
         Intent welcomeIntent = new Intent(this, WelcomeActivity.class);
         startActivity(welcomeIntent);
     }
 
-    private void launchPasscode(){
+    private void launchPasscode() {
         Intent insertPasscodeIntent = new Intent(this, PasscodeActivity.class);
         insertPasscodeIntent.putExtra("Flag", "INPUT");
         startActivity(insertPasscodeIntent);
     }
 
-    private void setUpShowCase(){
+    private void setUpShowCase() {
         ShowcaseConfig config = new ShowcaseConfig();
 
         config.setDelay(250);
@@ -100,12 +100,12 @@ public class MainActivity extends AppCompatActivity {
         sequence.setOnItemDismissedListener(new MaterialShowcaseSequence.OnSequenceItemDismissedListener() {
             @Override
             public void onDismiss(MaterialShowcaseView itemView, int position) {
-                if(position==4) showSwipeable();
+                if (position == 4) showSwipeable();
             }
         });
     }
 
-    private void showSwipeable(){
+    private void showSwipeable() {
         TutoShowcase.from(this)
                 .setContentView(R.layout.showcase_swipeable)
                 .setFitsSystemWindows(true)
@@ -117,7 +117,7 @@ public class MainActivity extends AppCompatActivity {
         updateUserNotFirstTime();
     }
 
-    private void updateUserNotFirstTime(){
+    private void updateUserNotFirstTime() {
         user.setUser_first_time(UserEntry.TYPE_NOT_FIRST_TIME);
         userController.updateUser(user);
     }

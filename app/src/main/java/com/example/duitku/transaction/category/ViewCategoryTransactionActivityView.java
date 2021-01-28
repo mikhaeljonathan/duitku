@@ -34,7 +34,7 @@ public class ViewCategoryTransactionActivityView implements UIView {
 
     private final ViewCategoryTransactionActivity activity;
 
-    public ViewCategoryTransactionActivityView(CategoryTransaction categoryTransaction, ViewCategoryTransactionActivity activity){
+    public ViewCategoryTransactionActivityView(CategoryTransaction categoryTransaction, ViewCategoryTransactionActivity activity) {
         this.categoryTransaction = categoryTransaction;
         this.activity = activity;
         this.category = new CategoryController(activity).getCategoryById(categoryTransaction.getCategoryId());
@@ -48,7 +48,7 @@ public class ViewCategoryTransactionActivityView implements UIView {
         setUpButtons();
     }
 
-    private void setUpViews(){
+    private void setUpViews() {
         activity.setContentView(R.layout.activity_view);
 
         TextView titleTV = activity.findViewById(R.id.view_title_textview);
@@ -58,12 +58,12 @@ public class ViewCategoryTransactionActivityView implements UIView {
         editBtn.setVisibility(View.GONE);
     }
 
-    private void setUpComponents(){
+    private void setUpComponents() {
         setUpHeader();
         setUpListView();
     }
 
-    private void setUpHeader(){
+    private void setUpHeader() {
         header = activity.getLayoutInflater().inflate(R.layout.activity_view_header,
                 (ViewGroup) activity.findViewById(R.id.activity_view_constraintlayout));
 
@@ -75,27 +75,27 @@ public class ViewCategoryTransactionActivityView implements UIView {
         hideView();
     }
 
-    private void setUpName(){
+    private void setUpName() {
         TextView nameTextView = header.findViewById(R.id.view_header_title);
         nameTextView.setText(category.getCategory_name());
     }
 
-    private void setUpAmount(){
+    private void setUpAmount() {
         TextView amountTextView = header.findViewById(R.id.view_header_subtitle);
         amountTextView.setText(new DecimalFormat("###,###").format(categoryTransaction.getAmount()));
     }
 
-    private void setUpPeriod(){
+    private void setUpPeriod() {
         TextView periodTextView = header.findViewById(R.id.view_header_subsubtitle);
         periodTextView.setVisibility(View.GONE);
     }
 
-    private void setUpTransactionTextView(){
+    private void setUpTransactionTextView() {
         TextView transactionTextView = header.findViewById(R.id.view_header_transaction_textview);
-        transactionTextView.setPaintFlags(transactionTextView.getPaintFlags()| Paint.UNDERLINE_TEXT_FLAG); //underline
+        transactionTextView.setPaintFlags(transactionTextView.getPaintFlags() | Paint.UNDERLINE_TEXT_FLAG); //underline
     }
 
-    private void hideView(){
+    private void hideView() {
         ProgressBar progressBar = header.findViewById(R.id.view_header_progressbar);
         progressBar.setVisibility(View.GONE);
 
@@ -115,7 +115,7 @@ public class ViewCategoryTransactionActivityView implements UIView {
         warnTextView.setVisibility(View.GONE);
     }
 
-    private void setUpListView(){
+    private void setUpListView() {
         listView = activity.findViewById(R.id.view_listview);
         listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
@@ -128,22 +128,22 @@ public class ViewCategoryTransactionActivityView implements UIView {
         setUpAdapter();
     }
 
-    private void setUpAdapter(){
+    private void setUpAdapter() {
         adapter = new TransactionAdapter(activity, categoryTransaction.getTransactions(), null);
         listView.setAdapter(adapter);
     }
 
-    private void viewTransaction(long id){
+    private void viewTransaction(long id) {
         ViewTransactionDialog viewTransactionDialog = new ViewTransactionDialog(id);
         viewTransactionDialog.show(activity.getSupportFragmentManager(), "View Transaction Dialog");
     }
 
 
-    private void setUpButtons(){
+    private void setUpButtons() {
         setUpBackBtn();
     }
 
-    private void setUpBackBtn(){
+    private void setUpBackBtn() {
         ImageButton backBtn = activity.findViewById(R.id.view_back_btn);
         backBtn.setOnClickListener(new View.OnClickListener() {
             @Override

@@ -38,27 +38,27 @@ public class WalletForm extends View {
         return walletDescComponent.validateInput();
     }
 
-    public String getName(){
+    public String getName() {
         return walletNameComponent.getName();
     }
 
-    public double getAmount(){
+    public double getAmount() {
         return walletAmountComponent.getAmount();
     }
 
-    public String getDesc(){
+    public String getDesc() {
         return walletDescComponent.getDesc();
     }
 
-    public void setName(String name){
+    public void setName(String name) {
         walletNameComponent.setName(name);
     }
 
-    public void setAmount(double amount){
+    public void setAmount(double amount) {
         walletAmountComponent.setAmount(amount);
     }
 
-    public void setDesc(String desc){
+    public void setDesc(String desc) {
         walletDescComponent.setDesc(desc);
     }
 

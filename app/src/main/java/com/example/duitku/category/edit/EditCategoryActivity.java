@@ -42,7 +42,7 @@ public class EditCategoryActivity extends AppCompatActivity {
         hideView();
     }
 
-    private void setUpViews(){
+    private void setUpViews() {
         setContentView(R.layout.activity_edit);
 
         TextView titleTV = findViewById(R.id.activity_edit_title);
@@ -56,26 +56,26 @@ public class EditCategoryActivity extends AppCompatActivity {
         deleteBtn.setText("Delete Category");
     }
 
-    private void setUpForm(){
+    private void setUpForm() {
         categoryForm = new CategoryForm(this, null, this, category.getCategory_type());
         categoryForm.setUpUI();
         categoryForm.setName(category.getCategory_name());
     }
 
-    private void setUpButtons(){
+    private void setUpButtons() {
         setUpSaveButton();
         setUpDeleteButton();
         setUpBackButton();
     }
 
-    private void setUpSaveButton(){
+    private void setUpSaveButton() {
         saveBtn = findViewById(R.id.category_save_btn);
         saveBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 if (!categoryForm.validateInput()) return;
                 int rowsUpdated = updateCategory();
-                if (rowsUpdated == 0){
+                if (rowsUpdated == 0) {
                     Toast.makeText(EditCategoryActivity.this, "Error editing category", Toast.LENGTH_SHORT).show();
                 } else {
                     Toast.makeText(EditCategoryActivity.this, "Category edited", Toast.LENGTH_SHORT).show();
@@ -93,7 +93,7 @@ public class EditCategoryActivity extends AppCompatActivity {
         return categoryController.updateCategory(category);
     }
 
-    private void setUpDeleteButton(){
+    private void setUpDeleteButton() {
         deleteBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -102,7 +102,7 @@ public class EditCategoryActivity extends AppCompatActivity {
         });
     }
 
-    private void showDeleteConfirmationDialog(){
+    private void showDeleteConfirmationDialog() {
         AlertDialog.Builder alertDialogBuilder = new AlertDialog.Builder(this, R.style.AlertDialogCustom);
         alertDialogBuilder.setTitle("Delete Confirmation");
         alertDialogBuilder.setMessage("Are you sure to delete this category?\nAll transactions with this category and budget with this category are deleted too.")
@@ -123,9 +123,9 @@ public class EditCategoryActivity extends AppCompatActivity {
         alertDialog.show();
     }
 
-    private void deleteCategory(){
+    private void deleteCategory() {
         int rowsDeleted = categoryController.deleteCategory(category);
-        if (rowsDeleted == 0){
+        if (rowsDeleted == 0) {
             Toast.makeText(EditCategoryActivity.this, "Error deleting category", Toast.LENGTH_SHORT).show();
         } else {
             Toast.makeText(EditCategoryActivity.this, "Category is deleted", Toast.LENGTH_SHORT).show();
@@ -133,7 +133,7 @@ public class EditCategoryActivity extends AppCompatActivity {
         finish();
     }
 
-    private void setUpBackButton(){
+    private void setUpBackButton() {
         ImageButton backBtn = findViewById(R.id.activity_edit_back_btn);
         backBtn.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -143,8 +143,8 @@ public class EditCategoryActivity extends AppCompatActivity {
         });
     }
 
-    private void hideView(){
-        if (category.getCategory_name().equalsIgnoreCase("others")){
+    private void hideView() {
+        if (category.getCategory_name().equalsIgnoreCase("others")) {
             saveBtn.setVisibility(View.GONE);
             deleteBtn.setVisibility(View.GONE);
             categoryForm.disableNameField();

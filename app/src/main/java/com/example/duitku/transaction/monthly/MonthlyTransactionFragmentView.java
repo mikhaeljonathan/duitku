@@ -50,7 +50,7 @@ public class MonthlyTransactionFragmentView implements UIView {
     private View view;
     private final MonthlyTransactionFragment fragment;
 
-    public MonthlyTransactionFragmentView(LayoutInflater inflater, ViewGroup container, MonthlyTransactionFragment fragment){
+    public MonthlyTransactionFragmentView(LayoutInflater inflater, ViewGroup container, MonthlyTransactionFragment fragment) {
         this.inflater = inflater;
         this.container = container;
         this.fragment = fragment;
@@ -64,7 +64,7 @@ public class MonthlyTransactionFragmentView implements UIView {
         setUpEmptyView();
     }
 
-    private void setUpHeader(){
+    private void setUpHeader() {
         header = inflater.inflate(R.layout.fragment_transaction_header, container, false);
 
         summaryContainer = header.findViewById(R.id.transaction_header_summary_container);
@@ -81,7 +81,7 @@ public class MonthlyTransactionFragmentView implements UIView {
         adView.loadAd(adRequest);
 
         User user = new UserController(fragment.getActivity()).getUser();
-        if (user != null){
+        if (user != null) {
             if (user.getUser_status().equals(DuitkuContract.UserEntry.TYPE_PREMIUM)) {
                 adView.setVisibility(View.GONE);
             }
@@ -94,7 +94,7 @@ public class MonthlyTransactionFragmentView implements UIView {
         periodButton = header.findViewById(R.id.transaction_header_period_btn);
     }
 
-    private void setUpExpandableListView(){
+    private void setUpExpandableListView() {
         ListView listView = view.findViewById(R.id.fragment_transaction_viewpager_listview);
         listView.setVisibility(View.GONE);
 
@@ -111,7 +111,7 @@ public class MonthlyTransactionFragmentView implements UIView {
         expandableListView.addHeaderView(header, null, false);
     }
 
-    private void setUpEmptyView(){
+    private void setUpEmptyView() {
         emptyView = inflater.inflate(R.layout.empty_view, null, false);
 
         imageEmptyView = emptyView.findViewById(R.id.empty_view_imageview);
@@ -123,13 +123,13 @@ public class MonthlyTransactionFragmentView implements UIView {
         expandableListView.addFooterView(emptyView, null, false);
     }
 
-    private void viewCategoryTransaction(CategoryTransaction categoryTransaction){
+    private void viewCategoryTransaction(CategoryTransaction categoryTransaction) {
         Intent viewCategoryTransactionIntent = new Intent(fragment.getActivity(), ViewCategoryTransactionActivity.class);
         viewCategoryTransactionIntent.putExtra("CategoryTransaction", categoryTransaction);
         fragment.getActivity().startActivity(viewCategoryTransactionIntent);
     }
 
-    public void updatePeriodButton(final int year){
+    public void updatePeriodButton(final int year) {
         periodButton.setText(Integer.toString(year));
         periodButton.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -148,17 +148,17 @@ public class MonthlyTransactionFragmentView implements UIView {
         });
     }
 
-    public void updateSummary(double totalGlobalIncome, double totalGlobalExpense){
-        totalAmountTextView.setText(new DecimalFormat("###,###").format(totalGlobalIncome-totalGlobalExpense));
+    public void updateSummary(double totalGlobalIncome, double totalGlobalExpense) {
+        totalAmountTextView.setText(new DecimalFormat("###,###").format(totalGlobalIncome - totalGlobalExpense));
         totalGlobalIncomeTextView.setText(new DecimalFormat("###,###").format(totalGlobalIncome));
         totalGlobalExpenseTextView.setText(new DecimalFormat("###,###").format(totalGlobalExpense));
     }
 
-    public void fillListView(List<MonthlyTransaction> monthlyTransactionList, HashMap<MonthlyTransaction, List<CategoryTransaction>> categoryTransactionListHashMap, Context context){
+    public void fillListView(List<MonthlyTransaction> monthlyTransactionList, HashMap<MonthlyTransaction, List<CategoryTransaction>> categoryTransactionListHashMap, Context context) {
         adapter = new MonthlyExpandableAdapter(monthlyTransactionList, categoryTransactionListHashMap, context);
         expandableListView.setAdapter(adapter);
 
-        if (adapter.getGroupCount() == 0){
+        if (adapter.getGroupCount() == 0) {
             summaryContainer.setVisibility(View.GONE);
             imageEmptyView.setVisibility(View.VISIBLE);
             emptyView.setVisibility(View.VISIBLE);

@@ -18,7 +18,7 @@ public class DatePickerFragment extends DialogFragment {
     private final Date date;
     private final DatePickerDialog.OnDateSetListener listener;
 
-    public DatePickerFragment(Date date, DatePickerDialog.OnDateSetListener listener){
+    public DatePickerFragment(Date date, DatePickerDialog.OnDateSetListener listener) {
         this.date = date;
         this.listener = listener;
     }

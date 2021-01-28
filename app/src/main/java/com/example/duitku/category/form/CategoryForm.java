@@ -20,27 +20,27 @@ public class CategoryForm extends View {
         this.activity = activity;
     }
 
-    public void setUpUI(){
+    public void setUpUI() {
         setUpFields();
     }
 
-    private void setUpFields(){
+    private void setUpFields() {
         categoryNameComponent = new CategoryNameComponent(getContext(), rootView, activity, categoryType);
     }
 
-    public boolean validateInput(){
+    public boolean validateInput() {
         return categoryNameComponent.validateInput();
     }
 
-    public String getName(){
+    public String getName() {
         return categoryNameComponent.getName();
     }
 
-    public void setName(String name){
+    public void setName(String name) {
         categoryNameComponent.setName(name);
     }
 
-    public void disableNameField(){
+    public void disableNameField() {
         categoryNameComponent.disableField();
     }
 

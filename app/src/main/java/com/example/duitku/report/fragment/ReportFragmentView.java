@@ -20,7 +20,7 @@ public class ReportFragmentView implements UIView {
     private View view;
     private final Fragment fragment;
 
-    public ReportFragmentView(LayoutInflater inflater, ViewGroup container, Fragment fragment){
+    public ReportFragmentView(LayoutInflater inflater, ViewGroup container, Fragment fragment) {
         this.inflater = inflater;
         this.container = container;
         this.fragment = fragment;
@@ -32,7 +32,7 @@ public class ReportFragmentView implements UIView {
         setUpViewPager();
     }
 
-    private void setUpViewPager(){
+    private void setUpViewPager() {
         ViewPager viewPager = view.findViewById(R.id.report_viewPager);
 
         ReportPagerAdapter adapter = new ReportPagerAdapter(fragment.getChildFragmentManager());
@@ -44,7 +44,7 @@ public class ReportFragmentView implements UIView {
         setUpTabLayout(viewPager);
     }
 
-    private void setUpTabLayout(ViewPager viewPager){
+    private void setUpTabLayout(ViewPager viewPager) {
         TabLayout tabLayout = view.findViewById(R.id.report_tabLayout);
         tabLayout.setupWithViewPager(viewPager);
     }

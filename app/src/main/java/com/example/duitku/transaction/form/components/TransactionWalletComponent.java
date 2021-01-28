@@ -38,7 +38,7 @@ public class TransactionWalletComponent extends View {
         super(context);
 
         this.rootView = rootView;
-        if (activity instanceof AppCompatActivity){
+        if (activity instanceof AppCompatActivity) {
             this.activity = (AppCompatActivity) activity;
         } else {
             this.fragment = (Fragment) activity;
@@ -50,14 +50,14 @@ public class TransactionWalletComponent extends View {
         setUpUI();
     }
 
-    private void setUpUI(){
+    private void setUpUI() {
         initialize();
         setUpComponents();
         setPickerBehaviour();
     }
 
-    private void initialize(){
-        if (rootView == null){
+    private void initialize() {
+        if (rootView == null) {
             walletConstraintLayout = activity.findViewById(R.id.transaction_wallet_constraintlayout);
             walletTextView = activity.findViewById(R.id.transaction_wallet_textview);
             walletErrorTextView = activity.findViewById(R.id.transaction_wallet_error_textview);
@@ -74,7 +74,7 @@ public class TransactionWalletComponent extends View {
         }
     }
 
-    private void setUpComponents(){
+    private void setUpComponents() {
         if (!type.equals(CategoryEntry.TYPE_TRANSFER)) {
             walletDestConstraintLayout.setVisibility(View.GONE);
         }
@@ -82,12 +82,12 @@ public class TransactionWalletComponent extends View {
         walletDestErrorTextView.setVisibility(View.GONE);
     }
 
-    private void setPickerBehaviour(){
+    private void setPickerBehaviour() {
         setWalletSourceBehavior();
         setWalletDestBehavior();
     }
 
-    private void setWalletSourceBehavior(){
+    private void setWalletSourceBehavior() {
         final PickWalletDialog.PickWalletListener pickWalletListener = new PickWalletDialog.PickWalletListener() {
             @Override
             public void pickWallet(long id) {
@@ -102,7 +102,7 @@ public class TransactionWalletComponent extends View {
             public void onClick(View view) {
                 PickWalletDialog pickWalletDialog = new PickWalletDialog(pickWalletListener);
                 FragmentManager fm;
-                if (activity == null){
+                if (activity == null) {
                     fm = fragment.getFragmentManager();
                 } else {
                     fm = activity.getSupportFragmentManager();
@@ -112,7 +112,7 @@ public class TransactionWalletComponent extends View {
         });
     }
 
-    private void setWalletDestBehavior(){
+    private void setWalletDestBehavior() {
         final PickWalletDialog.PickWalletListener pickWalletListener = new PickWalletDialog.PickWalletListener() {
             @Override
             public void pickWallet(long id) {
@@ -127,7 +127,7 @@ public class TransactionWalletComponent extends View {
             public void onClick(View view) {
                 PickWalletDialog pickWalletDialog = new PickWalletDialog(pickWalletListener);
                 FragmentManager fm;
-                if (activity == null){
+                if (activity == null) {
                     fm = fragment.getFragmentManager();
                 } else {
                     fm = activity.getSupportFragmentManager();
@@ -137,16 +137,16 @@ public class TransactionWalletComponent extends View {
         });
     }
 
-    private void changeTextViewToWhite(TextView view){
-        if (fragment == null){
+    private void changeTextViewToWhite(TextView view) {
+        if (fragment == null) {
             view.setTextColor(activity.getResources().getColor(android.R.color.white));
         } else {
             view.setTextColor(fragment.getResources().getColor(android.R.color.white));
         }
     }
 
-    public boolean validateInput(){
-        if (walletId == -1){
+    public boolean validateInput() {
+        if (walletId == -1) {
             walletErrorTextView.setVisibility(View.VISIBLE);
             return false;
         } else {
@@ -154,7 +154,7 @@ public class TransactionWalletComponent extends View {
         }
 
         // wallet dest
-        if (type.equals(CategoryEntry.TYPE_TRANSFER) && walletDestId == -1){
+        if (type.equals(CategoryEntry.TYPE_TRANSFER) && walletDestId == -1) {
             walletDestErrorTextView.setText("Wallet destination has to be chosen");
             walletDestErrorTextView.setVisibility(View.VISIBLE);
             return false;
@@ -163,7 +163,7 @@ public class TransactionWalletComponent extends View {
         }
 
         // wallet and walletdest
-        if (type.equals(CategoryEntry.TYPE_TRANSFER) && walletId == walletDestId){
+        if (type.equals(CategoryEntry.TYPE_TRANSFER) && walletId == walletDestId) {
             walletDestErrorTextView.setText("Wallet source can't be same\nwith wallet destination");
             walletDestErrorTextView.setVisibility(View.VISIBLE);
             return false;
@@ -174,22 +174,22 @@ public class TransactionWalletComponent extends View {
         return true;
     }
 
-    public long getWalletId(){
+    public long getWalletId() {
         return walletId;
     }
 
-    public long getWalletDestId(){
+    public long getWalletDestId() {
         return walletDestId;
     }
 
-    public void setWalletId(long id){
+    public void setWalletId(long id) {
         Wallet wallet = walletController.getWalletById(id);
         walletTextView.setText(wallet.getWallet_name());
         changeTextViewToWhite(walletTextView);
         walletId = id;
     }
 
-    public void setWalletDestId(long id){
+    public void setWalletDestId(long id) {
         Wallet wallet = walletController.getWalletById(id);
         if (wallet == null) return;
 

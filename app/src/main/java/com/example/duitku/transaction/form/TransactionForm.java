@@ -91,7 +91,7 @@ public class TransactionForm extends View {
         descriptionComponent.setDesc(desc);
     }
 
-    public void setDate(Date date){
+    public void setDate(Date date) {
         dateComponent.setDate(date);
     }
 

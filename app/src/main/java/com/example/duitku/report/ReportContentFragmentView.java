@@ -54,7 +54,7 @@ public class ReportContentFragmentView implements UIView {
     private final ReportContentFragment fragment;
     private final String type;
 
-    public ReportContentFragmentView(LayoutInflater inflater, ViewGroup container, ReportContentFragment fragment, String type){
+    public ReportContentFragmentView(LayoutInflater inflater, ViewGroup container, ReportContentFragment fragment, String type) {
         this.inflater = inflater;
         this.container = container;
         this.fragment = fragment;
@@ -69,7 +69,7 @@ public class ReportContentFragmentView implements UIView {
         setUpEmptyView();
     }
 
-    private void setUpHeader(){
+    private void setUpHeader() {
         header = inflater.inflate(R.layout.fragment_report_header, null);
 
         setUpTitle();
@@ -78,16 +78,16 @@ public class ReportContentFragmentView implements UIView {
         periodButton = header.findViewById(R.id.report_period_btn);
     }
 
-    private void setUpTitle(){
+    private void setUpTitle() {
         TextView title = header.findViewById(R.id.report_title);
-        if (type.equals(CategoryEntry.TYPE_EXPENSE)){
+        if (type.equals(CategoryEntry.TYPE_EXPENSE)) {
             title.setText("Expense Report");
         } else {
             title.setText("Income Report");
         }
     }
 
-    private void setUpPieChart(){
+    private void setUpPieChart() {
         pieChart = header.findViewById(R.id.report_piechart);
 
         PieDataSet pieDataSet = new PieDataSet(pieEntries, "Data set");
@@ -105,7 +105,7 @@ public class ReportContentFragmentView implements UIView {
         pieChart.animate();
     }
 
-    private void setUpListView(){
+    private void setUpListView() {
         expandableListView = view.findViewById(R.id.content_report_expandablelistview);
         expandableListView.setOnChildClickListener(new ExpandableListView.OnChildClickListener() {
             @Override
@@ -119,7 +119,7 @@ public class ReportContentFragmentView implements UIView {
         expandableListView.addHeaderView(header, null, false);
     }
 
-    private void setUpEmptyView(){
+    private void setUpEmptyView() {
         emptyView = inflater.inflate(R.layout.empty_view, null, false);
 
         imageEmptyView = emptyView.findViewById(R.id.empty_view_imageview);
@@ -131,12 +131,12 @@ public class ReportContentFragmentView implements UIView {
         expandableListView.addFooterView(emptyView, null, false);
     }
 
-    private void viewTransaction(long id){
+    private void viewTransaction(long id) {
         ViewTransactionDialog viewTransactionDialog = new ViewTransactionDialog(id);
         viewTransactionDialog.show(fragment.getFragmentManager(), "View Transaction Dialog");
     }
 
-    public void updatePeriodButton(final int month, final int year){
+    public void updatePeriodButton(final int month, final int year) {
         periodButton.setText(Utility.monthsName[month] + " " + year);
         periodButton.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -154,21 +154,21 @@ public class ReportContentFragmentView implements UIView {
         });
     }
 
-    public void fillListView(List<Report> reportList, HashMap<Report, List<Transaction>> reportHashMap, Context context){
+    public void fillListView(List<Report> reportList, HashMap<Report, List<Transaction>> reportHashMap, Context context) {
         adapter = new ReportExpandableAdapter(reportList, reportHashMap, context, type);
         expandableListView.setAdapter(adapter);
         pieEntries.clear();
         Log.v("HAHA", "HEHE " + test);
-        Log.v("HAHA" ,"report list size: " + reportList.size());
+        Log.v("HAHA", "report list size: " + reportList.size());
         test++;
         setUpPieChart();
-        for (Report report: reportList){
+        for (Report report : reportList) {
             Category category = new CategoryController(context).getCategoryById(report.getCategoryId());
             float percentage = (float) report.getPercentage();
             pieEntries.add(new PieEntry(percentage, category.getCategory_name()));
         }
 
-        if (adapter.getGroupCount() == 0){
+        if (adapter.getGroupCount() == 0) {
             pieChart.setVisibility(View.GONE);
             imageEmptyView.setVisibility(View.VISIBLE);
             emptyView.setVisibility(View.VISIBLE);

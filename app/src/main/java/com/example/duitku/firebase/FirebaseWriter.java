@@ -23,7 +23,7 @@ public class FirebaseWriter {
     private final Context context;
     private final FirebaseHelper fbHelper;
 
-    public FirebaseWriter (Context context){
+    public FirebaseWriter(Context context) {
         this.context = context;
         fbHelper = new FirebaseHelper();
     }
@@ -56,7 +56,7 @@ public class FirebaseWriter {
         BudgetController budgetController = new BudgetController(context);
         List<Budget> allBudget = budgetController.getAllBudget();
 
-        for (Budget budget: allBudget) {
+        for (Budget budget : allBudget) {
             fbHelper.addBudgetToFirebase(budgetController.convertBudgetToHashMap(budget));
         }
     }
@@ -65,7 +65,7 @@ public class FirebaseWriter {
         CategoryController categoryController = new CategoryController(context);
         List<Category> allCategory = categoryController.getAllCategory();
 
-        for (Category category: allCategory) {
+        for (Category category : allCategory) {
             fbHelper.addCategoryToFirebase(categoryController.convertCategoryToHashMap(category));
         }
     }
@@ -74,7 +74,7 @@ public class FirebaseWriter {
         TransactionController transactionController = new TransactionController(context);
         List<Transaction> allTransaction = transactionController.getAllTransaction();
 
-        for (Transaction transaction: allTransaction){
+        for (Transaction transaction : allTransaction) {
             fbHelper.addTransactionToFirebase(transactionController.convertTransactionToHashMap(transaction));
         }
     }
@@ -83,29 +83,29 @@ public class FirebaseWriter {
         WalletController walletController = new WalletController(context);
         List<Wallet> allWallet = walletController.getAllWallet();
 
-        for (Wallet wallet: allWallet){
+        for (Wallet wallet : allWallet) {
             fbHelper.addWalletToFirebase(walletController.convertWalletToHashMap(wallet));
         }
     }
 
-    public void writeUser(){
+    public void writeUser() {
         UserController userController = new UserController(context);
         fbHelper.addUserToFirebase(userController.convertUserToHashMap(userController.getUser()));
     }
 
-    public void deleteBudget(long budgetId){
+    public void deleteBudget(long budgetId) {
         fbHelper.getBudgetRef().document("" + budgetId).delete();
     }
 
-    public void deleteCategory(long categoryId){
+    public void deleteCategory(long categoryId) {
         fbHelper.getCategoryRef().document("" + categoryId).delete();
     }
 
-    public void deleteTransaction(long transactionId){
+    public void deleteTransaction(long transactionId) {
         fbHelper.getTransactionRef().document("" + transactionId).delete();
     }
 
-    public void deleteWallet(long walletId){
+    public void deleteWallet(long walletId) {
         fbHelper.getWalletRef().document("" + walletId).delete();
     }
 

@@ -95,7 +95,7 @@ public class DuitkuContract {
         public static final String COLUMN_USER_NAME = "user_name";
         public static final String COLUMN_USER_EMAIL = "user_email";
         public static final String COLUMN_USER_STATUS = "user_status";
-        public static final String COLUMN_USER_FIRST_TIME= "user_first_time";
+        public static final String COLUMN_USER_FIRST_TIME = "user_first_time";
         public static final String COLUMN_USER_PASSCODE = "user_passcode";
 
         //tipe2 status

@@ -42,7 +42,7 @@ public class ViewWalletActivity extends AppCompatActivity implements LoaderManag
         super.onResume();
 
         Wallet wallet = new WalletController(this).getWalletById(walletId);
-        if (wallet == null){
+        if (wallet == null) {
             finish();
             return;
         }

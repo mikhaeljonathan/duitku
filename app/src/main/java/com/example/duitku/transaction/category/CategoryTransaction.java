@@ -12,18 +12,18 @@ public class CategoryTransaction implements Serializable { // serializable biar 
     private final long categoryId;
     private double amount;
 
-    public CategoryTransaction(long categoryId, double amount){
+    public CategoryTransaction(long categoryId, double amount) {
         transactions = new ArrayList<>();
         this.categoryId = categoryId;
         this.amount = amount;
     }
 
-    public void addTransaction(Transaction transaction){
+    public void addTransaction(Transaction transaction) {
         transactions.add(transaction);
         addAmount(transaction.getTransaction_amount());
     }
 
-    public void addAmount(double amount){
+    public void addAmount(double amount) {
         this.amount += amount;
     }
 
@@ -35,11 +35,11 @@ public class CategoryTransaction implements Serializable { // serializable biar 
         return amount;
     }
 
-    public List<Transaction> getTransactions (){
+    public List<Transaction> getTransactions() {
         return transactions;
     }
 
-    public void setAmount(double amount){
+    public void setAmount(double amount) {
         this.amount = amount;
     }
 }

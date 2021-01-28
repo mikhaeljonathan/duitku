@@ -44,7 +44,7 @@ public class DailyTransactionFragmentView implements UIView {
     private View view;
     private final DailyTransactionFragment fragment;
 
-    public DailyTransactionFragmentView(LayoutInflater inflater, ViewGroup container, DailyTransactionFragment fragment){
+    public DailyTransactionFragmentView(LayoutInflater inflater, ViewGroup container, DailyTransactionFragment fragment) {
         this.inflater = inflater;
         this.container = container;
         this.fragment = fragment;
@@ -58,7 +58,7 @@ public class DailyTransactionFragmentView implements UIView {
         setUpEmptyView();
     }
 
-    private void setUpHeader(){
+    private void setUpHeader() {
         header = inflater.inflate(R.layout.fragment_transaction_header, container, false);
 
         TextView titleTextView = header.findViewById(R.id.transaction_header_title_textview);
@@ -78,7 +78,7 @@ public class DailyTransactionFragmentView implements UIView {
         adView.loadAd(adRequest);
 
         User user = new UserController(fragment.getActivity()).getUser();
-        if (user != null){
+        if (user != null) {
             if (user.getUser_status().equals(DuitkuContract.UserEntry.TYPE_PREMIUM)) {
                 adView.setVisibility(View.GONE);
             }
@@ -87,7 +87,7 @@ public class DailyTransactionFragmentView implements UIView {
         periodButton = header.findViewById(R.id.transaction_header_period_btn);
     }
 
-    private void setUpExpandableListView(){
+    private void setUpExpandableListView() {
         ListView listView = view.findViewById(R.id.fragment_transaction_viewpager_listview);
         listView.setVisibility(View.GONE);
 
@@ -104,7 +104,7 @@ public class DailyTransactionFragmentView implements UIView {
         expandableListView.addHeaderView(header, null, false);
     }
 
-    private void setUpEmptyView(){
+    private void setUpEmptyView() {
         emptyView = inflater.inflate(R.layout.empty_view, null, false);
 
         imageEmptyView = emptyView.findViewById(R.id.empty_view_imageview);
@@ -116,12 +116,12 @@ public class DailyTransactionFragmentView implements UIView {
         expandableListView.addFooterView(emptyView, null, false);
     }
 
-    private void viewTransaction(long id){
+    private void viewTransaction(long id) {
         ViewTransactionDialog viewTransactionDialog = new ViewTransactionDialog(id);
         viewTransactionDialog.show(fragment.getFragmentManager(), "View Transaction Dialog");
     }
 
-    public void updatePeriodButton(final int month, final int year){
+    public void updatePeriodButton(final int month, final int year) {
         periodButton.setText(Utility.monthsName[month] + " " + year);
         periodButton.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -139,11 +139,11 @@ public class DailyTransactionFragmentView implements UIView {
         });
     }
 
-    public void fillListView(List<DailyTransaction> dailyTransactionList, HashMap<DailyTransaction, List<Transaction>> dailyTransactionListHashMap, Context context){
+    public void fillListView(List<DailyTransaction> dailyTransactionList, HashMap<DailyTransaction, List<Transaction>> dailyTransactionListHashMap, Context context) {
         adapter = new DailyExpandableAdapter(dailyTransactionList, dailyTransactionListHashMap, context);
         expandableListView.setAdapter(adapter);
 
-        if (adapter.getGroupCount() == 0){
+        if (adapter.getGroupCount() == 0) {
             imageEmptyView.setVisibility(View.VISIBLE);
             emptyView.setVisibility(View.VISIBLE);
         } else {

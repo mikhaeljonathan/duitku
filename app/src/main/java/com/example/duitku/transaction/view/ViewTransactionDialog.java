@@ -38,7 +38,7 @@ public class ViewTransactionDialog extends AppCompatDialogFragment {
 
     private View view;
 
-    public ViewTransactionDialog(long transactionId){
+    public ViewTransactionDialog(long transactionId) {
         this.transactionId = transactionId;
     }
 
@@ -66,7 +66,7 @@ public class ViewTransactionDialog extends AppCompatDialogFragment {
     public void onResume() {
         super.onResume();
         this.transaction = new TransactionController(getActivity()).getTransactionById(transactionId);
-        if (transaction == null){
+        if (transaction == null) {
             dismiss();
             return;
         }
@@ -75,17 +75,17 @@ public class ViewTransactionDialog extends AppCompatDialogFragment {
         setUpUI();
     }
 
-    private void initializeCategory(){
+    private void initializeCategory() {
         CategoryController categoryController = new CategoryController(getActivity());
         category = categoryController.getCategoryById(transaction.getCategory_id());
-        if (category != null){
+        if (category != null) {
             categoryType = category.getCategory_type();
-        } else{
+        } else {
             categoryType = CategoryEntry.TYPE_TRANSFER;
         }
     }
 
-    private void setUpUI(){
+    private void setUpUI() {
         setUpDateTitle();
         setUpAmount();
         setUpCategory();
@@ -94,16 +94,16 @@ public class ViewTransactionDialog extends AppCompatDialogFragment {
         setUpEditBtn();
     }
 
-    private void setUpDateTitle(){
+    private void setUpDateTitle() {
         TextView dateTextView = view.findViewById(R.id.view_transaction_date_textview);
         dateTextView.setText(Utility.convertDateToFullString(transaction.getTransaction_date()));
     }
 
-    private void setUpAmount(){
+    private void setUpAmount() {
         ImageView categoryTypeIcon = view.findViewById(R.id.view_transaction_categorytype_icon);
-        if (categoryType.equals(CategoryEntry.TYPE_EXPENSE)){
+        if (categoryType.equals(CategoryEntry.TYPE_EXPENSE)) {
             categoryTypeIcon.setImageResource(R.drawable.icon_expense);
-        } else if (categoryType.equals(CategoryEntry.TYPE_INCOME)){
+        } else if (categoryType.equals(CategoryEntry.TYPE_INCOME)) {
             categoryTypeIcon.setImageResource(R.drawable.icon_income);
         } else {
             categoryTypeIcon.setImageResource(R.drawable.icon_transfer);
@@ -113,10 +113,10 @@ public class ViewTransactionDialog extends AppCompatDialogFragment {
         amountTextView.setText(new DecimalFormat("###,###").format(transaction.getTransaction_amount()));
     }
 
-    private void setUpCategory(){
+    private void setUpCategory() {
         ImageView categoryImageView = view.findViewById(R.id.view_transaction_category_imageview);
         TextView categoryTextView = view.findViewById(R.id.view_transaction_category_textview);
-        if (categoryType.equals(CategoryEntry.TYPE_TRANSFER)){
+        if (categoryType.equals(CategoryEntry.TYPE_TRANSFER)) {
             categoryImageView.setVisibility(View.GONE);
             categoryTextView.setVisibility(View.GONE);
             return;
@@ -124,7 +124,7 @@ public class ViewTransactionDialog extends AppCompatDialogFragment {
         categoryTextView.setText(category.getCategory_name());
     }
 
-    private void setUpWallet(){
+    private void setUpWallet() {
         WalletController walletController = new WalletController(getActivity());
 
         TextView walletTextView = view.findViewById(R.id.view_transaction_wallet_textview);
@@ -133,7 +133,7 @@ public class ViewTransactionDialog extends AppCompatDialogFragment {
 
         ImageView walletDestImageView = view.findViewById(R.id.view_transaction_walletdest_imageview);
         TextView walletDestTextView = view.findViewById(R.id.view_transaction_walletdest_textview);
-        if (!categoryType.equals(CategoryEntry.TYPE_TRANSFER)){
+        if (!categoryType.equals(CategoryEntry.TYPE_TRANSFER)) {
             walletDestImageView.setVisibility(View.GONE);
             walletDestTextView.setVisibility(View.GONE);
             return;
@@ -142,17 +142,17 @@ public class ViewTransactionDialog extends AppCompatDialogFragment {
         walletDestTextView.setText(walletDest.getWallet_name());
     }
 
-    private void setUpDesc(){
+    private void setUpDesc() {
         TextView descTextView = view.findViewById(R.id.view_transaction_desc_textview);
         descTextView.setText(transaction.getTransaction_desc());
-        if (transaction.getTransaction_desc().isEmpty()){
+        if (transaction.getTransaction_desc().isEmpty()) {
             descTextView.setVisibility(View.GONE);
         } else {
             descTextView.setVisibility(View.VISIBLE);
         }
     }
 
-    private void setUpEditBtn(){
+    private void setUpEditBtn() {
         ImageView editBtn = view.findViewById(R.id.view_transaction_edit_btn);
         editBtn.setOnClickListener(new View.OnClickListener() {
             @Override

@@ -25,20 +25,20 @@ public class WalletDescComponent extends View {
         super(context);
 
         this.rootView = rootView;
-        if (activity instanceof AppCompatActivity){
+        if (activity instanceof AppCompatActivity) {
             this.activity = (AppCompatActivity) activity;
         }
 
         setUpUI();
     }
 
-    private void setUpUI(){
+    private void setUpUI() {
         initialize();
         setUpComponents();
     }
 
-    private void initialize(){
-        if (rootView == null){
+    private void initialize() {
+        if (rootView == null) {
             descLayout = activity.findViewById(R.id.wallet_desc_textinputlayout);
             descField = activity.findViewById(R.id.wallet_desc_field);
         } else {
@@ -47,7 +47,7 @@ public class WalletDescComponent extends View {
         }
     }
 
-    private void setUpComponents(){
+    private void setUpComponents() {
         descField.addTextChangedListener(new TextWatcher() {
             @Override
             public void beforeTextChanged(CharSequence charSequence, int i, int i1, int i2) {
@@ -61,7 +61,7 @@ public class WalletDescComponent extends View {
 
             @Override
             public void afterTextChanged(Editable editable) {
-                if (editable.toString().length() > 50){
+                if (editable.toString().length() > 50) {
                     descLayout.setError("Description max 50 characters");
                 } else {
                     descLayout.setErrorEnabled(false);
@@ -70,16 +70,16 @@ public class WalletDescComponent extends View {
         });
     }
 
-    public boolean validateInput(){
+    public boolean validateInput() {
         desc = descField.getText().toString().trim();
         return desc.length() <= 50;
     }
 
-    public String getDesc(){
+    public String getDesc() {
         return desc;
     }
 
-    public void setDesc(String desc){
+    public void setDesc(String desc) {
         this.desc = desc;
         descField.setText(desc);
     }
