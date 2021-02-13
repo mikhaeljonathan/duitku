@@ -58,7 +58,7 @@ public class BudgetAdapter extends CursorAdapter {
 
     private void setUpUntilDate(View view) {
         TextView untilTextView = view.findViewById(R.id.item_list_budget_until_textview);
-        untilTextView.setText("Until\n" + getUntilDate(budget));
+        untilTextView.setText("Until\n" + Utility.getUntilDate(budget));
     }
 
     private void setUpProgressBar(View view) {
@@ -74,28 +74,6 @@ public class BudgetAdapter extends CursorAdapter {
 
         usedTextView.setText(new DecimalFormat("###,###").format(used));
         amountTextView.setText(new DecimalFormat("###,###").format(amount));
-    }
-
-    private String getUntilDate(Budget budget) {
-        // custom date
-        Date endDate = budget.getBudget_enddate();
-        if (endDate != null) {
-            return Utility.convertDateToString(budget.getBudget_enddate());
-        }
-
-        // periodically
-        Calendar calendar = Calendar.getInstance();
-
-        int month = calendar.get(Calendar.MONTH) + 1;
-        int year = calendar.get(Calendar.YEAR);
-
-        if (budget.getBudget_type().equals(BudgetEntry.TYPE_3MONTH)) {
-            month = 3 * Utility.getQuarter(month);
-        } else if (budget.getBudget_type().equals(BudgetEntry.TYPE_YEAR)) {
-            month = 12;
-        }
-
-        return Utility.getMaxDayOfMonth(month, year) + "/" + month + "/" + year;
     }
 
 }

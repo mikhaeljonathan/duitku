@@ -56,4 +56,8 @@ public class FirebaseReader {
         fbHelper.getWalletRef().get().addOnSuccessListener(listener);
     }
 
+    public void getAllArticle(OnSuccessListener<QuerySnapshot> listener){
+        fbHelper.getArticleRef().get().addOnSuccessListener(listener);
+    }
+
 }

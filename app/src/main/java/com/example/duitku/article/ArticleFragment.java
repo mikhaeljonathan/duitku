@@ -15,20 +15,45 @@ import android.widget.AdapterView;
 import android.widget.ListView;
 
 import com.example.duitku.R;
+import com.example.duitku.firebase.FirebaseReader;
+import com.google.android.gms.tasks.OnSuccessListener;
+import com.google.firebase.firestore.QueryDocumentSnapshot;
+import com.google.firebase.firestore.QuerySnapshot;
 
 import java.util.ArrayList;
 
 public class ArticleFragment extends Fragment {
 
     private ArrayList<Article> listArticle = new ArrayList<>();
+    private View rootView;
+    private ArticleListAdapter adapter;
+
 
     @Nullable
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
-        View rootView = inflater.inflate(R.layout.fragment_article, container, false);
-        ArticleListAdapter adapter;
+        rootView = inflater.inflate(R.layout.fragment_article, container, false);
+
         listArticle.clear();
         fillArticles();
+
+        return rootView;
+    }
+
+    public void fillArticles() {
+        FirebaseReader firebaseReader = new FirebaseReader();
+        firebaseReader.getAllArticle(new OnSuccessListener<QuerySnapshot>() {
+            @Override
+            public void onSuccess(QuerySnapshot queryDocumentSnapshots) {
+                for (QueryDocumentSnapshot doc: queryDocumentSnapshots){
+                    listArticle.add(doc.toObject(Article.class));
+                }
+                populateArticles();
+            }
+        });
+    }
+
+    private void populateArticles(){
         ListView listView = rootView.findViewById(R.id.list_article);
         adapter = new ArticleListAdapter(getContext(), listArticle);
         listView.setAdapter(adapter);
@@ -45,15 +70,6 @@ public class ArticleFragment extends Fragment {
 //                }
             }
         });
-        return rootView;
-    }
-
-    public void fillArticles() {
-        listArticle.add(new Article(-1, "4 Cara Terbaik Menyimpan Uang untuk Anda yang Boros", "https://koinworks.com/blog/menyimpan-uang/"));
-        listArticle.add(new Article(-1, "Cara Menabung yang Benar menurut Pakar Keuangan", "https://www.cimbniaga.co.id/id/inspirasi/perencanaan/cara-menabung-yang-benar-menurut-pakar-keuangan"));
-        listArticle.add(new Article(-1, "Dompet Jebol? Ini Cara Menghemat Uang Agar Tidak Boros", "https://pintek.id/blog/cara-menghemat-uang/"));
-        listArticle.add(new Article(-1, "Cara Mengatur Keuangan Agar Tidak Boros, Yuk Hemat!", "https://www.finansialku.com/cara-menghemat-uang-agar-tidak-boros/"));
-        listArticle.add(new Article(-1, "8 Cara Cermat Mengatur Gaji Bulanan", "https://www.cermati.com/artikel/8-cara-cermat-mengatur-gaji-bulanan"));
     }
 
 }

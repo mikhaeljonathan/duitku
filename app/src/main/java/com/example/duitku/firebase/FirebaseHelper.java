@@ -40,7 +40,7 @@ public class FirebaseHelper {
     private void setupReferences() {
         user_doc_ref = db.collection("users").document(currentUser.getUid());
 
-        article_col_ref = user_doc_ref.collection("article");
+        article_col_ref = db.collection("article");
         budget_col_ref = user_doc_ref.collection("budget");
         category_col_ref = user_doc_ref.collection("category");
         transaction_col_ref = user_doc_ref.collection("transaction");

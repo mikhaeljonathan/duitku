@@ -17,12 +17,15 @@ import com.example.duitku.budget.Budget;
 import com.example.duitku.budget.BudgetController;
 import com.example.duitku.budget.edit.EditBudgetActivity;
 import com.example.duitku.category.CategoryController;
+import com.example.duitku.database.DuitkuContract.BudgetEntry;
 import com.example.duitku.interfaces.UIView;
+import com.example.duitku.main.Utility;
 import com.example.duitku.transaction.Transaction;
 import com.example.duitku.transaction.TransactionAdapter;
 import com.example.duitku.transaction.view.ViewTransactionDialog;
 
 import java.text.DecimalFormat;
+import java.util.Calendar;
 import java.util.List;
 
 public class ViewBudgetActivityView implements UIView {
@@ -83,8 +86,31 @@ public class ViewBudgetActivityView implements UIView {
 
     private void setUpPeriod() {
         TextView periodTextView = header.findViewById(R.id.view_header_subsubtitle);
-        String period = "dari sini sampe sini";
-        periodTextView.setText(period);
+        StringBuilder periodBuilder = new StringBuilder();
+        if (budget.getBudget_startdate() != null){
+            periodBuilder.append(Utility.convertDateToString(budget.getBudget_startdate()));
+            periodBuilder.append(" - ");
+            periodBuilder.append(Utility.convertDateToString(budget.getBudget_enddate()));
+        } else {
+            Calendar calendar = Calendar.getInstance();
+            int month = calendar.get(Calendar.MONTH) + 1;
+            int year = calendar.get(Calendar.YEAR);
+
+            if (budget.getBudget_type().equals(BudgetEntry.TYPE_MONTH)){
+                periodBuilder.append("1/" + month + "/" + year);
+            } else if (budget.getBudget_type().equals(BudgetEntry.TYPE_3MONTH)){
+                int quarter = Utility.getQuarter(month);
+                periodBuilder.append("1/" + (3 * quarter - 2) + "/" + year);
+            } else {
+                periodBuilder.append("1/1/" + year);
+            }
+
+            periodBuilder.append(" - ");
+            periodBuilder.append(Utility.getUntilDate(budget));
+            periodBuilder.append(" • ");
+            periodBuilder.append(BudgetController.budgetPeriod[BudgetController.budgetPeriodMap.get(budget.getBudget_type())]);
+        }
+        periodTextView.setText(periodBuilder.toString());
     }
 
     private void setUpProgressBar() {

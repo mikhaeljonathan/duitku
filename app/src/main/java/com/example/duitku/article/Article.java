@@ -1,18 +1,16 @@
 package com.example.duitku.article;
 
 public class Article {
-    private final long id;
     private String title;
     private String address;
 
-    public Article(long id, String title, String address) {
-        this.id = id;
-        this.title = title;
-        this.address = address;
+    public Article(){
+
     }
 
-    public long getId() {
-        return id;
+    public Article(String title, String address) {
+        this.title = title;
+        this.address = address;
     }
 
     public String getAddress() {
@@ -23,11 +21,4 @@ public class Article {
         return title;
     }
 
-    public void setTitle(String title) {
-        this.title = title;
-    }
-
-    public void setAddress(String address) {
-        this.address = address;
-    }
 }

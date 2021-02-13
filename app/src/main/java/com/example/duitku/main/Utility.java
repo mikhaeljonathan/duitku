@@ -4,6 +4,9 @@ import android.os.Build;
 
 import androidx.annotation.RequiresApi;
 
+import com.example.duitku.budget.Budget;
+import com.example.duitku.database.DuitkuContract;
+
 import java.text.DateFormat;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
@@ -141,6 +144,28 @@ public class Utility {
         DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd/MM");
 
         return weekStart.format(formatter) + " - " + weekStop.format(formatter);
+    }
+
+    public static String getUntilDate(Budget budget) {
+        // custom date
+        Date endDate = budget.getBudget_enddate();
+        if (endDate != null) {
+            return Utility.convertDateToString(budget.getBudget_enddate());
+        }
+
+        // periodically
+        Calendar calendar = Calendar.getInstance();
+
+        int month = calendar.get(Calendar.MONTH) + 1;
+        int year = calendar.get(Calendar.YEAR);
+
+        if (budget.getBudget_type().equals(DuitkuContract.BudgetEntry.TYPE_3MONTH)) {
+            month = 3 * Utility.getQuarter(month);
+        } else if (budget.getBudget_type().equals(DuitkuContract.BudgetEntry.TYPE_YEAR)) {
+            month = 12;
+        }
+
+        return Utility.getMaxDayOfMonth(month, year) + "/" + month + "/" + year;
     }
 
 }
