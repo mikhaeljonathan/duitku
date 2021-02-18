@@ -1,0 +1,3 @@
+Firebase console account:
+firestore.duitku@gmail.com
+duitku123!
