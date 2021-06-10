@@ -1,6 +1,10 @@
 *.iml
 .gradle
 /local.properties
+/Documentation
+/firebase.txt
+/key.jks
+/private_key.pepk
 /.idea/caches
 /.idea/libraries
 /.idea/modules.xml
@@ -12,7 +16,3 @@
 /captures
 .externalNativeBuild
 .cxx
-/Documentation
-/firebase.txt
-/key.jks
-/private_key.pepk
