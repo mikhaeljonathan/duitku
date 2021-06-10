@@ -238,7 +238,7 @@
         android:layout_centerHorizontal="true"
         xmlns:ads="http://schemas.android.com/apk/res-auto"
         ads:adSize="BANNER"
-        ads:adUnitId="ca-app-pub-3940256099942544/6300978111"
+        ads:adUnitId="ca-app-pub-2097480504227856/3772050821"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintTop_toBottomOf="@id/transaction_walletdest_error_textview" />

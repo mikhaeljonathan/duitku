@@ -5,7 +5,7 @@ import android.provider.BaseColumns;
 
 public class DuitkuContract {
 
-    public static final String CONTENT_AUTHORITY = "com.example.duitku";
+    public static final String CONTENT_AUTHORITY = "duitku.project.se";
     public static final Uri BASE_CONTENT_URI = Uri.parse("content://" + CONTENT_AUTHORITY);
 
     public static final String PATH_WALLET = "wallet";
