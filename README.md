@@ -5,6 +5,8 @@
 
 - We also include AdMob, notification when the budget is exceeded, passcode system, and more.
 
+- There're still some bugs especially in pie chart activity because we took from a third-party dependency
+
 - This app is made by Calvin Mathew, Destin Joanny, Kezia Eka, Mikhael Jonathan, and Ronaldo.
 
 - This app can be downloaded at ________________________
