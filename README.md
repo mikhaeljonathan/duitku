@@ -5,4 +5,6 @@
 
 - We also include AdMob, notification when the budget is exceeded, passcode system, and more.
 
+- This app is made by Calvin Mathew, Destin Joanny, Kezia Eka, Mikhael Jonathan, and Ronaldo.
+
 - This app can be downloaded at ________________________
