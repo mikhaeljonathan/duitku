@@ -9,4 +9,4 @@
 
 - This app is made by Calvin Mathew, Destin Joanny, Kezia Eka, Mikhael Jonathan, and Ronaldo.
 
-- This app can be downloaded at ________________________
+- This app can be downloaded at https://play.google.com/store/apps/details?id=duitku.project.se
